@@ -9,7 +9,7 @@ import {
   Animated,
   View,
 } from "react-native";
-import { PostLayout, AnimatedHeader, Spinkit } from "@components";
+import { PostLayout, AnimatedHeader, Spinkit, WdProductListToolBar } from "@components";
 import { Constants, Languages } from "@common";
 import { connect } from "react-redux";
 import styles from "./styles";
@@ -96,12 +96,13 @@ class ProductList extends Component {
 
     return (
       <View style={styles.listView}>
-        <AnimatedHeader
+        {/* <AnimatedHeader
           scrollY={this.state.scrollY}
           hideIcon
           label={Languages[config.name]}
           navigation={navigation}
-        />
+        /> */}
+        <WdProductListToolBar />
         <AnimatedFlatList
           contentContainerStyle={styles.flatlist}
           data={list}

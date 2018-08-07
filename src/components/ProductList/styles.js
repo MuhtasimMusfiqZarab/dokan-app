@@ -10,7 +10,7 @@ export default StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     paddingBottom: 40,
-    paddingTop: Platform.OS === "ios" ? 50 : 50,
+    paddingTop: Platform.OS === "ios" ? 50 : 50
   },
   more: {
     width,
