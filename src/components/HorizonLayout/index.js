@@ -6,7 +6,7 @@ import { getProductImage, warn } from "@app/Omni";
 
 import ColumnHigh from "./OneColumn";
 import TwoColumn from "./TwoColumn";
-import ThreeColumn from "./ThreeColumn";
+import ThreeColumn from "./wdThreeColumn";
 import Card from "./Card";
 import MiniBanner from "./MiniBanner";
 
