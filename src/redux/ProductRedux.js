@@ -4,7 +4,7 @@
  * @format
  */
 
-import { Constants, Languages } from "@common";
+import { Constants, Languages, Icons } from "@common";
 import moment from "moment";
 import { WooWorker } from "api-ecommerce";
 
@@ -40,6 +40,8 @@ const types = {
   GET_COUPON_CODE_FAIL: "GET_COUPON_CODE_FAIL",
   CLEAN_OLD_COUPON: "CLEAN_OLD_COUPON",
   SWITCH_LAYOUT_HOME: "SWITCH_LAYOUT_HOME",
+  SWITCH_LAYOUT_PRODUCT: "SWITCH_LAYOUT_PRODUCT", // Added by me
+
 };
 
 export const actions = {
@@ -274,6 +276,9 @@ export const actions = {
   switchLayoutHomePage: (layout) => {
     return { type: types.SWITCH_LAYOUT_HOME, layout };
   },
+  switchLayoutProductPage: (layout, layoutChangeIcon) => {
+    return { type: types.SWITCH_LAYOUT_PRODUCT, layout, layoutChangeIcon };
+  },
 };
 
 const initialState = {
@@ -291,6 +296,10 @@ const initialState = {
   productVariations: null,
 
   productRelated: [],
+
+  // Added by me
+  layoutProductScreen: Constants.Layout.twoColumn,
+  layoutChangeIcon: Icons.MaterialCommunityIcons.Categories,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -454,6 +463,14 @@ export const reducer = (state = initialState, action) => {
         isFetching: false,
         type,
         message: action.message,
+      };
+    }
+    // Added by me
+    case types.SWITCH_LAYOUT_PRODUCT: {
+      return {
+        ...state,
+        layoutProductScreen: action.layout,
+        layoutChangeIcon: action.layoutChangeIcon
       };
     }
     default: {

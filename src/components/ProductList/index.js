@@ -8,6 +8,8 @@ import {
   RefreshControl,
   Animated,
   View,
+  TouchableOpacity,
+  Text
 } from "react-native";
 import { PostLayout, AnimatedHeader, Spinkit, WdProductListToolBar } from "@components";
 import { Constants, Languages } from "@common";
@@ -20,7 +22,10 @@ import styles from "./styles";
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 class ProductList extends Component {
-  state = { scrollY: new Animated.Value(0) };
+  // state = {
+  //   scrollY: new Animated.Value(0),
+  //   sadik: 'Shams sadek'
+  // };
 
   constructor(props) {
     super(props);
@@ -64,7 +69,8 @@ class ProductList extends Component {
   renderItem = ({ item, index }) => {
     if (item == null) return <View />;
 
-    const layout = Constants.Layout.twoColumn;
+    const layout = this.props.layoutProductScreen
+    console.log(layout)
 
     return (
       <PostLayout
@@ -72,7 +78,7 @@ class ProductList extends Component {
         type={this.props.type}
         key={`key-${index}`}
         onViewPost={() => this.onRowClickHandle(item, this.props.type)}
-        layout={layout}
+        layout={this.props.layoutProductScreen}
       />
     );
   };
@@ -89,8 +95,10 @@ class ProductList extends Component {
     );
   };
 
+
   render() {
-    const { list, config, isFetching, navigation } = this.props;
+    console.dir(this.props)
+    const { list, config, isFetching, navigation, layoutProductScreen } = this.props;
     
     const renderFooter = () => isFetching && <Spinkit />;
 
@@ -103,6 +111,7 @@ class ProductList extends Component {
           navigation={navigation}
         /> */}
         <WdProductListToolBar />
+        <Text>{layoutProductScreen}</Text>
         <AnimatedFlatList
           contentContainerStyle={styles.flatlist}
           data={list}
@@ -122,22 +131,23 @@ class ProductList extends Component {
             distance.distanceFromEnd > 100 && this.handleLoadMore()
           }
           scrollEventThrottle={1}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-            { useNativeDriver: Platform.OS !== "android" }
-          )}
+          // onScroll={Animated.event(
+          //   [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+          //   { useNativeDriver: Platform.OS !== "android" }
+          // )}
         />
       </View>
     );
   }
 }
 
-const mapStateToProps = ({ layouts }, ownProp) => {
+const mapStateToProps = ({ layouts, products }, ownProp) => {
   const index = ownProp.index;
   const list = layouts.layout[index].list;
   const isFetching = layouts.layout[index].isFetching;
   const finish = layouts.layout[index].finish;
-  return { list, isFetching, finish };
+  const layoutProductScreen = products.layoutProductScreen;
+  return { list, isFetching, finish, layoutProductScreen };
 };
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
