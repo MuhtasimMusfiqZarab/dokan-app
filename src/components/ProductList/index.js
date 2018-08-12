@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component } from "react";
+import React, { Component, PureComponent } from "react";
 import {
   FlatList,
   Image,
@@ -21,11 +21,10 @@ import styles from "./styles";
 //   Constants.Window.headerHeight - HEADER_MIN_HEIGHT;
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-class ProductList extends Component {
-  // state = {
-  //   scrollY: new Animated.Value(0),
-  //   sadik: 'Shams sadek'
-  // };
+class ProductList extends PureComponent {
+  state = {
+    scrollY: new Animated.Value(0),
+  };
 
   constructor(props) {
     super(props);
@@ -39,9 +38,9 @@ class ProductList extends Component {
     this.page === 0 && this.fetchData();
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.list !== this.props.list;
-  }
+  // shouldComponentUpdate(nextProps) {
+  //   // return nextProps.list !== this.props.list;
+  // }
 
   fetchData = (reload = false) => {
     if (reload) {
@@ -69,9 +68,6 @@ class ProductList extends Component {
   renderItem = ({ item, index }) => {
     if (item == null) return <View />;
 
-    const layout = this.props.layoutProductScreen
-    console.log(layout)
-
     return (
       <PostLayout
         post={item}
@@ -97,8 +93,7 @@ class ProductList extends Component {
 
 
   render() {
-    console.dir(this.props)
-    const { list, config, isFetching, navigation, layoutProductScreen } = this.props;
+    const { list, config, isFetching, navigation } = this.props;
     
     const renderFooter = () => isFetching && <Spinkit />;
 
@@ -111,10 +106,10 @@ class ProductList extends Component {
           navigation={navigation}
         /> */}
         <WdProductListToolBar />
-        <Text>{layoutProductScreen}</Text>
         <AnimatedFlatList
           contentContainerStyle={styles.flatlist}
           data={list}
+          extraData={this.props.layoutProductScreen}
           keyExtractor={(item, index) => `${item.id} || ${index}`}
           renderItem={this.renderItem}
           ListHeaderComponent={this.headerComponent}
@@ -131,10 +126,10 @@ class ProductList extends Component {
             distance.distanceFromEnd > 100 && this.handleLoadMore()
           }
           scrollEventThrottle={1}
-          // onScroll={Animated.event(
-          //   [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-          //   { useNativeDriver: Platform.OS !== "android" }
-          // )}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+            { useNativeDriver: Platform.OS !== "android" }
+          )}
         />
       </View>
     );

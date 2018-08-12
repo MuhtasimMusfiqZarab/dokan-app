@@ -24,7 +24,6 @@ class ItemLayout extends PureComponent {
   };
 
   render() {
-    console.dir(this.props)
     const { layoutHome, layout, image, text } = this.props;
 
     let displayMode = layoutHome;

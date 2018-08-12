@@ -40,7 +40,7 @@ const types = {
   GET_COUPON_CODE_FAIL: "GET_COUPON_CODE_FAIL",
   CLEAN_OLD_COUPON: "CLEAN_OLD_COUPON",
   SWITCH_LAYOUT_HOME: "SWITCH_LAYOUT_HOME",
-  SWITCH_LAYOUT_PRODUCT: "SWITCH_LAYOUT_PRODUCT", // Added by me
+  SWITCH_LAYOUT_PRODUCT: "SWITCH_LAYOUT_PRODUCT", // wedevs
 
 };
 
@@ -297,7 +297,7 @@ const initialState = {
 
   productRelated: [],
 
-  // Added by me
+  // wedevs
   layoutProductScreen: Constants.Layout.twoColumn,
   layoutChangeIcon: Icons.MaterialCommunityIcons.Categories,
 };
@@ -465,13 +465,14 @@ export const reducer = (state = initialState, action) => {
         message: action.message,
       };
     }
-    // Added by me
+    // wedevs
     case types.SWITCH_LAYOUT_PRODUCT: {
       return {
         ...state,
         layoutProductScreen: action.layout,
         layoutChangeIcon: action.layoutChangeIcon
       };
+
     }
     default: {
       return state;

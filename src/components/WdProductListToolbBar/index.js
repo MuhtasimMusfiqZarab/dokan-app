@@ -21,14 +21,20 @@ class WdProductListToolBar extends Component {
 
     layoutChangeHandler = () => {
         if (this.state.currentLayout == Constants.Layout.twoColumn) {
-            this.props.switchLayoutProductPage(Constants.Layout.card, Icons.MaterialCommunityIcons.GridMode)
+            this.props.switchLayoutProductPage(
+                Constants.Layout.card,
+                Icons.MaterialCommunityIcons.GridMode
+            )
             this.setState({
                 ...this.state,
                 currentLayout: Constants.Layout.card
             })
             
         } else {
-            this.props.switchLayoutProductPage(Constants.Layout.twoColumn, Icons.MaterialCommunityIcons.Categories)
+            this.props.switchLayoutProductPage(
+                Constants.Layout.twoColumn,
+                Icons.MaterialCommunityIcons.Categories
+            )
             this.setState({
                 ...this.state,
                 currentLayout: Constants.Layout.twoColumn

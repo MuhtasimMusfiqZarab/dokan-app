@@ -22,7 +22,7 @@ import { reducer as SideMenuRedux } from "./SideMenuRedux";
 const config = {
   key: "root",
   storage,
-  blacklist: ["netInfo", "toast", "nav", "layouts", "payment", "sideMenu", "products"],
+  blacklist: ["netInfo", "toast", "nav", "layouts", "payment", "sideMenu"],
 };
 
 export default persistCombineReducers(config, {
