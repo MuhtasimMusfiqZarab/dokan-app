@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import { Images, Styles, Color } from '@common'
 import { ProductList } from '@components'
 import { Menu, Back, CartWishListIcons} from './IconNav'
+import MenuFilter from "@components/WdFilterMenu/MenuFilter";
 
 export default class ListAllScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -23,13 +24,18 @@ export default class ListAllScreen extends Component {
     const params = state.params
 
     return (
-      <ProductList
-        headerImage={params.config.image}
-        config={params.config}
-        page={1}
-        navigation={this.props.navigation}
-        index={params.index}
-        onViewProductScreen={(item) => navigate('DetailScreen', item)}
+      <MenuFilter
+        goToScreen={this.goToScreen}
+        routes={
+          <ProductList
+            headerImage={params.config.image}
+            config={params.config}
+            page={1}
+            navigation={this.props.navigation}
+            index={params.index}
+            onViewProductScreen={(item) => navigate("DetailScreen", item)}
+          />
+        }
       />
     )
   }

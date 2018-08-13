@@ -8,7 +8,7 @@ import {
   Text,
   TouchableOpacity
 } from "react-native";
-import { Icon, IconIO } from "@app/Omni";
+import { Icon, IconIO, toggleFilterDrawer } from "@app/Omni";
 import { Icons, Constants } from "@common";
 import { actions } from "@redux/ProductRedux";
 import { connect } from "react-redux";
@@ -46,7 +46,7 @@ class WdProductListToolBar extends Component {
     render() {
         return (
             <View style={styles.toolbarContainer}>
-                <TouchableOpacity style={styles.toolbarLeft}>
+                <TouchableOpacity style={styles.toolbarLeft} onPress={toggleFilterDrawer}>
                     <IconIO
                         style={styles.toolbarIcon}
                         name={Icons.Ionicons.Sort}

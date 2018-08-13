@@ -32,6 +32,9 @@ const Constants = {
     SideMenuToggle: 'TOGGLE_SIDE_MENU',
     Toast: 'toast',
     MenuReload: 'menu.reload',
+    FilterMenuOpen: 'OPEN_FILTER_MENU',
+    FilterMenuClose: 'CLOSE_FILTER_MENU',
+    FilterMenuToggle: 'TOGGLE_FILTER_MENU'
   },
   Dimension: {
     ScreenWidth(percent = 1) {

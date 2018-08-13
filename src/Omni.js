@@ -68,6 +68,23 @@ export const toggleDrawer = () =>
     type: Constants.EmitCode.SideMenuToggle,
   });
 
+// weDevs Filter Drawer
+export const openFilterDrawer = () =>
+  // EventEmitter.emit(Constants.EmitCode.SideMenuOpen)
+  store.dispatch({
+    type: Constants.EmitCode.FilterMenuOpen,
+  });
+export const closeFilterDrawer = () =>
+  // EventEmitter.emit(Constants.EmitCode.SideMenuClose)
+  store.dispatch({
+    type: Constants.EmitCode.FilterMenuClose,
+  });
+export const toggleFilterDrawer = () =>
+  // EventEmitter.emit(Constants.EmitCode.SideMenuClose)
+  store.dispatch({
+    type: Constants.EmitCode.FilterMenuToggle,
+  });
+
 /**
  * Display the message toast-like (work both with Android and iOS)
  * @param msg Message to display

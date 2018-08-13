@@ -18,11 +18,12 @@ import { reducer as CountryRedux } from "./CountryRedux";
 import { reducer as LangRedux } from "./LangRedux";
 import { reducer as CurrencyRedux } from "./CurrencyRedux";
 import { reducer as SideMenuRedux } from "./SideMenuRedux";
+import { reducer as FilterMenuRedux } from "./WdFilterMenuRedux";
 
 const config = {
   key: "root",
   storage,
-  blacklist: ["netInfo", "toast", "nav", "layouts", "payment", "sideMenu"],
+  blacklist: ["netInfo", "toast", "nav", "layouts", "payment", "sideMenu", "filterMenu"],
 };
 
 export default persistCombineReducers(config, {
@@ -40,4 +41,5 @@ export default persistCombineReducers(config, {
   countries: CountryRedux,
   currency: CurrencyRedux,
   sideMenu: SideMenuRedux,
+  filterMenu: FilterMenuRedux,
 });
