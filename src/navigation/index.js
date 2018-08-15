@@ -21,7 +21,7 @@ import NewsScreen from "./NewsScreen";
 import NewsDetailScreen from "./NewsDetailScreen";
 import CategoriesScreen from "./CategoriesScreen";
 import CategoryScreen from "./CategoryScreen";
-import DetailScreen from "./DetailScreen";
+import DetailScreen from "./wdDetailScreen";
 import CartScreen from "./CartScreen";
 import MyOrdersScreen from "./MyOrdersScreen";
 import WishListScreen from "./WishListScreen";

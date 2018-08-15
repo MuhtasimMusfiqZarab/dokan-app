@@ -76,8 +76,7 @@ export default {
   tabbarColor: '#ccc',
 
   // navigation bar
-  // headerTintColor: '#1CB5B4',
-  headerTintColor: 'blue',
+  headerTintColor: '#1CB5B4',
   navigationBarColor: '#ffffff',
   navigationBarIcon: 'rgba(0, 0, 0, 0.3)',
   navigationTitleColor: 'rgba(0, 0, 0, 0.8)',
@@ -108,7 +107,7 @@ export default {
   blue1: 'rgba(30, 165, 233, 1)',
   blue2: 'rgba(3, 207, 254, 1)',
 
-    // Added by kayes
+  // weDevs
   wdgray: '#818995',
 
 }

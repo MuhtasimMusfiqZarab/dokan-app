@@ -177,6 +177,8 @@ export default {
 
   modalBoxWrap: {
     position: "absolute",
+    top: 0,
+    left: 0,
     borderRadius: 2,
     width,
     height,
@@ -215,6 +217,7 @@ export default {
     width: 6,
     height: 6,
     backgroundColor: "rgba(183, 196, 203, 1)",
+    backgroundColor: "blue",
   },
   tabView: {
     minHeight: height / 2,

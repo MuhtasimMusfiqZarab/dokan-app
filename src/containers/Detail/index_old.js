@@ -443,6 +443,7 @@ class Detail extends PureComponent {
     );
 
     const renderAttributes = () => {
+      console.log(this.productAttributes);
       return (
         <View>
           {typeof this.productAttributes !== "undefined" &&
@@ -523,39 +524,6 @@ class Detail extends PureComponent {
       />
     );
 
-    //weDevs
-    const renderVendorInfo = () => (
-      <View
-        style={
-          {
-            width: "90%",
-            height: 45,
-            padding: 10,
-            backgroundColor: "#fff",
-            borderRadius: 25,
-            border: 1,
-            flexDirection: "row",
-            alignItems: "center"
-          }
-        }
-      >
-        <View
-          style={
-            {
-              width: 35,
-              height: 35,
-              borderRadius: 17.5,
-              backgroundColor: "red",
-              justifyContent: "center",
-              alignItems: "center"
-            }
-          }
-        >
-          <Text style={{color: "white"}}>M</Text>
-        </View>
-      </View>
-    );
-
     return (
       <View style={styles.container}>
         <Animated.ScrollView
@@ -563,15 +531,12 @@ class Detail extends PureComponent {
           scrollEventThrottle={1}
           onScroll={(event) => {
             this.state.scrollY.setValue(event.nativeEvent.contentOffset.y);
-          }}
-        >
+          }}>
           <View
             style={[styles.productInfo]}
             onLayout={(event) =>
               (this.productInfoHeight = event.nativeEvent.layout.height)
-            }
-          >
-            {renderVendorInfo()}
+            }>
             {this._renderImages()}
             {renderAttributes()}
             {renderTitle()}

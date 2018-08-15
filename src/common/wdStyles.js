@@ -163,7 +163,26 @@ Styles.Common = {
       },
     }),
   },
+  headerStyle: {
+    color: Color.navigationTitleColor,
+    fontSize: 16,
+    textAlign: "center",
+    alignSelf: "center",
+    flex: 1,
+    height: 40,
+    backgroundColor: "#fff",
 
+    fontFamily: Constants.fontFamily,
+    ...Platform.select({
+      ios: {
+        marginBottom: !Config.showStatusBar ? 14 : 0,
+        marginTop: Device.isIphoneX ? -10 : 12,
+      },
+      android: {
+        marginBottom: 4,
+      },
+    }),
+  },
   headerTitleStyle: {
     color: Color.navigationTitleColor,
     fontSize: 16,
@@ -268,6 +287,56 @@ Styles.Common = {
     height: 35,
     position: 'absolute',
   },
+
+  /* *******
+  ** weDevs
+  */
+  prodDetailsHeaderTitleStyle: {
+    // color: Color.navigationTitleColor,
+    color: '#6D7684',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    alignSelf: 'center',
+    flex: 1,
+    height: 40,
+    // backgroundColor: '#fff',
+
+    fontFamily: Constants.fontFamilyLato,
+    ...Platform.select({
+      ios: {
+        marginBottom: !Config.showStatusBar ? 14 : 0,
+        marginTop: Device.isIphoneX ? -10 : 12,
+      },
+      android: {
+        marginBottom: 4,
+      },
+  }),
+  prodDetailstoolbar: {
+    backgroundColor: "transparent",
+    zIndex: 1,
+    paddingLeft: 8,
+    paddingRight: 8,
+    paddingTop: 4,
+    ...Platform.select({
+      ios: {
+        height: Config.showStatusBar
+          ? Device.isIphoneX
+            ? 5
+            : 40
+          : Device.isIphoneX
+            ? 5
+            : 25,
+      },
+      android: {
+        height: 46,
+        paddingTop: 0,
+        marginTop: 0,
+      },
+    }),
+  }
+},
+
 }
 
 export default Styles
