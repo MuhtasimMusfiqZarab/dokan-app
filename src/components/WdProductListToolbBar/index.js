@@ -9,7 +9,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { Icon, IconIO, toggleFilterDrawer } from "@app/Omni";
-import { Icons, Constants } from "@common";
+import { Icons, Constants, Events } from "@common";
 import { actions } from "@redux/ProductRedux";
 import { connect } from "react-redux";
 import styles from "./styles";
@@ -55,8 +55,13 @@ class WdProductListToolBar extends Component {
                     <Text style={{color: '#818995', marginLeft: 10}}>Filter</Text>
                 </TouchableOpacity>
                 <View style={styles.toolbarRight}>
-                    <TouchableOpacity style={{flexDirection: 'row'}}>
-                        <Text style={{color: '#818995', marginRight: 10}}>Default Sorting</Text>
+                    <TouchableOpacity
+                        style={{flexDirection: 'row'}}
+                        onPress={Events.openModalLayout}
+                    >
+                        <Text style={{color: '#818995', marginRight: 10}}>
+                            Default Sorting
+                        </Text>
                         <IconIO
                             style={styles.toolbarIcon}
                             name={Icons.Ionicons.Down}

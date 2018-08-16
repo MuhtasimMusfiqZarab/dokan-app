@@ -5,7 +5,7 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Platform, View, TouchableOpacity } from "react-native";
 import Modal from "react-native-modalbox";
-import styles from "./styles";
+import styles from "./wdstyles";
 
 export default class modalBox extends PureComponent {
   static propTypes = {

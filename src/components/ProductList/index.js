@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
   Text
 } from "react-native";
-import { PostLayout, AnimatedHeader, Spinkit, WdProductListToolBar } from "@components";
+import { PostLayout, AnimatedHeader, Spinkit, WdProductListToolBar, WdModalSorting } from "@components";
 import { Constants, Languages } from "@common";
 import { connect } from "react-redux";
 import styles from "./styles";
@@ -131,6 +131,7 @@ class ProductList extends PureComponent {
             { useNativeDriver: Platform.OS !== "android" }
           )}
         />
+        <WdModalSorting />
       </View>
     );
   }

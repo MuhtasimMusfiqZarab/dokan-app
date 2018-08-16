@@ -44,6 +44,7 @@ import CurrencyPicker from "./CurrencyPicker";
 import Text from "./Text";
 import ModalBox from "./Modal";
 import ModalLayout from "./Modal/Layout";
+import WdModalSorting from "./Modal/WdModalSorting";
 import HorizonLayout from "./HorizonLayout";
 import HorizonList from "./HorizonList";
 import ProductList from "./ProductList";
@@ -106,5 +107,6 @@ export {
   ModalLayout,
   ModalReview,
   Review,
-  WdProductListToolBar
+  WdProductListToolBar,
+  WdModalSorting
 };
