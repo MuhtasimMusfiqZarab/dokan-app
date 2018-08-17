@@ -311,9 +311,12 @@ Styles.Common = {
       android: {
         marginBottom: 4,
       },
-  }),
-  prodDetailstoolbar: {
-    backgroundColor: "transparent",
+    }),
+  },
+  prodDetailsToolbar: {
+    backgroundColor: "#E8E8E8",
+    borderBottomWidth: 0,
+    borderBottomColor: "transparent",
     zIndex: 1,
     paddingLeft: 8,
     paddingRight: 8,
@@ -335,7 +338,6 @@ Styles.Common = {
       },
     }),
   }
-},
 
 }
 

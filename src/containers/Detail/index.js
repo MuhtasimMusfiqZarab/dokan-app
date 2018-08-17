@@ -10,6 +10,7 @@ import {
   Animated,
   Image,
   Share,
+  Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
 import { Timer, getProductImage, currencyFormatter, warn } from "@app/Omni";
@@ -30,6 +31,10 @@ import * as Animatable from "react-native-animatable";
 import AttributesView from "./AttributesView";
 import ReviewTab from "./ReviewTab.js";
 import styles from "./ProductDetail_Style";
+
+// weDevs
+import striptags from 'striptags';
+import Collapsible from 'react-native-collapsible';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
@@ -242,28 +247,69 @@ class Detail extends PureComponent {
       outputRange: [2, 1, 1, 0.7],
       extrapolate: "clamp",
     });
+    const { width } = Dimensions.get('window');
+    const scrollX = new Animated.Value(0);
+    let position = Animated.divide(scrollX, width);
     return (
-      <ScrollView
-        style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        horizontal>
-        {this.props.product.images.map((image, index) => (
-          <TouchableOpacity
-            activeOpacity={0.9}
-            key={index}
-            onPress={this.openPhoto.bind(this)}>
-            <Animated.Image
-              source={{ uri: getProductImage(image.src, Styles.width) }}
-              style={[
-                styles.imageProduct,
-                { transform: [{ scale: imageScale }] },
-              ]}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <View style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}>
+        <ScrollView
+          // style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }]
+          )}
+          scrollEventThrottle={16}
+        >
+          {this.props.product.images.map((image, index) => (
+            <TouchableOpacity
+              activeOpacity={0.9}
+              key={index}
+              onPress={this.openPhoto.bind(this)}>
+              <Animated.Image
+                source={{ uri: getProductImage(image.src, Styles.width) }}
+                style={[
+                  styles.imageProduct,
+                  { transform: [{ scale: imageScale }] },
+                ]}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+        <View
+          style={{ flexDirection: "row", justifyContent: "center" }}
+          >
+          {this.props.product.images.map((_, i) => {
+            let opacity = position.interpolate({
+              inputRange: [i - 1, i, i + 1],
+              outputRange: [0.3, 1, 0.3],
+              extrapolate: 'clamp'
+            });
+            let bgColor = position.interpolate({
+              inputRange: [0, 1],
+              outputRange: ["#C8CCD5", "red"]
+            })
+
+            return (
+              <Animated.View
+                key={i}
+                style={
+                  {
+                    opacity,
+                    height: 8,
+                    width: 8,
+                    backgroundColor: bgColor,
+                    margin: 4,
+                    borderRadius: 4
+                  }
+                }
+              />
+            );
+          })}
+        </View>
+      </View>
     );
   };
 
@@ -423,6 +469,10 @@ class Detail extends PureComponent {
     const renderTitle = () => (
       <View style={{ justifyContent: "center", marginTop: 6, marginBottom: 8 }}>
         <Text style={styles.productName}>{product.name}</Text>
+        <Rating rating={Number(product.average_rating)} size={19} />
+        <Text style={[styles.textRating, { color: Color.blackTextDisable }]}>
+          {`(${product.rating_count})`}
+        </Text>
         <View
           style={{
             flexDirection: "row",
@@ -439,6 +489,9 @@ class Detail extends PureComponent {
             </Animatable.Text>
           )}
         </View>
+        <Text>
+          <WebView html={`<p>${this.props.product.description}</p>`} />
+        </Text>
       </View>
     );
 
@@ -453,7 +506,8 @@ class Detail extends PureComponent {
                   styles.productSizeContainer,
                   Constants.RTL && { flexDirection: "row-reverse" },
                 ]}>
-                {attribute.name !== Constants.productAttributeColor &&
+                {
+                  attribute.name !== Constants.productAttributeColor &&
                   attribute.options.map((option, index) => (
                     <ProductAttribute
                       key={index}
@@ -467,9 +521,11 @@ class Detail extends PureComponent {
                         option.toLowerCase()
                       }
                     />
-                  ))}
+                  ))
+                }
               </View>
-            ))}
+            ))
+          }
         </View>
       );
     };
@@ -528,14 +584,17 @@ class Detail extends PureComponent {
       <View
         style={
           {
-            width: "90%",
-            height: 45,
+            width: "85%",
+            height: 50,
             padding: 10,
             backgroundColor: "#fff",
-            borderRadius: 25,
-            border: 1,
+            borderRadius: 30,
             flexDirection: "row",
-            alignItems: "center"
+            alignItems: "center",
+            margin: 10,
+            shadowColor: "#000",
+            shadowOpacity: 0.2,
+            shadowOffset: { width: 1, height: 2 }
           }
         }
       >
@@ -556,6 +615,53 @@ class Detail extends PureComponent {
       </View>
     );
 
+    const renderProductDetails = () => {
+      const productDescription = striptags(this.props.product.description);
+
+      return(
+        <View style={styles.productDetailContainer}>
+
+          <Text style={styles.productName}>{product.name}</Text>
+          <Rating rating={Number(product.average_rating)} size={15} />
+
+          <View style={styles.productMetaContainer}>
+
+            <View style={styles.productPriceContainer}>
+              {isOnSale && (
+                <Text style={styles.sale_price}>
+                  {productRegularPrice}
+                </Text>
+              )}
+              <Text style={styles.productPrice}>
+                {productPrice}
+              </Text>
+            </View>
+
+            <View style={styles.productBadgeContainer}>
+              <View style={styles.productBadge}>
+                <Text style={styles.productBadgeNumber}>86</Text>
+                <Text style={styles.productBadgeText}>Order</Text>
+              </View>
+              <View style={styles.productBadge}>
+                <Text style={styles.productBadgeNumber}>130</Text>
+                <Text style={styles.productBadgeText}>Wishlist</Text>
+              </View>
+            </View>
+
+          </View>
+
+          <Text style={styles.productDescription}>
+            {productDescription}
+          </Text>
+
+        </View>
+      )
+    
+    
+    };
+
+    // const renderProductOffer
+
     return (
       <View style={styles.container}>
         <Animated.ScrollView
@@ -574,21 +680,27 @@ class Detail extends PureComponent {
             {renderVendorInfo()}
             {this._renderImages()}
             {renderAttributes()}
-            {renderTitle()}
-            {renderRating()}
           </View>
-          {this._renderTabView()}
+
+          {renderProductDetails()}
+
+          <Collapsible collapsed={false}>
+            <Text>Test Collapsible</Text>
+          </Collapsible>
+
+          {/* {this._renderTabView()} */}
         </Animated.ScrollView>
         {renderProductColor()}
 
         {Config.showAdmobAds && <AdMob />}
-        {renderButtons()}
+        {/* {renderButtons()} */}
 
         <Modal
           ref={(com) => (this._modalPhoto = com)}
           swipeToClose={false}
           animationDuration={200}
-          style={styles.modalBoxWrap}>
+          style={styles.modalBoxWrap}
+        >
           <Swiper
             height={Constants.Window.height}
             activeDotStyle={styles.dotActive}

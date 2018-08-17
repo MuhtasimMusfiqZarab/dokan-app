@@ -6,16 +6,16 @@ import { View } from "react-native";
 import { Color, Styles, Images } from "@common";
 import { SafeAreaView } from "@components";
 import { Detail } from "@containers";
-import { Back, CartWishListIcons } from "./wdIconNav";
+import { Back, CartWishListIcons } from "./IconNav";
 
 export default class DetailScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     tabBarVisible: false,
-    headerLeft: Back(navigation, Images.icons.backs, "Product Details"),
+    headerLeft: Back(navigation, Images.icons.backs),
     headerRight: CartWishListIcons(navigation),
 
     // headerTintColor: Color.headerTintColor,
-    headerStyle: Styles.Common.prodDetailstoolbar,
+    headerStyle: Styles.Common.prodDetailsToolbar,
     headerTitleStyle: Styles.Common.prodDetailsHeaderTitleStyle,
   });
 

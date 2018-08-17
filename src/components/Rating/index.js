@@ -33,7 +33,7 @@ class Rating extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    justifyContent: "center",
+    // justifyContent: "center",
   },
 });
 

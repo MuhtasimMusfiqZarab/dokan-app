@@ -40,7 +40,11 @@ export default {
   },
   productInfo: {
     alignItems: "center",
-    backgroundColor: "#f6f6f8",
+    // backgroundColor: "#f6f6f8",
+
+    // weDevs
+    backgroundColor: "#E8E8E8",
+    paddingBottom: 10
   },
   imageSlider: {
     flex: 1,
@@ -76,23 +80,29 @@ export default {
     marginRight: 5,
   },
   productName: {
-    textAlign: "center",
-    fontSize: 20,
+    // textAlign: "center",
+    // fontSize: 20,
+    fontSize: 18,
     color: Color.Text,
-    padding: 8,
-    marginTop: 4,
-    fontFamily: Constants.fontHeader,
+    color: '#79828F',
+    // padding: 8,
+    marginBottom: 4,
+    // fontFamily: Constants.fontHeader,
+    fontFamily: Constants.fontFamilyLato,
   },
   productPrice: {
-    fontSize: 18,
-    color: Color.blackTextSecondary,
-    fontFamily: Constants.fontFamily,
+    // fontSize: 18,
+    fontSize: 20,
+    // color: Color.blackTextPrimary,
+    color: "#4D4D4D",
+    fontFamily: Constants.fontFamilyLato,
   },
   sale_price: {
     textDecorationLine: "line-through",
     color: Color.blackTextDisable,
-    marginLeft: 5,
-    marginTop: 4,
+    // marginLeft: 5,
+    // marginTop: 4,
+    marginRight: 5,
     fontFamily: Constants.fontFamily,
   },
   tabButton: {
@@ -130,7 +140,8 @@ export default {
   },
   buttonContainer: {
     flex: 0.5,
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    backgroundColor: "#F8F8FA",
     flexDirection: "row",
     alignItems: "center",
   },
@@ -236,4 +247,55 @@ export default {
     fontFamily: Constants.fontFamily,
     fontSize: 11,
   },
+
+  /**
+   * weDevs
+   */
+  productDetailContainer: {
+    // backgroundColor: "#F7F7F9",
+    padding: 15
+  },
+  productMetaContainer: {
+    marginTop: 10,
+    flexDirection: "row",
+    alignItems: "flex-start"
+  },
+  productPriceContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  productBadgeContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  productBadge: {
+    width: 50,
+    height: 45,
+    marginLeft: 10,
+    backgroundColor: "#fff",
+    borderRadius: 5,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 2, height: 2},
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  productBadgeNumber: {
+    fontFamily: Constants.fontFamilyLato,
+    color: "#79828F",
+    fontWeight: "bold",
+    fontSize: 12
+  },
+  productBadgeText: {
+    fontFamily: Constants.fontFamilyLato,
+    color: "#A5B1B5",
+    fontSize: 10
+  },
+  productDescription: {
+    color: "#A5B1B5"
+  }
 };
