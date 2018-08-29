@@ -10,7 +10,7 @@ import { Back, CartWishListIcons } from "./IconNav";
 
 export default class DetailScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
-    tabBarVisible: false,
+    tabBarVisible: true,
     headerLeft: Back(navigation, Images.icons.backs),
     headerRight: CartWishListIcons(navigation),
 

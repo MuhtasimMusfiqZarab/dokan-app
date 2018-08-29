@@ -297,5 +297,60 @@ export default {
   },
   productDescription: {
     color: "#A5B1B5"
-  }
+  },
+  accordionHeader: {
+    flexDirection: "row",
+    // justifyContent: "center",
+    alignItems: "center",
+    padding: 15,
+    borderRadius: 5,
+    height: 60,
+    marginTop: 15,
+  },
+  accordionHeaderInActive: {
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: {width: 0, height: 1}
+  },
+  accordionHeaderActive: {
+    backgroundColor: "#fff",
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#E9EDED",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
+  },
+  accordionHeaderText: {
+    color: "#7C8592",
+    fontSize: 18,
+    fontFamily: Constants.fontFamilyLato
+  },
+  accordionContent: {
+    padding: 15,
+  },
+  accordionContentInActive: {
+    backgroundColor: "#fff",
+  },
+  accordionContentActive: {
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowOffset: {width: -5, height: 5}
+  },
+  accordionHeaderIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    marginRight: 5,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowOffset: {width: -1, height: 1},
+  },
+  accordionDescriptionText: {
+    color: "#9199A4",
+    fontSize: 16,
+    fontFamily: Constants.fontFamilyLato,
+  },
+
 };

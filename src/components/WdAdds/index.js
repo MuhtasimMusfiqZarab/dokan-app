@@ -7,7 +7,6 @@ import {
   Dimensions
 } from 'react-native'
 import { Images } from '@common'
-import { LinearGradient } from '@expo';
 
 const WdAdds = () => (
     <View style={styles.adsContainer}>

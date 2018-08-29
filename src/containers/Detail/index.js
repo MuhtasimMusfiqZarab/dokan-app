@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import {
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   ScrollView,
   View,
   Animated,
@@ -24,7 +25,7 @@ import {
   Rating,
 } from "@components";
 import Swiper from "react-native-swiper";
-import { Styles, Languages, Color, Config, Constants, Events } from "@common";
+import { Styles, Languages, Color, Config, Constants, Events, Icons } from "@common";
 import Modal from "react-native-modalbox";
 import { find, filter } from "lodash";
 import * as Animatable from "react-native-animatable";
@@ -34,10 +35,17 @@ import styles from "./ProductDetail_Style";
 
 // weDevs
 import striptags from 'striptags';
-import Collapsible from 'react-native-collapsible';
+import Accordion from 'react-native-collapsible/Accordion';
+import { LinearGradient } from '@expo';
+import MultiSelect from 'react-native-multiple-select';
+import { Icon } from "@app/Omni";
+// end weDevs
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
+
+const BACON_IPSUM = 'Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ';
+
 
 class Detail extends PureComponent {
   static propTypes = {
@@ -61,11 +69,13 @@ class Detail extends PureComponent {
       selectedAttribute: [],
       selectedColor: 0,
       selectVariation: null,
+      selectedItems : []
     };
 
     this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
     this.inCartTotal = 0;
     this.isInWishList = false;
+
   }
 
   componentDidMount() {
@@ -92,6 +102,204 @@ class Detail extends PureComponent {
       this.updateSelectedVariant(nextProps.productVariations);
     }
   }
+
+  /**
+   *  Accordion by weDevs
+  */
+
+  onSelectedItemsChange = selectedItems => {
+    console.log()
+    this.setState({ selectedItems });
+  };
+
+  accordionDescription = () => {
+    return (
+      <View>
+        <Image
+          source={require("@images/category_placehodler.png")}
+          style={
+            {
+              width: '100%',
+              height: 200,
+              borderRadius: 5,
+              marginBottom: 10
+            }
+          }
+        />
+        <Text style={styles.accordionDescriptionText}>{BACON_IPSUM}</Text>
+      </View>
+    )
+  }
+
+  accordionShipping = () => {
+    const items = [{
+      id: '92iijs7yta',
+      name: 'Ondo',
+    }, {
+      id: 'a0s0a8ssbsd',
+      name: 'Ogun',
+    }, {
+      id: '16hbajsabsd',
+      name: 'Calabar',
+    }, {
+      id: 'nahs75a5sg',
+      name: 'Lagos',
+    }, {
+      id: '667atsas',
+      name: 'Maiduguri',
+    }, {
+      id: 'hsyasajs',
+      name: 'Anambra',
+    }, {
+      id: 'djsjudksjd',
+      name: 'Benue',
+    }, {
+      id: 'sdhyaysdj',
+      name: 'Kaduna',
+    }, {
+      id: 'suudydjsjd',
+      name: 'Abuja',
+    }];
+    return (
+      <View>
+        <Text style={{color: "#19B491", fontSize: 12, marginBottom: 10}}>
+          Ready to ship in 1 business day from Spain
+        </Text>
+
+        <Text
+          style={
+            {
+              color: "#717A87",
+              fontSize: 14,
+              fontWeight: "bold",
+              marginBottom: 10
+            }
+          }
+        >
+          Shipping Calculation
+        </Text>
+        
+        <MultiSelect
+          hideTags
+          single
+          items={items}
+          uniqueKey="id"
+          ref={(component) => { this.multiSelect = component }}
+          onSelectedItemsChange={this.onSelectedItemsChange}
+          // selectedItems={this.state}
+          selectText="Pick Items"
+          searchInputPlaceholderText="Search Items..."
+          onChangeInput={ (text)=> console.log(text)}
+          // altFontFamily="ProximaNova-Light"
+          tagRemoveIconColor="#CCC"
+          tagBorderColor="#CCC"
+          tagTextColor="#CCC"
+          selectedItemTextColor="#CCC"
+          selectedItemIconColor="#CCC"
+          itemTextColor="#000"
+          displayKey="name"
+          searchInputStyle={{ color: '#CCC' }}
+          submitButtonColor="#CCC"
+          submitButtonText="Submit"
+        />
+
+      </View>
+    )
+  }
+
+  ACCORDION_CONTENT = [
+    {
+      title: 'Description',
+      content: this.accordionDescription(),
+      fromColor: "#00C6FB",
+      toColor: "#005BEA",
+    },
+    {
+      title: 'Shipping',
+      content: this.accordionShipping(),
+      fromColor: "#C444FB",
+      toColor: "#5B56D7"
+    },
+    {
+      title: 'Customer Review',
+      content: BACON_IPSUM,
+      fromColor: "#FF9472",
+      toColor: "#F2709C"
+    },
+    {
+      title: 'Vendor Info',
+      content: BACON_IPSUM,
+      fromColor: "#7ED500",
+      toColor: "#00BF8D"
+    },
+    {
+      title: 'Related Products',
+      content: BACON_IPSUM,
+      fromColor: "#6EACFF",
+      toColor: "#907CFF"
+    },
+  ];
+
+  renderAccordionHeader = (section, _, isActive) => {
+    return (
+      <Animatable.View
+        duration={400}
+        style={
+          [styles.accordionHeader,
+            isActive ?
+            styles.accordionHeaderActive :
+            styles.accordionHeaderInActive
+          ]
+        }
+        transition={["backgroundColor", "borderRadius"]}
+      >
+        <LinearGradient
+          colors={[section.fromColor, section.toColor]}
+          start={ {x: 0.0, y: 0.5} }
+          end={ {x: 1.0, y: 0.5}}
+          locations={[0.0, 1.0]}
+          style={styles.accordionHeaderIcon}
+        >
+
+        </LinearGradient>
+        <Text style={styles.accordionHeaderText}>{section.title}</Text>
+        <Text style={{position: 'absolute', right: 15}}>
+          <Icon
+            style={
+              {
+                color: "#BECDD0"
+              }
+            }
+            name={
+              isActive ?
+              Icons.MaterialCommunityIcons.DownChevron :
+              Icons.MaterialCommunityIcons.ForwardChevron
+            }
+            size={20}
+          />
+        </Text>
+      </Animatable.View>
+    );
+  };
+
+  renderAccordionContent(section, _, isActive) {
+    return (
+      <Animatable.View
+        duration={400}
+        style={
+          [styles.accordionContent,
+            isActive ?
+            styles.accordionHeaderActive :
+            styles.accordionContentInActive
+          ]
+        }
+        // transition="backgroundColor"
+      >
+        {section.content}
+      </Animatable.View>
+    );
+  };
+  /************** End accordion by wedevs **********/
 
   getProductAttribute = (product) => {
     this.productAttributes = product.attributes;
@@ -654,13 +862,20 @@ class Detail extends PureComponent {
             {productDescription}
           </Text>
 
+          <Accordion
+            activeSection={this.state.activeSection}
+            sections={this.ACCORDION_CONTENT}
+            touchableComponent={TouchableWithoutFeedback}
+            renderHeader={this.renderAccordionHeader}
+            renderContent={this.renderAccordionContent}
+            duration={400}
+            onChange={this.setSection}
+          />
+
         </View>
       )
     
-    
     };
-
-    // const renderProductOffer
 
     return (
       <View style={styles.container}>
@@ -683,10 +898,6 @@ class Detail extends PureComponent {
           </View>
 
           {renderProductDetails()}
-
-          <Collapsible collapsed={false}>
-            <Text>Test Collapsible</Text>
-          </Collapsible>
 
           {/* {this._renderTabView()} */}
         </Animated.ScrollView>
