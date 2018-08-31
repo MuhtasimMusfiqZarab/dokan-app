@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { Constants } from "@common";
 
 export default StyleSheet.create({
     toolbarContainer: {
@@ -23,5 +24,40 @@ export default StyleSheet.create({
     },
     toolbarIcon: {
         color: '#A0A9BD',
+    },
+    modal: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)'
+    },
+    modalClose: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff",
+        shadowColor: "#000",
+        shadowOpacity: 0.4,
+        shadowOffset: {width: -1, height: 2}
+    },
+    modalContent: {
+        width: "70%",
+        height: 250,
+        backgroundColor: "#fff",
+        padding: 15,
+        marginTop: 10,
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: {width: -1, height: 2}
+    },
+    sortingTextContainer: {
+        padding: 5,
+        marginBottom: 15
+    },
+    sortingText: {
+        color: "#7C8592",
+        fontSize: 15,
+        fontFamily: Constants.fontFamilyLato
     }
 });

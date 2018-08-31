@@ -319,7 +319,7 @@ export default {
     },
   ],
 
-  // Added by me
+  // weDevs
   popularCat: [
     {
       Name: 'Dress',
@@ -425,5 +425,12 @@ export default {
       fromColor: "#6EACFF",
       toColor: "#907CFF"
     },
+  ],
+  sortingTexts: [
+    "Sort by popularity",
+    "Sort by average rating",
+    "Sort by newness",
+    "Sort by price high to low",
+    "Sort by price low to high"
   ]
 }

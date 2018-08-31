@@ -1,9 +1,6 @@
 /**
- * Modified by weDevs on 06/08/2018.
- *
  * @format
  */
-
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
@@ -18,7 +15,6 @@ import { HorizonLayouts } from '@common'
 import { connect } from 'react-redux'
 import { makeGetCollections } from '@selectors/LayoutSelector'
 import HList from './HList'
-import {LinearGradient} from '@expo'
 import WdSearchBox from '../WdSearchBox'
 import WdNewArrival from '../WdNewArrival'
 import WdAdds from '../WdAdds'

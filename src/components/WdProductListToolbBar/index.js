@@ -6,17 +6,34 @@ import React, { Component } from "react";
 import {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Button
 } from "react-native";
+import Modal from 'react-native-modalbox';
 import { Icon, IconIO, toggleFilterDrawer } from "@app/Omni";
-import { Icons, Constants, Events } from "@common";
+import { Icons, Constants, Config } from "@common";
 import { actions } from "@redux/ProductRedux";
 import { connect } from "react-redux";
 import styles from "./styles";
 
 class WdProductListToolBar extends Component {
     state = {
-        currentLayout : this.props.layoutProductScreen
+        currentLayout : this.props.layoutProductScreen,
+        //Modal
+        isOpen: false,
+        isDisabled: true,
+        swipeToClose: false,
+        sliderValue: 0.3
+    }
+
+    onClose = () => {
+        console.log('Modal just closed');
+    }
+    onOpen = () => {
+        console.log('Modal just opened');
+    }
+    onClosingState = (state) => {
+        console.log('the open/close of the swipeToClose just changed');
     }
 
     layoutChangeHandler = () => {
@@ -39,7 +56,6 @@ class WdProductListToolBar extends Component {
                 ...this.state,
                 currentLayout: Constants.Layout.twoColumn
             })
-          
         }
     }
 
@@ -57,7 +73,8 @@ class WdProductListToolBar extends Component {
                 <View style={styles.toolbarRight}>
                     <TouchableOpacity
                         style={{flexDirection: 'row'}}
-                        onPress={Events.openModalLayout}
+                        // onPress={Events.openModalLayout}
+                        onPress={() => this.refs.modal.open()}
                     >
                         <Text style={{color: '#818995', marginRight: 10}}>
                             Default Sorting
@@ -76,6 +93,37 @@ class WdProductListToolBar extends Component {
                         />
                     </TouchableOpacity>
                 </View>
+
+                <Modal
+                    style={[styles.modal]}
+                    ref={"modal"}
+                    swipeToClose={this.state.swipeToClose}
+                    onClosed={this.onClose}
+                    onOpened={this.onOpen}
+                    onClosingState={this.onClosingState}
+                    coverScreen
+                    backdrop={false}
+                >
+                    <View style={styles.modalClose}>
+                        <TouchableOpacity onPress={ () => this.refs.modal.close() }>
+                            <IconIO name={Icons.Ionicons.Close} size={26} />
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.modalContent}>
+                        {
+                            Config.sortingTexts.map((item) => {
+                                return (
+                                    <TouchableOpacity style={styles.sortingTextContainer}>
+                                        <Text style={styles.sortingText}>{item}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+                    </View>
+
+                </Modal>
+                
             </View>
         )
     }
