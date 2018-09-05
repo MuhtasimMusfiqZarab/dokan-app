@@ -181,12 +181,14 @@ const TabButton = (props) => (
 
 const styles = StyleSheet.create({
   tabActiveText: {
-    color: Color.TabActiveText,
+    // color: Color.TabActiveText,
+    color: "#000"
   },
   tabActive: {
     marginTop: 1,
     borderBottomWidth: 2,
-    borderBottomColor: Color.TabActive,
+    // borderBottomColor: Color.TabActive,
+    borderBottomColor: "#000"
   },
   button: {
     backgroundColor: "#0B4A7D",

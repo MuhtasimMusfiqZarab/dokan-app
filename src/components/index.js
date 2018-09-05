@@ -53,6 +53,7 @@ import SideMenu from "./SideMenu";
 import ModalReview from "./Modal/Review";
 import Review from "./Review";
 // Added by weDevs
+import WdPopularCat from "./WdPopularCat"
 import WdProductListToolBar from "./WdProductListToolbBar"
 
 export {
@@ -107,6 +108,7 @@ export {
   ModalLayout,
   ModalReview,
   Review,
+  WdPopularCat,
   WdProductListToolBar,
   WdModalSorting
 };

@@ -7,7 +7,7 @@ export default class SearchScreen extends PureComponent {
   static navigationOptions = () => ({
     title: "Search",
     header: null,
-    // tabBarVisible: false,
+    tabBarVisible: false,
 
     tabBarLabel: null,
   });
