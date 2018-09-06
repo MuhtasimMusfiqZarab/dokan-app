@@ -13,6 +13,8 @@ Index/
 
 # Android/IntelliJ
 #
+android/build.gradle
+android/gradle/wrapper/gradle-wrapper.properties
 build/
 .idea
 .gradle
