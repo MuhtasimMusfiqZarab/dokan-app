@@ -9,9 +9,9 @@ export default {
      Step 1: change to your website URL and the wooCommerce API consumeKey
      */
   WooCommerce: {
-    // url: 'http://mstore.io',
-    // consumerKey: 'ck_b7594bc4391db4b56c635fe6da1072a53ca4535a',
-    // consumerSecret: 'cs_980b9edb120e15bd2a8b668cacc734f7eca0ba40',
+    url: 'http://mstore.io',
+    consumerKey: 'ck_b7594bc4391db4b56c635fe6da1072a53ca4535a',
+    consumerSecret: 'cs_980b9edb120e15bd2a8b668cacc734f7eca0ba40',
     url: 'http://ajaira.website/dokan-app',
     consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
     consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
@@ -101,7 +101,8 @@ export default {
   },
   showStatusBar: true,
   LogoImage: require('@images/new_logo.png'),
-  LogoWithText: require('@images/logo_with_text.png'),
+  // LogoWithText: require('@images/logo_with_text.png'),
+  LogoWithText: require('@images/dokan-logo.png'),
   LogoLoading: require('@images/logo.png'),
 
   showAdmobAds: false,

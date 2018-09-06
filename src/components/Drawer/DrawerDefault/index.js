@@ -32,7 +32,7 @@ class DrawerDefault extends PureComponent {
       reload: false,
     }
 
-    // Keep track of active screen (added by me)
+    // Keep track of active screen (added by weDevs)
     this.buttonList.map((item, index) => {
       if(item.params.isActive === true) {
         this.state = {

@@ -124,10 +124,13 @@ class LoginScreen extends PureComponent {
     const json = await WPUserAPI.login(username.trim(), password);
 
     if (json === undefined) {
+      console.log("json undefined");
       this.stopAndToast(Languages.GetDataError);
     } else if (json.error) {
-      this.stopAndToast(json.error);
+      console.dir(json.error);
+      this.stopAndToast("json.error");
     } else {
+      console.log("success");
       let customers = await WooWorker.getCustomerById(json.user.id);
       customers = { ...customers, username, password };
 
