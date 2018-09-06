@@ -222,19 +222,19 @@ class Detail extends PureComponent {
     },
     {
       title: 'Customer Review',
-      content: BACON_IPSUM,
+      // content: BACON_IPSUM,
       fromColor: "#FF9472",
       toColor: "#F2709C"
     },
     {
       title: 'Vendor Info',
-      content: BACON_IPSUM,
+      // content: BACON_IPSUM,
       fromColor: "#7ED500",
       toColor: "#00BF8D"
     },
     {
       title: 'Related Products',
-      content: BACON_IPSUM,
+      // content: BACON_IPSUM,
       fromColor: "#6EACFF",
       toColor: "#907CFF"
     },
