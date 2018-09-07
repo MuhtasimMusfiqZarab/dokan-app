@@ -17,6 +17,12 @@ import _Validate from "./ultils/Validate";
 import _BlockTimer from "./ultils/BlockTimer";
 import _FacebookAPI from "./services/FacebookAPI";
 
+// custom Icons by weDevs
+import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
+import icoMoonConfig from './selection.json';
+export const CustomIcon = createIconSetFromIcoMoon(icoMoonConfig);
+
+
 // const { actions: SideMenuActions } = require('@redux/SideMenuRedux')
 
 export const Icon = _Icon;
