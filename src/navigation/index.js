@@ -26,12 +26,12 @@ import CartScreen from "./CartScreen";
 import MyOrdersScreen from "./MyOrdersScreen";
 import WishListScreen from "./WishListScreen";
 import SearchScreen from "./SearchScreen";
-import LoginScreen from "./LoginScreen";
+import LoginScreen from "./wdLoginScreen";
 import SignUpScreen from "./SignUpScreen";
 import CustomPageScreen from "./CustomPageScreen";
 import ListAllScreen from "./wdListAllScreen";
 import SettingScreen from "./SettingScreen";
-import UserProfileScreen from "./UserProfileScreen";
+import UserProfileScreen from "./wdUserProfileScreen";
 
 import TransitionConfig from "./TransitionConfig";
 
