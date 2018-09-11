@@ -7,6 +7,7 @@ import {
   View,
   ListView,
   TouchableOpacity,
+  Text
 } from "react-native";
 import { connect } from "react-redux";
 import { Button, ProductItem, AnimatedHeader } from "@components";
@@ -95,15 +96,15 @@ class WishList extends PureComponent {
     }
     return (
       <View style={styles.container}>
-        <AnimatedHeader
+        {/* <AnimatedHeader
           scrollY={this.state.scrollY}
           label={Languages.WishList}
-        />
+        /> */}
 
         <Animated.Text
           style={[
             styles.value,
-            { transform: [{ translateY: titleTransformY }] },
+            // { transform: [{ translateY: titleTransformY }] },
           ]}>
           {wishListItems.length}{" "}
           {wishListItems.length > 1 ? Languages.Items : Languages.Item}

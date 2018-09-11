@@ -7,7 +7,8 @@ import { Color, Config, Constants } from "@common";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    backgroundColor: "#F8F8FA",
   },
   row: {
     flexDirection: "row",
@@ -28,10 +29,11 @@ export default StyleSheet.create({
   value: {
     fontSize: 16,
     color: Color.headerTintColor,
-    fontFamily: Constants.fontHeader,
-    right: 20,
+    fontFamily: Constants.fontFamilyLato,
+    // right: 20,
     position: "absolute",
-    top: 60,
+    top: 10,
+    left: 10,
 
     ...Platform.select({
       android: {
@@ -146,6 +148,6 @@ export default StyleSheet.create({
   scrollView: {
     paddingBottom: 100,
     height: height,
-    paddingTop: 50,
+    paddingTop: 40,
   },
 });

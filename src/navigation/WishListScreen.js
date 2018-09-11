@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { PureComponent } from "react";
-import { Menu, EmptyView } from "./IconNav";
+import { Menu, EmptyView, Back, HeaderRight } from "./IconNav";
 
 import { Images, Config, Constants, Color, Styles, Languages } from "@common";
 import { WishList } from "@containers";
@@ -9,7 +9,12 @@ import { WishList } from "@containers";
 export default class WishListScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: Languages.WishList,
-    header: null,
+    // header: null,
+    headerStyle: Styles.Common.toolbar,
+    headerLeft: Back(navigation),
+    headerRight: HeaderRight(navigation)
+
+
   });
 
   render() {
