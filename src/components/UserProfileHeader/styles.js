@@ -23,7 +23,7 @@ export default StyleSheet.create({
   },
   textContainer: {
     // marginLeft: 20,
-    marginTop: 60,
+    marginTop: 50,
     justifyContent: "center",
     alignItems: "center"
   },
@@ -52,9 +52,9 @@ export default StyleSheet.create({
   profilePic: {
     justifyContent: "center",
     alignItems: "center",
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
     paddingTop: 15,
     backgroundColor: "rgba(255, 255, 255, 0.8)",
     position: "absolute",
