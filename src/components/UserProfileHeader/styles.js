@@ -22,20 +22,46 @@ export default StyleSheet.create({
     fontWeight: "600",
   },
   textContainer: {
-    marginLeft: 20,
+    // marginLeft: 20,
+    marginTop: 60,
     justifyContent: "center",
+    alignItems: "center"
   },
   header: {
-    flexDirection: "row",
-    backgroundColor: "#FFF",
-    padding: 20,
+    // flexDirection: "row",
+    backgroundColor: "#fff",
+    // padding: 20,
+    height: 300,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 0, height: 2},
+    alignItems: "center"
+  },
+  headerGradient: {
+    width: "100%",
+    height: 150    
   },
   avatar: {
-    height: width / 4,
-    width: width / 4,
-    borderRadius: 4,
+    height: width / 3,
+    width: width / 3,
+    borderRadius: 3,
   },
   loginText: {
     color: "#666",
   },
+  profilePic: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    paddingTop: 15,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
+    position: "absolute",
+    top: 80,
+    // left: width / 2.7,
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 0, height: 2}
+  }
 });
