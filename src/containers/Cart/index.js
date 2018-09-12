@@ -197,10 +197,10 @@ class Cart extends PureComponent {
       return <PaymentEmpty onViewHome={onViewHome} />;
     }
     const steps = [
-      { label: Languages.MyCart, icon: Images.IconCart },
-      { label: Languages.Delivery, icon: Images.IconPin },
-      { label: Languages.Payment, icon: Images.IconMoney },
-      { label: Languages.Order, icon: Images.IconFlag },
+      { label: Languages.MyCart, icon: Images.IconCartGradient },
+      { label: Languages.Delivery, icon: Images.IconDeliveryGradient },
+      { label: Languages.Payment, icon: Images.IconPaymentGradient },
+      { label: Languages.Order, icon: Images.IconOrderGradient },
     ];
     return (
       <View style={styles.fill}>

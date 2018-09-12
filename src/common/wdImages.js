@@ -60,7 +60,7 @@ const Images = {
   IconUkFlag: require('@images/ic_uk_country_flag.jpg'),
   IconOmanFlag: require('@images/ic_oman_country_flag.jpg'),
 
-  // Added By me
+  // Added By weDevs
   NewArrival: require('@images/new_arrival.png'),
   FeaturedAd: require('@images/ad1.png'),
   ad1: require('@images/ad2.png'),
@@ -75,7 +75,11 @@ const Images = {
     Movies: require('@images/categories/movies.png'),
     Music: require('@images/categories/music.png'),
     Poster: require('@images/categories/poster.png')
-  }
+  },
+  IconCartGradient: require('@images/icons/icon-cart-gradient.png'),
+  IconDeliveryGradient: require('@images/icons/icon-delivery-gradient.png'),
+  IconPaymentGradient: require('@images/icons/icon-payment-gradient.png'),
+  IconOrderGradient: require('@images/icons/icon-order-gradient.png'),
 
 };
 
