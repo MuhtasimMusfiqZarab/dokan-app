@@ -42,9 +42,12 @@ export default StyleSheet.create({
     height: 150    
   },
   avatar: {
-    height: width / 3,
-    width: width / 3,
-    borderRadius: 3,
+    // height: width / 3,
+    // width: width / 3,
+    // borderRadius: 3,
+    height: 90,
+    width: 90,
+    borderRadius: 45
   },
   loginText: {
     color: "#666",
@@ -55,13 +58,15 @@ export default StyleSheet.create({
     width: 110,
     height: 110,
     borderRadius: 55,
-    paddingTop: 15,
+    // paddingTop: 15,
     backgroundColor: "rgba(255, 255, 255, 0.8)",
+    elevation: 3,
     position: "absolute",
     top: 80,
-    // left: width / 2.7,
     shadowColor: "#000",
     shadowOpacity: 0.3,
-    shadowOffset: {width: 0, height: 2}
+    shadowOffset: {width: 0, height: 2},
+    // shadowRadius: 3,
+    // elevation: 15
   }
 });
