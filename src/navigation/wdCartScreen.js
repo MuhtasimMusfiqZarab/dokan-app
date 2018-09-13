@@ -1,14 +1,14 @@
 /** @format */
 
 import React, { PureComponent } from "react";
-import { Menu, HeaderRight } from "./IconNav";
+import { Menu, HeaderRight, Back } from "./IconNav";
 import { Color, Styles } from "@common";
 import { Cart } from "@containers";
 
 export default class CartScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "My Shopping",
-    headerLeft: Menu(),
+    headerLeft: Back(navigation),
     headerRight: HeaderRight(navigation),
 
     headerTintColor: Color.headerTintColor,

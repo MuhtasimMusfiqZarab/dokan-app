@@ -197,10 +197,30 @@ class Cart extends PureComponent {
       return <PaymentEmpty onViewHome={onViewHome} />;
     }
     const steps = [
-      { label: Languages.MyCart, icon: Images.IconCartGradient },
-      { label: Languages.Delivery, icon: Images.IconDeliveryGradient },
-      { label: Languages.Payment, icon: Images.IconPaymentGradient },
-      { label: Languages.Order, icon: Images.IconOrderGradient },
+      { 
+        label: Languages.MyCart,
+        icon: Images.IconCartGradient,
+        gradientColorFrom: "#F9769D",
+        gradientColorTo: "#BB6DF7",
+      },
+      { 
+        label: Languages.Delivery,
+        icon: Images.IconDeliveryGradient,
+        gradientColorFrom: "#00E9F0",
+        gradientColorTo: "#0096FF"
+      },
+      {
+        label: Languages.Payment,
+        icon: Images.IconPaymentGradient,
+        gradientColorFrom: "#7ED500",
+        gradientColorTo: "#00BF8D"
+      },
+      {
+        label: Languages.Order,
+        icon: Images.IconOrderGradient,
+        gradientColorFrom: "#C444FB",
+        gradientColorTo: "#5B56D7"
+      },
     ];
     return (
       <View style={styles.fill}>
