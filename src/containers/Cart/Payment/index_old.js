@@ -260,14 +260,12 @@ class PaymentOptions extends PureComponent {
           <View style={styles.paymentOption}>
             {list.map((item, index) => {
               if (!item.enabled) return null;
-              
+
               const image =
                 typeof Config.Payments[item.id] !== "undefined" &&
                 Config.Payments[item.id];
               return (
-                <View
-                  style={styles.optionContainer}
-                  key={index}>
+                <View style={styles.optionContainer} key={index}>
                   <Button
                     type="image"
                     source={image}
@@ -279,7 +277,6 @@ class PaymentOptions extends PureComponent {
                         styles.selectedBtnOption,
                     ]}
                     imageStyle={styles.imgOption}
-                    gradient={['#FF9472', '#F2709C']}
                   />
                 </View>
               );

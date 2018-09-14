@@ -56,7 +56,7 @@ export default class StepIndicator extends Component {
     }
   }
 
-  renderStepIndicator(index, icon, gradientColorFrom, gradientColorTo) {
+  renderStepIndicator(index, item) {
     let isCurrent = index == this.props.currentIndex;
 
     let indicatorContainer = {
@@ -73,11 +73,13 @@ export default class StepIndicator extends Component {
           this.customStyles.borderPadding * 2) /
         2,
       backgroundColor:"#fff",
-      shadowColor: "#000",
-      shadowOpacity: 0.4,
-      shdowRadius: 20,
-      shadowOffset: {width: 1, height: 1}
     };
+
+    let indicatorContainerShadow = {
+      shadowColor: "#000",
+      shadowOpacity: 0.3,
+      shadowRadius: 7,
+    }
 
     let indicatorStyle = {
       backgroundColor:
@@ -104,29 +106,37 @@ export default class StepIndicator extends Component {
       // position: "absolute",
       // top: this.imageMargin / 2,
       // left: this.imageMargin / 2,
-      tintColor: isCurrent !== false && "white"
+      // tintColor: isCurrent !== false && "#fff"
     };
 
     return (
       <LinearGradient
         colors={
-          this.props.currentIndex > index ?
-            [gradientColorFrom, gradientColorTo] :
+          this.props.currentIndex > index ||
+          this.props.currentIndex == this.props.steps.length -1
+          ?
+            [item.gradientColorFrom, item.gradientColorTo] :
             ["#fff", "#fff"]
         }
         onPress={() =>
           index < this.props.currentIndex && this.props.onChangeTab(index)
         }
-        style={indicatorContainer}
+        style={
+          [
+            indicatorContainer,
+            (index == 0 || index > 0) && indicatorContainerShadow 
+          ]
+        }
         key={"indicator-" + index}>
         {/* <View style={[indicatorStyle, isCurrent && indicatorCurrent]}> */}
-          <Image resizeMode="contain" source={icon} style={imageStyle} />
+          <Image resizeMode="contain" source={item.icon} style={imageStyle} />
         {/* </View> */}
       </LinearGradient>
     );
   }
 
-  renderProgressBar(index, gradientColorFrom, gradientColorTo) {
+  renderProgressBar(index, item) {
+    console.log(index);
     let progressBarContainer = {
       height: this.customStyles.borderPadding * 2 + 2,
       width: this.stepStrokeWidth,
@@ -158,18 +168,36 @@ export default class StepIndicator extends Component {
       top: this.customStyles.borderPadding,
       left: this.customStyles.borderPadding,
     };
-    return (
-      <View style={progressBarContainer} key={"progress-" + index}>
-        <View style={progressBarBorder}>
-          {/* {index < this.props.currentIndex && <View style={progressBar} />} */}
-          {/* {<View style={progressBar} />} */}
-          <LinearGradient
-            colors={[gradientColorFrom, gradientColorTo]}
-            style={progressBar}
-          />
+
+    if(this.props.currentIndex === 0) {
+      return (
+        <View style={progressBarContainer} key={"progress-" + index}>
+          <View style={progressBarBorder}>
+            {<View style={progressBar} />}
+          </View>
         </View>
-      </View>
-    );
+      )  
+    } else {
+      return (
+        <View style={progressBarContainer} key={"progress-" + index}>
+          <View style={progressBarBorder}>
+            {
+              index == this.props.currentIndex - 1 ?
+                <LinearGradient
+                  colors={
+                    [
+                      this.props.steps[index].gradientColorFrom,
+                      this.props.steps[index].gradientColorTo
+                    ]
+                  }
+                  style={progressBar}
+                /> :
+                <View style={progressBar} />
+            }
+          </View>
+        </View>
+      )
+    }
   }
 
   render() {
@@ -179,7 +207,7 @@ export default class StepIndicator extends Component {
     for (var i = 0; i < this.props.steps.length; i++) {
       let item = this.props.steps[i];
       content.push(
-        this.renderStepIndicator(i, item.icon, item.gradientColorFrom, item.gradientColorTo)
+        this.renderStepIndicator(i, item)
       );
       label.push(
         <Text
@@ -193,7 +221,7 @@ export default class StepIndicator extends Component {
         </Text>
       );
       if (i != this.props.steps.length - 1) {
-        content.push(this.renderProgressBar(i, item.gradientColorFrom, item.gradientColorTo));
+        content.push(this.renderProgressBar(i, item));
       }
     }
 

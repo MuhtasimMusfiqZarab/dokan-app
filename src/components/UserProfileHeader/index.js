@@ -32,8 +32,7 @@ export default class UserProfileHeader extends PureComponent {
       <View style={styles.container}>
         <View style={styles.header}>
 
-          <LinearGradient colors={['#F76B1C', '#FAD961']} style={styles.headerGradient}>
-          </LinearGradient>
+          <LinearGradient colors={['#F76B1C', '#FAD961']} style={styles.headerGradient} />
     
           <View style={styles.profilePic}>
             <Image source={avatar} style={styles.avatar} />

@@ -75,7 +75,8 @@ export default StyleSheet.create({
   label: {
     fontSize: 18,
     color: Color.Text,
-    fontFamily: Constants.fontHeader,
+    // fontFamily: Constants.fontHeader,
+    fontFamily: Constants.fontFamilyLato,
     paddingLeft: 15,
   },
   descriptionView: {
