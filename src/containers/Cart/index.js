@@ -203,12 +203,12 @@ class Cart extends PureComponent {
         gradientColorFrom: "#F9769D",
         gradientColorTo: "#BB6DF7",
       },
-      { 
-        label: Languages.Delivery,
-        icon: Images.IconDeliveryGradient,
-        gradientColorFrom: "#00E9F0",
-        gradientColorTo: "#0096FF"
-      },
+      // { 
+      //   label: Languages.Delivery,
+      //   icon: Images.IconDeliveryGradient,
+      //   gradientColorFrom: "#00E9F0",
+      //   gradientColorTo: "#0096FF"
+      // },
       {
         label: Languages.Payment,
         icon: Images.IconPaymentGradient,

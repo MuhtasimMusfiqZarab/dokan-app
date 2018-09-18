@@ -24,7 +24,7 @@ export default class StepIndicator extends Component {
     };
 
     this.customStyles = Object.assign(defaultStyles, props.customStyles);
-    this.stepStrokeWidth = 50;
+    this.stepStrokeWidth = 80;
     this.imageMargin = this.customStyles.stepIndicatorSize / 2;
 
     let allIndicatorWidth =
@@ -59,6 +59,25 @@ export default class StepIndicator extends Component {
   renderStepIndicator(index, item) {
     let isCurrent = index == this.props.currentIndex;
 
+    let indicatorContainerWithShadow = {
+      width:
+        this.customStyles.stepIndicatorSize +
+        this.customStyles.borderPadding * 2,
+      height:
+        this.customStyles.stepIndicatorSize +
+        this.customStyles.borderPadding * 2,
+      justifyContent: "center",
+      alignItems: "center",
+      borderRadius:
+        (this.customStyles.stepIndicatorSize +
+          this.customStyles.borderPadding * 2) /
+        2,
+      backgroundColor:"#fff",
+      shadowColor: "#000",
+      shadowOpacity: 0.3,
+      shadowRadius: 7,
+    };
+
     let indicatorContainer = {
       width:
         this.customStyles.stepIndicatorSize +
@@ -73,12 +92,6 @@ export default class StepIndicator extends Component {
           this.customStyles.borderPadding * 2) /
         2,
       backgroundColor:"#fff",
-    };
-
-    let indicatorContainerShadow = {
-      shadowColor: "#000",
-      shadowOpacity: 0.3,
-      shadowRadius: 7,
     }
 
     let indicatorStyle = {
@@ -108,12 +121,15 @@ export default class StepIndicator extends Component {
       // left: this.imageMargin / 2,
       // tintColor: isCurrent !== false && "#fff"
     };
+    let whiteImage = {
+      tintColor : "#fff"
+    }
 
     return (
       <LinearGradient
         colors={
-          this.props.currentIndex > index ||
-          this.props.currentIndex == this.props.steps.length -1
+          this.props.currentIndex > index
+          //|| this.props.currentIndex == this.props.steps.length -1
           ?
             [item.gradientColorFrom, item.gradientColorTo] :
             ["#fff", "#fff"]
@@ -122,14 +138,24 @@ export default class StepIndicator extends Component {
           index < this.props.currentIndex && this.props.onChangeTab(index)
         }
         style={
-          [
-            indicatorContainer,
-            (index == 0 || index > 0) && indicatorContainerShadow 
-          ]
+          this.props.currentIndex > index ?
+          indicatorContainer :
+          indicatorContainerWithShadow
         }
         key={"indicator-" + index}>
         {/* <View style={[indicatorStyle, isCurrent && indicatorCurrent]}> */}
-          <Image resizeMode="contain" source={item.icon} style={imageStyle} />
+          <Image
+            resizeMode="contain"
+            source={item.icon}
+            style={
+              [
+                imageStyle,
+                this.props.currentIndex > index ?
+                whiteImage :
+                null
+              ]
+            }
+          />
         {/* </View> */}
       </LinearGradient>
     );
@@ -160,7 +186,7 @@ export default class StepIndicator extends Component {
 
     let progressBar = {
       // width: this.stepStrokeWidth + this.customStyles.borderPadding * 2 + 3,
-      width: 40,
+      width: this.stepStrokeWidth - this.customStyles.borderPadding * 2,
       height: 3,
       // backgroundColor: this.customStyles.color,
       backgroundColor: "#D8D8D8",
