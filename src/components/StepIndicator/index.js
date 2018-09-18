@@ -46,14 +46,18 @@ export default class StepIndicator extends Component {
           (props.steps.length - 1));
     }
 
-    if (Platform.OS == "ios") {
-      this.labelWidth =
+    // if (Platform.OS == "ios") {
+    //   this.labelWidth =
+    //     this.marginContent * 2 +
+    //     this.customStyles.stepIndicatorSize +
+    //     2 * this.customStyles.borderPadding;
+    // } else {
+    //   this.labelWidth = this.marginContent * 2;
+    // }
+    this.labelWidth =
         this.marginContent * 2 +
         this.customStyles.stepIndicatorSize +
         2 * this.customStyles.borderPadding;
-    } else {
-      this.labelWidth = this.marginContent * 2;
-    }
   }
 
   renderStepIndicator(index, item) {

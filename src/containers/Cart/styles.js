@@ -16,11 +16,17 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    elevation: 5,
   },
   indicator: {
-    marginTop: 16,
+    // marginTop: 16,
+    paddingTop: 10,
     alignItems: "center",
+    zIndex: 1,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowOffset: {width: 0, height: 1},
+    elevation: 10
   },
   content: {
     flex: 1,
