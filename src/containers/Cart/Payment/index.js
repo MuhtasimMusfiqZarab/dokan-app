@@ -2,16 +2,23 @@
 
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { Text, Dimensions, ScrollView, View } from "react-native";
+import { Text,
+  Dimensions,
+  ScrollView,
+  View,
+  Image,
+  TouchableWithoutFeedback
+} from "react-native";
 import css from "@cart/styles";
 import { connect } from "react-redux";
-import { warn, toast } from "@app/Omni";
+import { warn, toast, IconIO } from "@app/Omni";
 import { Button } from "@components";
-import { Languages, Config, Images } from "@common";
+import { Languages, Config, Icons } from "@common";
 import Buttons from "@cart/Buttons";
 import { WooWorker } from "api-ecommerce";
 import HTML from "react-native-render-html";
 import styles from "./styles";
+import { LinearGradient } from "@expo";
 
 const { width } = Dimensions.get("window");
 
@@ -265,27 +272,51 @@ class PaymentOptions extends PureComponent {
                 typeof Config.Payments[item.id] !== "undefined" &&
                 Config.Payments[item.id];
               return (
-                <View
-                  style={styles.optionContainer}
-                  key={index}>
-                  <Button
-                    type="image"
-                    source={image}
-                    defaultSource={Images.defaultPayment}
-                    onPress={() => this.setState({ selectedIndex: index })}
-                    buttonStyle={[
-                      styles.btnOption,
-                      this.state.selectedIndex == index &&
-                        styles.selectedBtnOption,
-                    ]}
-                    imageStyle={styles.imgOption}
-                    gradient={['#FF9472', '#F2709C']}
-                  />
+                // <View
+                //   style={styles.optionContainer}
+                //   key={index}>
+                //   <Button
+                //     type="image"
+                //     source={image}
+                //     defaultSource={Images.defaultPayment}
+                //     onPress={() => this.setState({ selectedIndex: index })}
+                //     buttonStyle={[
+                //       styles.btnOption,
+                //       this.state.selectedIndex == index &&
+                //         styles.selectedBtnOption,
+                //     ]}
+                //     imageStyle={styles.imgOption}
+                //     gradient={['#FF9472', '#F2709C']}
+                //   />
+                // </View>
+                <View style={styles.optionContainer} key={index}>
+                  <LinearGradient
+                    style={styles.optionGradient}
+                    start={{x: 0, y: 0}} end={{x: 0.5, y: 1.0}}
+                    locations={[0.1,0.75,1]}
+                    colors={["#FF9472", "#F88287", "#F2709C"]}>
+                    <Image style={styles.imgOption} source={image} />
+                  </LinearGradient>
+
+                  <View style={styles.tickMarkContainer}>
+                    <LinearGradient
+                      style={styles.tickMarkGradient}
+                      start={{x: 0, y: 0}} end={{x: 0.5, y: 1.0}}
+                      locations={[0.1,0.75,1]}
+                      colors={["#7ED500", "#3CC94A", "#00BF8D"]}>
+                      <IconIO
+                        name={Icons.Ionicons.CheckMark}
+                        size={36}
+                        color="#fff"
+                      />
+                    </LinearGradient>
+                  </View>
                 </View>
+                
               );
             })}
           </View>
-          {this.renderDesLayout(list[this.state.selectedIndex])}
+          {/* {this.renderDesLayout(list[this.state.selectedIndex])} */}
         </ScrollView>
 
         <Buttons

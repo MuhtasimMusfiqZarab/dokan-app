@@ -252,14 +252,14 @@ class Cart extends PureComponent {
               onViewProduct={onViewProduct}
             />
 
-            <Delivery
+            {/* <Delivery
               key="delivery"
               onNext={(formValues) => {
                 this.setState({ userInfo: formValues });
                 this.onNext();
               }}
               onPrevious={this.onPrevious}
-            />
+            /> */}
             <Payment
               key="payment"
               onPrevious={this.onPrevious}
