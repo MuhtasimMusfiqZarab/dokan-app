@@ -13,7 +13,6 @@ import {
   I18nManager,
 } from "react-native";
 import { Color } from "@common";
-import { LinearGradient } from "@expo";
 
 const Button = (props) => {
   if (props.type === "border") {
@@ -138,27 +137,6 @@ const StandardButton = (props) => (
 );
 
 const ImageButton = (props) => {
-  if (props.gradient) {
-    return (
-      <LinearGradient
-        colors={[props.gradient[0], props.gradient[1]]}
-        disabled={props.disabled}
-        onPress={() => props.onPress()}
-        activeOpacity={1}
-        style={props.buttonStyle}>
-        <Image
-          {...props}
-          defaultSource={props.defaultSource}
-          style={[
-            props.imageStyle,
-            props.isAddWishList && { tintColor: Color.heartActiveWishList },
-            props.isAddToCart && { tintColor: Color.TabActive },
-          ]}
-          resizeMode="contain"
-        />
-      </LinearGradient>
-    )
-  } else {
     return (
       <TouchableHighlight
         disabled={props.disabled}
@@ -178,7 +156,6 @@ const ImageButton = (props) => {
         />
       </TouchableHighlight>
     )
-  }
 };
 
 const TabButton = (props) => (
