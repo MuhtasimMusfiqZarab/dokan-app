@@ -8,15 +8,16 @@ const { width } = Dimensions.get("window");
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#F8F8FA",
     flexWrap: "wrap",
+    padding: 15
   },
   paymentOption: {
     // marginTop: 10,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    padding: 15
+    // padding: 15
   },
   optionContainer: {
     // width: width / 2 - 10,
@@ -44,7 +45,6 @@ export default StyleSheet.create({
     width: 35,
     height: 35,
     borderRadius: 17,
-    // borderWidth: 0.5,
     overflow: "hidden"
   },
   tickMarkGradient: {
@@ -105,13 +105,18 @@ export default StyleSheet.create({
     fontWeight: "bold",
   },
   label: {
-    fontSize: 18,
+    fontSize: 20,
     color: Color.Text,
     // fontFamily: Constants.fontHeader,
     fontFamily: Constants.fontFamilyLato,
+    fontWeight: "bold",
     // paddingLeft: 15,
+    marginBottom: 15
   },
   descriptionView: {
     marginTop: 20,
+  },
+  deliveryInfoContainer: {
+
   }
 });

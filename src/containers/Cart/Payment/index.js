@@ -19,6 +19,7 @@ import { WooWorker } from "api-ecommerce";
 import HTML from "react-native-render-html";
 import styles from "./styles";
 import { LinearGradient } from "@expo";
+import Delivery from "../Delivery";
 
 const { width } = Dimensions.get("window");
 
@@ -260,63 +261,56 @@ class PaymentOptions extends PureComponent {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <View style={css.rowEmpty}>
+          {/* <View style={css.rowEmpty}> */}
             <Text style={styles.label}>{Languages.SelectPayment}:</Text>
-          </View>
+          {/* </View> */}
 
           <View style={styles.paymentOption}>
             {list.map((item, index) => {
               if (!item.enabled) return null;
-              
               const image =
                 typeof Config.Payments[item.id] !== "undefined" &&
                 Config.Payments[item.id];
               return (
-                // <View
-                //   style={styles.optionContainer}
-                //   key={index}>
-                //   <Button
-                //     type="image"
-                //     source={image}
-                //     defaultSource={Images.defaultPayment}
-                //     onPress={() => this.setState({ selectedIndex: index })}
-                //     buttonStyle={[
-                //       styles.btnOption,
-                //       this.state.selectedIndex == index &&
-                //         styles.selectedBtnOption,
-                //     ]}
-                //     imageStyle={styles.imgOption}
-                //     gradient={['#FF9472', '#F2709C']}
-                //   />
-                // </View>
                 <View style={styles.optionContainer} key={index}>
-                  <LinearGradient
-                    style={styles.optionGradient}
-                    start={{x: 0, y: 0}} end={{x: 0.5, y: 1.0}}
-                    locations={[0.1,0.75,1]}
-                    colors={["#FF9472", "#F88287", "#F2709C"]}>
-                    <Image style={styles.imgOption} source={image} />
-                  </LinearGradient>
-
-                  <View style={styles.tickMarkContainer}>
+                  <TouchableWithoutFeedback
+                    onPress={() => this.setState({ selectedIndex: index })}>
                     <LinearGradient
-                      style={styles.tickMarkGradient}
+                      style={styles.optionGradient}
                       start={{x: 0, y: 0}} end={{x: 0.5, y: 1.0}}
                       locations={[0.1,0.75,1]}
-                      colors={["#7ED500", "#3CC94A", "#00BF8D"]}>
-                      <IconIO
-                        name={Icons.Ionicons.CheckMark}
-                        size={36}
-                        color="#fff"
-                      />
+                      colors={
+                        this.state.selectedIndex === index ?
+                        ["#FF9472", "#F88287", "#F2709C"] :
+                        ["#fff", "#fff", "#fff"]
+                      }>
+                      <Image style={styles.imgOption} source={image} />
                     </LinearGradient>
-                  </View>
+                  </TouchableWithoutFeedback>
+                  {
+                    this.state.selectedIndex === index &&
+                    <View style={styles.tickMarkContainer} key={index}>
+                      <LinearGradient
+                        style={styles.tickMarkGradient}
+                        start={{x: 0, y: 0}} end={{x: 0.5, y: 1.0}}
+                        locations={[0.1,0.75,1]}
+                        colors={["#7ED500", "#3CC94A", "#00BF8D"]}>
+                        <IconIO
+                          name={Icons.Ionicons.CheckMark}
+                          size={36}
+                          color="#fff"
+                        />
+                      </LinearGradient>
+                    </View>
+                  }
                 </View>
-                
               );
             })}
           </View>
           {/* {this.renderDesLayout(list[this.state.selectedIndex])} */}
+
+          <Delivery />
+
         </ScrollView>
 
         <Buttons

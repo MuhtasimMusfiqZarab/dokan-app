@@ -61,6 +61,7 @@ export default new LocalizedStrings({
     AddProductToCart: "Add a product to the shopping cart",
     TotalPrice: "Total Price:",
     YourDeliveryInfo: "Your delivery info:",
+    YourDeliveryInfo: "Delivery Information",
     ShopNow: "Shop Now",
     YourChoice: "Your wishlist:",
     YourSale: "Your Sale:",

@@ -166,7 +166,6 @@ export default class StepIndicator extends Component {
   }
 
   renderProgressBar(index, item) {
-    console.log(index);
     let progressBarContainer = {
       height: this.customStyles.borderPadding * 2 + 2,
       width: this.stepStrokeWidth,

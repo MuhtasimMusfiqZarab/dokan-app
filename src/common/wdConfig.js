@@ -9,12 +9,12 @@ export default {
      Step 1: change to your website URL and the wooCommerce API consumeKey
      */
   WooCommerce: {
-    url: 'http://mstore.io',
-    consumerKey: 'ck_b7594bc4391db4b56c635fe6da1072a53ca4535a',
-    consumerSecret: 'cs_980b9edb120e15bd2a8b668cacc734f7eca0ba40',
-    // url: 'http://ajaira.website/dokan-app',
-    // consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
-    // consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
+    // url: 'http://mstore.io',
+    // consumerKey: 'ck_b7594bc4391db4b56c635fe6da1072a53ca4535a',
+    // consumerSecret: 'cs_980b9edb120e15bd2a8b668cacc734f7eca0ba40',
+    url: 'http://ajaira.website/dokan-app',
+    consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
+    consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
   },
 
   /**
@@ -71,10 +71,11 @@ export default {
      Ex. if you would like to show only cod then just put one cod image in the list
      * */
   Payments: {
-    bacs: require('@images/payment_logo/PayPal.png'),
+    bacs: require('@images/payment_logo/bacs.png'),
     cod: require('@images/payment_logo/cash_on_delivery.png'),
     paypal: require('@images/payment_logo/PayPal.png'),
     stripe: require('@images/payment_logo/stripe.png'),
+    ppec_paypal: require('@images/payment_logo/PayPal.png')
   },
 
   /**
@@ -92,7 +93,7 @@ export default {
      - menu: config for left menu side items (isMultiChild: This is new feature from 3.4.5 that show the sub products categories)
      * */
   shipping: {
-    visible: true,
+    // visible: true,
     time: {
       free_shipping: '4 - 7 Days',
       flat_rate: '1 - 4 Days',

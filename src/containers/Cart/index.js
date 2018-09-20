@@ -13,7 +13,6 @@ import base64 from "base-64";
 import { isObject } from "lodash";
 
 import MyCart from "./MyCart";
-import Delivery from "./Delivery";
 import Payment from "./Payment";
 import FinishOrder from "./FinishOrder";
 import PaymentEmpty from "./Empty";

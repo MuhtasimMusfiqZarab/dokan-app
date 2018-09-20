@@ -2,17 +2,13 @@
 
 import { StyleSheet, Dimensions, Platform } from "react-native";
 var { width, height } = Dimensions.get("window");
-import { Constants, Color } from "@common";
+import { Constants } from "@common";
 const vw = width / 100;
 const vh = height / 100;
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 0, height: 1}
+    backgroundColor: "white",
   },
   deliveryCart: {
     flexDirection: "row",
@@ -20,7 +16,7 @@ export default StyleSheet.create({
     marginTop: 20,
   },
   form: {
-    // marginTop: 20,
+    marginTop: 20,
     marginLeft: 10,
     marginRight: 10,
   },
@@ -97,52 +93,5 @@ export default StyleSheet.create({
   },
   formContainer: {
     padding: 10,
-    marginBottom: 10,
   },
-  label: {
-    fontSize: 20,
-    color: Color.Text,
-    fontFamily: Constants.fontFamilyLato,
-    fontWeight: "bold",
-    marginBottom: 15
-  },
-  formUpdateBtn: {
-    width: 110,
-    height: 40,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 0, height: 2}
-  },
-  formEditBtn: {
-    width: 90,
-    height: 40,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    marginTop: 10,
-    padding: 10,
-    marginBottom: 10,
-    borderWidth: 0.5,
-    borderColor: "#7C8592"
-  },
-  editFieldContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 10
-  },
-  editFiledName: {
-    fontSize: 16
-  },
-  editFiledValue: {
-    fontSize: 16,
-    color: "#7C8592"
-  }
 });

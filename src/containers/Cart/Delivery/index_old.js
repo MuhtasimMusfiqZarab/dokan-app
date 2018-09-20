@@ -1,9 +1,9 @@
 /** @format */
 
 import React, { PureComponent } from "react";
-import { Text, View, AsyncStorage, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, AsyncStorage, ScrollView } from "react-native";
 import css from "@cart/styles";
-import { ShippingMethod, Button } from "@components";
+import { ShippingMethod } from "@components";
 import { Config, Validator, Languages } from "@common";
 import { connect } from "react-redux";
 import Buttons from "@cart/Buttons";
@@ -11,7 +11,6 @@ import { toast } from "@app/Omni";
 import Tcomb from "tcomb-form-native";
 import { cloneDeep } from "lodash";
 import styles from "./styles";
-import { LinearGradient } from "@expo";
 
 const Form = Tcomb.form.Form;
 
@@ -22,8 +21,7 @@ const labelStyle = cloneDeep(Tcomb.form.Form.stylesheet);
 customStyle.textbox.normal = {
   ...customStyle.textbox.normal,
   height: 150,
-  // marginBottom: 200,
-  marginBottom: 20,
+  marginBottom: 200,
 };
 customStyle.controlLabel.normal = {
   ...customStyle.controlLabel.normal,
@@ -50,8 +48,6 @@ class Delivery extends PureComponent {
         phone: "",
         note: "",
       },
-      isFormView: true,
-      isEditView: false
     };
 
     this.initFormValues();
@@ -267,20 +263,6 @@ class Delivery extends PureComponent {
     this.validateCustomer(this.customerInfo);
   };
 
-  showEditView = () => {
-    this.setState({
-      isFormView: false,
-      isEditView: true
-    })
-  }
-
-  showFormView = () => {
-    this.setState({
-      isFormView: true,
-      isEditView: false
-    })
-  }
-
   render() {
     const { shippings, shippingMethod } = this.props;
     const isShippingEmpty = typeof shippingMethod.id === "undefined";
@@ -312,68 +294,25 @@ class Delivery extends PureComponent {
             )}
 
           <View style={css.rowEmpty}>
-            <Text style={styles.label}>{Languages.YourDeliveryInfo}</Text>
+            <Text style={css.label}>{Languages.YourDeliveryInfo}</Text>
           </View>
 
           <View style={styles.formContainer}>
-            {
-              this.state.isFormView && (
-                <View>
-                  <Form
-                    ref="form"
-                    type={this.Customer}
-                    options={this.options}
-                    value={this.state.value}
-                    onChange={this.onChange}
-                  />
-
-                  <TouchableOpacity onPress={this.showEditView}>
-                    <LinearGradient
-                      style={styles.formUpdateBtn}
-                      colors={["#FF9472", "#F2709C"]}>
-                      <Text style={{fontSize: 16, color: "#fff"}}>Update</Text>
-                    </LinearGradient>
-                  </TouchableOpacity>
-                </View>
-              )
-            }
-
-            {
-              this.state.isEditView && (
-                <View>
-                  <View style={styles.editFieldContainer}>
-                    <Text style={styles.editFiledName}>Name:</Text>
-                    <Text style={styles.editFiledValue}>{`${this.state.value.first_name} ${this.state.value.last_name}`}</Text>
-                  </View>
-                  <View style={styles.editFieldContainer}>
-                    <Text style={styles.editFiledName}>Email</Text>
-                    <Text style={styles.editFiledValue}>{this.state.value.email}</Text>
-                  </View>
-                  <View style={styles.editFieldContainer}>
-                    <Text style={styles.editFiledName}>Mobile Number</Text>
-                    <Text style={styles.editFiledValue}>{this.state.value.phone}</Text>
-                  </View>
-                  <View style={styles.editFieldContainer}>
-                    <Text style={styles.editFiledName}>Mobile Number</Text>
-                    <Text style={styles.editFiledValue}>{this.state.value.address_1}</Text>
-                  </View>
-                  <TouchableOpacity
-                    onPress={this.showFormView}
-                    style={styles.formEditBtn}>
-                    <Text style={{fontSize: 16, color: "#7C8592"}}>Edit</Text>
-                  </TouchableOpacity>
-                </View>
-              )
-            }
-
+            <Form
+              ref="form"
+              type={this.Customer}
+              options={this.options}
+              value={this.state.value}
+              onChange={this.onChange}
+            />
           </View>
         </ScrollView>
 
-        {/* <Buttons
+        <Buttons
           isAbsolute
           onPrevious={this.props.onPrevious}
           onNext={this.nextStep}
-        /> */}
+        />
       </View>
     );
   }
