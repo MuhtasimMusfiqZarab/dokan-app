@@ -118,13 +118,13 @@ class CategoryScreen extends Component {
     });
     return (
       <View style={styles.container}>
-        <Animated.View style={{ marginTop: marginControlBar }}>
+        {/* <Animated.View style={{ marginTop: marginControlBar }}>
           <ControlBar
             openCategoryPicker={this.openCategoryPicker}
             isVisible={displayControlBar}
             name={selectedCategory.name}
           />
-        </Animated.View>
+        </Animated.View> */}
         {this.renderList(products.list)}
         <SubCategoryPicker
           closeModal={this.closeCategoryPicker}
