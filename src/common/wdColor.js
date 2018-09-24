@@ -5,7 +5,7 @@ export default {
   facebook: '#3b5998',
   google: '#d34836',
 
-  main: 'blue',
+  main: '#F8F8FA',
   primaryDark: '#0097A7',
   primary: '#00BCD4',
   primaryLight: '#B2EBF2',

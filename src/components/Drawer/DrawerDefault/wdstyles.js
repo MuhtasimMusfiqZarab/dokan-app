@@ -1,7 +1,7 @@
 /** @format */
 
 import { StyleSheet } from 'react-native'
-import { Color, Styles } from '@common'
+import { Color, Styles, Device } from '@common'
 
 export default StyleSheet.create({
   container: {
@@ -10,10 +10,13 @@ export default StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: '#FFF',
+    shadowColor: "#000",
+    shadowOpacity: 0.3,
+    shadowOffset: {width: -3, height: 0}
   },
   avatarBackground: {
     flexDirection: 'row',
-    paddingTop: 10,
+    paddingTop: Device.isIphoneX ? 40 : 20,
     paddingRight: 20,
     paddingBottom: 0,
     paddingLeft: 10,

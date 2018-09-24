@@ -22,9 +22,8 @@ const Styles = {
 
   app: {
     flexGrow: 1,
-    // backgroundColor: Device.isIphoneX ? '#FFF' : '#000',
+    backgroundColor: Device.isIphoneX ? '#F8F8FA' : '#000',
     paddingTop: Device.ToolbarHeight,
-    backgroundColor: 'blue'
   },
   FontSize: {
     tiny: 12,
