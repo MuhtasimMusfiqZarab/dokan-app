@@ -130,6 +130,14 @@ const CartScreenStack = createStackNavigator(
     },
   }
 );
+CartScreenStack.navigationOptions = ({ navigation }) => {
+  let { routeName } = navigation.state.routes[navigation.state.index];
+  let navigationOptions = {};
+  
+  navigationOptions.tabBarVisible = false;
+  
+  return navigationOptions;
+};
 
 const UserProfileStack = createStackNavigator(
   {
@@ -278,7 +286,7 @@ const navigateOnce = (getStateForAction) => (action, state) => {
  * Add AppNavigator to navigateOnce bug naivgate drawer category
  */
 // AppNavigator.router.getStateForAction = navigateOnce(
-//     AppNavigator.router.getStateForAction
+// AppNavigator.router.getStateForAction
 // );
 NewsStack.router.getStateForAction = navigateOnce(
   NewsStack.router.getStateForAction
