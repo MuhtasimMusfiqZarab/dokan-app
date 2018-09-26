@@ -95,4 +95,13 @@ export default {
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
   },
+  categoryContainer: {
+    backgroundColor: "#fff",
+    width: 165,
+    height: 150,
+    borderRadius: 5,
+    margin: 10,
+    justifyContent: "center",
+    alignItems: "center"
+  }
 };

@@ -5,53 +5,23 @@
  * Created by InspireUI on 19/02/2017.
  */
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { Styles, Images, Config, Languages, Constants } from "@common";
 import { Timer, toast, BlockTimer } from "@app/Omni";
 import {
   Empty,
-  CategorySlider,
-  PostBanner,
   LogoSpinner,
-  CategoryCarousel,
 } from "@components";
-import Parallax from "react-native-parallax";
 import styles from "./styles";
 import Icon from "@expo/vector-icons/FontAwesome";
+
 
 class CategoriesScreen extends React.PureComponent {
   componentDidMount() {
     const { fetchCategories } = this.props;
     fetchCategories();
   }
-  changeLayout = () => this.props.setActiveLayout(!this.props.selectedLayout);
-
-  componentWillReceiveProps(props) {
-    const { error } = props.categories;
-    if (error) toast(error);
-  }
-
-  renderLayoutButton = () => {
-    const hitSlop = { top: 20, right: 20, left: 20, bottom: 20 };
-    return (
-      <TouchableOpacity
-        style={styles.fab}
-        onPress={this.changeLayout}
-        activeOpacity={1}
-        hitSlop={hitSlop}>
-        <Icon.Button
-          onPress={this.changeLayout}
-          color="#fff"
-          iconStyle={{ backgroundColor: "transparent", left: 5 }}
-          borderRadius={50}
-          backgroundColor="transparent"
-          name="exchange"
-          size={14}
-        />
-      </TouchableOpacity>
-    );
-  };
 
   onRowClickHandle = (category) => {
     const { setSelectedCategory, onViewCategory } = this.props;
@@ -64,6 +34,14 @@ class CategoriesScreen extends React.PureComponent {
     }, 500);
   };
 
+  _renderItem = ({item}) => (
+    <TouchableOpacity
+      style={styles.categoryContainer}
+      onPress={() => this.onRowClickHandle(item)}>
+      <Text style={{color: "#000"}}>{item.name}</Text>
+    </TouchableOpacity>
+  )
+
   render() {
     const { categories, selectedLayout } = this.props;
 
@@ -75,56 +53,18 @@ class CategoriesScreen extends React.PureComponent {
       return <LogoSpinner fullStretch />;
     }
 
-    // if (selectedLayout !== Config.CategoryListView) {
-    //   return <View>
-    //     <CategoryCarousel onViewCategory={this.onRowClickHandle}/>
-    //   </View>
-    // }
-
     const mainCategories = categories.list.filter(
       (category) => category.parent === 0
     );
     return (
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
-        <Parallax.ScrollView style={styles.fill}>
-          {mainCategories.map((category, index) => {
-            const textStyle =
-              index % 2 == 0
-                ? { marginRight: 30, textAlign: "right" }
-                : { marginLeft: 30, textAlign: "left" };
-            const categoryImage =
-              category.image !== null
-                ? { uri: category.image.src }
-                : Images.categoryPlaceholder;
-
-            return (
-              <Parallax.Image
-                key={index}
-                onPress={() => this.onRowClickHandle(category)}
-                style={styles.image}
-                overlayStyle={styles.overlay}
-                containerStyle={styles.containerStyle}
-                parallaxFactor={0.4}
-                source={categoryImage}>
-                <View
-                  style={[
-                    styles.dim_layout,
-                    index % 2 == 0 && { alignItems: "flex-end" },
-                    index % 2 != 0 && { alignItems: "flex-start" },
-                  ]}>
-                  <Text style={[styles.mainCategoryText, { ...textStyle }]}>
-                    {category.name}
-                  </Text>
-                  <Text style={[styles.numberOfProductsText, { ...textStyle }]}>
-                    {`${category.count} products`}
-                  </Text>
-                </View>
-              </Parallax.Image>
-            );
-          })}
-        </Parallax.ScrollView>
-        {/* {this.renderLayoutButton()}*/}
-      </View>
+      <FlatList
+        style={{flexDirection: "column"}}
+        numColumns={2}
+        contentContainerStyle={{alignItems: "center"}}
+        data={mainCategories}
+        keyExtractor={(item) => `${item.id}`}
+        renderItem={this._renderItem}
+      />
     );
   }
 }

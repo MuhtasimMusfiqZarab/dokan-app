@@ -127,10 +127,10 @@ class CategoryScreen extends Component {
           />
         </Animated.View>
         {this.renderList(products.list)}
-        {/* <SubCategoryPicker
+        <SubCategoryPicker
           closeModal={this.closeCategoryPicker}
           visible={modalVisible}
-        /> */}
+        />
       </View>
     );
   }
