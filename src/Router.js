@@ -6,7 +6,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, SafeAreaView } from "react-native";
 import { WooWorker } from "api-ecommerce";
 import { Config, Device, Styles } from "@common";
 import { MyToast, MyNetInfo } from "@containers";
@@ -53,6 +53,23 @@ class Router extends React.PureComponent {
     }
 
     return (
+      Device.isIphoneX ?
+      <SafeAreaView style={{flex: 1}}>
+        <MenuSide
+          goToScreen={this.goToScreen}
+          routes={
+            <View style={Styles.app}>
+              <StatusBar
+                hidden={Device.isIphoneX ? false : !Config.showStatusBar}
+              />
+              <Navigation ref={(comp) => (this.navigator = comp)} />
+              <MyToast />
+              <ModalReview />
+              <MyNetInfo />
+            </View>
+          }
+        />
+      </SafeAreaView> :
       <MenuSide
         goToScreen={this.goToScreen}
         routes={
