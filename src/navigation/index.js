@@ -32,6 +32,7 @@ import CustomPageScreen from "./CustomPageScreen";
 import ListAllScreen from "./wdListAllScreen";
 import SettingScreen from "./SettingScreen";
 import UserProfileScreen from "./wdUserProfileScreen";
+import ContactUsScreen from "./wdContactUsScreen";
 
 import TransitionConfig from "./TransitionConfig";
 
@@ -162,6 +163,17 @@ const LoginStack = createStackNavigator(
   }
 );
 
+const ContactUsStack = createStackNavigator(
+  {
+    ContactUs: { screen: ContactUsScreen },
+  },
+  {
+    navigationOptions: {
+      gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+    },
+  }
+);
+
 const AppNavigator = createBottomTabNavigator(
   {
     Default: {
@@ -249,6 +261,7 @@ const AppNavigator = createBottomTabNavigator(
       },
     },
     CategoryDetail: { screen: CategoryDetailStack },
+    ContactUs: {screen: ContactUsStack}
   },
   {
     tabBarComponent: TabBar,

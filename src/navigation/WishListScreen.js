@@ -14,7 +14,6 @@ export default class WishListScreen extends PureComponent {
     headerLeft: Back(navigation),
     headerRight: HeaderRight(navigation)
 
-
   });
 
   render() {

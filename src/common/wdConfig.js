@@ -196,7 +196,7 @@ export default {
       {
         index: 2,
         text: 'WishList',
-        routeName: 'NewsScreen',
+        routeName: 'WishListScreen',
         params: {
           isActive: false
         },
@@ -205,10 +205,10 @@ export default {
       {
         index: 3,
         text: 'My Order',
-        routeName: 'CustomPage',
+        routeName: 'MyOrders',
         params: {
-          id: 10941,
-          title: 'contactus',
+          // id: 10941,
+          // title: 'contactus',
           isActive: false
         },
         icon: Icons.MaterialCommunityIcons.Order,
@@ -249,7 +249,7 @@ export default {
       {
         index: 7,
         text: 'Contact Us',
-        routeName: 'CustomPage',
+        routeName: 'ContactUs',
         params: {
           id: 10941,
           title: 'contactus',
@@ -273,7 +273,7 @@ export default {
         text: 'About Us',
         routeName: 'CustomPage',
         params: {
-          url: 'http://inspireui.com',
+          url: 'http://ajaira.website/dokan-app',
           isActive: false
         },
         icon: Icons.MaterialCommunityIcons.About,
