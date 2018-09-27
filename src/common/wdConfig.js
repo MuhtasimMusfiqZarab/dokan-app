@@ -271,9 +271,9 @@ export default {
       {
         index: 9,
         text: 'About Us',
-        routeName: 'CustomPage',
+        routeName: 'AboutUs',
         params: {
-          url: 'http://ajaira.website/dokan-app',
+          // url: 'http://ajaira.website/dokan-app',
           isActive: false
         },
         icon: Icons.MaterialCommunityIcons.About,

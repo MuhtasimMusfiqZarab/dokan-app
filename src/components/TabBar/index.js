@@ -68,6 +68,7 @@ class TabBar extends PureComponent {
       "WishListScreen",
       "LoginStack",
       "ContactUs",
+      "AboutUs"
     ];
 
     return (

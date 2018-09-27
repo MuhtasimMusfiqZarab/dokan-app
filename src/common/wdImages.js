@@ -80,6 +80,9 @@ const Images = {
   IconDeliveryGradient: require('@images/icons/icon-delivery-gradient.png'),
   IconPaymentGradient: require('@images/icons/icon-payment-gradient.png'),
   IconOrderGradient: require('@images/icons/icon-order-gradient.png'),
+  IcVision: require('@images/ic_vision.png'),
+  IcLicense: require('@images/ic_copyright.png'),
+  IcPrivacy: require('@images/ic_lock.png'),
   ContactUs: require('@images/contactus.png'),
 
 };
