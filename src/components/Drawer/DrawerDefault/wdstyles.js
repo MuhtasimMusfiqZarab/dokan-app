@@ -1,22 +1,42 @@
 /** @format */
 
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 import { Color, Styles, Device } from '@common'
 
 export default StyleSheet.create({
   container: {
     flexGrow: 1,
     flex: 1,
-    paddingTop: 10,
+    // paddingTop: Device.isIphoneX ? 45 : 40,
+    paddingTop: 45,
     paddingBottom: 10,
     backgroundColor: '#FFF',
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: -3, height: 0}
+    ...Platform.select({
+      ios: 
+        Device.isIphoneX ?
+        {
+          position: "absolute",
+          top: -45,
+          width: "100%",
+          height: "110%",
+          shadowColor: "#000",
+          shadowOpacity: 0.3,
+          shadowRadius: 10,
+          shadowOffset: {width: 4, height: 0}
+        } :
+        {
+          shadowColor: "#000",
+          shadowOpacity: 0.3,
+          shadowRadius: 10,
+          shadowOffset: {width: 4, height: 0}
+        },
+      android: {
+        elevation: 20
+      }
+    }),
   },
   avatarBackground: {
     flexDirection: 'row',
-    paddingTop: Device.isIphoneX ? 40 : 20,
     paddingRight: 20,
     paddingBottom: 0,
     paddingLeft: 10,

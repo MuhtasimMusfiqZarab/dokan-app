@@ -14,7 +14,8 @@ import { Device } from "@common";
 
 const styles = StyleSheet.create({
   tabbar: {
-    height: Device.isIphoneX ? 60 : 49,
+    // height: Device.isIphoneX ? 60 : 49,
+    height: 49,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
