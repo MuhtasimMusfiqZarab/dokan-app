@@ -260,7 +260,7 @@ export default {
       {
         index: 8,
         text: 'Privacy Policies',
-        routeName: 'CustomPage',
+        routeName: 'PrivacyPolicy',
         params: {
           id: 10941,
           title: 'contactus',

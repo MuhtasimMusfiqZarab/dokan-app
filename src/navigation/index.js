@@ -34,6 +34,7 @@ import SettingScreen from "./SettingScreen";
 import UserProfileScreen from "./wdUserProfileScreen";
 import ContactUsScreen from "./wdContactUsScreen";
 import AboutUsScreen from "./wdAboutUsScreen";
+import PrivacyPolicyScreen from "./wdPrivacyPolicyScreen";
 
 import TransitionConfig from "./TransitionConfig";
 
@@ -186,6 +187,17 @@ const AboutUsStack = createStackNavigator(
   }
 );
 
+const PrivacyPolicyStack = createStackNavigator(
+  {
+    PrivacyPolicy: { screen: PrivacyPolicyScreen },
+  },
+  {
+    navigationOptions: {
+      gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+    },
+  }
+);
+
 const AppNavigator = createBottomTabNavigator(
   {
     Default: {
@@ -275,6 +287,7 @@ const AppNavigator = createBottomTabNavigator(
     CategoryDetail: { screen: CategoryDetailStack },
     ContactUs: { screen: ContactUsStack }, 
     AboutUs: { screen: AboutUsStack },
+    PrivacyPolicy: { screen: PrivacyPolicyStack }
   },
   {
     tabBarComponent: TabBar,

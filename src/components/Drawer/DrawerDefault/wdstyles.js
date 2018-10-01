@@ -64,6 +64,8 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 13,
     textAlign: 'left',
+    // color: Color.blackTextPrimary,
+    color: "#9EA7A7",
   },
   textItem: {
     // color: Color.blackTextPrimary,
