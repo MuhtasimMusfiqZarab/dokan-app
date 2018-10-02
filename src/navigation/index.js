@@ -24,7 +24,7 @@ import CategoryScreen from "./wdCategoryScreen";
 import DetailScreen from "./wdDetailScreen";
 import CartScreen from "./wdCartScreen";
 import MyOrdersScreen from "./MyOrdersScreen";
-import WishListScreen from "./WishListScreen";
+import WishListScreen from "./wdWishListScreen";
 import SearchScreen from "./SearchScreen";
 import LoginScreen from "./wdLoginScreen";
 import SignUpScreen from "./SignUpScreen";

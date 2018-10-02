@@ -40,6 +40,7 @@ const Images = {
   icons: {
     home: require("@images/icons/icon-homes.png"),
     back: require("@images/icons/icon-back.png"),
+    arrowBack: require("@images/ic_arrow_back.png"),
     backs: require("@images/icons/icon-backs.png"),
     next: require("@images/icons/icon-next.png"),
 

@@ -10,7 +10,7 @@ import MenuFilter from "@components/WdFilterMenu/MenuFilter";
 export default class ListAllScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: "Product List",
-    headerLeft: Back(navigation, Images.icons.backs),
+    headerLeft: Back(navigation, Images.icons.arrowBack),
     headerRight: CartWishListIcons(navigation),
 
     headerTintColor: Color.headerTintColor,

@@ -189,16 +189,18 @@ Styles.Common = {
     textAlign: 'center',
     alignSelf: 'center',
     flex: 1,
-    height: 40,
+    // height: 40,
     // backgroundColor: '#fff',
 
     fontFamily: Constants.fontFamilyLato,
     ...Platform.select({
       ios: {
+        height: 40,
         marginBottom: !Config.showStatusBar ? 14 : 0,
         marginTop: Device.isIphoneX ? -10 : 12,
       },
       android: {
+        height: 20,
         marginBottom: 4,
       },
     }),
@@ -242,8 +244,10 @@ Styles.Common = {
     }),
   },
   iconBack: {
-    width: 24,
-    marginLeft: 20,
+    // width: 24,
+    // marginLeft: 20,
+    width: 20,
+    height: 20,
   },
   toolbarFloat: {
     backgroundColor: 'transparent',
