@@ -1,0 +1,33 @@
+/** @format */
+
+import React, { PureComponent } from "react";
+import { Menu, EmptyView, Back, HeaderRight } from "./IconNav";
+
+import { Images, Config, Constants, Color, Styles, Languages } from "@common";
+import { WishList } from "@containers";
+
+export default class WishListScreen extends PureComponent {
+  static navigationOptions = ({ navigation }) => ({
+    title: "Wish List",
+    // header: null,
+    headerLeft: Back(navigation, Images.icons.arrowBack),
+    headerRight: HeaderRight(navigation),
+
+    headerTintColor: Color.headerTintColor,
+    headerStyle: Styles.Common.toolbar,
+    headerTitleStyle: Styles.Common.headerTitleStyle,
+
+  });
+
+  render() {
+    const { navigate } = this.props.navigation;
+    // const rootNavigation = this.props.screenProps.rootNavigation;
+
+    return (
+      <WishList
+        onViewProduct={(product) => navigate("Detail", product)}
+        onViewHome={() => navigate("Default")}
+      />
+    );
+  }
+}
