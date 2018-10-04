@@ -3,7 +3,8 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 import { Icons } from '@common'
 import { Icon } from '@app/Omni'
@@ -23,16 +24,25 @@ const WdSearchBox = () => (
 
 const styles = StyleSheet.create({
     searchArea: {
+        width: "90%",
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignSelf: "center",
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderColor: '#F6F2F2',
-        borderWidth: 1,
-        margin: 10,
-        shadowColor: 'black',
-        shadowOpacity: 0.3,
-        shadowOffset: {width: 0, height: 2}
+        borderRadius: 3,
+        marginTop: 20,
+        marginBottom: 20,
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000',
+                shadowOpacity: 0.3,
+                shadowOffset: {width: 0, height: 2}
+            },
+            android: {
+                elevation: 3
+            }
+        }),
     },
     searchText: {
         paddingLeft: 10,
