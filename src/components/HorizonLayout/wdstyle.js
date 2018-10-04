@@ -87,7 +87,7 @@ export default StyleSheet.create({
     width: 180,
     height: 220,
   },
-  // Added and modified by me
+  // Added and modified by weDevs
   panelThreeView: {
     position: 'relative',
     alignItems: 'flex-start',
@@ -108,7 +108,7 @@ export default StyleSheet.create({
         shadowOffset: {width: 2, height: 2}
       },
       android: {
-        elevation: 1
+        elevation: 3
       },
     }),
   },
