@@ -1,7 +1,7 @@
 /** @format */
 
 import { StyleSheet, Dimensions } from "react-native";
-import { Constants } from "@common";
+import { Constants, Color } from "@common";
 
 const { width, height } = Dimensions.get("window");
 
@@ -93,7 +93,7 @@ export default StyleSheet.create({
     fontSize: 11,
     marginRight: 0,
     marginTop: 0,
-    color: "#666",
+    color: Color.wdLightGray,
     fontFamily: Constants.fontFamily,
   },
   icon: {
@@ -103,8 +103,9 @@ export default StyleSheet.create({
   },
   tagHeader: {
     fontSize: 16,
-    color: "#666",
+    color: Color.wdDeepGray,
     letterSpacing: 2,
-    fontFamily: Constants.fontHeader,
+    fontFamily: Constants.fontFamilyLato,
+    fontWeight: "bold"
   },
 });

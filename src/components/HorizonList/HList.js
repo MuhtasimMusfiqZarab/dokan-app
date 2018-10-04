@@ -9,7 +9,7 @@ import {
   View,
   I18nManager,
 } from "react-native";
-import { Constants, Images, Languages } from "@common";
+import { Constants, Images, Languages, Color } from "@common";
 import Icon from "react-native-vector-icons/Entypo";
 import { HorizonLayout } from "@components";
 import { find } from "lodash";
@@ -108,7 +108,7 @@ class HorizonList extends PureComponent {
           <Text style={styles.headerRightText}>{Languages.seeAll}</Text>
           <Icon
             style={styles.icon}
-            color="#666"
+            color={Color.wdLightGray}
             size={20}
             name={
               I18nManager.isRTL ? "chevron-small-left" : "chevron-small-right"

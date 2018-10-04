@@ -15,11 +15,14 @@ import { HorizonLayouts } from '@common'
 import { connect } from 'react-redux'
 import { makeGetCollections } from '@selectors/LayoutSelector'
 import HList from './HList'
-import WdSearchBox from '../WdSearchBox'
-import WdNewArrival from '../WdNewArrival'
-import WdAdds from '../WdAdds'
-import WdPopularCat from '../WdPopularCat'
-import WdFeaturedVendor from '../WdFeaturedVendor'
+import {
+  WdSearchBox,
+  WdNewArrival, 
+  WdAdds,
+  WdPopularCat,
+  WdFeaturedVendor
+} from "@components";
+
 
 class HorizonList extends PureComponent {
   static propTypes = {
