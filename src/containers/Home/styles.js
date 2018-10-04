@@ -9,7 +9,7 @@ const vw = width / 100;
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F8F8FA",
   },
   toolbarIcon: {
     width: 17,

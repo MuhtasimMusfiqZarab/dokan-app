@@ -1,8 +1,7 @@
-/** @format */
-
 // @flow
 /**
  * Created by InspireUI on 19/02/2017.
+ * @format
  */
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
