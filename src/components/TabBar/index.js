@@ -52,6 +52,7 @@ class TabBar extends PureComponent {
       renderIcon,
       activeTintColor,
       inactiveTintColor,
+      activeBackgroundColor
     } = this.props;
 
     const { routes } = navigation.state;
@@ -93,7 +94,16 @@ class TabBar extends PureComponent {
                 key={route.key}
                 style={styles.tab}
                 onPress={() => this.onPress(index, route)}>
-                <Animatable.View ref={`tabItem${index}`} style={styles.tab}>
+                <Animatable.View
+                  ref={`tabItem${index}`}
+                  style={
+                    [
+                      styles.tab,
+                      {
+                        "backgroundColor" : focused ? activeBackgroundColor : "transparent"
+                      }
+                    ]
+                  }>
                   {renderIcon({
                     route,
                     index,
