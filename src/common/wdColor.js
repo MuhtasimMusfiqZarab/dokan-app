@@ -109,5 +109,7 @@ export default {
 
   // weDevs
   wdgray: '#818995',
+  wdDeepGray: '#79828F',
+  wdLightGray: '#868D9B'
 
 }

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { Constants } from "@common";
 
 export default StyleSheet.create({
@@ -7,9 +7,16 @@ export default StyleSheet.create({
         padding: 15,
         flexDirection: 'row',
         backgroundColor: '#fff',
-        shadowColor: '#000',
-        shadowOpacity: 0.2,
-        shadowOffset: {width: 0, height: 1}
+        ...Platform.select({
+            ios: {
+                shadowColor: '#000',
+                shadowOpacity: 0.2,
+                shadowOffset: {width: 0, height: 1}
+            },
+            android: {
+                elevation: 3
+            }
+        })
     },
     toolbarLeft: {
         flex: 1,
@@ -37,9 +44,16 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#fff",
-        shadowColor: "#000",
-        shadowOpacity: 0.4,
-        shadowOffset: {width: -1, height: 2}
+        ...Platform.select({
+            ios: {
+                shadowColor: "#000",
+                shadowOpacity: 0.4,
+                shadowOffset: {width: -1, height: 2}
+            },
+            android: {
+                elevation: 3
+            }
+        })   
     },
     modalContent: {
         width: "70%",
@@ -47,9 +61,16 @@ export default StyleSheet.create({
         backgroundColor: "#fff",
         padding: 15,
         marginTop: 10,
-        shadowColor: "#000",
-        shadowOpacity: 0.3,
-        shadowOffset: {width: -1, height: 2}
+        ...Platform.select({
+            ios: {
+                shadowColor: "#000",
+                shadowOpacity: 0.3,
+                shadowOffset: {width: -1, height: 2}
+            },
+            android: {
+                elevation: 3
+            }
+        })
     },
     sortingTextContainer: {
         padding: 5,

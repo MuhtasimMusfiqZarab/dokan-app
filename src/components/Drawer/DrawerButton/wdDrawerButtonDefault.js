@@ -6,7 +6,7 @@
 
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, TouchableOpacity, I18nManager, Text } from 'react-native'
+import { StyleSheet, TouchableOpacity, I18nManager, Text, Platform } from 'react-native'
 import { Styles, Color, Constants, Languages } from '@common'
 import { Icon } from '@app/Omni'
 
@@ -37,9 +37,17 @@ class DrawerButton extends PureComponent {
         <Icon
           style={
             isActive && {
-              shadowOffset:{  width: 0,  height: 2,  },
-              shadowColor: 'black',
-              shadowOpacity: 0.5,
+              ...Platform.select({
+                ios: {
+                  shadowOffset:{  width: 0,  height: 2,  },
+                  shadowColor: 'black',
+                  shadowOpacity: 0.5,
+                },
+                android: {
+                  backgroundColor: "rgba(255, 148, 114, 0.5)",
+                  elevation: 3
+                }
+              })
             }
           }
           name={icon}

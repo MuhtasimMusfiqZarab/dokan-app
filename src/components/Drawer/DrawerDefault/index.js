@@ -58,7 +58,7 @@ class DrawerDefault extends PureComponent {
   _handlePress = (item) => {
     const { goToScreen } = this.props
 
-    // To show active inactive menu by weDevs
+    // To show active inactive menu (by weDevs)
     if(item.params.isActive === false) {
       item.params.isActive = true,
       this.setState({

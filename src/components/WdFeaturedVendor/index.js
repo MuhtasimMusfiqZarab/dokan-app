@@ -4,10 +4,11 @@ import {
   View,
   StyleSheet,
   I18nManager,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo'
-import { Config, Constants } from '@common'
+import { Config, Constants, Color } from '@common'
 import Rating from '../Rating'
 
 const WdFeaturedVendor = () => (
@@ -21,7 +22,7 @@ const WdFeaturedVendor = () => (
           <Text style={styles.headerRightText}>Show All</Text>
           <Icon
             style={styles.icon}
-            color="#666"
+            color={Color.wdLightGray}
             size={20}
             name={I18nManager.isRTL ? 'chevron-small-left' : 'chevron-small-right'}
           />
@@ -38,7 +39,7 @@ const WdFeaturedVendor = () => (
                 </Text>
               </View>
               <View style={styles.vendorInfo}>
-                <Text style={{fontSize: 20, marginLeft: 5}}>
+                <Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
                   {item.name}
                 </Text>
                 <Rating rating={item.rating} />
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     marginRight: 0,
     marginTop: 0,
-    color: '#666',
+    color: Color.wdLightGray,
     fontFamily: Constants.fontFamily,
   },
   icon: {
@@ -92,12 +93,13 @@ const styles = StyleSheet.create({
   },
   tagHeader: {
     fontSize: 16,
-    color: '#666',
+    color: Color.wdDeepGray,
     letterSpacing: 2,
-    fontFamily: Constants.fontHeader,
+    fontFamily: Constants.fontFamilyLato,
+    fontWeight: "bold"
   },
   vendorDetails: {
-    width: '100%',
+    width: "100%",
     height: 95,
     borderRadius: 5,
     marginBottom: 10,
@@ -105,9 +107,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowOffset: {width: 0, height: 1}
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOpacity: 0.2,
+        shadowOffset: {width: 0, height: 1},
+      },
+      android: {
+        elevation: 3
+      }
+    }),
   },
   vendorImage: {
     width: 60,
@@ -118,8 +127,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowOffset: {width: 0, height: 1}
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOpacity: 0.2,
+        shadowOffset: {width: 0, height: 1},
+      },
+      android: {
+        elevation: 3
+      }
+    }),
   }
 })
