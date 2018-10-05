@@ -9,9 +9,10 @@ import {
   TouchableOpacity,
   Image,
   I18nManager,
+  Keyboard
 } from "react-native";
 import { connect } from "react-redux";
-import Icon from "react-native-vector-icons/Ionicons";
+import { Icon, IconIO } from "@app/Omni";
 import { Config } from "@common"
 
 import { Color, Constants, Icons, Languages } from "@common";
@@ -39,7 +40,7 @@ class Search extends PureComponent {
         <TouchableOpacity
           onPress={this.onBack}
           style={{ width: 50, justifyContent: "center", alignItems: "center" }}>
-          <Icon name={Icons.Ionicons.Close} size={30} />
+          <Icon name={Icons.MaterialCommunityIcons.Back} size={25} />
         </TouchableOpacity>
       );
     };
@@ -49,7 +50,7 @@ class Search extends PureComponent {
         <TouchableOpacity
           onPress={this.startNewSearch}
           style={{ width: 50, justifyContent: "center", alignItems: "center" }}>
-          <Icon name={Icons.Ionicons.Search} size={24} />
+          <IconIO name={Icons.Ionicons.Search} size={24} />
         </TouchableOpacity>
       );
     };
@@ -84,7 +85,7 @@ class Search extends PureComponent {
           height: 50,
           flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
           // marginBottom: 10,
-          marginTop: 20,
+          // marginTop: 20,
           borderBottomWidth: 0.5,
           borderColor: Color.DirtyBackground,
           backgroundColor: "#fff"
@@ -98,8 +99,8 @@ class Search extends PureComponent {
 
   onBack = () => {
     this.setState({ text: "" });
-    // Keyboard.dismiss();
-    this.props.onBack();
+    Keyboard.dismiss();
+    this.props.onBack(null);
   };
 
   startNewSearch = async () => {
@@ -169,16 +170,16 @@ class Search extends PureComponent {
     );
   };
 
-  handleClickTab(tabIndex) {
-    this.setState({ tabIndex });
-  }
+  // handleClickTab(tabIndex) {
+  //   this.setState({ tabIndex });
+  // }
 
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#F8F8FA" }}>
         {this.renderSearchBar()}
 
-      <View style={styles.tabView}>
+      {/* <View style={styles.tabView}>
         <View
           style={[
             styles.tabButton,
@@ -250,7 +251,7 @@ class Search extends PureComponent {
             <Text>3rd Tab</Text>
           </View>
         )}
-      </View>
+      </View> */}
         
         {/* Search Result */}
         <View style={{ flex: 1 }}>

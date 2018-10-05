@@ -11,7 +11,7 @@ import { Back, CartWishListIcons } from "./IconNav";
 export default class DetailScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     tabBarVisible: true,
-    headerLeft: Back(navigation, Images.icons.backs),
+    headerLeft: Back(navigation, Images.icons.arrowBack),
     headerRight: CartWishListIcons(navigation),
 
     // headerTintColor: Color.headerTintColor,
