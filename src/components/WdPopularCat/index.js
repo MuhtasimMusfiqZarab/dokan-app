@@ -8,8 +8,13 @@ import {
 } from 'react-native'
 import { Config } from '@common'
 import { ButtonIndex } from '@components'
+import { NavigationActions } from 'react-navigation';
 
-const WdPopularCat = () => (
+const navigateAction = NavigationActions.navigate({
+  routeName: 'CategoriesScreen',
+});
+
+const WdPopularCat = (props) => (
   <View style={styles.popCatWrapper}>
     <View style={styles.popCatContainer}>
       <View style={{width: '100%', padding:5, marginBottom: 10}}>
@@ -37,6 +42,7 @@ const WdPopularCat = () => (
 
       <View style={styles.btnContainer}>
         <ButtonIndex
+          onPress={() => props.navigation.dispatch(navigateAction)}
           type="text"
           text="View all Categories"
           textColor="#79828F"

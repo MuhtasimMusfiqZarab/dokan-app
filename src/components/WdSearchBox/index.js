@@ -2,25 +2,34 @@ import React from 'react'
 import {
   Text,
   TouchableWithoutFeedback,
+  TouchableOpacity,
   View,
   StyleSheet,
   Platform
 } from 'react-native'
 import { Icons } from '@common'
 import { Icon } from '@app/Omni'
+import { NavigationActions } from 'react-navigation';
 
-const WdSearchBox = () => (
-  <TouchableWithoutFeedback onPress={() => alert('Search Screen')}>
-    <View style={styles.searchArea}>
-      <Text style={styles.searchText}>Search Product...</Text>
-      <Icon
-        style={styles.searchIcon}
-        name={Icons.MaterialCommunityIcons.Mic}
-        size={20}
-      />
-    </View>
-  </TouchableWithoutFeedback>
-)
+const navigateAction = NavigationActions.navigate({
+  routeName: 'Search',
+
+});
+
+const WdSearchBox = (props) => {
+  return (
+    <TouchableWithoutFeedback onPress={() => props.navigation.dispatch(navigateAction)}>
+      <View style={styles.searchArea}>
+        <Text style={styles.searchText}>Search Product...</Text>
+        <Icon
+          style={styles.searchIcon}
+          name={Icons.MaterialCommunityIcons.Mic}
+          size={20}
+        />
+      </View>
+    </TouchableWithoutFeedback>
+  )
+}
 
 const styles = StyleSheet.create({
   searchArea: {

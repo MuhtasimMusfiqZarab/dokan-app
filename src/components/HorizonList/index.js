@@ -79,14 +79,14 @@ class HorizonList extends PureComponent {
   }
 
   beforeList = () => (
-    <WdSearchBox />
+    <WdSearchBox navigation={this.props.navigation} />
   )
 
   afterList = () => (
     <View>
       <WdNewArrival />
       <WdAdds />
-      <WdPopularCat />
+      <WdPopularCat navigation={this.props.navigation} />
       <WdFeaturedVendor />
     </View>
     

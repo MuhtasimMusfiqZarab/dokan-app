@@ -33,6 +33,7 @@ export default class HomeScreen extends PureComponent {
           this.props.navigation.tabBarVisible = false
           navigate('DetailScreen', item)
         }}
+        navigation={this.props.navigation}
       />
     )
   }

@@ -27,7 +27,7 @@ class Home extends PureComponent {
   }
 
   render() {
-    const { layoutHome, onViewProductScreen, onShowAll } = this.props;
+    const { layoutHome, onViewProductScreen, onShowAll, navigation } = this.props;
     const isHorizontal = layoutHome === Constants.Layout.horizon;
     return (
       <View style={styles.container}>
@@ -35,6 +35,7 @@ class Home extends PureComponent {
           <HorizonList
             onShowAll={onShowAll}
             onViewProductScreen={onViewProductScreen}
+            navigation={navigation}
           />
         )}
         {!isHorizontal && (
