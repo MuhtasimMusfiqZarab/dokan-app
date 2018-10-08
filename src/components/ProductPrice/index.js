@@ -15,14 +15,17 @@ export default class ProductPrice extends PureComponent {
   };
 
   render() {
-    const { product, hideDisCount, style } = this.props;
+    const { product, hideDisCount, style, fontsize } = this.props;
     return (
       <View style={[styles.price_wrapper, style && style]}>
         <Text
           style={[
             styles.text_list,
             styles.price,
-            { color: Color.blackTextSecondary },
+            {
+              color: Color.blackTextSecondary,
+            },
+            fontsize && {fontSize : fontsize}
           ]}>
           {`${currencyFormatter(product.price)} `}
         </Text>
