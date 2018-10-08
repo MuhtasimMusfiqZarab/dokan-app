@@ -39,12 +39,12 @@ class WdProductListToolBar extends Component {
     layoutChangeHandler = () => {
       if (this.state.currentLayout == Constants.Layout.twoColumn) {
         this.props.switchLayoutProductPage(
-          Constants.Layout.card,
+          Constants.Layout.simple,
           Icons.MaterialCommunityIcons.GridMode
         )
         this.setState({
           ...this.state,
-          currentLayout: Constants.Layout.card
+          currentLayout: Constants.Layout.simple
         })
           
       } else {
@@ -110,9 +110,11 @@ class WdProductListToolBar extends Component {
 
             <View style={styles.modalContent}>
               {
-                Config.sortingTexts.map((item) => {
+                Config.sortingTexts.map((item, index) => {
                   return (
-                    <TouchableOpacity style={styles.sortingTextContainer}>
+                    <TouchableOpacity
+                      style={styles.sortingTextContainer}
+                      key={`${index}`}>
                       <Text style={styles.sortingText}>{item}</Text>
                     </TouchableOpacity>
                   )
