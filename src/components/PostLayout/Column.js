@@ -2,7 +2,7 @@
 
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, View, Platform } from "react-native";
 import TimeAgo from "react-native-timeago";
 import { WishListIcon, ImageCache, ProductPrice, Rating } from "@components";
 import { Constants } from "@common";
@@ -20,12 +20,19 @@ export default class ColumnLayout extends PureComponent {
 
   render() {
     const { imageURL, post, type, title, date, viewPost } = this.props;
+    console.log(this.props);
     return (
       <TouchableOpacity
         activeOpacity={0.9}
         style={css.panelTwo}
         onPress={viewPost}>
-        <ImageCache uri={imageURL} style={css.imagePanelTwo} />
+
+        <View style={css.imagePanelTwo}>
+          <ImageCache
+            uri={imageURL}
+            style={{width: "70%", height: "70%"}}
+            resizemode="contain" />
+        </View>
 
         <Text style={css.nameTwo}>{title}</Text>
         {typeof type !== "undefined" && (
@@ -33,16 +40,39 @@ export default class ColumnLayout extends PureComponent {
             <TimeAgo time={date} />
           </Text>
         )}
-        {typeof type === "undefined" && (
-          <ProductPrice product={post} hideDisCount />
-        )}
+
+        <View>
+          {typeof type === "undefined" && (
+            <ProductPrice
+              product={post}
+              style={css.priceRatingTwo}
+              fontsize={14}
+              hideDisCount />
+          )}
+          {
+            typeof type === "undefined" &&
+            <Rating rating={post.average_rating} style={css.priceRatingTwo} />
+          }
+        </View>
+
         {typeof type === "undefined" && (
           <WishListIcon
             product={post}
-            style={Constants.RTL ? { left: 20 } : { right: 25 }}
+            style={
+              [
+                Constants.RTL ? { left: 20 } : { right: 25 },
+                {
+                  ...Platform.select({
+                    android: {
+                      elevation: 5
+                    }
+                  })
+                }
+              ]
+            }
           />
         )}
-        {typeof type === "undefined" && <Rating rating={post.average_rating} />}
+
       </TouchableOpacity>
     );
   }

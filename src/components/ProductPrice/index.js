@@ -24,6 +24,7 @@ export default class ProductPrice extends PureComponent {
             styles.price,
             {
               color: Color.blackTextSecondary,
+              fontWeight: "bold"
             },
             fontsize && {fontSize : fontsize}
           ]}>

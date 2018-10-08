@@ -55,20 +55,34 @@ export default StyleSheet.create({
     width: width / 2 - 30,
     height: width / 3,
     borderRadius: 3,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 1}
+      },
+      android: {
+        elevation: 3
+      }
+    }),
   },
   nameTwo: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: "400",
     width: width / 2 - 30,
     marginLeft: 8,
     marginRight: 8,
     marginTop: 8,
-    fontFamily:
-      Platform.OS != "android"
-        ? Constants.fontHeader
-        : Constants.fontHeaderAndroid,
-    textAlign: "center",
-    color: Color.Text,
+    // fontFamily:
+    //   Platform.OS != "android"
+    //     ? Constants.fontHeader
+    //     : Constants.fontHeaderAndroid,
+    fontFamily: Constants.fontFamily,
+    // textAlign: "center",
+    color: Color.textGray,
   },
   timeTwo: {
     alignSelf: I18nManager.isRTL ? "flex-end" : "flex-start",
@@ -83,9 +97,10 @@ export default StyleSheet.create({
         : Constants.fontHeaderAndroid,
   },
   panelList: {
-    backgroundColor: "#FFF",
-    borderColor: "#eee",
-    borderBottomWidth: 1,
+    // backgroundColor: "#FFF",
+    // borderColor: "#eee",
+    // borderBottomWidth: 1,
+    paddingLeft: 12,
     flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
   },
   imageList: {
@@ -273,14 +288,20 @@ export default StyleSheet.create({
     fontWeight: "300",
   },
   simpleTitle: {
-    fontSize: 13,
+    fontSize: 14,
     marginLeft: 4,
     marginTop: 12,
     marginRight: 8,
-    color: "#333",
+    color: Color.textGray,
     fontWeight: "400",
-    fontFamily: Constants.fontHeader,
+    fontFamily: Constants.fontFamily,
     textAlign: I18nManager.isRTL ? "right" : "left",
+  },
+  simpleVendorNameView: { // by weDevs
+    flexDirection: "row",
+    marginLeft: 4,
+    marginTop: 5,
+    marginBottom: 5
   },
   simpleContent: {
     width: vw * 63,
@@ -298,6 +319,18 @@ export default StyleSheet.create({
     height: vw * 25,
     // resizeMode: 'cover',
     borderRadius: 2,
+    backgroundColor: "#fff",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 1}
+      },
+      android: {
+        elevation: 3
+      }
+    })
+
   },
   panelThree: {
     position: "relative",
@@ -344,4 +377,12 @@ export default StyleSheet.create({
     right: 5,
     zIndex: 9999,
   },
+  // by weDevs
+  priceRatingTwo: {
+    alignItems: "flex-start",
+    width: width / 2 - 30,
+    marginLeft: 8,
+    marginRight: 8,
+    marginTop: 8,
+  }
 });

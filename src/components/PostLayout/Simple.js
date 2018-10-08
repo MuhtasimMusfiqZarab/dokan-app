@@ -3,7 +3,8 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Text, View, TouchableOpacity, I18nManager } from "react-native";
-import { WishListIcon, ImageCache, ProductPrice } from "@components";
+import { WishListIcon, ImageCache, ProductPrice, Rating } from "@components";
+import { Color } from "@common";
 import css from "./style";
 
 export default class SimpleLayout extends PureComponent {
@@ -42,15 +43,36 @@ export default class SimpleLayout extends PureComponent {
     };
 
     return (
-      <TouchableOpacity
-        activeOpacity={0.9}
+      <View
         style={[
           css.panelList,
           I18nManager.isRTL && { flexDirection: "row-reverse" },
         ]}
-        onPress={viewPost}>
+        >
+
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={css.simpleImage}
+          onPress={viewPost}>
+          <ImageCache
+            uri={imageURL}
+            style={{width: "70%", height: "70%"}}
+            resizemode="contain" />
+          {typeof type === "undefined" && (
+            <WishListIcon product={post} style={{ top: 5, right: 10 }} />
+          )}
+        </TouchableOpacity>
+
         <View style={css.simpleContent}>
           <Text style={css.simpleTitle}>{title}</Text>
+
+          <View style={css.simpleVendorNameView}>
+            <Text style={{color: Color.textGray, fontSize: 12}}>by</Text>
+            <TouchableOpacity>
+              <Text style={{color: Color.textBlue, fontSize: 12, marginLeft: 5}}>Vendor Name</Text>
+            </TouchableOpacity>
+          </View>
+
           {description && <Text style={css.simpleDesc}>{description}</Text>}
           <View>
             {typeof type === "undefined" && (
@@ -65,13 +87,15 @@ export default class SimpleLayout extends PureComponent {
                 <Text style={css.category}>- {category}</Text>
               </TouchableOpacity>
             )}
+            {
+              typeof type === "undefined" &&
+              <Rating rating={post.average_rating} />
+            }
+
           </View>
         </View>
-        <ImageCache uri={imageURL} style={css.simpleImage} />
-        {typeof type === "undefined" && (
-          <WishListIcon product={post} style={{ top: 15 }} />
-        )}
-      </TouchableOpacity>
+        
+      </View>
     );
   }
 }
