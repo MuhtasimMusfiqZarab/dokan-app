@@ -22,11 +22,15 @@ class Rating extends PureComponent {
       );
     }
 
-    return formatRating > 0 ? (
+    // return formatRating > 0 ? (
+    //   <View style={[styles.container, style]}>{stars}</View>
+    // ) : (
+    //   <View />
+    // );
+
+    return (
       <View style={[styles.container, style]}>{stars}</View>
-    ) : (
-      <View />
-    );
+    )
   }
 }
 
