@@ -109,7 +109,6 @@ class ProductList extends PureComponent {
         <AnimatedFlatList
           contentContainerStyle={styles.flatlist}
           data={list}
-          extraData={this.props.layoutProductScreen}
           keyExtractor={(item, index) => `${item.id} || ${index}`}
           renderItem={this.renderItem}
           ListHeaderComponent={this.headerComponent}

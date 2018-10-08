@@ -1,7 +1,7 @@
 /** @format */
 
 import { StyleSheet, Platform, Dimensions } from "react-native";
-import { Constants } from "@common";
+import { Constants, Color } from "@common";
 
 const { width, height } = Dimensions.get("window");
 
@@ -10,7 +10,8 @@ export default StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     paddingBottom: 40,
-    paddingTop: Platform.OS === "ios" ? 50 : 50
+    // paddingTop: Platform.OS === "ios" ? 50 : 50
+    paddingTop: 25
   },
   more: {
     width,
@@ -55,6 +56,7 @@ export default StyleSheet.create({
   },
   listView: {
     flex: 1,
-    backgroundColor: "rgba(255,255,255,1)",
+    // backgroundColor: "rgba(255,255,255,1)",
+    backgroundColor: Color.main
   },
 });
