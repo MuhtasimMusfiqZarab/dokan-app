@@ -108,6 +108,8 @@ export default {
   blue2: 'rgba(3, 207, 254, 1)',
 
   // weDevs
+  textGray: "#7F8894",
+  textBlue: "#9B59B6",
   wdgray: '#818995',
   wdDeepGray: '#79828F',
   wdLightGray: '#868D9B'
