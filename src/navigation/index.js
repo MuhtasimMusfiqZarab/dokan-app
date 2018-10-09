@@ -133,14 +133,6 @@ const CartScreenStack = createStackNavigator(
     },
   }
 );
-CartScreenStack.navigationOptions = ({ navigation }) => {
-  let { routeName } = navigation.state.routes[navigation.state.index];
-  let navigationOptions = {};
-  
-  navigationOptions.tabBarVisible = false;
-  
-  return navigationOptions;
-};
 
 const UserProfileStack = createStackNavigator(
   {
@@ -197,6 +189,28 @@ const PrivacyPolicyStack = createStackNavigator(
     },
   }
 );
+
+// Hide bottom navigator by weDevs
+CartScreenStack.navigationOptions = ({ navigation }) => {
+  let { routeName } = navigation.state.routes[navigation.state.index];
+  let navigationOptions = {};
+  
+  navigationOptions.tabBarVisible = false;
+  
+  return navigationOptions;
+};
+HomeStack.navigationOptions = ({ navigation }) => {
+  let { routeName } = navigation.state.routes[navigation.state.index];
+  let navigationOptions = {};
+
+  if(routeName === "DetailScreen") {
+    navigationOptions.tabBarVisible = false;
+  }
+
+  return navigationOptions;
+}
+// end
+
 
 const AppNavigator = createBottomTabNavigator(
   {
