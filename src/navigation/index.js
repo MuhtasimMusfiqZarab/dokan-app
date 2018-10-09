@@ -23,7 +23,7 @@ import CategoriesScreen from "./wdCategoriesScreen";
 import CategoryScreen from "./wdCategoryScreen";
 import DetailScreen from "./wdDetailScreen";
 import CartScreen from "./wdCartScreen";
-import MyOrdersScreen from "./MyOrdersScreen";
+import MyOrdersScreen from "./wdMyOrdersScreen";
 import WishListScreen from "./wdWishListScreen";
 import SearchScreen from "./SearchScreen";
 import LoginScreen from "./wdLoginScreen";
@@ -157,6 +157,17 @@ const LoginStack = createStackNavigator(
   }
 );
 
+// New StackNavigators by weDevs
+const MyOrdersStack = createStackNavigator(
+  {
+    MyOrdes: { screen: MyOrdersScreen },
+  },
+  {
+    navigationOptions: {
+      gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+    },
+  }
+);
 const ContactUsStack = createStackNavigator(
   {
     ContactUs: { screen: ContactUsScreen },
@@ -167,7 +178,6 @@ const ContactUsStack = createStackNavigator(
     },
   }
 );
-
 const AboutUsStack = createStackNavigator(
   {
     AboutUs: { screen: AboutUsScreen },
@@ -178,7 +188,6 @@ const AboutUsStack = createStackNavigator(
     },
   }
 );
-
 const PrivacyPolicyStack = createStackNavigator(
   {
     PrivacyPolicy: { screen: PrivacyPolicyScreen },
@@ -189,6 +198,7 @@ const PrivacyPolicyStack = createStackNavigator(
     },
   }
 );
+// End
 
 // Hide bottom navigator by weDevs
 CartScreenStack.navigationOptions = ({ navigation }) => {
@@ -209,7 +219,7 @@ HomeStack.navigationOptions = ({ navigation }) => {
 
   return navigationOptions;
 }
-// end
+// End
 
 
 const AppNavigator = createBottomTabNavigator(
@@ -285,7 +295,19 @@ const AppNavigator = createBottomTabNavigator(
         ),
       },
     },
-    MyOrders: { screen: MyOrdersScreen },
+    MyOrders: { 
+      screen: MyOrdersStack,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => (
+          <TabBarIcon
+            orderIcon
+            css={{ width: 18, height: 18 }}
+            icon={Images.IconOrder}
+            tintColor={tintColor}
+          />
+        ),
+      } 
+    },
     NewsScreen: { screen: NewsStack },
     SettingScreen: { screen: SettingScreen },
     LoginStack: { screen: LoginStack },

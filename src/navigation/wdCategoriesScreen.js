@@ -16,8 +16,6 @@ export default class CategoriesScreen extends PureComponent {
     headerTintColor: Color.headerTintColor,
     headerStyle: Styles.Common.toolbar,
     headerTitleStyle: Styles.Common.headerTitleStyle,
-
-    tabBarVisible: false
   });
 
   render() {

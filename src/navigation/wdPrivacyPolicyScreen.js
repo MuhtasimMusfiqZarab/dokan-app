@@ -14,7 +14,7 @@ import { WishList } from "@containers";
 export default class PrivacyPolicyScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: "Privacy Policy",
-    headerLeft: Back(navigation),
+    headerLeft: Back(navigation, Images.icons.arrowBack),
     headerRight: HeaderRight(navigation),
 
     headerTintColor: Color.headerTintColor,

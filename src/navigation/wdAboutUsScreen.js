@@ -15,7 +15,7 @@ import { WishList } from "@containers";
 export default class AboutUsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: "About Us",
-    headerLeft: Back(navigation),
+    headerLeft: Back(navigation, Images.icons.arrowBack),
     headerRight: HeaderRight(navigation),
 
     headerTintColor: Color.headerTintColor,

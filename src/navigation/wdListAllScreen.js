@@ -20,6 +20,7 @@ export default class ListAllScreen extends Component {
 
 
   render() {
+    console.log(this.props.navigation);
     const { state, navigate } = this.props.navigation
     const params = state.params
 
