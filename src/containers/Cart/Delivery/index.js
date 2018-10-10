@@ -105,7 +105,7 @@ class Delivery extends PureComponent {
 
     // form options
     this.options = {
-      auto: "none", // we have labels and placeholders as option here (in Engrish, ofcourse).
+      auto: "none", // we have labels and placeholders as option here (in English, ofcourse).
       // stylesheet: css,
       fields: {
         first_name: {
@@ -268,10 +268,20 @@ class Delivery extends PureComponent {
   };
 
   showEditView = () => {
-    this.setState({
-      isFormView: false,
-      isEditView: true
-    })
+    const value = this.refs.form.getValue();
+    if (value) {
+      this.setState({
+        isFormView: false,
+        isEditView: true
+      })
+      // populate userInfo with form values
+      this.props.onChangeUserInfo(value)
+      this.props.onSaveUserData()
+
+      // save user info for next use
+      this.saveUserData(value);
+    }
+    
   }
 
   showFormView = () => {

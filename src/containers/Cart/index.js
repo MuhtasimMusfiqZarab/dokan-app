@@ -188,6 +188,11 @@ class Cart extends PureComponent {
     }, 1500);
   };
 
+  onChangeUserInfo = (formValues) => { //weDevs
+    console.log(formValues);
+    this.setState({ userInfo: formValues });
+  }
+
   render() {
     const { onViewProduct, navigation, cartItems, onViewHome } = this.props;
     const { currentIndex } = this.state;
@@ -250,7 +255,6 @@ class Cart extends PureComponent {
               navigation={navigation}
               onViewProduct={onViewProduct}
             />
-
             {/* <Delivery
               key="delivery"
               onNext={(formValues) => {
@@ -264,6 +268,7 @@ class Cart extends PureComponent {
               onPrevious={this.onPrevious}
               onNext={this.onNext}
               userInfo={this.state.userInfo}
+              onChangeUserInfo = {this.onChangeUserInfo}
               isLoading={this.state.isLoading}
               onShowCheckOut={this.onShowCheckOut}
             />

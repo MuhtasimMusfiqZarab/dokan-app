@@ -6,7 +6,9 @@ import { Constants, Color } from "@common";
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: Color.main,
+    justifyContent: "center",
+    alignItems: "center"
   },
   title: {
     textAlign: "center",
@@ -43,7 +45,7 @@ export default StyleSheet.create({
   },
   btnNextContainer: {
     flex: 1,
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
     alignItems: "center",
     marginBottom: 10,
   },
