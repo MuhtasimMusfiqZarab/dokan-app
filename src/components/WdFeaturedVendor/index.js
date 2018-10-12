@@ -5,16 +5,22 @@ import {
   StyleSheet,
   I18nManager,
   TouchableOpacity,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Entypo'
 import { Config, Constants, Color } from '@common'
 import Rating from '../Rating'
+import { NavigationActions } from 'react-navigation';
 
-const WdFeaturedVendor = () => (
+const navigateAction = NavigationActions.navigate({
+  routeName: 'VendorProfileScreen',
+});
+
+const WdFeaturedVendor = (props) => (
     <View style={styles.container}>
 
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <View style={styles.headerLeft}>
           <Text style={styles.tagHeader}>Featured Vendor</Text>
         </View>
@@ -27,12 +33,15 @@ const WdFeaturedVendor = () => (
             name={I18nManager.isRTL ? 'chevron-small-left' : 'chevron-small-right'}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       {
-        Config.faeturedVendor.map((item, index) => {
+        Config.featuredVendor.map((item, index) => {
           return(
-            <View key={`fd-${index}`} style={styles.vendorDetails}>
+            <TouchableOpacity
+              key={`fd-${index}`}
+              style={styles.vendorDetails}
+              onPress={ () => props.navigation.dispatch(navigateAction) } >
               <View style={styles.vendorImage}>
                 <Text style={{fontSize: 24, color: item.color}}>
                   {item.text}
@@ -44,7 +53,7 @@ const WdFeaturedVendor = () => (
                 </Text>
                 <Rating rating={item.rating} />
               </View>
-            </View>
+            </TouchableOpacity>
           )
         })
       }
@@ -58,8 +67,7 @@ const styles = StyleSheet.create({
   container: {
     paddingLeft: 15,
     paddingRight: 15,
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: Dimensions.get('window').width,
   },
   header: {
     flexDirection: 'row',
