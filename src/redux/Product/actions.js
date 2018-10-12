@@ -4,7 +4,7 @@
  * @format
  */
 
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 
 export const TOGGLE_PRODUCT_VIEW_MODE = "TOGGLE_PRODUCT_VIEW_MODE";
 
