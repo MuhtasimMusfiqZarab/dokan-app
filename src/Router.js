@@ -7,7 +7,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, StatusBar, SafeAreaView } from "react-native";
-// import { WooWorker } from "api-ecommerce";
 import WooWorker from "@services/WooCommerce/WooWorker";
 import { Config, Device, Styles } from "@common";
 import { MyToast, MyNetInfo } from "@containers";

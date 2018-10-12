@@ -15,7 +15,7 @@ import { warn, toast, IconIO } from "@app/Omni";
 import { Button } from "@components";
 import { Languages, Config, Icons } from "@common";
 import Buttons from "@cart/Buttons";
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 import HTML from "react-native-render-html";
 import styles from "./styles";
 import { LinearGradient } from "@expo";
@@ -142,7 +142,6 @@ class PaymentOptions extends PureComponent {
         customer_note: typeof userInfo.note !== "undefined" ? userInfo.note : "",
         currency: currency.code,
       };
-
       // check the shipping info
       if (Config.shipping.visible) {
         payload.shipping_lines = this.getShippingMethod();
@@ -172,10 +171,22 @@ class PaymentOptions extends PureComponent {
         );
       } else {
         // other kind of payment
-        this.props.onShowCheckOut(payload);
+        // this.props.onShowCheckOut(payload);
+        this.setState({ loading: true });
+        const json = WooWorker.createNewOrder(
+          payload,
+          () => {
+            this.setState({ loading: false });
+            return json;
+          },
+          () => {
+            this.setState({ loading: false });
+          }
+        );
+        console.log(json);
       }
     } else {
-      alert("Update your information");
+      alert("Update your delivery information");
     }
   };
 

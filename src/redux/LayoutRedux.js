@@ -7,7 +7,7 @@
 import { flatten } from "lodash";
 import { HorizonLayouts, Languages } from "@common";
 // import { warn } from '@app/Omni'
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 
 const types = {
   LAYOUT_FETCH_SUCCESS: "LAYOUT_FETCH_SUCCESS",

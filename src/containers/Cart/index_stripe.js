@@ -10,7 +10,7 @@ import {
   PAYMENT_ERROR_CODE,
 } from "@services/PayPalAPI";
 import { PaypalPanel, StepIndicator, StripePanel } from "@components";
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 import StripeAPI from "@services/StripeAPI";
 import stripe from "tipsi-stripe";
 import { Languages, Images, Config } from "@common";

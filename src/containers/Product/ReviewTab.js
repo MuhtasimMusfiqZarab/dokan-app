@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 import moment from "moment";
 import { Color, Languages } from "@common";
 import Rating from "@components/Rating";

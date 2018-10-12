@@ -19,7 +19,7 @@ import { connect } from "react-redux";
 import { Icons, Color, Languages, Styles, Config } from "@common";
 import { Icon, toast, warn, FacebookAPI } from "@app/Omni";
 import { Spinner, ButtonIndex } from "@components";
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 import WPUserAPI from "@services/WPUserAPI";
 import styles from "./styles";
 

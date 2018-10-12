@@ -6,7 +6,7 @@
 
 import { Config } from "@common";
 // import { warn } from '@app/Omni'
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 
 const types = {
   FETCH_CATEGORIES_PENDING: "FETCH_CATEGORIES_PENDING",

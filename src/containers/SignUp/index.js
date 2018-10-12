@@ -15,7 +15,7 @@ import {
   LayoutAnimation,
   I18nManager,
 } from "react-native";
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 import { Styles, Languages, Color } from "@common";
 import { toast, error, Validate } from "@app/Omni";
 import Button from "@components/Button";

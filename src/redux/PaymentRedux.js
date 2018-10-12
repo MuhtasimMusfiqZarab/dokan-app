@@ -4,7 +4,7 @@
  * @format
  */
 
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 
 const types = {
   PAYMENT_FETCH_SUCCESS: "PAYMENT_FETCH_SUCCESS",

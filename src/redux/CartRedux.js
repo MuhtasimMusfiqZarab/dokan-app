@@ -1,7 +1,7 @@
 /** @format */
 
 import { Constants, warn, Languages } from "@common";
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 import Validate from "../ultils/Validate.js";
 
 const types = {

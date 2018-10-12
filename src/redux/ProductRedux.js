@@ -6,7 +6,7 @@
 
 import { Constants, Languages, Icons } from "@common";
 import moment from "moment";
-import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 
 const types = {
   FETCH_PRODUCTS_PENDING: "FETCH_PRODUCTS_PENDING",
