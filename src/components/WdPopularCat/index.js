@@ -4,7 +4,8 @@ import {
   Image,
   View,
   StyleSheet,
-  Platform
+  Platform,
+  Dimensions
 } from 'react-native'
 import { Config } from '@common'
 import { ButtonIndex } from '@components'
@@ -14,64 +15,67 @@ const navigateAction = NavigationActions.navigate({
   routeName: 'CategoriesScreen',
 });
 
-const WdPopularCat = (props) => (
-  <View style={styles.popCatWrapper}>
-    <View style={styles.popCatContainer}>
-      <View style={{width: '100%', padding:5, marginBottom: 10}}>
-        <Text style={{color: '#79828F', fontSize: 18}}>Popular Categories</Text>
-      </View>
-      {
-        Config.popularCat.map((category, index) => {
-          return (
-            <View
-              key={`pcat-${index}`}
-              style={
-                [
-                  styles.popCat,
-                  {
-                    backgroundColor: category.colorRGB
-                  }
-                ]
-              }>
-                <Image source={category.icon} style={{width: 35, height: 29}} />
-                <Text style={{color: '#808894', marginTop: 5}}>{category.Name}</Text>
-            </View>
-          )
-        })
-      }
+const WdPopularCat = (props) => {
+  return (
+    <View style={styles.popCatWrapper}>
+      <View style={styles.popCatContainer}>
+        <View style={{width: '100%', padding:5, marginBottom: 10}}>
+          <Text style={{color: '#79828F', fontSize: 18}}>Popular Categories</Text>
+        </View>
+        {
+          Config.popularCat.map((category, index) => {
+            return (
+              <View
+                key={`pcat-${index}`}
+                style={
+                  [
+                    styles.popCat,
+                    {
+                      backgroundColor: category.colorRGB
+                    }
+                  ]
+                }>
+                  <Image source={category.icon} style={{width: 35, height: 29}} />
+                  <Text style={{color: '#808894', marginTop: 5}}>{category.Name}</Text>
+              </View>
+            )
+          })
+        }
 
-      <View style={styles.btnContainer}>
-        <ButtonIndex
-          onPress={() => props.navigation.dispatch(navigateAction)}
-          type="text"
-          text="View all Categories"
-          textColor="#79828F"
-          containerColor="#fff"
-          containerStyle={
-            {
-              width: '70%',
-              ...Platform.select({
-                ios: {
-                  shadowColor: '#000',
-                  shadowOpacity: 0.1,
-                  shadowOffset: {width: 1, height: 1},
-                },
-                android: {
-                  elevation: 3
-                }
-              }),
-            }
-          } 
-        />
+        <View style={styles.btnContainer}>
+          <ButtonIndex
+            onPress={ () => props.navigation.dispatch(navigateAction) }
+            type="text"
+            text="View all Categories"
+            textColor="#79828F"
+            containerColor="#fff"
+            containerStyle={
+              {
+                width: '70%',
+                ...Platform.select({
+                  ios: {
+                    shadowColor: '#000',
+                    shadowOpacity: 0.1,
+                    shadowOffset: {width: 1, height: 1},
+                  },
+                  android: {
+                    elevation: 3
+                  }
+                }),
+              }
+            } 
+          />
+        </View>
       </View>
     </View>
-  </View>
-)
+  )
+}
 
 export default WdPopularCat
 
 const styles = StyleSheet.create({
   popCatWrapper: {
+    width: Dimensions.get('window').width,
     padding: 15
   },
   popCatContainer: {
