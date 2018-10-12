@@ -15,13 +15,7 @@ import { HorizonLayouts } from '@common'
 import { connect } from 'react-redux'
 import { makeGetCollections } from '@selectors/LayoutSelector'
 import HList from './HList'
-import {
-  WdSearchBox,
-  WdNewArrival, 
-  WdAdds,
-  WdPopularCat,
-  WdFeaturedVendor
-} from "@components";
+import { WdSearchBox } from "@components";
 
 
 class HorizonList extends PureComponent {
@@ -45,6 +39,7 @@ class HorizonList extends PureComponent {
    */
   _fetchAllPost = () => {
     this.props.fetchAllProductsLayout()
+    this.props.fetchAllVendors()
   }
 
   _fetchPost = ({ config, index, page }) => {
@@ -74,22 +69,13 @@ class HorizonList extends PureComponent {
         fetchPost={this._fetchPost}
         fetchProductsByCollections={fetchProductsByCollections}
         setSelectedCategory={setSelectedCategory}
+        navigation={this.props.navigation}
       />
     )
   }
 
   beforeList = () => (
     <WdSearchBox navigation={this.props.navigation} />
-  )
-
-  afterList = () => (
-    <View>
-      <WdNewArrival />
-      <WdAdds />
-      <WdPopularCat navigation={this.props.navigation} />
-      <WdFeaturedVendor />
-    </View>
-    
   )
 
   render() {
@@ -109,7 +95,7 @@ class HorizonList extends PureComponent {
           />
         }
         ListHeaderComponent={this.beforeList}
-        ListFooterComponent={this.afterList}
+        // ListFooterComponent={this.afterList}
       />
     
     )
@@ -119,6 +105,9 @@ class HorizonList extends PureComponent {
 const makeMapStateToProps = () => {
   const getCollections = makeGetCollections()
   const mapStateToProps = (state, props) => {
+    const collections = getCollections(state, props);
+    // console.log(collections)
+
     return {
       collections: getCollections(state, props),
       // collections: state.layouts.layout,
@@ -133,6 +122,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps
   const { actions: LayoutActions } = require('@redux/LayoutRedux')
   const { actions: CategoryActions } = require('@redux/CategoryRedux')
+  const { actions: VendorActions } = require('@redux/VendorRedux')
   return {
     ...ownProps,
     ...stateProps,
@@ -151,6 +141,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     fetchAllProductsLayout: () => {
       LayoutActions.fetchAllProductsLayout(dispatch)
     },
+    fetchAllVendors: () => {
+      VendorActions.fetchFeaturedVendors(dispatch);
+    }
   }
 }
 

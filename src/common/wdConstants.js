@@ -77,6 +77,9 @@ const Constants = {
     horizon: 7,
     twoColumnHigh: 8,
     miniBanner: 9,
+    newArrival: 10,
+    popularCategory: 11,
+    featuredVendor: 12
   },
   pagingLimit: 10,
 

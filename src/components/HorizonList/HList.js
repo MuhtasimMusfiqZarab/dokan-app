@@ -87,6 +87,7 @@ class HorizonList extends PureComponent {
         key={`post-${index}`}
         onViewPost={() => this.onViewProductScreen(item, index)}
         layout={layout}
+        navigation={this.props.navigation}
       />
     );
   };

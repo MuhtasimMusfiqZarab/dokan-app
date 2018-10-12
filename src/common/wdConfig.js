@@ -35,31 +35,39 @@ export default {
   HorizonLayout: [
     { tag: 273, paging: true, layout: Constants.Layout.miniBanner },
     {
-      name: 'featureProducts',
+      name: 'featuredProducts',
       category: 21,
       image: Images.Banner.Feature,
       layout: Constants.Layout.threeColumn,
     },
     {
-      name: 'bagsCollections',
+      // name: 'newArrival',
+      // category: 23,
+      // image: Images.Banner.Bag,
+      layout: Constants.Layout.newArrival,
+    },
+    {
+      name: 'bestSellingProducts',
       category: 23,
       image: Images.Banner.Bag,
-      // layout: Constants.Layout.twoColumn,
       layout: Constants.Layout.threeColumn,
     },
     {
-      name: 'womanBestSeller',
+      name: 'topRatedProducts',
       category: 22,
       image: Images.Banner.Woman,
-      // layout: Constants.Layout.twoColumnHigh,
       layout: Constants.Layout.threeColumn,
     },
     {
-      name: 'manCollections',
-      category: 18,
-      image: Images.Banner.Man,
-      // layout: Constants.Layout.card,
-      layout: Constants.Layout.threeColumn,
+      // category: 18,
+      // image: Images.Banner.Man,
+      layout: Constants.Layout.popularCategory,
+    },
+    {
+      name: 'featuredVendor',
+      // category: 18,
+      // image: Images.Banner.Man,
+      layout: Constants.Layout.featuredVendor,
     },
   ],
 
@@ -372,7 +380,7 @@ export default {
       colorRGB: 'rgba(59, 128, 244, 0.05)',
     }
   ],
-  faeturedVendor: [
+  featuredVendor: [
     {
       name: 'Glaze Concept',
       rating: 2,
