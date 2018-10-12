@@ -32,6 +32,7 @@ import CustomPageScreen from "./CustomPageScreen";
 import ListAllScreen from "./wdListAllScreen";
 import SettingScreen from "./SettingScreen";
 import UserProfileScreen from "./wdUserProfileScreen";
+import VendorProfileScreen from "./wdVendorProfileScreen";
 import ContactUsScreen from "./wdContactUsScreen";
 import AboutUsScreen from "./wdAboutUsScreen";
 import PrivacyPolicyScreen from "./wdPrivacyPolicyScreen";
@@ -161,6 +162,16 @@ const LoginStack = createStackNavigator(
 const MyOrdersStack = createStackNavigator(
   {
     MyOrdes: { screen: MyOrdersScreen },
+  },
+  {
+    navigationOptions: {
+      gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+    },
+  }
+);
+const VendorProfileStack = createStackNavigator(
+  {
+    VendorProfile: { screen: VendorProfileScreen },
   },
   {
     navigationOptions: {
@@ -321,6 +332,9 @@ const AppNavigator = createBottomTabNavigator(
       },
     },
     CategoryDetail: { screen: CategoryDetailStack },
+    VendorProfileScreen: {
+      screen: VendorProfileStack,
+    },
     ContactUs: { screen: ContactUsStack }, 
     AboutUs: { screen: AboutUsStack },
     PrivacyPolicy: { screen: PrivacyPolicyStack }
