@@ -276,10 +276,18 @@ export default new LocalizedStrings({
     DontHaveAccount: "Don't have an account?",
 
     // Horizontal
-    featureProducts: "Feature Products",
-    bagsCollections: "Bags Collections",
-    womanBestSeller: "Woman Best Seller",
+    // featureProducts: "Featured Products",
+    // bagsCollections: "Bags Collections",
+    // womanBestSeller: "Woman Best Seller",
+    // manCollections: "Man Collections",
+
+    // Horizontal by weDevs
+    featuredProducts: "Featured Products",
+    bestSellingProducts: "Best Selling Products",
+    topRatedProducts: "Top Rated Products",
     manCollections: "Man Collections",
+    featuredVendor: "Featured Vendors",
+    // end
 
     // Modal
     Select: "Select",

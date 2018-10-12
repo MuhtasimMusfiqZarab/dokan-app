@@ -54,7 +54,7 @@ export default {
   TabDeActive: 'white',
   TabActiveText: '#333',
   TabText: '#333',
-  BuyNowButton: '#00BCD4',
+  BuyNowButton: '#E74C3C',
   OutOfStockButton: '#a44',
 
   ViewBorder: '#bcbebb',
@@ -110,6 +110,7 @@ export default {
   // weDevs
   textGray: "#7F8894",
   textBlue: "#9B59B6",
+  wdred1: "#E74C3C",
   wdgray: '#818995',
   wdDeepGray: '#79828F',
   wdLightGray: '#868D9B'
