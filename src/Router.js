@@ -7,7 +7,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, StatusBar, SafeAreaView } from "react-native";
-import { WooWorker } from "api-ecommerce";
+// import { WooWorker } from "api-ecommerce";
+import WooWorker from "@services/WooCommerce/WooWorker";
 import { Config, Device, Styles } from "@common";
 import { MyToast, MyNetInfo } from "@containers";
 import { AppIntro, ModalReview } from "@components";
@@ -20,6 +21,7 @@ import MenuSide from "@components/LeftMenu/MenuOverlay";
 // import MenuSide from '@components/LeftMenu/MenuWide';
 
 import { toast, closeDrawer } from "./Omni";
+import DokanWorker from "./services/Dokan/DokanWorker";
 
 class Router extends React.PureComponent {
   static propTypes = {
@@ -37,6 +39,14 @@ class Router extends React.PureComponent {
       queryStringAuth: true,
       language: this.props.language.lang,
     });
+
+    // init DokanWorker
+    // DokanWorker.init({
+    //   url: Config.WooCommerce.url,
+    //   wp_api: true,
+    //   version: "dokan/v1",
+    //   language: this.props.language.lang,
+    // });
   }
 
   goToScreen = (routeName, params) => {
