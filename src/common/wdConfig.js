@@ -16,6 +16,9 @@ export default {
     consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
     consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
   },
+  Dokan: {
+    url: 'http://ajaira.website/dokan-app',
+  },
 
   /**
      Step 2: Setting Product Images
@@ -35,39 +38,43 @@ export default {
   HorizonLayout: [
     { tag: 273, paging: true, layout: Constants.Layout.miniBanner },
     {
-      name: 'featuredProducts',
+      name: "featuredProducts",
+      purpose: "featuredProducts",
       category: 21,
       image: Images.Banner.Feature,
       layout: Constants.Layout.threeColumn,
     },
     {
-      // name: 'newArrival',
-      // category: 23,
-      // image: Images.Banner.Bag,
+      purpose: "newArrival",
       layout: Constants.Layout.newArrival,
     },
+    // {
+    //   purpose: "atAglance",
+    //   layout: Constants.Layout.atAglance,
+    // },
     {
-      name: 'bestSellingProducts',
+      name: "bestSellingProducts",
+      purpose: 'bestSellingProducts',
       category: 23,
       image: Images.Banner.Bag,
       layout: Constants.Layout.threeColumn,
     },
     {
-      name: 'topRatedProducts',
+      name: "topRatedProducts",
+      purpose: "topRatedProducts",
       category: 22,
       image: Images.Banner.Woman,
       layout: Constants.Layout.threeColumn,
     },
     {
-      // category: 18,
-      // image: Images.Banner.Man,
+      purpose: "popularCategory",
       layout: Constants.Layout.popularCategory,
     },
     {
-      name: 'featuredVendor',
-      // category: 18,
-      // image: Images.Banner.Man,
+      name: "featuredVendor",
+      purpose: "featuredVendor",
       layout: Constants.Layout.featuredVendor,
+      vendorListType: "featured"
     },
   ],
 

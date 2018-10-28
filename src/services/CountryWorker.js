@@ -1,6 +1,6 @@
 /** @format */
 
-import { error, warn, log } from "./../Omni";
+import { error, warn, log } from "@app/Omni";
 
 const CountryWorker = {
   getAllCountries: async () => {

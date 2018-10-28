@@ -20,7 +20,7 @@ import MenuSide from "@components/LeftMenu/MenuOverlay";
 // import MenuSide from '@components/LeftMenu/MenuWide';
 
 import { toast, closeDrawer } from "./Omni";
-import DokanWorker from "./services/Dokan/DokanWorker";
+import DokanWorker from "@services/Dokan/DokanWorker";
 
 class Router extends React.PureComponent {
   static propTypes = {
@@ -38,10 +38,10 @@ class Router extends React.PureComponent {
       queryStringAuth: true,
       language: this.props.language.lang,
     });
-
+    
     // init DokanWorker
     // DokanWorker.init({
-    //   url: Config.WooCommerce.url,
+    //   url: Config.Dokan.url,
     //   wp_api: true,
     //   version: "dokan/v1",
     //   language: this.props.language.lang,

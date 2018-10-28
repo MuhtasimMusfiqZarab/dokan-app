@@ -121,39 +121,39 @@ DokanAPI.prototype._request = async function(method, endpoint, newData) {
     timeout: this.timeout,
   };
 
-  if (this.isSsl) {
-    if (this.queryStringAuth) {
-      params.qs = {
-        consumer_key: this.consumerKey,
-        consumer_secret: this.consumerSecret,
-        ...data,
-      };
-    } else {
-      params.auth = {
-        user: this.consumerKey,
-        pass: this.consumerSecret,
-      };
-    }
+  // if (this.isSsl) {
+  //   if (this.queryStringAuth) {
+  //     params.qs = {
+  //       consumer_key: this.consumerKey,
+  //       consumer_secret: this.consumerSecret,
+  //       ...data,
+  //     };
+  //   } else {
+  //     params.auth = {
+  //       user: this.consumerKey,
+  //       pass: this.consumerSecret,
+  //     };
+  //   }
 
-    if (this.verifySsl) {
-      params.strictSSL = this.verifySsl;
-    }
-  } else if (method == "GET") {
-    params.qs = this._getOAuth().authorize({
-      url,
-      method,
-      data,
-    });
-  } else if (method == "POST") {
-    params.qs = this._getOAuth().authorize({
-      url,
-      method,
-    });
-  }
+  //   if (this.verifySsl) {
+  //     params.strictSSL = this.verifySsl;
+  //   }
+  // } else if (method == "GET") {
+  //   params.qs = this._getOAuth().authorize({
+  //     url,
+  //     method,
+  //     data,
+  //   });
+  // } else if (method == "POST") {
+  //   params.qs = this._getOAuth().authorize({
+  //     url,
+  //     method,
+  //   });
+  // }
 
-  // encode the oauth_signature to make sure it not remove + charactor
-  params.qs.oauth_signature = encodeURIComponent(params.qs.oauth_signature);
-  params.url = `${params.url}?${this.join(params.qs, "&")}`;
+  // // encode the oauth_signature to make sure it not remove + charactor
+  // params.qs.oauth_signature = encodeURIComponent(params.qs.oauth_signature);
+  // params.url = `${params.url}?${this.join(params.qs, "&")}`;
 
   if (method == "GET") {
     params.headers = { "Cache-Control": "no-cache" };
