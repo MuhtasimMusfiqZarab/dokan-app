@@ -58,7 +58,10 @@ import WdNewArrival from "./WdNewArrival";
 import WdAdds from "./WdAdds";
 import WdPopularCat from "./WdPopularCat"
 import WdFeaturedVendor from "./WdFeaturedVendor";
-import WdProductListToolBar from "./WdProductListToolbBar"
+import WdProductListToolBar from "./WdProductListToolbBar";
+import VendorProfileHeader from "./VendorProfileHeader";
+import VendorList from "./VendorList";
+import StripePanel from "./StripePanel";
 
 export {
   ProductList,
@@ -118,5 +121,8 @@ export {
   WdPopularCat,
   WdFeaturedVendor,
   WdProductListToolBar,
-  WdModalSorting
+  WdModalSorting,
+  VendorProfileHeader,
+  VendorList,
+  StripePanel
 };
