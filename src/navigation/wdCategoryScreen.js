@@ -11,8 +11,8 @@ export default class CategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: `${navigation.state.params.mainCategory.name}`,
-      headerLeft: Back(navigation),
-      // headerLeft: EmptyView(),
+      // headerLeft: Back(navigation),
+      headerLeft: Back(navigation, Images.icons.arrowBack),
       headerRight: CartWishListIcons(navigation),
       tabBarIcon: ({ tintColor }) => (
         <TabBarIcon
