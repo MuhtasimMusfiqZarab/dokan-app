@@ -79,7 +79,8 @@ const Constants = {
     miniBanner: 9,
     newArrival: 10,
     popularCategory: 11,
-    featuredVendor: 12
+    featuredVendor: 12,
+    atAglance: 13
   },
   pagingLimit: 10,
 
