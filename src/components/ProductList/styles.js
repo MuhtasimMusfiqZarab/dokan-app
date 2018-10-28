@@ -57,6 +57,6 @@ export default StyleSheet.create({
   listView: {
     flex: 1,
     // backgroundColor: "rgba(255,255,255,1)",
-    backgroundColor: Color.main
+    // backgroundColor: Color.main
   },
 });

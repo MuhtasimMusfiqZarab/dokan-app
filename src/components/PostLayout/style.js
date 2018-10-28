@@ -384,5 +384,21 @@ export default StyleSheet.create({
     marginLeft: 8,
     marginRight: 8,
     marginTop: 8,
+  },
+  simpleImageProduct: {
+    width: "60%",
+    height: "60%"
+  },
+  simpleImageVendor: {
+    width: "100%",
+    height: "100%"
+  },
+  imageTwoProduct: {
+    width: "70%",
+    height: "70%"
+  },
+  imageTwoVendor: {
+    width: "100%",
+    height: "100%"
   }
 });

@@ -11,7 +11,13 @@ import {
   TouchableOpacity,
   Text
 } from "react-native";
-import { PostLayout, AnimatedHeader, Spinkit, WdProductListToolBar, WdModalSorting } from "@components";
+import {
+  PostLayout,
+  AnimatedHeader,
+  Spinkit,
+  WdProductListToolBar,
+  WdModalSorting,
+} from "@components";
 import { Constants, Languages } from "@common";
 import { connect } from "react-redux";
 import styles from "./styles";
@@ -21,7 +27,7 @@ import styles from "./styles";
 //   Constants.Window.headerHeight - HEADER_MIN_HEIGHT;
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-class ProductList extends PureComponent {
+class ProductList extends Component {
   state = {
     scrollY: new Animated.Value(0),
   };
@@ -34,13 +40,30 @@ class ProductList extends PureComponent {
     this.isProductList = props.type === undefined;
   }
 
+  componentWillMount() {
+    // if (this.props.config.name === "featuredProducts") {
+    //   this.props.navigation.setParams({ title: "Product List" });
+    // } else if (this.props.config.name === "bestSellingProducts") {
+    //   this.props.navigation.setParams({ title: "Product List" });
+    // } else if (this.props.config.name === "bestSellingProducts") {
+    //   this.props.navigation.setParams({ title: "Product List" });
+    // } else {
+    //   this.props.navigation.setParams({ title: "Product List" });
+    // }
+    
+    this.props.navigation.setParams({ title: "Product List" });
+  }
+
   componentDidMount() {
     this.page === 0 && this.fetchData();
   }
 
-  // shouldComponentUpdate(nextProps) {
-  //   // return nextProps.list !== this.props.list;
-  // }
+  shouldComponentUpdate(nextProps) {
+    return(
+      nextProps.layoutProductScreen !== this.props.layoutProductScreen ||
+      nextProps.list !== this.props.list
+    )
+  }
 
   fetchData = (reload = false) => {
     if (reload) {
@@ -74,7 +97,9 @@ class ProductList extends PureComponent {
         type={this.props.type}
         key={`key-${index}`}
         onViewPost={() => this.onRowClickHandle(item, this.props.type)}
-        layout={this.props.layoutProductScreen}
+        layout={
+          this.props.vendorID ? 3 : this.props.layoutProductScreen
+        }
       />
     );
   };
@@ -91,12 +116,10 @@ class ProductList extends PureComponent {
     );
   };
 
-
   render() {
     const { list, config, isFetching, navigation } = this.props;
     
     const renderFooter = () => isFetching && <Spinkit />;
-
     return (
       <View style={styles.listView}>
         {/* <AnimatedHeader
@@ -105,7 +128,7 @@ class ProductList extends PureComponent {
           label={Languages[config.name]}
           navigation={navigation}
         /> */}
-        <WdProductListToolBar />
+        {this.props.showToolBar && <WdProductListToolBar />}
         <AnimatedFlatList
           contentContainerStyle={styles.flatlist}
           data={list}
@@ -130,24 +153,34 @@ class ProductList extends PureComponent {
             { useNativeDriver: Platform.OS !== "android" }
           )}
         />
-        <WdModalSorting />
+        {this.props.showSortingModal && <WdModalSorting />}
       </View>
     );
   }
 }
 
-const mapStateToProps = ({ layouts, products }, ownProp) => {
-  const index = ownProp.index;
-  const list = layouts.layout[index].list;
-  const isFetching = layouts.layout[index].isFetching;
-  const finish = layouts.layout[index].finish;
-  const layoutProductScreen = products.layoutProductScreen;
-  return { list, isFetching, finish, layoutProductScreen };
+const mapStateToProps = ({ layouts, products, vendors }, ownProp) => {
+  if (ownProp.vendorID) {
+    const list = vendors.vendorProducts;
+    const isFetching = vendors.isFetching;
+    const finish = true;
+
+    return { list, isFetching, finish };
+  } else {
+    const index = ownProp.index;
+    const list = layouts.layout[index].list;
+    const isFetching = layouts.layout[index].isFetching;
+    const finish = layouts.layout[index].finish;
+    const layoutProductScreen = products.layoutProductScreen;
+
+    return { list, isFetching, finish, layoutProductScreen };
+  }
 };
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const { dispatch } = dispatchProps;
   const { actions: LayoutActions } = require("@redux/LayoutRedux");
+  const { actions: VendorActions } = require("@redux/VendorRedux");
   return {
     ...ownProps,
     ...stateProps,
@@ -160,6 +193,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         index
       );
     },
+    fetchVendorProducts: (vendorID) => {
+      VendorActions.fetchVendorProducts( dispatch, vendorID );
+    }
   };
 };
 

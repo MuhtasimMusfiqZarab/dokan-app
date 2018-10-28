@@ -20,7 +20,6 @@ export default class ColumnLayout extends PureComponent {
 
   render() {
     const { imageURL, post, type, title, date, viewPost } = this.props;
-    console.log(this.props);
     return (
       <TouchableOpacity
         activeOpacity={0.9}
@@ -30,12 +29,14 @@ export default class ColumnLayout extends PureComponent {
         <View style={css.imagePanelTwo}>
           <ImageCache
             uri={imageURL}
-            style={{width: "70%", height: "70%"}}
+            style={
+              type === "Vendor" ? css.imageTwoVendor : css.imageTwoProduct
+            }
             resizemode="contain" />
         </View>
 
         <Text style={css.nameTwo}>{title}</Text>
-        {typeof type !== "undefined" && (
+        {typeof type !== "undefined" && type !== "Vendor" && (
           <Text style={[css.timeTwo, { alignSelf: "center" }]}>
             <TimeAgo time={date} />
           </Text>
@@ -52,6 +53,11 @@ export default class ColumnLayout extends PureComponent {
           {
             typeof type === "undefined" &&
             <Rating rating={post.average_rating} style={css.priceRatingTwo} />
+          }
+
+          {
+            type === "Vendor" &&
+            <Rating rating={post.rating.rating} style={css.priceRatingTwo} />
           }
         </View>
 

@@ -27,15 +27,25 @@ export default class PostLayout extends PureComponent {
     const categories = this.props.categories ? this.props.categories : 1;
     const cate =
       typeof data.categories !== "undefined" ? data.categories[0] : 1;
-    let postTitle = typeof data.name === "undefined" ? "" : data.name;
-
-    if (typeof type !== "undefined") {
+    let postTitle =
+      data.store_name ? data.store_name :
+      typeof data.name === "undefined" ? "" : data.name;
+    
+    if (typeof type !== "undefined" && type !== "Vendor") {
       // news type
       imageURL = Tools.getImage(data, Constants.PostImage.large);
       postTitle =
         typeof data.title !== "undefined"
           ? Tools.getDescription(data.title.rendered, 300)
           : "";
+    } else if (typeof type !== "undefined" && type === "Vendor") {
+      // vendor type by weDevs
+      image_width = Constants.Layout.card
+        ? Styles.width
+        : Styles.width * 0.45 - 2;
+      imageURL = data.banner ?
+        getProductImage(data.banner, image_width) :
+        getProductImage(data.gravatar, image_width)
     } else {
       // product type
       image_width = Constants.Layout.card
@@ -44,7 +54,7 @@ export default class PostLayout extends PureComponent {
       imageURL =
         typeof data.images !== "undefined"
           ? getProductImage(data.images[0].src, image_width)
-          : "";
+          : ""
     }
 
     switch (this.props.layout) {

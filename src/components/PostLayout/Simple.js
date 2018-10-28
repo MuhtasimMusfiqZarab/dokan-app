@@ -56,7 +56,7 @@ export default class SimpleLayout extends PureComponent {
           onPress={viewPost}>
           <ImageCache
             uri={imageURL}
-            style={{width: "70%", height: "70%"}}
+            style={type === "Vendor" ? css.simpleImageVendor : css.simpleImageProduct}
             resizemode="contain" />
           {typeof type === "undefined" && (
             <WishListIcon product={post} style={{ top: 5, right: 10 }} />
@@ -65,13 +65,15 @@ export default class SimpleLayout extends PureComponent {
 
         <View style={css.simpleContent}>
           <Text style={css.simpleTitle}>{title}</Text>
-
-          <View style={css.simpleVendorNameView}>
-            <Text style={{color: Color.textGray, fontSize: 12}}>by</Text>
-            <TouchableOpacity>
-              <Text style={{color: Color.textBlue, fontSize: 12, marginLeft: 5}}>Vendor Name</Text>
-            </TouchableOpacity>
-          </View>
+          
+          {typeof type === "undefined" &&
+            <View style={css.simpleVendorNameView}>
+              <Text style={{color: Color.textGray, fontSize: 12}}>by</Text>
+              <TouchableOpacity>
+                <Text style={{color: Color.textBlue, fontSize: 12, marginLeft: 5}}>Vendor Name</Text>
+              </TouchableOpacity>
+            </View>
+          }
 
           {description && <Text style={css.simpleDesc}>{description}</Text>}
           <View>
@@ -90,6 +92,18 @@ export default class SimpleLayout extends PureComponent {
             {
               typeof type === "undefined" &&
               <Rating rating={post.average_rating} />
+            }
+            {
+              type === "Vendor" &&
+              <Rating rating={post.rating.rating} />
+            }
+
+            {type === "Vendor" && post.featured === true &&
+              <View style={css.simpleVendorNameView}>  
+                <Text style={{color: Color.textBlue, fontSize: 12}}>
+                  Featured
+                </Text> 
+              </View>
             }
 
           </View>
