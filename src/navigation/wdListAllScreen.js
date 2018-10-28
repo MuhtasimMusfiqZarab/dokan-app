@@ -1,15 +1,17 @@
 /** @format */
 
-import React, { Component } from 'react'
-
-import { Images, Styles, Color } from '@common'
-import { ProductList } from '@components'
-import { Menu, Back, CartWishListIcons} from './IconNav'
+import React, { Component } from "react";
+import {Text} from "react-native";
+import { Images, Styles, Color } from "@common";
+import { ProductList, VendorList } from '@components';
+import { Menu, Back, CartWishListIcons} from "./IconNav";
 import MenuFilter from "@components/WdFilterMenu/MenuFilter";
 
 export default class ListAllScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Product List",
+    // headerTitle: navigation.state.params.config.name === "featuredVendor" ?
+    //   "Store List" : "Product List",
+    headerTitle: navigation.state.params.title,
     headerLeft: Back(navigation, Images.icons.arrowBack),
     headerRight: CartWishListIcons(navigation),
 
@@ -20,24 +22,40 @@ export default class ListAllScreen extends Component {
 
 
   render() {
-    console.log(this.props.navigation);
     const { state, navigate } = this.props.navigation
     const params = state.params
 
-    return (
-      <MenuFilter
-        goToScreen={this.goToScreen}
-        routes={
-          <ProductList
-            headerImage={params.config.image}
-            config={params.config}
-            page={1}
-            navigation={this.props.navigation}
-            index={params.index}
-            onViewProductScreen={(item) => navigate("DetailScreen", item)}
-          />
-        }
-      />
-    )
+    if (params.config.name === "featuredVendor") {
+      return (
+        <VendorList
+          config={params.config}
+          page={1}
+          navigation={this.props.navigation}
+          onViewVendorScreen={(item) => navigate("VendorProfileScreen", item)}
+          showToolBar={true}
+          showSortingModal={true}
+          vendorListType={params.config.vendorListType}
+        />
+      ) 
+    } else {
+      return (
+        <MenuFilter
+          goToScreen={this.goToScreen}
+          routes={
+            <ProductList
+              headerImage={params.config.image}
+              config={params.config}
+              page={1}
+              navigation={this.props.navigation}
+              index={params.index}
+              onViewProductScreen={(item) => navigate("DetailScreen", item)}
+              showToolBar={true}
+              showSortingModal={true}
+            />
+          }
+        />
+      )
+    }
+
   }
 }
