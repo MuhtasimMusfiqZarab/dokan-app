@@ -1,6 +1,6 @@
 /** @format */
 
-import { StyleSheet, Dimensions, I18nManager } from "react-native";
+import { StyleSheet, Dimensions, I18nManager, Platform } from "react-native";
 import { Constants, Styles } from "@common";
 import { Color } from "@common";
 
@@ -140,8 +140,8 @@ export default {
   },
   buttonContainer: {
     flex: 0.5,
-    // backgroundColor: "white",
-    backgroundColor: "#F8F8FA",
+    backgroundColor: "white",
+    // backgroundColor: "#F8F8FA",
     flexDirection: "row",
     alignItems: "center",
   },
@@ -309,9 +309,16 @@ export default {
   },
   accordionHeaderInActive: {
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowOffset: {width: 0, height: 1}
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.1,
+        shadowOffset: {width: 0, height: 1}
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
   accordionHeaderActive: {
     backgroundColor: "#fff",
@@ -338,14 +345,23 @@ export default {
     shadowOffset: {width: -5, height: 5}
   },
   accordionHeaderIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: '#fff',
-    marginRight: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: -1, height: 1},
+    marginRight: 15,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: {width: -1, height: 1},
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
   accordionDescriptionText: {
     color: "#9199A4",

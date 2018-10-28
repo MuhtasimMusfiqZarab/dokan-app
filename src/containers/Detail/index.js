@@ -14,7 +14,7 @@ import {
   Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
-import { Timer, getProductImage, currencyFormatter, warn } from "@app/Omni";
+import { Timer, getProductImage, currencyFormatter, warn, CustomIcon } from "@app/Omni";
 import {
   Button,
   AdMob,
@@ -106,7 +106,6 @@ class Detail extends PureComponent {
   /**
    *  Accordion by weDevs
   */
-
   onSelectedItemsChange = selectedItems => {
     console.log()
     this.setState({ selectedItems });
@@ -122,7 +121,7 @@ class Detail extends PureComponent {
               width: '100%',
               height: 200,
               borderRadius: 5,
-              marginBottom: 10
+              marginBottom: 20,
             }
           }
         />
@@ -213,30 +212,35 @@ class Detail extends PureComponent {
       content: this.accordionDescription(),
       fromColor: "#00C6FB",
       toColor: "#005BEA",
+      icon: "text",
     },
     {
       title: 'Shipping',
       content: this.accordionShipping(),
       fromColor: "#C444FB",
-      toColor: "#5B56D7"
+      toColor: "#5B56D7",
+      icon: "ship"
     },
     {
       title: 'Customer Review',
       // content: BACON_IPSUM,
       fromColor: "#FF9472",
-      toColor: "#F2709C"
+      toColor: "#F2709C",
+      icon: "chat"
     },
     {
       title: 'Vendor Info',
       // content: BACON_IPSUM,
       fromColor: "#7ED500",
-      toColor: "#00BF8D"
+      toColor: "#00BF8D",
+      icon: "supermarket"
     },
     {
       title: 'Related Products',
       // content: BACON_IPSUM,
       fromColor: "#6EACFF",
-      toColor: "#907CFF"
+      toColor: "#907CFF",
+      icon: "box"
     },
   ];
 
@@ -260,7 +264,7 @@ class Detail extends PureComponent {
           locations={[0.0, 1.0]}
           style={styles.accordionHeaderIcon}
         >
-
+          <CustomIcon name={section.icon} size={20} color="#fff" />
         </LinearGradient>
         <Text style={styles.accordionHeaderText}>{section.title}</Text>
         <Text style={{position: 'absolute', right: 15}}>
@@ -304,7 +308,7 @@ class Detail extends PureComponent {
   getProductAttribute = (product) => {
     this.productAttributes = product.attributes;
     const defaultAttribute = product.default_attributes;
-    console.log(product);
+    // console.log(product);
     if (typeof this.productAttributes !== "undefined") {
       this.productAttributes.map((attribute) => {
         const selectedAttribute = defaultAttribute.find(
@@ -903,8 +907,8 @@ class Detail extends PureComponent {
         </Animated.ScrollView>
         {renderProductColor()}
 
-        {Config.showAdmobAds && <AdMob />}
-        {/* {renderButtons()} */}
+        {/* {Config.showAdmobAds && <AdMob />} */}
+        {renderButtons()}
 
         <Modal
           ref={(com) => (this._modalPhoto = com)}
