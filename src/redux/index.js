@@ -19,6 +19,7 @@ import { reducer as LangRedux } from "./LangRedux";
 import { reducer as CurrencyRedux } from "./CurrencyRedux";
 import { reducer as SideMenuRedux } from "./SideMenuRedux";
 import { reducer as FilterMenuRedux } from "./WdFilterMenuRedux";
+import { reducer as VendorReducer } from "./VendorRedux";
 
 const config = {
   key: "root",
@@ -42,4 +43,5 @@ export default persistCombineReducers(config, {
   currency: CurrencyRedux,
   sideMenu: SideMenuRedux,
   filterMenu: FilterMenuRedux,
+  vendors: VendorReducer
 });

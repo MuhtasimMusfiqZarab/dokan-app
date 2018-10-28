@@ -7,6 +7,7 @@
 import { Constants, Languages, Icons } from "@common";
 import moment from "moment";
 import WooWorker from "@services/WooCommerce/WooWorker";
+import DokanWorker from "@services/Dokan/DokanWorker";
 
 const types = {
   FETCH_PRODUCTS_PENDING: "FETCH_PRODUCTS_PENDING",
@@ -40,7 +41,8 @@ const types = {
   GET_COUPON_CODE_FAIL: "GET_COUPON_CODE_FAIL",
   CLEAN_OLD_COUPON: "CLEAN_OLD_COUPON",
   SWITCH_LAYOUT_HOME: "SWITCH_LAYOUT_HOME",
-  SWITCH_LAYOUT_PRODUCT: "SWITCH_LAYOUT_PRODUCT", // wedevs
+  // wedevs
+  SWITCH_LAYOUT_PRODUCT: "SWITCH_LAYOUT_PRODUCT",
 
 };
 
