@@ -9,10 +9,13 @@ import {
   Image,
   TouchableHighlight,
   Text,
+  Platform,
+  Dimensions,
   ActivityIndicator,
   I18nManager,
 } from "react-native";
 import { Color } from "@common";
+import { LinearGradient } from "@expo";
 
 const Button = (props) => {
   if (props.type === "border") {
@@ -23,6 +26,8 @@ const Button = (props) => {
     return <TextButton {...props} />;
   } else if (props.type === "tab") {
     return <TabButton {...props} />;
+  } else if (props.type === "gradientBtn") {
+    return <GradientButton {...props} />;
   }
   return <StandardButton {...props} />;
 };
@@ -181,15 +186,36 @@ const TabButton = (props) => (
   </TouchableOpacity>
 );
 
+const GradientButton = (props) => (
+  <TouchableOpacity onPress={props.onPress}>
+    <LinearGradient
+      style={
+        [
+          styles.gradientButton,
+          {
+            width:
+              props.size === "sm" ? Dimensions.get("window").width / 3.5: "auto",
+          }
+        ]
+      }
+      start={ {x: 0.0, y: 0.5} }
+      end={ {x: 1.0, y: 0.5}}
+      locations={[0.0, 1.0]}
+      colors={["#FF9472", "#F2709C"]}>
+      <Text style={styles.gradientButtonText}>
+        {props.text}
+      </Text>
+    </LinearGradient>
+  </TouchableOpacity>
+)
+
 const styles = StyleSheet.create({
   tabActiveText: {
-    // color: Color.TabActiveText,
     color: "#000"
   },
   tabActive: {
     marginTop: 1,
     borderBottomWidth: 2,
-    // borderBottomColor: Color.TabActive,
     borderBottomColor: "#000"
   },
   button: {
@@ -233,6 +259,30 @@ const styles = StyleSheet.create({
   loading: {
     marginLeft: 5,
   },
+  gradientButton: {
+    height: 40,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 15,
+    ...Platform.select({
+      ios: {
+        backgroundColor: "#fff",
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 2}
+      },
+      android: {
+        elevation: 3
+      }
+    })
+  },
+  gradientButtonText: {
+    fontSize: 16,
+    color: "#fff"
+  }
 });
 
 export default Button;
