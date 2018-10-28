@@ -39,12 +39,17 @@ class HorizonList extends PureComponent {
    */
   _fetchAllPost = () => {
     this.props.fetchAllProductsLayout()
-    this.props.fetchAllVendors()
+    this.props.fetchFeaturedVendors()
   }
 
   _fetchPost = ({ config, index, page }) => {
-    const { fetchProductsByCollections } = this.props
-    fetchProductsByCollections(config.category, config.tag, page, index)
+    const { fetchProductsByCollections } = this.props;
+    fetchProductsByCollections(config.category, config.tag, page, index);
+  }
+
+  _fetchVendorProducts = (vendorID) => {
+    const { fetchVendorProducts } = this.props;
+    fetchVendorProducts(vendorID);
   }
 
   _renderItem = ({ item, index }) => {
@@ -52,22 +57,31 @@ class HorizonList extends PureComponent {
       list,
       onShowAll,
       onViewProductScreen,
+      onViewVendorProfileScreen,
       collections,
       setSelectedCategory,
       fetchProductsByCollections,
+      vendorList,
+      featuredVendorList,
+      fetchAllVendors
     } = this.props
     return (
       <HList
         horizontal
         onViewProductScreen={onViewProductScreen}
+        onViewVendorProfileScreen={onViewVendorProfileScreen}
         onShowAll={onShowAll}
         key={`taglist-${index}`}
         config={item}
         index={index}
         collection={collections[index]}
         list={list}
+        vendorList={vendorList}
+        featuredVendorList={featuredVendorList}
         fetchPost={this._fetchPost}
         fetchProductsByCollections={fetchProductsByCollections}
+        fetchAllVendors={fetchAllVendors}
+        fetchVendorProducts={this._fetchVendorProducts}
         setSelectedCategory={setSelectedCategory}
         navigation={this.props.navigation}
       />
@@ -95,9 +109,7 @@ class HorizonList extends PureComponent {
           />
         }
         ListHeaderComponent={this.beforeList}
-        // ListFooterComponent={this.afterList}
       />
-    
     )
   }
 }
@@ -107,12 +119,13 @@ const makeMapStateToProps = () => {
   const mapStateToProps = (state, props) => {
     const collections = getCollections(state, props);
     // console.log(collections)
-
     return {
       collections: getCollections(state, props),
       // collections: state.layouts.layout,
       isFetching: state.layouts.isFetching,
       list: state.categories.list,
+      vendorList: state.vendors.vendorList,
+      featuredVendorList: state.vendors.featuredVendorList
     }
   }
   return mapStateToProps
@@ -142,7 +155,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       LayoutActions.fetchAllProductsLayout(dispatch)
     },
     fetchAllVendors: () => {
+      VendorActions.fetchVendors(dispatch);
+    },
+    fetchFeaturedVendors: () => {
       VendorActions.fetchFeaturedVendors(dispatch);
+    },
+    fetchVendorProducts: (vendorID) => {
+      VendorActions.fetchVendorProducts( dispatch, vendorID );
     }
   }
 }

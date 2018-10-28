@@ -9,11 +9,6 @@ import TwoColumn from "./TwoColumn";
 import ThreeColumn from "./wdThreeColumn";
 import Card from "./Card";
 import MiniBanner from "./MiniBanner";
-import {
-  WdNewArrival,
-  WdPopularCat,
-  WdFeaturedVendor
-} from "@components";
 
 export default class HorizonLayout extends Component {
   render() {
@@ -42,12 +37,6 @@ export default class HorizonLayout extends Component {
         return <MiniBanner {...props} />;
       case Constants.Layout.card:
         return <Card {...props} />;
-      case Constants.Layout.newArrival:
-        return <WdNewArrival />
-      case Constants.Layout.popularCategory:
-        return <WdPopularCat {...props} />
-      case Constants.Layout.featuredVendor:
-        return <WdFeaturedVendor {...props} />
       default:
         return <ColumnHigh {...props} />;
     }

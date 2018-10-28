@@ -14,6 +14,11 @@ import Icon from "react-native-vector-icons/Entypo";
 import { HorizonLayout } from "@components";
 import { find } from "lodash";
 import styles from "./styles";
+import {
+  WdNewArrival,
+  WdPopularCat,
+  WdFeaturedVendor
+} from "@components";
 
 class HorizonList extends PureComponent {
   static propTypes = {
@@ -73,6 +78,17 @@ class HorizonList extends PureComponent {
     onShowAll(config, index);
   };
 
+
+  _viewAllVendors = () => {
+    const {
+      config,
+      onShowAll,
+      index,
+    } = this.props;
+
+    onShowAll(config, index);
+  };
+
   onViewProductScreen = (product, type) => {
     this.props.onViewProductScreen({ product, type });
   };
@@ -81,6 +97,7 @@ class HorizonList extends PureComponent {
     const { layout } = this.props.config;
 
     if (item === null) return <View key="post_" />;
+    
     return (
       <HorizonLayout
         product={item}
@@ -93,19 +110,30 @@ class HorizonList extends PureComponent {
   };
 
   render() {
-    const { collection, config } = this.props;
+    const {
+      collection,
+      config,
+      vendorList,
+      featuredVendorList,
+      fetchAllVendors,
+      navigation,
+      onViewVendorProfileScreen,
+      fetchVendorProducts
+    } = this.props;
     const list =
       typeof collection.list !== "undefined" && collection.list.length !== 0
         ? collection.list
         : this.defaultList;
     const isPaging = !!config.paging;
 
-    const renderHeader = () => (
+    const renderHeader = (layout) => (
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <Text style={styles.tagHeader}>{Languages[config.name]}</Text>
         </View>
-        <TouchableOpacity onPress={this._viewAll} style={styles.headerRight}>
+        <TouchableOpacity
+          onPress={layout === 12 ? this._viewAllVendors : this._viewAll}
+          style={styles.headerRight}>
           <Text style={styles.headerRightText}>{Languages.seeAll}</Text>
           <Icon
             style={styles.icon}
@@ -119,25 +147,45 @@ class HorizonList extends PureComponent {
       </View>
     );
 
-    return (
-      <View
-        style={[
-          styles.flatWrap,
-          config.color && { backgroundColor: config.color },
-        ]}>
-        {config.name && renderHeader()}
-        <FlatList
-          contentContainerStyle={styles.flatlist}
-          data={list}
-          keyExtractor={(item) => `post__${item.id}`}
-          renderItem={this.renderItem}
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          pagingEnabled={isPaging}
-          onEndReached={false && this._nextPosts}
-        />
-      </View>
-    );
+    if (config.layout === 10) {
+      return ( <WdNewArrival /> );
+    } else if (config.layout === 11) {
+      return (
+        <WdPopularCat navigation={navigation} />
+      );
+    } else if ( config.layout === 12 ) {
+      return (
+        <View>
+          {renderHeader(config.layout)}
+          <WdFeaturedVendor
+            fetchAllVendors={fetchAllVendors}
+            featuredVendorList={featuredVendorList}
+            fetchVendorProducts={fetchVendorProducts}
+            onViewVendorProfileScreen={onViewVendorProfileScreen}
+            navigation={navigation} />
+        </View>
+      );
+    } else {
+      return (
+        <View
+          style={[
+            styles.flatWrap,
+            config.color && { backgroundColor: config.color },
+          ]}>
+          {config.name && renderHeader(config.layout)}
+          <FlatList
+            contentContainerStyle={styles.flatlist}
+            data={list}
+            keyExtractor={(item) => `post__${item.id}`}
+            renderItem={this.renderItem}
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            pagingEnabled={isPaging}
+            onEndReached={false && this._nextPosts}
+          />
+        </View>
+      );
+    }
   }
 }
 
