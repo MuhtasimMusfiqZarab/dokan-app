@@ -46,7 +46,7 @@ class MyToast extends React.Component {
     );
   }
 
-  renderToast(msg, index: number) {
+  renderToast(msg, index) {
     const { removeToast } = this.props;
     const onPress = () => removeToast(msg.key);
     return (
