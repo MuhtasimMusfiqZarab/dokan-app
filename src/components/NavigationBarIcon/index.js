@@ -58,7 +58,7 @@ class NavigationBarIcon extends Component {
 const styles = StyleSheet.create({
   iconWrap: {
     ...Styles.Common.ColumnCenter,
-    width: Styles.headerHeight,
+    width: Platform.OS === "android" ? 40 : Styles.headerHeight,
     height: Styles.headerHeight,
   },
   numberWrap: {
