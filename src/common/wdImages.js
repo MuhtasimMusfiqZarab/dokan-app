@@ -66,6 +66,7 @@ const Images = {
   FeaturedAd: require('@images/ad1.png'),
   ad1: require('@images/ad2.png'),
   ad2: require('@images/ad3.png'),
+  StoreDefaultBanner: require('@images/store_banner.png'),
   PopularCatImages: {
     Accessories: require('@images/categories/accessories.png'),
     Clothing: require('@images/categories/clothing.png'),
@@ -85,6 +86,7 @@ const Images = {
   IcLicense: require('@images/ic_copyright.png'),
   IcPrivacy: require('@images/ic_lock.png'),
   ContactUs: require('@images/contactus.png'),
+
 
 };
 
