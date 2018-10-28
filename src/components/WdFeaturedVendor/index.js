@@ -1,65 +1,51 @@
-import React from 'react'
+import React from "react"
 import {
   Text,
   View,
+  Image,
   StyleSheet,
   I18nManager,
   TouchableOpacity,
   Platform,
   Dimensions
-} from 'react-native'
+} from "react-native"
 import Icon from 'react-native-vector-icons/Entypo'
-import { Config, Constants, Color } from '@common'
-import Rating from '../Rating'
-import { NavigationActions } from 'react-navigation';
+import { Config, Constants, Color } from "@common";
+import { ImageCache, Rating } from "@components";
 
-const navigateAction = NavigationActions.navigate({
-  routeName: 'VendorProfileScreen',
-});
+const onViewVendorScreen = (props, item) => {
+  props.fetchVendorProducts(item.id);
+  props.onViewVendorProfileScreen(item);
+}
 
-const WdFeaturedVendor = (props) => (
+const WdFeaturedVendor = (props) => {
+  return (
     <View style={styles.container}>
-
-      {/* <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <Text style={styles.tagHeader}>Featured Vendor</Text>
-        </View>
-        <TouchableOpacity onPress={() => alert('View All')} style={styles.headerRight}>
-          <Text style={styles.headerRightText}>Show All</Text>
-          <Icon
-            style={styles.icon}
-            color={Color.wdLightGray}
-            size={20}
-            name={I18nManager.isRTL ? 'chevron-small-left' : 'chevron-small-right'}
-          />
-        </TouchableOpacity>
-      </View> */}
-
       {
-        Config.featuredVendor.map((item, index) => {
+        props.featuredVendorList.map((item, index) => {
           return(
             <TouchableOpacity
               key={`fd-${index}`}
               style={styles.vendorDetails}
-              onPress={ () => props.navigation.dispatch(navigateAction) } >
+              onPress={ () => onViewVendorScreen(props, item) } >
               <View style={styles.vendorImage}>
-                <Text style={{fontSize: 24, color: item.color}}>
-                  {item.text}
-                </Text>
+                <ImageCache
+                  uri={item.gravatar}
+                  style={{width: 60, height: 60, borderRadius: 30}}/>
               </View>
               <View style={styles.vendorInfo}>
                 <Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
-                  {item.name}
+                  {item.store_name}
                 </Text>
-                <Rating rating={item.rating} />
+                <Rating rating={item.rating.rating} />
               </View>
             </TouchableOpacity>
           )
         })
       }
-
     </View>
-)
+  )
+}
 
 export default WdFeaturedVendor
 
