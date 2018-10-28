@@ -171,19 +171,19 @@ class PaymentOptions extends PureComponent {
         );
       } else {
         // other kind of payment
-        // this.props.onShowCheckOut(payload);
-        this.setState({ loading: true });
-        const json = WooWorker.createNewOrder(
-          payload,
-          () => {
-            this.setState({ loading: false });
-            return json;
-          },
-          () => {
-            this.setState({ loading: false });
-          }
-        );
-        console.log(json);
+        this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);
+        // this.setState({ loading: true });
+        // const json = WooWorker.createNewOrder(
+        //   payload,
+        //   () => {
+        //     this.setState({ loading: false });
+        //     return json;
+        //   },
+        //   () => {
+        //     this.setState({ loading: false });
+        //   }
+        // );
+        // console.log(json);
       }
     } else {
       alert("Update your delivery information");
@@ -250,28 +250,6 @@ class PaymentOptions extends PureComponent {
     ];
   };
 
-  renderDesLayout = (item) => {
-    if (typeof item === "undefined") {
-      return <View />;
-    }
-    if (item.description == null || item.description == "") return <View />;
-
-    const tagsStyles = {
-      p: {
-        color: "#666",
-        flex: 1,
-        textAlign: "center",
-        width: width - 40,
-        paddingLeft: 20,
-      },
-    };
-    return (
-      <View style={styles.descriptionView}>
-        <HTML tagsStyles={tagsStyles} html={`<p>${item.description}</p>`} />
-      </View>
-    );
-  };
-
   onSaveUserData = () => { // weDevs
     if(!this.state.userDataSaved) {
       this.setState({
@@ -298,6 +276,7 @@ class PaymentOptions extends PureComponent {
               return (
                 <View style={styles.optionContainer} key={index}>
                   <TouchableWithoutFeedback
+                    style={{ width: "100%", height: "100%" }}
                     onPress={() => this.setState({ selectedIndex: index })}>
                     <LinearGradient
                       style={styles.optionGradient}
@@ -308,7 +287,15 @@ class PaymentOptions extends PureComponent {
                         ["#FF9472", "#F88287", "#F2709C"] :
                         ["#fff", "#fff", "#fff"]
                       }>
-                      <Image style={styles.imgOption} source={image} />
+                      <Image
+                        style={
+                          [
+                            styles.imgOption,
+                            // this.state.selectedIndex === index &&
+                            //   {tintColor: "#fff"}
+                          ]
+                        }
+                        source={image} />
                     </LinearGradient>
                   </TouchableWithoutFeedback>
                   {
@@ -331,7 +318,6 @@ class PaymentOptions extends PureComponent {
               );
             })}
           </View>
-          {/* {this.renderDesLayout(list[this.state.selectedIndex])} */}
 
           <Delivery
             onChangeUserInfo={this.props.onChangeUserInfo}

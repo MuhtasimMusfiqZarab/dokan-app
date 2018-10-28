@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { PureComponent } from "react";
-import { Text, View, AsyncStorage, ScrollView, TouchableOpacity } from "react-native";
+import { Text, View, TextInput, AsyncStorage, ScrollView, TouchableOpacity } from "react-native";
 import css from "@cart/styles";
 import { ShippingMethod, Button } from "@components";
 import { Config, Validator, Languages } from "@common";
@@ -337,13 +337,12 @@ class Delivery extends PureComponent {
                     onChange={this.onChange}
                   />
 
-                  <TouchableOpacity onPress={this.showEditView}>
-                    <LinearGradient
-                      style={styles.formUpdateBtn}
-                      colors={["#FF9472", "#F2709C"]}>
-                      <Text style={{fontSize: 16, color: "#fff"}}>Update</Text>
-                    </LinearGradient>
-                  </TouchableOpacity>
+                  <Button
+                    onPress={this.showEditView}
+                    type="gradientBtn"
+                    text="Update"
+                    size="sm" />
+
                 </View>
               )
             }
@@ -364,8 +363,14 @@ class Delivery extends PureComponent {
                     <Text style={styles.editFiledValue}>{this.state.value.phone}</Text>
                   </View>
                   <View style={styles.editFieldContainer}>
-                    <Text style={styles.editFiledName}>Mobile Number</Text>
-                    <Text style={styles.editFiledValue}>{this.state.value.address_1}</Text>
+                    <Text style={styles.editFiledName}>Address</Text>
+                    <TextInput
+                      multiline={true}
+                      style={styles.editFiledValueMultiLine}>
+                      {
+                        `${this.state.value.address_1}, ${this.state.value.city}, ${this.state.value.country}`
+                      }
+                    </TextInput>
                   </View>
                   <TouchableOpacity
                     onPress={this.showFormView}
@@ -375,7 +380,6 @@ class Delivery extends PureComponent {
                 </View>
               )
             }
-
           </View>
         </ScrollView>
 

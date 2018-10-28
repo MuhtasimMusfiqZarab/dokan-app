@@ -6,12 +6,12 @@ import { Color, Config, Constants } from "@common";
 export default StyleSheet.create({
   fill: {
     flex: 1,
-    backgroundColor: "#fff",
-    ...Platform.select({
-      android: {
-        paddingTop: Config.showStatusBar ? 12 : 0,
-      },
-    }),
+    backgroundColor: Color.main,
+    // ...Platform.select({
+    //   android: {
+    //     paddingTop: Config.showStatusBar ? 12 : 0,
+    //   },
+    // }),
   },
   container: {
     flex: 1,
@@ -21,15 +21,21 @@ export default StyleSheet.create({
     // marginTop: 16,
     paddingTop: 10,
     alignItems: "center",
-    zIndex: 1,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 0, height: 1},
-    elevation: 10
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 0, height: 1},
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
   content: {
     flex: 1,
+    marginTop: 5
   },
 
   bottomView: {

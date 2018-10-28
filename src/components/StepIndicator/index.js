@@ -6,11 +6,10 @@ import {
   View,
   Image,
   Platform,
-  TouchableOpacity,
   Dimensions,
 } from "react-native";
 import styles from "./index_style.js";
-import { Color } from "@common";
+import { Color, Device } from "@common";
 import { LinearGradient } from "@expo";
 var widthScreen = Dimensions.get("window").width;
 
@@ -45,19 +44,23 @@ export default class StepIndicator extends Component {
           (widthScreen - allIndicatorWidth - this.marginContent * 2) /
           (props.steps.length - 1));
     }
-
-    // if (Platform.OS == "ios") {
-    //   this.labelWidth =
-    //     this.marginContent * 2 +
-    //     this.customStyles.stepIndicatorSize +
-    //     2 * this.customStyles.borderPadding;
-    // } else {
-    //   this.labelWidth = this.marginContent * 2;
-    // }
+    
     this.labelWidth =
         this.marginContent * 2 +
         this.customStyles.stepIndicatorSize +
         2 * this.customStyles.borderPadding;
+    
+    if (Platform.OS == "ios") {
+      this.shadow = {
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowRadius: 7,
+      }
+    } else {
+      this.shadow = {
+        elevation : 3
+      }
+    }
   }
 
   renderStepIndicator(index, item) {
@@ -77,9 +80,7 @@ export default class StepIndicator extends Component {
           this.customStyles.borderPadding * 2) /
         2,
       backgroundColor:"#fff",
-      shadowColor: "#000",
-      shadowOpacity: 0.3,
-      shadowRadius: 7,
+      ...this.shadow
     };
 
     let indicatorContainer = {

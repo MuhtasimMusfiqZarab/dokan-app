@@ -106,20 +106,6 @@ export default StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 15
   },
-  formUpdateBtn: {
-    width: 110,
-    height: 40,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 15,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 0, height: 2}
-  },
   formEditBtn: {
     width: 90,
     height: 40,
@@ -144,5 +130,10 @@ export default StyleSheet.create({
   editFiledValue: {
     fontSize: 16,
     color: "#7C8592"
-  }
+  },
+  editFiledValueMultiLine: {
+    fontSize: 16,
+    color: "#7C8592",
+    width: 150
+  },
 });

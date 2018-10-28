@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { Languages, Images, Config, Constants } from "@common";
 import { BlockTimer } from "@app/Omni";
 import Modal from "react-native-modalbox";
-import { StepIndicator } from "@components";
+import { StepIndicator, StripePanel } from "@components";
 import base64 from "base-64";
 import { isObject } from "lodash";
 
@@ -157,9 +157,12 @@ class Cart extends PureComponent {
     }
   };
 
-  onShowCheckOut = async (order) => {
+  onShowCheckOut = async (order, payment) => {
     await this.setState({ order });
-    this.checkoutModal.open();
+    if (payment === "stripe") {
+      this.stripeModal.open()
+    }
+    // this.checkoutModal.open();
   };
 
   onPrevious = () => {
@@ -189,9 +192,23 @@ class Cart extends PureComponent {
   };
 
   onChangeUserInfo = (formValues) => { //weDevs
-    console.log(formValues);
     this.setState({ userInfo: formValues });
   }
+
+  renderStripeLayout = () => {
+    return (
+      <Modal
+        ref="StripeModal"
+        ref={(smodal) => (this.stripeModal = smodal)}
+        backdropPressToClose={false}
+        backButtonClose
+        swipeToClose
+        onClosed={() => this.completePurchase(this.state.paymentState)}
+        style={{ flex: 1 }}>
+        <StripePanel />
+      </Modal>
+    );
+  };
 
   render() {
     const { onViewProduct, navigation, cartItems, onViewHome } = this.props;
@@ -275,6 +292,8 @@ class Cart extends PureComponent {
 
             <FinishOrder key="finishOrder" finishOrder={this.finishOrder} />
           </ScrollableTabView>
+
+          {this.renderStripeLayout()}
 
           {currentIndex === 0 && (
             <Buttons onPrevious={this.onPrevious} onNext={this.onNext} />

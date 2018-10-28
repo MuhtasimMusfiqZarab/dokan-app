@@ -1,6 +1,6 @@
 /** @format */
 
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import { Color, Constants } from "@common";
 
 const { width } = Dimensions.get("window");
@@ -28,10 +28,17 @@ export default StyleSheet.create({
     marginBottom: 30,
     borderRadius: 5,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    shadowOffset: {width: 0, height: 3}
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        shadowOffset: {width: 0, height: 3}
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
   optionGradient: {
     width: "100%",
@@ -44,13 +51,14 @@ export default StyleSheet.create({
     top: 95,
     width: 35,
     height: 35,
-    borderRadius: 17,
-    overflow: "hidden"
+    borderRadius: 17.5,
+    overflow: "hidden",
+    elevation: 3
   },
   tickMarkGradient: {
     width: "100%",
     height: "100%",
-    position: "absolute",
+    // position: "absolute",
     justifyContent: "center",
     alignItems: "center"
   },

@@ -40,14 +40,15 @@ export default class FinishOrder extends PureComponent {
             />
           </View>
 
-          <Text style={styles.title}>{Languages.ThankYou}</Text>
+          {/* <Text style={styles.title}>{Languages.ThankYou}</Text> */}
           <Text style={styles.message}>{Languages.FinishOrder}</Text>
 
           <View style={styles.btnNextContainer}>
             <Button
+              type="gradientBtn"
               text={Languages.ViewMyOrders}
-              style={styles.button}
-              textStyle={styles.buttonText}
+              // style={styles.button}
+              // textStyle={styles.buttonText}
               onPress={this.props.finishOrder}
             />
           </View>
