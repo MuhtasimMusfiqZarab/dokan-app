@@ -1,7 +1,7 @@
 {
-  "name": "MStore",
+  "name": "dokan",
   "description": "React Native mobile app for WooCommerce",
-  "author": "InspireUI",
+  "author": "weDevs",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",

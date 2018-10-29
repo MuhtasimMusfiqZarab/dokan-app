@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mstore",
+    "name": "dokan",
     "description": "Mobile WooCommerce app",
-    "version": "3.4.3"
+    "version": "0.0.1"
   }
 }
