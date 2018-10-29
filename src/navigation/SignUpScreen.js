@@ -2,13 +2,13 @@
 
 import React, { Component } from "react";
 import { SignUp } from "@containers";
-import { Color, Languages, Styles } from "@common";
+import { Color, Languages, Styles, Images } from "@common";
 import { Back, EmptyView } from "./IconNav";
 
 export default class SignUpScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: Languages.signup,
-    headerLeft: Back(navigation),
+    headerLeft: Back(navigation, Images.icons.arrowBack),
     headerRight: EmptyView(),
 
     headerTintColor: Color.headerTintColor,

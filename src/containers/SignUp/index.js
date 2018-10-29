@@ -8,17 +8,21 @@ import React, { Component } from "react";
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   ScrollView,
   TextInput,
   Switch,
   LayoutAnimation,
+  ImageBackground,
   I18nManager,
+  Dimensions
 } from "react-native";
 import WooWorker from "@services/WooCommerce/WooWorker";
-import { Styles, Languages, Color } from "@common";
+import { Styles, Languages, Color, Images, Config } from "@common";
 import { toast, error, Validate } from "@app/Omni";
-import Button from "@components/Button";
+import { Button } from "@components";
+// import Button from "@components/Button";
 import Spinner from "@components/Spinner";
 import WPUserAPI from "@services/WPUserAPI";
 
@@ -151,7 +155,23 @@ class SignUpScreen extends Component {
     } = this.state;
     const params = this.props.params;
     return (
+      <ImageBackground
+        source={Images.LoginScreenBackground}
+        style={
+          styles.backgroundImage
+        }
+        resizeMode="cover">
       <ScrollView style={styles.container}>
+        <View style={styles.logoWrap}>
+          <Image
+            source={Config.LogoWithText}
+            style={styles.logo}
+            resizeMode="contain"
+          />
+          <Text style={styles.logoText}>
+            Build Your Dream Multi Vendor Market Place
+          </Text>
+        </View>
         <View style={styles.formContainer}>
           <Text style={styles.label}>{Languages.profileDetail}</Text>
           <TextInput
@@ -230,22 +250,33 @@ class SignUpScreen extends Component {
               value={password}
             />
           )}
-          <Button
+          {/* <Button
             containerStyle={styles.signUpButton}
             text={Languages.signup}
+            onPress={this.onSignUpHandle}
+          /> */}
+          <Button
+            type="gradientBtn"
+            text={Languages.signup}
+            size="sm"
+            alignSelf="flex-start"
+            marginTop={15}
             onPress={this.onSignUpHandle}
           />
         </View>
         {isLoading ? <Spinner mode="overlay" /> : null}
       </ScrollView>
+    </ImageBackground>
     );
   }
 }
 
+const { width, height } = Dimensions.get("window");
+
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: Color.background,
+    // backgroundColor: Color.background,
   },
   formContainer: {
     padding: Styles.width * 0.1,
@@ -281,6 +312,22 @@ const styles = StyleSheet.create({
   text: {
     marginLeft: 10,
     color: Color.blackTextSecondary,
+  },
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null
+  },
+  logoWrap: {
+    flexGrow: 0.3,
+    paddingHorizontal: Styles.width * 0.1,
+  },
+  logo: {
+    width: 120,
+    height: 80
+  },
+  logoText: {
+    width: width / 2
   },
 });
 

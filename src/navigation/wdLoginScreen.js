@@ -2,12 +2,12 @@
 
 import React, { PureComponent } from "react";
 import { Login } from "@containers";
-import { Color, Styles } from "@common";
+import { Color, Styles, Images } from "@common";
 import { Back, EmptyView, Logo } from "./IconNav";
 
 export default class LoginScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
-    headerLeft: Back(navigation),
+    headerLeft: Back(navigation, Images.icons.arrowBack),
     headerRight: EmptyView(),
     headerTitle: "Login",
 
