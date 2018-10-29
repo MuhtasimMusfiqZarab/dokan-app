@@ -1,4 +1,4 @@
-package com.inspireui.mstore;
+package com.wedevs.dokan;
 
 import android.content.Intent;
 import android.content.Context;
@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
      */
 
     @Override
-    protected String getMainComponentName() {return "mstore";}
+    protected String getMainComponentName() {return "dokan";}
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
