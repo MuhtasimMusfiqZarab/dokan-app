@@ -86,8 +86,7 @@ const Images = {
   IcLicense: require('@images/ic_copyright.png'),
   IcPrivacy: require('@images/ic_lock.png'),
   ContactUs: require('@images/contactus.png'),
-
-
+  LoginScreenBackground: require('@images/login_screen.png')
 };
 
 export default Images;
