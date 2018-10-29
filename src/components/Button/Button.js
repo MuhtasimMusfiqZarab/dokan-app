@@ -187,7 +187,14 @@ const TabButton = (props) => (
 );
 
 const GradientButton = (props) => (
-  <TouchableOpacity onPress={props.onPress}>
+  <TouchableOpacity
+    onPress={props.onPress}
+    style={
+      {
+        width:
+          props.size === "sm" ? Dimensions.get("window").width / 3.5: "auto",
+      }
+    }>
     <LinearGradient
       style={
         [
@@ -195,6 +202,8 @@ const GradientButton = (props) => (
           {
             width:
               props.size === "sm" ? Dimensions.get("window").width / 3.5: "auto",
+            alignSelf: props.alignSelf ? props.aligSelf : "center",
+            marginTop: props.marginTop ? props.marginTop : 0
           }
         ]
       }
@@ -261,7 +270,6 @@ const styles = StyleSheet.create({
   },
   gradientButton: {
     height: 40,
-    alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 5,
