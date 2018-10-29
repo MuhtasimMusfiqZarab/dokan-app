@@ -11,14 +11,15 @@ import {
   ScrollView,
   Text,
   Image,
+  ImageBackground,
   TextInput,
   TouchableOpacity,
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
-import { Icons, Color, Languages, Styles, Config } from "@common";
+import { Icons, Color, Languages, Styles, Config, Images } from "@common";
 import { Icon, toast, warn, FacebookAPI } from "@app/Omni";
-import { Spinner, ButtonIndex } from "@components";
+import { Spinner, ButtonIndex, Button } from "@components";
 import WooWorker from "@services/WooCommerce/WooWorker";
 import WPUserAPI from "@services/WPUserAPI";
 import styles from "./styles";
@@ -180,79 +181,97 @@ class LoginScreen extends PureComponent {
   render() {
     const { username, password, isLoading } = this.state;
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.logoWrap}>
-          <Image
-            source={Config.LogoWithText}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
-        <View style={styles.subContain}>
-          <View style={styles.loginForm}>
-            <View style={styles.inputWrap}>
-              <Icon
-                name={Icons.MaterialCommunityIcons.Email}
-                size={Styles.IconSize.TextInput}
-                color={Color.blackTextSecondary}
-              />
-              <TextInput
-                {...commonInputProps}
-                ref={(comp) => (this.username = comp)}
-                placeholder={Languages.UserOrEmail}
-                keyboardType="email-address"
-                onChangeText={this.onUsernameEditHandle}
-                onSubmitEditing={this.focusPassword}
-                returnKeyType="next"
-                value={username}
-              />
-            </View>
-            <View style={styles.inputWrap}>
-              <Icon
-                name={Icons.MaterialCommunityIcons.Lock}
-                size={Styles.IconSize.TextInput}
-                color={Color.blackTextSecondary}
-              />
-              <TextInput
-                {...commonInputProps}
-                ref={(comp) => (this.password = comp)}
-                placeholder={Languages.password}
-                onChangeText={this.onPasswordEditHandle}
-                secureTextEntry
-                returnKeyType="go"
-                value={password}
-              />
-            </View>
-            <ButtonIndex
-              text={Languages.Login.toUpperCase()}
-              containerStyle={styles.loginButton}
-              onPress={this.onLoginPressHandle}
+      <ImageBackground
+        source={Images.LoginScreenBackground}
+        style={
+          styles.backgroundImage
+        }
+        resizeMode="cover">
+        <ScrollView contentContainerStyle={styles.container}>
+          <View style={styles.logoWrap}>
+            <Image
+              source={Config.LogoWithText}
+              style={styles.logo}
+              resizeMode="contain"
             />
-          </View>
-          <View style={styles.separatorWrap}>
-            <View style={styles.separator} />
-            <Text style={styles.separatorText}>{Languages.Or}</Text>
-            <View style={styles.separator} />
-          </View>
-
-          <ButtonIndex
-            text={Languages.FacebookLogin.toUpperCase()}
-            icon={Icons.MaterialCommunityIcons.Facebook}
-            containerStyle={styles.fbButton}
-            onPress={this.onFBLoginPressHandle}
-          />
-          <TouchableOpacity
-            style={Styles.Common.ColumnCenter}
-            onPress={this.onSignUpHandle}>
-            <Text style={styles.signUp}>
-              {Languages.DontHaveAccount}{" "}
-              <Text style={styles.highlight}>{Languages.signup}</Text>
+            <Text style={styles.logoText}>
+              Build Your Dream Multi Vendor Market Place
             </Text>
-          </TouchableOpacity>
-        </View>
+          </View>
+          <View style={styles.subContain}>
+            <View style={styles.loginForm}>
+              <View style={styles.inputWrap}>
+                <Icon
+                  name={Icons.MaterialCommunityIcons.Email}
+                  size={Styles.IconSize.TextInput}
+                  color={Color.blackTextSecondary}
+                />
+                <TextInput
+                  {...commonInputProps}
+                  ref={(comp) => (this.username = comp)}
+                  placeholder={Languages.UserOrEmail}
+                  keyboardType="email-address"
+                  onChangeText={this.onUsernameEditHandle}
+                  onSubmitEditing={this.focusPassword}
+                  returnKeyType="next"
+                  value={username}
+                />
+            </View>
+              <View style={styles.inputWrap}>
+                <Icon
+                  name={Icons.MaterialCommunityIcons.Lock}
+                  size={Styles.IconSize.TextInput}
+                  color={Color.blackTextSecondary}
+                />
+                <TextInput
+                  {...commonInputProps}
+                  ref={(comp) => (this.password = comp)}
+                  placeholder={Languages.password}
+                  onChangeText={this.onPasswordEditHandle}
+                  secureTextEntry
+                  returnKeyType="go"
+                  value={password}
+                />
+              </View>
+              {/* <ButtonIndex
+                text={Languages.Login.toUpperCase()}
+                containerStyle={styles.loginButton}
+                onPress={this.onLoginPressHandle}
+              /> */}
+              <Button
+                type="gradientBtn"
+                text="Login"
+                size="sm"
+                alignSelf="flex-start"
+                marginTop={15}
+                onPress={this.onLoginPressHandle}
+              />
+            </View>
+            <View style={styles.separatorWrap}>
+              <View style={styles.separator} />
+                <Text style={styles.separatorText}>{Languages.Or}</Text>
+              <View style={styles.separator} />
+            </View>
 
-        {isLoading ? <Spinner mode="overlay" /> : null}
-      </ScrollView>
+            {/* <ButtonIndex
+              text={Languages.FacebookLogin.toUpperCase()}
+              icon={Icons.MaterialCommunityIcons.Facebook}
+              containerStyle={styles.fbButton}
+              onPress={this.onFBLoginPressHandle}
+            /> */}
+            <TouchableOpacity
+              style={Styles.Common.ColumnCenter}
+              onPress={this.onSignUpHandle}>
+              <Text style={styles.signUp}>
+                {Languages.DontHaveAccount}{" "}
+                <Text style={styles.highlight}>{Languages.signup}</Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {isLoading ? <Spinner mode="overlay" /> : null}
+        </ScrollView>
+      </ImageBackground>
     );
   }
 }

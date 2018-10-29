@@ -6,17 +6,29 @@ import { Color, Styles } from "@common";
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null
+  },
   container: {
     flex: 1,
-    backgroundColor: Color.background,
+    // backgroundColor: Color.background,
   },
   logoWrap: {
-    ...Styles.Common.ColumnCenter,
-    flexGrow: 1,
+    // ...Styles.Common.ColumnCenter,
+    flexGrow: 0.3,
+    paddingHorizontal: Styles.width * 0.1,
+    paddingBottom: 50
   },
   logo: {
-    width: Styles.width * 0.8,
-    height: (Styles.width * 0.8) / 2,
+    // width: Styles.width * 0.8,
+    // height: (Styles.width * 0.8) / 2,
+    width: 120,
+    height: 80
+  },
+  logoText: {
+    width: width / 2
   },
   subContain: {
     paddingHorizontal: Styles.width * 0.1,
