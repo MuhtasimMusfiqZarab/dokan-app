@@ -213,14 +213,20 @@ const PrivacyPolicyStack = createStackNavigator(
 // End
 
 // Hide bottom navigator by weDevs
-CartScreenStack.navigationOptions = ({ navigation }) => {
-  let { routeName } = navigation.state.routes[navigation.state.index];
-  let navigationOptions = {};
-  
-  navigationOptions.tabBarVisible = false;
-  
-  return navigationOptions;
-};
+const hiddenBottomNavStack = [
+  CartScreenStack,
+  SearchStack,
+  LoginStack
+]
+hiddenBottomNavStack.map((item) => {
+  item.navigationOptions = ({ navigation }) => {
+    let navigationOptions = {};
+
+    navigationOptions.tabBarVisible = false;
+    
+    return navigationOptions;
+  };
+})
 HomeStack.navigationOptions = ({ navigation }) => {
   let { routeName } = navigation.state.routes[navigation.state.index];
   let navigationOptions = {};
@@ -228,14 +234,6 @@ HomeStack.navigationOptions = ({ navigation }) => {
   if(routeName === "DetailScreen") {
     navigationOptions.tabBarVisible = false;
   }
-
-  return navigationOptions;
-}
-SearchStack.navigationOptions = ({ navigation }) => {
-  let { routeName } = navigation.state.routes[navigation.state.index];
-  let navigationOptions = {};
-
-  navigationOptions.tabBarVisible = false;
 
   return navigationOptions;
 }
