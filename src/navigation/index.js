@@ -32,6 +32,7 @@ import CustomPageScreen from "./CustomPageScreen";
 import ListAllScreen from "./wdListAllScreen";
 import SettingScreen from "./SettingScreen";
 import UserProfileScreen from "./wdUserProfileScreen";
+import VendorsScreen from "./VendorsScreen";
 import VendorProfileScreen from "./wdVendorProfileScreen";
 import ContactUsScreen from "./wdContactUsScreen";
 import AboutUsScreen from "./wdAboutUsScreen";
@@ -160,6 +161,17 @@ const LoginStack = createStackNavigator(
 );
 
 // New StackNavigators by weDevs
+const VendorsStack = createStackNavigator(
+  {
+    VendorsScreen: { screen: VendorsScreen },
+    VendorProfileScreen: { screen: VendorProfileScreen },
+  },
+  {
+    navigationOptions: {
+      gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+    },
+  }
+);
 const MyOrdersStack = createStackNavigator(
   {
     MyOrdes: { screen: MyOrdersScreen },
@@ -339,6 +351,9 @@ const AppNavigator = createBottomTabNavigator(
       },
     },
     CategoryDetail: { screen: CategoryDetailStack },
+    VendorsScreen: {
+      screen: VendorsStack
+    },
     VendorProfileScreen: {
       screen: VendorProfileStack,
     },
