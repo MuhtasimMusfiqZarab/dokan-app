@@ -303,15 +303,15 @@ Styles.Common = {
     alignSelf: 'center',
     flex: 1,
     height: 40,
-    // backgroundColor: '#fff',
-
     fontFamily: Constants.fontFamilyLato,
     ...Platform.select({
       ios: {
+        height: 40,
         marginBottom: !Config.showStatusBar ? 14 : 0,
         marginTop: Device.isIphoneX ? -10 : 12,
       },
       android: {
+        height: 20,
         marginBottom: 4,
       },
     }),

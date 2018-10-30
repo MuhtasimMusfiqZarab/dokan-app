@@ -255,8 +255,37 @@ export default {
     // backgroundColor: "#F7F7F9",
     padding: 15
   },
+  topVendorInfoContainer: {
+    width: "85%",
+    height: 50,
+    padding: 10,
+    backgroundColor: "#fff",
+    borderRadius: 30,
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.2,
+        shadowOffset: { width: 1, height: 2 }
+      },
+      android: {
+        elevation: 3
+      }
+    })
+  },
+  topVendorNameInitials: {
+    width: 35,
+    height: 35,
+    borderRadius: 17.5,
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   productMetaContainer: {
     marginTop: 10,
+    marginBottom: 15,
     flexDirection: "row",
     alignItems: "flex-start"
   },
@@ -278,11 +307,18 @@ export default {
     marginLeft: 10,
     backgroundColor: "#fff",
     borderRadius: 5,
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowOffset: {width: 2, height: 2},
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    ...Platform.select({
+      ios: {
+        shadowColor: "#000",
+        shadowOpacity: 0.3,
+        shadowOffset: {width: 2, height: 2},
+      },
+      android: {
+        elevation: 3
+      }
+    })
   },
   productBadgeNumber: {
     fontFamily: Constants.fontFamilyLato,

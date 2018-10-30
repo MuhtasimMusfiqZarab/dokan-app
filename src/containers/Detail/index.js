@@ -17,15 +17,25 @@ import { connect } from "react-redux";
 import { Timer, getProductImage, currencyFormatter, warn, CustomIcon } from "@app/Omni";
 import {
   Button,
-  AdMob,
   WebView,
   ProductSize as ProductAttribute,
   ProductColor,
   ProductRelated,
   Rating,
+  ImageCache,
+  ReviewComment,
+  Review
 } from "@components";
 import Swiper from "react-native-swiper";
-import { Styles, Languages, Color, Config, Constants, Events, Icons } from "@common";
+import {
+  Styles,
+  Languages,
+  Color,
+  Config,
+  Constants,
+  Events,
+  Icons
+} from "@common";
 import Modal from "react-native-modalbox";
 import { find, filter } from "lodash";
 import * as Animatable from "react-native-animatable";
@@ -37,7 +47,6 @@ import styles from "./ProductDetail_Style";
 import striptags from 'striptags';
 import Accordion from 'react-native-collapsible/Accordion';
 import { LinearGradient } from '@expo';
-import MultiSelect from 'react-native-multiple-select';
 import { Icon } from "@app/Omni";
 // end weDevs
 
@@ -107,15 +116,15 @@ class Detail extends PureComponent {
    *  Accordion by weDevs
   */
   onSelectedItemsChange = selectedItems => {
-    console.log()
     this.setState({ selectedItems });
   };
 
   accordionDescription = () => {
+    const productDescription = striptags(this.props.product.description);
     return (
       <View>
-        <Image
-          source={require("@images/category_placehodler.png")}
+        <ImageCache
+          uri={this.props.product.images[0].src}
           style={
             {
               width: '100%',
@@ -125,7 +134,9 @@ class Detail extends PureComponent {
             }
           }
         />
-        <Text style={styles.accordionDescriptionText}>{BACON_IPSUM}</Text>
+        <Text style={styles.accordionDescriptionText}>
+          {productDescription}
+        </Text>
       </View>
     )
   }
@@ -178,18 +189,18 @@ class Detail extends PureComponent {
           Shipping Calculation
         </Text>
         
-        <MultiSelect
+        {/* <MultiSelect
           hideTags
           single
           items={items}
           uniqueKey="id"
           ref={(component) => { this.multiSelect = component }}
           onSelectedItemsChange={this.onSelectedItemsChange}
-          // selectedItems={this.state}
+          selectedItems={this.state}
           selectText="Pick Items"
           searchInputPlaceholderText="Search Items..."
           onChangeInput={ (text)=> console.log(text)}
-          // altFontFamily="ProximaNova-Light"
+          altFontFamily="ProximaNova-Light"
           tagRemoveIconColor="#CCC"
           tagBorderColor="#CCC"
           tagTextColor="#CCC"
@@ -200,8 +211,25 @@ class Detail extends PureComponent {
           searchInputStyle={{ color: '#CCC' }}
           submitButtonColor="#CCC"
           submitButtonText="Submit"
-        />
+        /> */}
 
+      </View>
+    )
+  }
+
+  accordionCustomerReview = () => {
+    return (
+      <View style={{alignItems: "center"}}>
+        {
+          Config.dummyReview.map((item, index) => {
+            return (
+              <ReviewComment
+                key={`review-${index}`}
+                item={item} />
+            )
+          })
+        }
+        <Review />
       </View>
     )
   }
@@ -223,7 +251,7 @@ class Detail extends PureComponent {
     },
     {
       title: 'Customer Review',
-      // content: BACON_IPSUM,
+      content: this.accordionCustomerReview(),
       fromColor: "#FF9472",
       toColor: "#F2709C",
       icon: "chat"
@@ -792,44 +820,36 @@ class Detail extends PureComponent {
     );
 
     //weDevs
-    const renderVendorInfo = () => (
-      <View
-        style={
-          {
-            width: "85%",
-            height: 50,
-            padding: 10,
-            backgroundColor: "#fff",
-            borderRadius: 30,
-            flexDirection: "row",
-            alignItems: "center",
-            margin: 10,
-            shadowColor: "#000",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 1, height: 2 }
-          }
-        }
-      >
-        <View
-          style={
-            {
-              width: 35,
-              height: 35,
-              borderRadius: 17.5,
-              backgroundColor: "red",
-              justifyContent: "center",
-              alignItems: "center"
-            }
-          }
-        >
-          <Text style={{color: "white"}}>M</Text>
-        </View>
-      </View>
-    );
+    const renderVendorInfo = () => {
+      const vendorName = this.props.product.store? this.props.product.store.name : ""
+      const vendorInitial = vendorName.charAt(0);
+      if (vendorName) {
+        return (
+          <View style={styles.topVendorInfoContainer}>
+            <View style={styles.topVendorNameInitials}>
+              <Text style={{color: "white"}}>
+                {vendorInitial}
+              </Text>
+            </View>
+            <View style={{marginLeft: 15}}>
+              <Text>
+                {vendorName}
+              </Text>
+            </View>
+          </View>
+        )
+      } else {
+        return (
+          <View style={styles.topVendorInfoContainer}>
+            <Text style={{alignSelf: "center"}}>Vendor Info Not found</Text>
+          </View>
+        )
+      }
+    };
 
     const renderProductDetails = () => {
-      const productDescription = striptags(this.props.product.description);
-
+      const productDescription = striptags(this.props.product.short_description);
+      console.log(this.props.product)
       return(
         <View style={styles.productDetailContainer}>
 

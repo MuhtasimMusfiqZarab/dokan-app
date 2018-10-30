@@ -388,63 +388,20 @@ export default {
       colorRGB: 'rgba(59, 128, 244, 0.05)',
     }
   ],
-  featuredVendor: [
+  dummyReview: [
     {
-      name: 'Glaze Concept',
-      rating: 2,
-      text: 'G',
-      color: '#2ECC71'
-    },
-    {
-      name: 'Tammi Gong',
+      customer_name: 'Test Customer 1',
       rating: 5,
-      text: 'T',
-      color: '#E9485E'
+      title: "Review Ttile 1",
+      comment: "Efficiently foster client-centric partnerships rather than mission-critical internal or sources. Globally customize web-enabled.",
+      date: "25 July, 2018 | 04:30 pm"
     },
     {
-      name: 'Suma Fong',
-      rating: 0,
-      text: 'S',
-      color: '#3B80F4'
-    },
-    {
-      name: 'Abstract Shop',
+      customer_name: 'Test Customer 2',
       rating: 4,
-      text: 'A',
-      color: '#3B80F4'
-    }
-  ],
-  BACON_IPSUM : 'Bacon ipsum dolor amet chuck turducken landjaeger tongue spare ribs. Picanha beef prosciutto meatball turkey shoulder shank salami cupim doner jowl pork belly cow. Chicken shankle rump swine tail frankfurter meatloaf ground round flank ham hock tongue shank andouille boudin brisket. ',
-  productDetails : [
-    {
-      title: 'Description',
-      // content: BACON_IPSUM,
-      fromColor: "#00C6FB",
-      toColor: "#005BEA",
-    },
-    {
-      title: 'Shipping',
-      // content: BACON_IPSUM,
-      fromColor: "#C444FB",
-      toColor: "#5B56D7"
-    },
-    {
-      title: 'Customer Review',
-      // content: BACON_IPSUM,
-      fromColor: "#FF9472",
-      toColor: "#F2709C"
-    },
-    {
-      title: 'Vendor Info',
-      // content: BACON_IPSUM,
-      fromColor: "#7ED500",
-      toColor: "#00BF8D"
-    },
-    {
-      title: 'Related Products',
-      // content: BACON_IPSUM,
-      fromColor: "#6EACFF",
-      toColor: "#907CFF"
+      title: "Review Ttile 2",
+      comment: "Seamlessly strategize sustainable models vis-a-vis dynamic solutions. Quickly deploy bleeding-edge architectures with excellent portals.",
+      date: "25 July, 2018 | 04:30 pm"
     },
   ],
   sortingTexts: [

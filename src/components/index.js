@@ -63,6 +63,7 @@ import WdAtAGlance from "./WdAtAGlance";
 import VendorProfileHeader from "./VendorProfileHeader";
 import VendorList from "./VendorList";
 import StripePanel from "./StripePanel";
+import ReviewComment from "./ReviewComment";
 
 export {
   ProductList,
@@ -126,5 +127,6 @@ export {
   WdAtAGlance,
   VendorProfileHeader,
   VendorList,
-  StripePanel
+  StripePanel,
+  ReviewComment
 };
