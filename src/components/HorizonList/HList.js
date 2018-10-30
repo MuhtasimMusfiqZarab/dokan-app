@@ -159,7 +159,6 @@ class HorizonList extends PureComponent {
         <View>
           {renderHeader(config.layout)}
           <WdFeaturedVendor
-            fetchAllVendors={fetchAllVendors}
             featuredVendorList={featuredVendorList}
             fetchVendorProducts={fetchVendorProducts}
             onViewVendorProfileScreen={onViewVendorProfileScreen}
@@ -167,7 +166,11 @@ class HorizonList extends PureComponent {
         </View>
       );
     } else if ( config.layout === 13 ) {
-      return ( <WdAtAGlance /> )
+      return (
+        <WdAtAGlance
+          navigation={navigation}
+        />
+      )
     } else {
       return (
         <View

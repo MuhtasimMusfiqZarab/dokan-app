@@ -40,6 +40,7 @@ export default {
     {
       purpose: "atAglance",
       layout: Constants.Layout.atAglance,
+      vendorListType: "allVendors"
     },
     {
       name: "featuredProducts",

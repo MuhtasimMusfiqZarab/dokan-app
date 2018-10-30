@@ -16,24 +16,40 @@ import { Config, Constants, Color, Images } from "@common";
 //   props.onViewVendorProfileScreen(item);
 // }
 
+const onPressCategory = (props) => {
+  props.navigation.navigate("CategoriesScreen");
+}
+const onPressVendors = (props) => {
+  props.navigation.navigate('VendorsScreen');
+}
+const onPressProducts = (props) => {
+  // props.navigation.navigate('VendorsScreen');
+}
+
 const WdAtAGlance = (props) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.atAglanceBtn}>
+      <TouchableOpacity
+        onPress={() => onPressCategory(props)}
+        style={styles.atAglanceBtn}>
         <Image
           source={Images.CategoryColorIcon}
           style={styles.btnIconImage}
         />
 				<Text>Categories</Text>
       </TouchableOpacity>
-			<TouchableOpacity style={styles.atAglanceBtn}>
+			<TouchableOpacity
+        onPress={ () => onPressVendors(props) }
+        style={styles.atAglanceBtn}>
         <Image
           source={Images.VendorColorIcon}
           style={styles.btnIconImage}
         />
 				<Text>Vendors</Text>
       </TouchableOpacity>
-			<TouchableOpacity style={styles.atAglanceBtn}>
+			<TouchableOpacity
+        onPress={ () => onPressProducts(props) }
+        style={styles.atAglanceBtn}>
         <Image
           source={Images.ProductColorIcon}
           style={styles.btnIconImage}

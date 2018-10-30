@@ -26,8 +26,8 @@ export default class HomeScreen extends PureComponent {
 
     return (
       <Home
-        onShowAll={(config, index, vendorListType) =>
-          navigate('ListAllScreen', { config, index, vendorListType })
+        onShowAll={(config, index) =>
+          navigate('ListAllScreen', { config, index })
         }
         onViewProductScreen={(item) => {
           navigate('DetailScreen', item)
