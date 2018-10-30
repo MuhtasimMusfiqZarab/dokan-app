@@ -69,6 +69,7 @@ class TabBar extends PureComponent {
       "SettingScreen",
       "WishListScreen",
       "LoginStack",
+      "VendorsScreen",
       "VendorProfileScreen",
       "ContactUs",
       "AboutUs",
