@@ -17,7 +17,8 @@ import styles from "./styles";
 import {
   WdNewArrival,
   WdPopularCat,
-  WdFeaturedVendor
+  WdFeaturedVendor,
+  WdAtAGlance
 } from "@components";
 
 class HorizonList extends PureComponent {
@@ -165,6 +166,8 @@ class HorizonList extends PureComponent {
             navigation={navigation} />
         </View>
       );
+    } else if ( config.layout === 13 ) {
+      return ( <WdAtAGlance /> )
     } else {
       return (
         <View

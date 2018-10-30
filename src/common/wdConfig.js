@@ -38,6 +38,10 @@ export default {
   HorizonLayout: [
     { tag: 273, paging: true, layout: Constants.Layout.miniBanner },
     {
+      purpose: "atAglance",
+      layout: Constants.Layout.atAglance,
+    },
+    {
       name: "featuredProducts",
       purpose: "featuredProducts",
       category: 21,
@@ -48,10 +52,6 @@ export default {
       purpose: "newArrival",
       layout: Constants.Layout.newArrival,
     },
-    // {
-    //   purpose: "atAglance",
-    //   layout: Constants.Layout.atAglance,
-    // },
     {
       name: "bestSellingProducts",
       purpose: 'bestSellingProducts',

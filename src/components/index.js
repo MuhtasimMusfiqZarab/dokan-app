@@ -59,6 +59,7 @@ import WdAdds from "./WdAdds";
 import WdPopularCat from "./WdPopularCat"
 import WdFeaturedVendor from "./WdFeaturedVendor";
 import WdProductListToolBar from "./WdProductListToolbBar";
+import WdAtAGlance from "./WdAtAGlance";
 import VendorProfileHeader from "./VendorProfileHeader";
 import VendorList from "./VendorList";
 import StripePanel from "./StripePanel";
@@ -122,6 +123,7 @@ export {
   WdFeaturedVendor,
   WdProductListToolBar,
   WdModalSorting,
+  WdAtAGlance,
   VendorProfileHeader,
   VendorList,
   StripePanel

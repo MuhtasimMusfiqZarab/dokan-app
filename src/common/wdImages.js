@@ -86,7 +86,10 @@ const Images = {
   IcLicense: require('@images/ic_copyright.png'),
   IcPrivacy: require('@images/ic_lock.png'),
   ContactUs: require('@images/contactus.png'),
-  LoginScreenBackground: require('@images/login_screen.png')
+  LoginScreenBackground: require('@images/login_screen.png'),
+  CategoryColorIcon: require('@images/category_color.png'),
+  VendorColorIcon: require('@images/vendor_color.png'),
+  ProductColorIcon: require('@images/product_color.png')
 };
 
 export default Images;
