@@ -202,8 +202,9 @@ const GradientButton = (props) => (
           {
             width:
               props.size === "sm" ? Dimensions.get("window").width / 3.5: "auto",
-            alignSelf: props.alignSelf ? props.aligSelf : "center",
-            marginTop: props.marginTop ? props.marginTop : 0
+            alignSelf: props.alignSelf ? props.alignSelf : "center",
+            marginTop: props.marginTop ? props.marginTop : 0,
+            marginBottom: props.marginBottom ? props.marginBottom : 0
           }
         ]
       }
@@ -274,7 +275,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 15,
     ...Platform.select({
       ios: {
         backgroundColor: "#fff",
