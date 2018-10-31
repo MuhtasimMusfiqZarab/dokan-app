@@ -25,7 +25,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 15,
+    fontSize: 20,
     fontFamily: Constants.fontFamily,
     color: Color.Text,
   },
@@ -36,8 +36,8 @@ export default StyleSheet.create({
     justifyContent: "flex-start",
   },
   price: {
-    fontSize: 20,
-    color: Color.Text,
+    fontSize: 15,
+    color: Color.wdgray4,
     fontFamily: Constants.fontHeader,
   },
   productVariant: {

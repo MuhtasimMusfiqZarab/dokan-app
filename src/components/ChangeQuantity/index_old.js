@@ -41,14 +41,14 @@ class ChangeQuantity extends PureComponent {
           style={styles.btnUp}
           hitSlop={hitSlop}
           onPress={this.increase}>
-          <FontAwesome name="plus" size={16} color="#E94F44" />
+          <FontAwesome name="sort-up" size={20} color="#b7c4cb" />
         </TouchableOpacity>
         <Text style={styles.text}>{this.state.quantity}</Text>
         <TouchableOpacity
           style={styles.btnDown}
           hitSlop={hitSlop}
           onPress={this.reduced}>
-          <FontAwesome name="minus" size={16} color="#E94F44" />
+          <FontAwesome name="sort-down" size={20} color="#b7c4cb" />
         </TouchableOpacity>
       </View>
     );
@@ -61,27 +61,25 @@ ChangeQuantity.defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    width: 50,
-    alignItems: "center"
+    width: 30,
+    backgroundColor: "#f7f8fa",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#d4dce1",
+    borderRadius: 15,
   },
   text: {
     fontSize: 18,
     fontFamily: Constants.fontFamily,
-    color: Color.wdgray4,
-    marginTop: 1,
-    marginBottom: 1
+    color: Color.blackTextPrimary,
   },
   btnUp: {
-    width: "100%",
     height: 40,
-    backgroundColor: "#f7f8fa",
     justifyContent: "center",
     alignItems: "center",
   },
   btnDown: {
-    width: "100%",
     height: 40,
-    backgroundColor: "#f7f8fa",
     justifyContent: "center",
     alignItems: "center",
   },

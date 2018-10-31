@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import css from "@cart/styles";
 import { currencyFormatter, toast } from "@app/Omni";
-import { ProductItem } from "@components";
+import { ProductItem, Button } from "@components";
 import { connect } from "react-redux";
 import { SwipeRow } from "react-native-swipe-list-view";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -83,7 +83,7 @@ class MyCart extends PureComponent {
               ))}
           </View>
           <View style={styles.couponView}>
-            <Text style={css.label}>{Languages.CouponPlaceholder}:</Text>
+            <Text style={styles.couponLabel}>{Languages.CouponPlaceholder}:</Text>
             <View style={styles.row}>
               <TextInput
                 value={this.state.coupon}
@@ -99,14 +99,21 @@ class MyCart extends PureComponent {
                 editable={this.getExistCoupon() == 0}
               />
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 activeOpacity={0.6}
                 onPress={() => this.checkCouponCode()}
                 disabled={this.state.coupon.length === 0}>
                 <LinearGradient colors={colors} style={styles.btnApply}>
                   <Text style={styles.btnApplyText}>{couponBtn}</Text>
                 </LinearGradient>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
+              <Button
+                type="gradientBtn"
+                size="sm"
+                text={couponBtn}
+                onPress={() => this.checkCouponCode()}
+              />
+
             </View>
             {this.getExistCoupon() > 0 && (
               <Text style={styles.couponMessage}>
@@ -135,10 +142,14 @@ class MyCart extends PureComponent {
   };
 
   checkCouponCode = () => {
-    if (this.getExistCoupon() == 0) {
-      this.props.getCouponAmount(this.state.coupon);
+    if (this.state.coupon) {
+      if (this.getExistCoupon() == 0) {
+        this.props.getCouponAmount(this.state.coupon);
+      } else {
+        this.props.cleanOldCoupon();
+      }
     } else {
-      this.props.cleanOldCoupon();
+      alert("No Coupon was Entered");
     }
   };
 

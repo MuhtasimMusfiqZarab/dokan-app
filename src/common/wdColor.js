@@ -112,8 +112,11 @@ export default {
   textBlue: "#9B59B6",
   reviewTextColor: "#A5B1B5",
   wdred1: "#E74C3C",
-  wdgray: '#818995',
-  wdDeepGray: '#79828F',
+  wdgray: "#818995",
+  wdgray2: "#E6EAEB",
+  wdgray3: "#848688",
+  wdgray4: "#7D8693",
+  wdDeepGray: "#79828F",
   wdLightGray: '#868D9B'
 
 }

@@ -119,7 +119,7 @@ export default new LocalizedStrings({
     PayWithPayPal: "Your purchase will be pay with PayPal",
     PayWithStripe: "Your purchase will be pay with Stripe",
     ApplyCoupon: "Apply",
-    CouponPlaceholder: "COUPON CODE",
+    CouponPlaceholder: "Coupon Code",
     APPLY: "APPLY",
     Back: "Back",
     CardNamePlaceholder: "Name written on card",

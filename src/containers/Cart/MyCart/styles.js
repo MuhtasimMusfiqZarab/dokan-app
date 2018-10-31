@@ -59,8 +59,10 @@ export default StyleSheet.create({
     borderColor: Color.lightGrey,
   },
   couponLabel: {
+    fontSize: 18,
     marginBottom: 15,
-    fontFamily: Constants.fontHeader,
+    color: Color.wdgray3,
+    fontFamily: Constants.fontFamilyLato,
   },
   row: {
     flexDirection: "row",
@@ -71,12 +73,12 @@ export default StyleSheet.create({
     flex: 1,
     color: "#000",
     height: 40,
-    borderRadius: 20,
-    backgroundColor: Color.lightGrey,
+    borderRadius: 5,
+    // backgroundColor: Color.lightGrey,
     marginRight: 20,
     paddingHorizontal: 15,
     borderWidth: 1,
-    borderColor: Color.lightgrey,
+    borderColor: Color.wdgray2,
   },
   btnApply: {
     width: 100,
