@@ -143,10 +143,10 @@ android {
             }
         }
     }
-      lintOptions {
+    lintOptions {
         checkReleaseBuilds false
         abortOnError false
-      }
+    }
 }
 
 dependencies {
