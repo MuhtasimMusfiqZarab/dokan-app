@@ -3,10 +3,10 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo "${BLUE}==>1. Install required libraries: node, watchman, react-native-cli${NC}"
-# brew install node
-# brew install watchman
-# npm install -g react-native-cli yarn
-# gem install cocoapods
+brew install node
+brew install watchman
+npm install -g react-native-cli yarn
+gem install cocoapods
 pod repo update
 
 echo "${BLUE}==>2. Reset cache${NC}"

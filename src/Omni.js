@@ -1,5 +1,4 @@
 /**
- * Created by InspireUI on 17/02/2017.
  *
  * @format
  */
@@ -21,8 +20,6 @@ import _FacebookAPI from "./services/FacebookAPI";
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
 import icoMoonConfig from './selection.json';
 export const CustomIcon = createIconSetFromIcoMoon(icoMoonConfig);
-
-
 // const { actions: SideMenuActions } = require('@redux/SideMenuRedux')
 
 export const Icon = _Icon;
@@ -32,13 +29,24 @@ export const Timer = _Timer;
 export const Validate = _Validate;
 export const BlockTimer = _BlockTimer;
 export const FacebookAPI = _FacebookAPI;
-
 export const Reactotron = reactotron;
 
 // TODO: replace those function after app go live
-export const log = (values) => __DEV__ && reactotron.log(values);
-export const warn = (values) => __DEV__ && reactotron.warn(values);
-export const error = (values) => __DEV__ && reactotron.error(values);
+// export const log = (values) => __DEV__ && reactotron.log(values);
+// export const warn = (values) => __DEV__ && reactotron.warn(values);
+// export const error = (values) => __DEV__ && reactotron.error(values);
+
+const _log = values => __DEV__ && reactotron.log(values)
+const _warn = values => __DEV__ && reactotron.warn(values)
+const _error = values => __DEV__ && reactotron.error(values)
+export function connectConsoleToReactotron() {
+  console.log = _log;
+  console.warn = _warn;
+  console.error = _error;
+}
+export const log = _log
+export const warn = _warn
+export const error = _error
 
 /**
  * An async fetch with error catch

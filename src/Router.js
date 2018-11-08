@@ -60,7 +60,6 @@ class Router extends React.PureComponent {
     if (!this.props.introStatus) {
       return <AppIntro />;
     }
-
     return (
       Device.isIphoneX ?
       <SafeAreaView style={{flex: 1}}>

@@ -5,6 +5,7 @@ import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import reducers from "@redux";
 import { Constants } from "@common";
+import {connectConsoleToReactotron} from '@app/Omni'
 import "./../../ReactotronConfig";
 
 const middleware = [
@@ -23,6 +24,7 @@ const configureStore = () => {
         {},
         applyMiddleware(...middleware)
       );
+      connectConsoleToReactotron();
     } else {
       const composeEnhancers =
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

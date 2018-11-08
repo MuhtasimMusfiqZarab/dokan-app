@@ -1,7 +1,4 @@
 {
-  "expo": {
-    "name": "dokan",
-    "description": "Mobile WooCommerce app",
-    "version": "0.0.1"
-  }
+  "name": "Dokan",
+  "displayName": "Dokan"
 }

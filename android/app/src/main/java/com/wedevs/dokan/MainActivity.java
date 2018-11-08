@@ -15,7 +15,7 @@ public class MainActivity extends ReactActivity {
      */
 
     @Override
-    protected String getMainComponentName() {return "dokan";}
+    protected String getMainComponentName() {return "Dokan";}
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

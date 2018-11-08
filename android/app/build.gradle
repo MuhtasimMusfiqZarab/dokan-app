@@ -33,6 +33,13 @@ import com.android.build.OutputFile
  *   // bundleInPaidRelease: true,
  *   // bundleInBeta: true,
  *
+ *   // whether to disable dev mode in custom build variants (by default only disabled in release)
+ *   // for example: to disable dev mode in the staging build type (if configured)
+ *   devDisabledInStaging: true,
+ *   // The configuration property can be in the following formats
+ *   //         'devDisabledIn${productFlavor}${buildType}'
+ *   //         'devDisabledIn${buildType}'
+ *
  *   // the root of your project, i.e. where "package.json" lives
  *   root: "../../",
  *
@@ -52,7 +59,7 @@ import com.android.build.OutputFile
  *
  *   // by default the gradle tasks are skipped if none of the JS files or assets change; this means
  *   // that we don't look at files in android/ or ios/ to determine whether the tasks are up to
- *   // date; if you have any other ,folders that you want to ignore for performance reasons (gradle
+ *   // date; if you have any other folders that you want to ignore for performance reasons (gradle
  *   // indexes the entire tree), add them here. Alternatively, if you have JS files in android/
  *   // for example, you might want to remove it from here.
  *   inputExcludes: ["android/**", "ios/**"],
@@ -64,6 +71,10 @@ import com.android.build.OutputFile
  *   extraPackagerArgs: []
  * ]
  */
+
+project.ext.react = [
+    entryFile: "index.js"
+]
 
 apply from: "../../node_modules/react-native/react.gradle"
 
@@ -77,32 +88,24 @@ apply from: "../../node_modules/react-native/react.gradle"
  */
 def enableSeparateBuildPerCPUArchitecture = false
 
-project.ext.react = [
-    entryFile: "index.js"
-]
-
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "com.wedevs.dokan"
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 7
-        versionName "3.5.1"
+        versionCode 11
+        versionName "3.6.2"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        manifestPlaceholders = [onesignal_app_id: "43948a3d-da03-4e1a-aaf4-cb38f0d9ca51",
-                                        onesignal_google_project_number: "REMOTE"]
-        // Enabling multidex support.
-        // multiDexEnabled true
     }
     signingConfigs {
             release {
@@ -123,6 +126,12 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
@@ -143,30 +152,34 @@ android {
             }
         }
     }
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
 }
 
 dependencies {
     compile project(':react-native-fast-image')
     compile project(':react-native-fbsdk')
+    compile project(':react-native-onesignal')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-admob')
     compile project(':react-native-restart')
     compile project(':react-native-localization')
-    compile project(':react-native-onesignal')
     compile project(':react-native-vector-icons')
     compile project(':react-native-linear-gradient')
     //    compile 'com.facebook.android:facebook-android-sdk:[4.33.0)'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26.0.2'
-    compile 'com.facebook.react:react-native:+'
-    // From node_modules
-    compile 'com.facebook.android:facebook-android-sdk:[4.22.1)'
-//    compile 'com.google.android.gms:play-services:12.0.1'
+
+    implementation project(':react-native-fast-image')
+    implementation project(':react-native-admob')
+    implementation project(':react-native-onesignal')
+    implementation project(':react-native-fbsdk')
+    implementation project(':react-native-linear-gradient')
+    implementation project(':react-native-vector-icons')
+    implementation 'com.facebook.android:facebook-android-sdk:[4.34.0)'
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
 }
+
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
 
 // Run this once to be able to run the application with BUCK
 // puts all compile dependencies into folder libs for BUCK to use

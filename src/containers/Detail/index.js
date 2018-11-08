@@ -78,7 +78,8 @@ class Detail extends PureComponent {
       selectedAttribute: [],
       selectedColor: 0,
       selectVariation: null,
-      selectedItems : []
+      selectedItems : [],
+      activeSection: [0]
     };
 
     this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
@@ -142,34 +143,6 @@ class Detail extends PureComponent {
   }
 
   accordionShipping = () => {
-    const items = [{
-      id: '92iijs7yta',
-      name: 'Ondo',
-    }, {
-      id: 'a0s0a8ssbsd',
-      name: 'Ogun',
-    }, {
-      id: '16hbajsabsd',
-      name: 'Calabar',
-    }, {
-      id: 'nahs75a5sg',
-      name: 'Lagos',
-    }, {
-      id: '667atsas',
-      name: 'Maiduguri',
-    }, {
-      id: 'hsyasajs',
-      name: 'Anambra',
-    }, {
-      id: 'djsjudksjd',
-      name: 'Benue',
-    }, {
-      id: 'sdhyaysdj',
-      name: 'Kaduna',
-    }, {
-      id: 'suudydjsjd',
-      name: 'Abuja',
-    }];
     return (
       <View>
         <Text style={{color: "#19B491", fontSize: 12, marginBottom: 10}}>
@@ -188,30 +161,6 @@ class Detail extends PureComponent {
         >
           Shipping Calculation
         </Text>
-        
-        {/* <MultiSelect
-          hideTags
-          single
-          items={items}
-          uniqueKey="id"
-          ref={(component) => { this.multiSelect = component }}
-          onSelectedItemsChange={this.onSelectedItemsChange}
-          selectedItems={this.state}
-          selectText="Pick Items"
-          searchInputPlaceholderText="Search Items..."
-          onChangeInput={ (text)=> console.log(text)}
-          altFontFamily="ProximaNova-Light"
-          tagRemoveIconColor="#CCC"
-          tagBorderColor="#CCC"
-          tagTextColor="#CCC"
-          selectedItemTextColor="#CCC"
-          selectedItemIconColor="#CCC"
-          itemTextColor="#000"
-          displayKey="name"
-          searchInputStyle={{ color: '#CCC' }}
-          submitButtonColor="#CCC"
-          submitButtonText="Submit"
-        /> */}
 
       </View>
     )
@@ -849,7 +798,7 @@ class Detail extends PureComponent {
 
     const renderProductDetails = () => {
       const productDescription = striptags(this.props.product.short_description);
-      console.log(this.props.product)
+      debugger;
       return(
         <View style={styles.productDetailContainer}>
 
@@ -887,7 +836,7 @@ class Detail extends PureComponent {
           </Text>
 
           <Accordion
-            activeSection={this.state.activeSection}
+            activeSections={this.state.activeSection}
             sections={this.ACCORDION_CONTENT}
             touchableComponent={TouchableWithoutFeedback}
             renderHeader={this.renderAccordionHeader}
