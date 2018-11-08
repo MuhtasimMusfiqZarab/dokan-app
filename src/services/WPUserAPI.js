@@ -16,7 +16,7 @@ const cookieLifeTime = 120960000000;
 
 const WPUserAPI = {
   login: async (username, password) => {
-    const _url = `${url}/api/mstore_user/generate_auth_cookie/?second=${cookieLifeTime}&username=${username}&password=${password}${secure}`;
+    const _url = `${url}/api/user/generate_auth_cookie/?second=${cookieLifeTime}&username=${username}&password=${password}${secure}`;
     return await request(_url);
   },
   loginFacebook: async (token) => {
@@ -34,7 +34,7 @@ const WPUserAPI = {
     try {
       const nonce = await WPUserAPI.getNonce();
       const _url =
-        `${`${url}/api/mstore_user/register/?` +
+        `${`${url}/api/user/register/?` +
           `username=${username}` +
           `&email=${email}` +
           `&display_name=${`${firstName}+${lastName}`}` +
@@ -49,7 +49,7 @@ const WPUserAPI = {
     }
   },
   getNonce: async () => {
-    const _url = `${url}/api/get_nonce/?controller=mstore_user&method=register`;
+    const _url = `${url}/api/get_nonce/?controller=user&method=register`;
     const json = await request(_url);
     return json && json.nonce;
   },
