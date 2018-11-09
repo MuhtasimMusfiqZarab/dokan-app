@@ -99,8 +99,8 @@ android {
 
     defaultConfig {
         applicationId "com.wedevs.dokan"
-        versionCode 11
-        versionName "3.6.2"
+        versionCode 1
+        versionName "0.0.1"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         ndk {
@@ -108,16 +108,16 @@ android {
         }
     }
     signingConfigs {
-            release {
-                if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
-                    storeFile file(MYAPP_RELEASE_STORE_FILE)
-                    storePassword MYAPP_RELEASE_STORE_PASSWORD
-                    keyAlias MYAPP_RELEASE_KEY_ALIAS
-                    keyPassword MYAPP_RELEASE_KEY_PASSWORD
-                    v2SigningEnabled true
-                }
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+                v2SigningEnabled true
             }
         }
+    }
     splits {
         abi {
             reset()
