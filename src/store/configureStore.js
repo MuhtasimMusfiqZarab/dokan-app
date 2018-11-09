@@ -24,7 +24,7 @@ const configureStore = () => {
         {},
         applyMiddleware(...middleware)
       );
-      connectConsoleToReactotron();
+      // connectConsoleToReactotron();
     } else {
       const composeEnhancers =
         window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
