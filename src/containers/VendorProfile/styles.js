@@ -53,4 +53,9 @@ export default StyleSheet.create({
   tabContent: {
     // padding: 35,
   },
+  tabContentMap: {
+    paddingTop: 20,
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });

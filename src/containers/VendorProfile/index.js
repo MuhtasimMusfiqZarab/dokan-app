@@ -4,6 +4,7 @@ import React, { Component, PureComponent } from "react";
 import {
   View,
   ScrollView,
+  StyleSheet,
   Text,
   Switch,
   AsyncStorage
@@ -17,6 +18,7 @@ import {
 } from "@components";
 import { Languages, Color, Tools, Constants } from "@common";
 import { getNotification } from "@app/Omni";
+import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 
 import styles from "./styles";
 
@@ -40,7 +42,9 @@ class VendorProfile extends Component {
 
   render() {
     const { vendor, navigation } = this.props;
-
+    console.log(vendor.location);
+//     const vendorLatLonArray = vendor.location.split(" , ");
+// console.log(vendorLatLonArray[0]);
     return (
       <View style={styles.container}>
         {/* <View
@@ -115,8 +119,25 @@ class VendorProfile extends Component {
               </View>
             )}
             {this.state.tabIndex === 2 && (
-              <View style={styles.tabContent}>
-                <Text>3rd Tab</Text>
+              <View style={styles.tabContentMap}>
+                <MapView
+                  //provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                  style={{width: 330, height: 200}}
+                  initialRegion={{
+                    latitude: 23.8103,
+                    longitude: 90.4125,
+                    latitudeDelta: 0.015,
+                    longitudeDelta: 0.0121,
+                  }}
+                >
+                  <Marker
+                    coordinate={{
+                      latitude: 23.8103,
+                      longitude: 90.4125,
+                    }}
+                    title="Store Location"                    
+                  />
+                </MapView>
               </View>
             )}
 			    </View>
