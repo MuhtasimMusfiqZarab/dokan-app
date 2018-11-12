@@ -9,6 +9,7 @@ buildscript {
         compileSdkVersion = 27
         targetSdkVersion = 26
         supportLibVersion = "27.1.1"
+        androidMapsUtilsVersion = "0.5+"
     }
     repositories {
         mavenCentral()
@@ -45,27 +46,27 @@ allprojects {
         google()
         jcenter()
     }
-     configurations.all {
-             resolutionStrategy {
-                 force 'org.webkit:android-jsc:r224109'
+    configurations.all {
+        resolutionStrategy {
+            force 'org.webkit:android-jsc:r224109'
 
-                //  force 'com.facebook.android:facebook-android-sdk:4.22.1'
+            //  force 'com.facebook.android:facebook-android-sdk:4.22.1'
 
-                 // react-native-admob
-                 force "com.google.android.gms:play-services-ads:$googlePlayServicesVersion"
+            // react-native-admob
+            force "com.google.android.gms:play-services-ads:$googlePlayServicesVersion"
 
-                 // force "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
-                 // force "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
+            // force "com.google.android.gms:play-services-base:$googlePlayServicesVersion"
+            // force "com.google.android.gms:play-services-maps:$googlePlayServicesVersion"
 
-                 // react-native-onesignal
-                 force "com.google.android.gms:play-services-gcm:$googlePlayServicesVersion"
-                 force "com.google.android.gms:play-services-analytics:15.0.2"
-                 force "com.google.android.gms:play-services-location:$googlePlayServicesVersion"
+            // react-native-onesignal
+            force "com.google.android.gms:play-services-gcm:$googlePlayServicesVersion"
+            force "com.google.android.gms:play-services-analytics:15.0.2"
+            force "com.google.android.gms:play-services-location:$googlePlayServicesVersion"
 
-                 // react-native-google-sign-in
-                 force "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
-             }
-         }
+            // react-native-google-sign-in
+            force "com.google.android.gms:play-services-auth:$googlePlayServicesVersion"
+        }
+    }
 }
 
 subprojects { subproject ->

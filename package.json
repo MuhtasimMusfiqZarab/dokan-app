@@ -37,6 +37,7 @@
     "react-native-keyboard-aware-scroll-view": "^0.7.3",
     "react-native-linear-gradient": "^2.4.0",
     "react-native-localization": "2.0.1",
+    "react-native-maps": "^0.22.1",
     "react-native-masked-text": "^1.9.2",
     "react-native-modalbox": "1.6.0",
     "react-native-onesignal": "3.2.7",
