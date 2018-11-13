@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 import {
   Text,
   View,
@@ -6,13 +6,14 @@ import {
   Platform,
   Dimensions,
   TouchableOpacity
-} from 'react-native'
-import { ButtonIndex } from '@components'
-import { NavigationActions } from 'react-navigation';
-import { BlockTimer, CustomIcon, hexToRgb } from '@app/Omni';
+} from "react-native";
+import { ButtonIndex } from "@components";
+import { Color } from "@common";
+import { NavigationActions } from "react-navigation";
+import { BlockTimer, CustomIcon, hexToRgb } from "@app/Omni";
 
 const navigateAction = NavigationActions.navigate({
-  routeName: 'CategoriesScreen',
+  routeName: "CategoriesScreen",
 });
 
 export default class WdPopularCat extends React.PureComponent {
@@ -33,7 +34,7 @@ export default class WdPopularCat extends React.PureComponent {
 			<View style={styles.popCatWrapper}>
 				<View style={styles.popCatContainer}>
 					<View style={{width: '100%', padding:5, marginBottom: 10}}>
-						<Text style={{color: '#79828F', fontSize: 18}}>Popular Categories</Text>
+						<Text style={{color: Color.wdDeepGray, fontSize: 18}}>Popular Categories</Text>
 					</View>
 					{
 						this.props.categories.map((item, index) => {
@@ -56,9 +57,9 @@ export default class WdPopularCat extends React.PureComponent {
 										}>
 											<CustomIcon
 												name={iconName}
-												size={40}
+												size={30}
 												color={item.icon_color} />
-											<Text style={{color: '#808894', marginTop: 5}}>{item.Name}</Text>
+											<Text style={{color: '#808894', marginTop: 5}}>{item.name}</Text>
 									</TouchableOpacity>
 								)
 							}
