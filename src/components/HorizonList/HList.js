@@ -114,12 +114,13 @@ class HorizonList extends PureComponent {
     const {
       collection,
       config,
-      vendorList,
       featuredVendorList,
-      fetchAllVendors,
+      setSelectedCategory,
       navigation,
       onViewVendorProfileScreen,
-      fetchVendorProducts
+      onViewCategory,
+      fetchVendorProducts,
+      categoriesList
     } = this.props;
     const list =
       typeof collection.list !== "undefined" && collection.list.length !== 0
@@ -152,7 +153,11 @@ class HorizonList extends PureComponent {
       return ( <WdNewArrival /> );
     } else if (config.layout === 11) {
       return (
-        <WdPopularCat navigation={navigation} />
+        <WdPopularCat
+          onViewCategory={onViewCategory}
+          setSelectedCategory={setSelectedCategory}
+          categories={categoriesList}
+          navigation={navigation} />
       );
     } else if ( config.layout === 12 ) {
       return (

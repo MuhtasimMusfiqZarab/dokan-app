@@ -40,6 +40,7 @@ class HorizonList extends PureComponent {
   _fetchAllPost = () => {
     this.props.fetchAllProductsLayout()
     this.props.fetchFeaturedVendors()
+    this.props.fetchAllCategories()
   }
 
   _fetchPost = ({ config, index, page }) => {
@@ -58,16 +59,19 @@ class HorizonList extends PureComponent {
       onShowAll,
       onViewProductScreen,
       onViewVendorProfileScreen,
+      onViewCategory,
       collections,
       setSelectedCategory,
       fetchProductsByCollections,
       vendorList,
       featuredVendorList,
-      fetchAllVendors
+      fetchAllVendors,
+      categoriesList
     } = this.props
     return (
       <HList
         horizontal
+        onViewCategory={onViewCategory}
         onViewProductScreen={onViewProductScreen}
         onViewVendorProfileScreen={onViewVendorProfileScreen}
         onShowAll={onShowAll}
@@ -81,6 +85,7 @@ class HorizonList extends PureComponent {
         fetchPost={this._fetchPost}
         fetchProductsByCollections={fetchProductsByCollections}
         fetchAllVendors={fetchAllVendors}
+        categoriesList={categoriesList}
         fetchVendorProducts={this._fetchVendorProducts}
         setSelectedCategory={setSelectedCategory}
         navigation={this.props.navigation}
@@ -125,7 +130,8 @@ const makeMapStateToProps = () => {
       isFetching: state.layouts.isFetching,
       list: state.categories.list,
       vendorList: state.vendors.vendorList,
-      featuredVendorList: state.vendors.featuredVendorList
+      featuredVendorList: state.vendors.featuredVendorList,
+      categoriesList: state.categories.list
     }
   }
   return mapStateToProps
@@ -153,6 +159,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
     fetchAllProductsLayout: () => {
       LayoutActions.fetchAllProductsLayout(dispatch)
+    },
+    fetchAllCategories: () => {
+      CategoryActions.fetchCategories(dispatch)
     },
     fetchAllVendors: () => {
       VendorActions.fetchVendors(dispatch);

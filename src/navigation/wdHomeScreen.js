@@ -7,36 +7,39 @@ import { Home } from '@containers'
 import { Logo, Menu, HeaderHomeRight, CartWishListIcons } from './IconNav'
 
 export default class HomeScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "Home",
-    headerLeft: Menu(),
-    headerRight: CartWishListIcons(navigation),
+	static navigationOptions = ({ navigation }) => ({
+		headerTitle: "Home",
+		headerLeft: Menu(),
+		headerRight: CartWishListIcons(navigation),
 
-    headerTintColor: Color.headerTintColor,
-    headerStyle: Styles.Common.toolbar,
-    headerTitleStyle: Styles.Common.headerTitleStyle,
-  })
+		headerTintColor: Color.headerTintColor,
+		headerStyle: Styles.Common.toolbar,
+		headerTitleStyle: Styles.Common.headerTitleStyle,
+	})
 
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-  }
+	static propTypes = {
+		navigation: PropTypes.object.isRequired,
+	}
 
   render() {
-    const { navigate } = this.props.navigation
+		const { navigate } = this.props.navigation
 
-    return (
-      <Home
-        onShowAll={(config, index) =>
-          navigate('ListAllScreen', { config, index })
-        }
-        onViewProductScreen={(item) => {
-          navigate('DetailScreen', item)
-        }}
-        onViewVendorProfileScreen={(item) => {
-          navigate('VendorProfileScreen', item)
-        }}
-        navigation={this.props.navigation}
-      />
-    )
-  }
+		return (
+			<Home
+				onShowAll={(config, index) =>
+					navigate("ListAllScreen", { config, index })
+				}
+				onViewProductScreen={(item) => {
+					navigate("DetailScreen", item)
+				}}
+				onViewVendorProfileScreen={(item) => {
+					navigate("VendorProfileScreen", item)
+				}}
+				onViewCategory={(item) => {
+					navigate("CategoryScreen", item);
+				}}
+				navigation={this.props.navigation}
+			/>
+		)
+	}
 }

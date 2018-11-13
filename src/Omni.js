@@ -167,3 +167,18 @@ export const getNotification = async () => {
     console.log(error);
   }
 };
+
+/**
+ * Convert hex to rgb
+ * @param hex color code
+ * @returns rgb color code
+ */
+export const hexToRgb = (hex) => {
+  const hashOmitted = hex.split("#")[1];
+  const bigint = parseInt(hashOmitted, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return `${r}, ${g}, ${b}`;
+}

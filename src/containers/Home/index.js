@@ -12,65 +12,67 @@ import { HorizonList, ModalLayout, PostList } from "@components";
 import styles from "./styles";
 
 class Home extends PureComponent {
-  static propTypes = {
-    fetchAllCountries: PropTypes.func.isRequired,
-    layoutHome: PropTypes.any,
-    onViewProductScreen: PropTypes.func,
-    onShowAll: PropTypes.func,
-  };
+	static propTypes = {
+		fetchAllCountries: PropTypes.func.isRequired,
+		layoutHome: PropTypes.any,
+		onViewProductScreen: PropTypes.func,
+		onShowAll: PropTypes.func,
+	};
 
-  componentDidMount() {
-    const { countries, fetchAllCountries } = this.props;
-    if (!countries || (countries && countries.length === 0)) {
-      fetchAllCountries();
-    }
-  }
+	componentDidMount() {
+		const { countries, fetchAllCountries } = this.props;
+		if (!countries || (countries && countries.length === 0)) {
+			fetchAllCountries();
+		}
+	}
 
-  render() {
-    const {
-      layoutHome,
-      onViewProductScreen,
-      onViewVendorProfileScreen,
-      onShowAll,
-      navigation
-    } = this.props;
-    const isHorizontal = layoutHome === Constants.Layout.horizon;
-    return (
-      <View style={styles.container}>
-        {isHorizontal && (
-          <HorizonList
-            onShowAll={onShowAll}
-            onViewProductScreen={onViewProductScreen}
-            onViewVendorProfileScreen={onViewVendorProfileScreen}
-            navigation={navigation}
-          />
-        )}
-        {!isHorizontal && (
-          <PostList onViewProductScreen={onViewProductScreen} />
-        )}
-        <ModalLayout />
-      </View>
-    );
-  }
+	render() {
+		const {
+			layoutHome,
+			onViewProductScreen,
+			onViewVendorProfileScreen,
+			onViewCategory,
+			onShowAll,
+			navigation
+		} = this.props;
+		const isHorizontal = layoutHome === Constants.Layout.horizon;
+		return (
+			<View style={styles.container}>
+				{isHorizontal && (
+					<HorizonList
+						onShowAll={onShowAll}
+						onViewProductScreen={onViewProductScreen}
+						onViewVendorProfileScreen={onViewVendorProfileScreen}
+						onViewCategory={onViewCategory}
+						navigation={navigation}
+					/>
+				)}
+				{!isHorizontal && (
+					<PostList onViewProductScreen={onViewProductScreen} />
+				)}
+				<ModalLayout />
+			</View>
+		);
+	}
 }
 
-const mapStateToProps = ({ user, products }) => ({
-  user,
-  layoutHome: products.layoutHome,
-});
+	const mapStateToProps = ({ user, products }) => ({
+		user,
+		layoutHome: products.layoutHome,
+	});
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-  const { dispatch } = dispatchProps;
-  const CountryRedux = require("@redux/CountryRedux");
-  return {
-    ...ownProps,
-    ...stateProps,
-    fetchAllCountries: () => CountryRedux.actions.fetchAllCountries(dispatch),
-  };
+	const { dispatch } = dispatchProps;
+	const CountryRedux = require("@redux/CountryRedux");
+	return {
+		...ownProps,
+		...stateProps,
+		fetchAllCountries: () => CountryRedux.actions.fetchAllCountries(dispatch),
+	};
 }
 
 export default connect(
-  mapStateToProps,
-  undefined,
-  mergeProps
+	mapStateToProps,
+	undefined,
+	mergeProps
 )(Home);

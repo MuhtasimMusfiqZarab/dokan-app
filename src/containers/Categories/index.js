@@ -2,13 +2,18 @@
 
 // @flow
 /**
- * Created by InspireUI on 19/02/2017.
+ * Created by weDevs
  */
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
-import { Styles, Images, Config, Languages, Constants } from "@common";
-import { Timer, toast, BlockTimer } from "@app/Omni";
+import { Styles, Images, Config, Languages, Constants, Color } from "@common";
+import {
+  Timer,
+  toast,
+  BlockTimer,
+  CustomIcon,
+  hexToRgb } from "@app/Omni";
 import {
   Empty,
   LogoSpinner,
@@ -34,13 +39,31 @@ class CategoriesScreen extends React.PureComponent {
     }, 500);
   };
 
-  _renderItem = ({item}) => (
-    <TouchableOpacity
-      style={styles.categoryContainer}
-      onPress={() => this.onRowClickHandle(item)}>
-      <Text style={{color: "#000"}}>{item.name}</Text>
-    </TouchableOpacity>
-  )
+  _renderItem = ({item}) => {
+    let iconName = item.icon ? item.icon.replace("icon-", "") : "";
+    let rgbColorCode = item.icon_color ? hexToRgb(item.icon_color) : "";
+  
+    return (
+      <TouchableOpacity
+        style={
+          [
+            styles.categoryContainer,
+            {
+              backgroundColor: rgbColorCode ?
+                `rgba(${rgbColorCode}, 0.1)` :
+                "rgba(255, 255, 255, 0.5)"
+            }
+          ]
+        }
+        onPress={() => this.onRowClickHandle(item)}>
+        <CustomIcon
+          name={iconName}
+          size={40}
+          color={item.icon_color} />
+        <Text style={{color: Color.wdgray3, marginTop: 15}}>{item.name}</Text>
+      </TouchableOpacity>
+    )
+  }
 
   render() {
     const { categories, selectedLayout } = this.props;
@@ -56,6 +79,7 @@ class CategoriesScreen extends React.PureComponent {
     const mainCategories = categories.list.filter(
       (category) => category.parent === 0
     );
+    console.log(mainCategories);
     return (
       <FlatList
         style={{flexDirection: "column"}}
