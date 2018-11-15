@@ -16,6 +16,8 @@ export default class DetailScreen extends PureComponent {
 
     // headerTintColor: Color.headerTintColor,
     headerStyle: Styles.Common.prodDetailsToolbar,
+    headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		headerRightContainerStyle: Styles.Common.toolbarRight,
     headerTitleStyle: Styles.Common.prodDetailsHeaderTitleStyle,
   });
 

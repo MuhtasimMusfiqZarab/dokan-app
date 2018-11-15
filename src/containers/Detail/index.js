@@ -14,7 +14,14 @@ import {
   Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
-import { Timer, getProductImage, currencyFormatter, warn, CustomIcon } from "@app/Omni";
+import {
+  Timer,
+  getProductImage,
+  currencyFormatter,
+  warn,
+  Icon,
+  CustomIcon
+} from "@app/Omni";
 import {
   Button,
   WebView,
@@ -47,7 +54,6 @@ import styles from "./ProductDetail_Style";
 import striptags from 'striptags';
 import Accordion from 'react-native-collapsible/Accordion';
 import { LinearGradient } from '@expo';
-import { Icon } from "@app/Omni";
 // end weDevs
 
 const PRODUCT_IMAGE_HEIGHT = 350;
@@ -798,7 +804,7 @@ class Detail extends PureComponent {
 
     const renderProductDetails = () => {
       const productDescription = striptags(this.props.product.short_description);
-      debugger;
+      console.log(this.props.product);
       return(
         <View style={styles.productDetailContainer}>
 

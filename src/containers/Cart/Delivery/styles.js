@@ -125,7 +125,8 @@ export default StyleSheet.create({
     marginBottom: 10
   },
   editFiledName: {
-    fontSize: 16
+    fontSize: 16,
+    color: "#000"
   },
   editFiledValue: {
     fontSize: 16,
@@ -134,6 +135,7 @@ export default StyleSheet.create({
   editFiledValueMultiLine: {
     fontSize: 16,
     color: "#7C8592",
-    width: 150
+    width: 150,
+    alignItems: "flex-start"
   },
 });

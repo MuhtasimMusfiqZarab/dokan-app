@@ -1,14 +1,14 @@
 /** @format */
 
 "use strict";
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { Text, TouchableOpacity, Image } from "react-native";
 import css from "./style";
 import { Constants, Images, Styles, Tools } from "@common";
 import { ProductPrice, ImageCache, WishListIcon } from "@components";
 import { getProductImage } from "@app/Omni";
 
-export default class CardLayout extends Component {
+export default class CardLayout extends PureComponent {
   render() {
     const { product, title, viewPost } = this.props;
     const imageURI =

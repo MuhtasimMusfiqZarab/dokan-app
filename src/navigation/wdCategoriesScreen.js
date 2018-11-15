@@ -1,9 +1,9 @@
 /** @format */
 
 import React, { PureComponent } from "react";
-import { Logo, Menu, EmptyView, CartWishListIcons } from "./IconNav";
+import { Menu, CartWishListIcons } from "./IconNav";
 
-import { Color, Config, Constants, Images, Styles } from "@common";
+import { Color, Styles } from "@common";
 import { TabBarIcon } from "@components";
 import { Categories } from "@containers";
 
@@ -15,6 +15,8 @@ export default class CategoriesScreen extends PureComponent {
 
     headerTintColor: Color.headerTintColor,
     headerStyle: Styles.Common.toolbar,
+    headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		headerRightContainerStyle: Styles.Common.toolbarRight,
     headerTitleStyle: Styles.Common.headerTitleStyle,
   });
 

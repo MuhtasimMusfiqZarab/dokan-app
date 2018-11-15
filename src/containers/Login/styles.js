@@ -28,7 +28,8 @@ export default StyleSheet.create({
     height: 80
   },
   logoText: {
-    width: width / 2
+    width: width / 2,
+    color: Color.wdgray5
   },
   subContain: {
     paddingHorizontal: Styles.width * 0.1,

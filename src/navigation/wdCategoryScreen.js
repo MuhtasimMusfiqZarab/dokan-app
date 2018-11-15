@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Color, Images, Styles } from "@common";
 import { TabBarIcon } from "@components";
 import { Category } from "@containers";
-import { Logo, Back, EmptyView, CartWishListIcons } from "./IconNav";
+import { Back, CartWishListIcons } from "./IconNav";
 
 export default class CategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -24,6 +24,8 @@ export default class CategoryScreen extends PureComponent {
 
       headerTintColor: Color.headerTintColor,
       headerStyle: Styles.Common.toolbar,
+      headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		  headerRightContainerStyle: Styles.Common.toolbarRight,
       headerTitleStyle: Styles.Common.headerTitleStyle,
       tabBarVisible: false
     }

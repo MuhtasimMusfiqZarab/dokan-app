@@ -15,7 +15,6 @@ export default class VendorProfileScreen extends PureComponent {
 		headerTintColor: Color.headerTintColor,
 		headerStyle: Styles.Common.toolbar,
 		headerTitleStyle: Styles.Common.headerTitleStyle,
-		// header: null
 	});
 
 	render() {

@@ -36,7 +36,7 @@ const WdAtAGlance = (props) => {
           source={Images.CategoryColorIcon}
           style={styles.btnIconImage}
         />
-				<Text>Categories</Text>
+				<Text style={{color: Color.wdDeepGray}}>Categories</Text>
       </TouchableOpacity>
 			<TouchableOpacity
         onPress={ () => onPressVendors(props) }
@@ -45,7 +45,7 @@ const WdAtAGlance = (props) => {
           source={Images.VendorColorIcon}
           style={styles.btnIconImage}
         />
-				<Text>Vendors</Text>
+				<Text style={{color: Color.wdDeepGray}}>Vendors</Text>
       </TouchableOpacity>
 			<TouchableOpacity
         onPress={ () => onPressProducts(props) }
@@ -54,7 +54,7 @@ const WdAtAGlance = (props) => {
           source={Images.ProductColorIcon}
           style={styles.btnIconImage}
         />
-				<Text>Products</Text>
+				<Text style={{color: Color.wdDeepGray}}>Products</Text>
       </TouchableOpacity>
     </View>
   )

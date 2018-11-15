@@ -21,7 +21,8 @@ export default StyleSheet.create({
   },
   rightText: {
     fontSize: 16,
-    color: Color.blackTextPrimary,
+    // color: Color.blackTextPrimary,
+    color: "#BECDD0",
     fontWeight: "300",
     alignSelf: "flex-start",
   },

@@ -1,7 +1,7 @@
 /** @format */
 
 "use strict";
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { TouchableOpacity, View, Text, Image } from "react-native";
 import css from "./style";
 import { Constants, Icons, Images, Styles, Languages, Tools } from "@common";
@@ -10,7 +10,7 @@ import { getProductImage, currencyFormatter } from "@app/Omni";
 
 import { LinearGradient } from "@expo";
 
-export default class miniBanner extends Component {
+export default class miniBanner extends PureComponent {
   render() {
     const { viewPost, title, product } = this.props;
     const imageURI =

@@ -9,8 +9,9 @@ import { WishList } from "@containers";
 export default class WishListScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: Languages.WishList,
-    // header: null,
     headerStyle: Styles.Common.toolbar,
+    headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		headerRightContainerStyle: Styles.Common.toolbarRight,
     headerLeft: Back(navigation),
     headerRight: HeaderRight(navigation)
 

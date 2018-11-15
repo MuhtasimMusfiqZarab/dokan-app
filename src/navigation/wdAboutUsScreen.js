@@ -42,7 +42,7 @@ export default class AboutUsScreen extends PureComponent {
                 resizeMode="contain" />
             </LinearGradient>
             <View style={styles.vendorInfo}>
-              <Text style={{fontSize: 18, marginLeft: 5}}>
+              <Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
                 Vision
               </Text>
               <Text
@@ -62,7 +62,7 @@ export default class AboutUsScreen extends PureComponent {
                 resizeMode="contain" />
             </LinearGradient>
             <View style={styles.vendorInfo}>
-              <Text style={{fontSize: 18, marginLeft: 5}}>
+              <Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
                 License
               </Text>
               <Text
@@ -82,7 +82,7 @@ export default class AboutUsScreen extends PureComponent {
                 resizeMode="contain" />
             </LinearGradient>
             <View style={styles.vendorInfo}>
-              <Text style={{fontSize: 18, marginLeft: 5}}>
+              <Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
                 Privacy Policy
               </Text>
               <Text

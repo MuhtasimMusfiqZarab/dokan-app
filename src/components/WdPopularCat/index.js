@@ -1,4 +1,4 @@
-import React from "react"
+import React, { PureComponent } from "react"
 import {
   Text,
   View,
@@ -16,7 +16,7 @@ const navigateAction = NavigationActions.navigate({
   routeName: "CategoriesScreen",
 });
 
-export default class WdPopularCat extends React.PureComponent {
+export default class WdPopularCat extends PureComponent {
 
 	onRowClickHandle = (category) => {
 		const { setSelectedCategory, onViewCategory } = this.props;

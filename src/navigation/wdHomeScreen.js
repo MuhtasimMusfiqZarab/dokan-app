@@ -14,6 +14,8 @@ export default class HomeScreen extends PureComponent {
 
 		headerTintColor: Color.headerTintColor,
 		headerStyle: Styles.Common.toolbar,
+		headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		headerRightContainerStyle: Styles.Common.toolbarRight,
 		headerTitleStyle: Styles.Common.headerTitleStyle,
 	})
 

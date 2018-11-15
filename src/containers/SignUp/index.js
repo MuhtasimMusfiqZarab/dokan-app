@@ -327,7 +327,8 @@ const styles = StyleSheet.create({
     height: 80
   },
   logoText: {
-    width: width / 2
+    width: width / 2,
+    color: Color.wdgray5
   },
 });
 

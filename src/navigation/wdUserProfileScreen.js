@@ -7,19 +7,19 @@ import { UserProfile } from "@containers";
 import { warn } from "@app/Omni";
 
 export default class UserProfileScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: "My Account",
-    headerLeft: Menu(),
-    headerRight: EmptyView(),
+	static navigationOptions = ({ navigation }) => ({
+		headerTitle: "My Account",
+		headerLeft: Menu(),
+		headerRight: EmptyView(),
 
-    headerTintColor: Color.headerTintColor,
-    headerStyle: Styles.Common.toolbar,
-    headerTitleStyle: Styles.Common.headerTitleStyle,
-  });
+		headerTintColor: Color.headerTintColor,
+		headerStyle: Styles.Common.toolbar,
+		headerTitleStyle: Styles.Common.headerTitleStyle,
+	});
 
-  render() {
-    const { navigation } = this.props;
+	render() {
+		const { navigation } = this.props;
 
-    return <UserProfile navigation={navigation} />;
-  }
+		return <UserProfile navigation={navigation} />;
+	}
 }

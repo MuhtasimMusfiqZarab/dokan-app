@@ -204,7 +204,7 @@ export default new LocalizedStrings({
     Search: "Search",
     // SearchPlaceHolder: "Search product by name",
     SearchPlaceHolder: "Search Product",
-    NoResultError: "Your search keyword did not match any products.",
+    NoResultError: "Nothing found! Search again?",
     Details: "Details",
 
     // filter panel

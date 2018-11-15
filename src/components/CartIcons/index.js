@@ -21,14 +21,16 @@ class CartIcons extends Component {
           Constants.RTL ? { left: -10 } : { right: -5 },
         ]}>
         <NavigationBarIcon
-          icon={Images.IconWishList}
-          number={wishListTotal}
-          onPress={() => navigation.navigate("WishListScreen")}
-        />
-        <NavigationBarIcon
-          icon={Images.IconCart}
+          type="icon"
+          icon="cart"
           number={totalCart}
           onPress={() => navigation.navigate("CartScreen")}
+        />
+        <NavigationBarIcon
+          type="icon"
+          icon="heart"
+          number={wishListTotal}
+          onPress={() => navigation.navigate("WishListScreen")}
         />
       </View>
     );
