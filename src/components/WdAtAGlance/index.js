@@ -1,13 +1,12 @@
 import React from "react"
 import {
-  Text,
-  View,
-  Image,
-  StyleSheet,
-  I18nManager,
-  TouchableOpacity,
-  Platform,
-  Dimensions
+	Text,
+	View,
+	Image,
+	StyleSheet,
+	TouchableOpacity,
+	Platform,
+	Dimensions
 } from "react-native"
 import { Config, Constants, Color, Images } from "@common";
 
@@ -17,67 +16,70 @@ import { Config, Constants, Color, Images } from "@common";
 // }
 
 const onPressCategory = (props) => {
-  props.navigation.navigate("CategoriesScreen");
+	props.navigation.navigate("CategoriesScreen");
 }
 const onPressVendors = (props) => {
-  props.navigation.navigate('VendorsScreen');
+	props.navigation.navigate("VendorsScreen");
 }
 const onPressProducts = (props) => {
-  // props.navigation.navigate('VendorsScreen');
+	const config = {
+		name: "allProducts"
+	}
+	props.navigation.navigate("ListAllScreen", {config});
 }
 
 const WdAtAGlance = (props) => {
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => onPressCategory(props)}
-        style={styles.atAglanceBtn}>
-        <Image
-          source={Images.CategoryColorIcon}
-          style={styles.btnIconImage}
-        />
+	return (
+		<View style={styles.container}>
+			<TouchableOpacity
+				onPress={() => onPressCategory(props)}
+				style={styles.atAglanceBtn}>
+				<Image
+					source={Images.CategoryColorIcon}
+					style={styles.btnIconImage}
+				/>
 				<Text style={{color: Color.wdDeepGray}}>Categories</Text>
-      </TouchableOpacity>
+			</TouchableOpacity>
 			<TouchableOpacity
-        onPress={ () => onPressVendors(props) }
-        style={styles.atAglanceBtn}>
-        <Image
-          source={Images.VendorColorIcon}
-          style={styles.btnIconImage}
-        />
+				onPress={ () => onPressVendors(props) }
+				style={styles.atAglanceBtn}>
+				<Image
+					source={Images.VendorColorIcon}
+					style={styles.btnIconImage}
+				/>
 				<Text style={{color: Color.wdDeepGray}}>Vendors</Text>
-      </TouchableOpacity>
+			</TouchableOpacity>
 			<TouchableOpacity
-        onPress={ () => onPressProducts(props) }
-        style={styles.atAglanceBtn}>
-        <Image
-          source={Images.ProductColorIcon}
-          style={styles.btnIconImage}
-        />
+				onPress={ () => onPressProducts(props) }
+				style={styles.atAglanceBtn}>
+				<Image
+					source={Images.ProductColorIcon}
+					style={styles.btnIconImage}
+				/>
 				<Text style={{color: Color.wdDeepGray}}>Products</Text>
-      </TouchableOpacity>
-    </View>
-  )
+			</TouchableOpacity>
+		</View>
+	)
 }
 
 export default WdAtAGlance
 
 const styles = StyleSheet.create({
-  container: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 15,
-    marginBottom: 15,
-    width: Dimensions.get('window').width,
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  atAglanceBtn: {
-    width: 100,
-    height: 80,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    justifyContent: "center",
+	container: {
+		paddingLeft: 15,
+		paddingRight: 15,
+		marginTop: 15,
+		marginBottom: 15,
+		width: Dimensions.get('window').width,
+		flexDirection: "row",
+		justifyContent: "space-between"
+	},
+	atAglanceBtn: {
+		width: 100,
+		height: 80,
+		backgroundColor: "#fff",
+		borderRadius: 5,
+		justifyContent: "center",
 		alignItems: "center",
 		...Platform.select({
 			ios: {
@@ -89,11 +91,11 @@ const styles = StyleSheet.create({
 				elevation: 3
 			}
 		})
-  },
-  btnIconImage: {
-    width: 20,
-    height: 20,
-    marginTop: 10,
-    marginBottom: 10
-  }
+	},
+	btnIconImage: {
+		width: 20,
+		height: 20,
+		marginTop: 10,
+		marginBottom: 10
+	}
 })

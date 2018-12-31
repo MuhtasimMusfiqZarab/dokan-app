@@ -37,6 +37,8 @@ import VendorProfileScreen from "./wdVendorProfileScreen";
 import ContactUsScreen from "./wdContactUsScreen";
 import AboutUsScreen from "./wdAboutUsScreen";
 import PrivacyPolicyScreen from "./wdPrivacyPolicyScreen";
+import ReviewsScreen from "./ReviewsScreen";
+import ForgetPasswordScreen from './ForgetPasswordScreen'
 
 import TransitionConfig from "./TransitionConfig";
 
@@ -115,7 +117,8 @@ const HomeStack = createStackNavigator(
 		ListAllScreen: { screen: ListAllScreen },
 		DetailScreen: { screen: DetailScreen },
 		VendorProfileScreen: { screen: VendorProfileScreen },
-		CategoryScreen: { screen: CategoryScreen }
+		CategoryScreen: { screen: CategoryScreen },
+		ReviewsScreen: { screen: ReviewsScreen }
 	},
 	{
 		navigationOptions: {
@@ -153,6 +156,7 @@ const LoginStack = createStackNavigator(
 	{
 		LoginScreen: { screen: LoginScreen },
 		SignUpScreen: { screen: SignUpScreen },
+		ForgetPasswordScreen: { screen: ForgetPasswordScreen }
 	},
 	{
 		mode: "modal",
@@ -370,9 +374,7 @@ const AppNavigator = createBottomTabNavigator(
 		tabBarOptions: {
 			showIcon: true,
 			showLabel: true,
-			// activeTintColor: Color.tabbarTint,
 			activeTintColor: "#F2709C",
-			// inactiveTintColor: Color.tabbarColor,
 			inactiveTintColor: "#A0A9BD",
 			activeBackgroundColor: "rgba(246, 98, 77, 0.1)"
 		},
@@ -392,7 +394,8 @@ const navigateOnce = (getStateForAction) => (action, state) => {
 	const { type, routeName } = action;
 	return state &&
 		type === NavigationActions.NAVIGATE &&
-		routeName === state.routes[state.routes.length - 1].routeName
+		routeName === state.routes[state.routes.length - 1].routeName &&
+		routeName !== "DetailScreen"
 		? null
 		: getStateForAction(action, state);
 };

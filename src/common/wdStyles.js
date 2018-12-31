@@ -1,6 +1,4 @@
 /**
- * Created by weDevs on 06/08/2018.
- *
  * @format
  */
 
@@ -344,6 +342,9 @@ Styles.Common = {
 				height: 46,
 				paddingTop: 0,
 				marginTop: 0,
+				elevation: 0,
+				borderBottomWidth: 1,
+				borderBottomColor: "#D2DBE0"
 			},
 		}),
 	}

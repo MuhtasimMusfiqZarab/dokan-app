@@ -1,111 +1,61 @@
 /**
- * Created by weDevs on 27/09/2018.
- *
  * @format
  */
 
 import React, { PureComponent } from "react";
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import { Back, HeaderRight } from "./IconNav";
 import { Images, Config, Constants, Color, Styles, Languages } from "@common";
 
 export default class PrivacyPolicyScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
-    title: "Privacy Policy",
-    headerLeft: Back(navigation, Images.icons.arrowBack),
-    headerRight: HeaderRight(navigation),
+	static navigationOptions = ({ navigation }) => ({
+		title: "Privacy Policy",
+		headerLeft: Back(navigation, Images.icons.arrowBack),
+		headerRight: HeaderRight(navigation),
 
-    headerTintColor: Color.headerTintColor,
-    headerStyle: Styles.Common.toolbar,
-    headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		headerTintColor: Color.headerTintColor,
+		headerStyle: Styles.Common.toolbar,
+		headerLeftContainerStyle: Styles.Common.toolbarLeft,
 		headerRightContainerStyle: Styles.Common.toolbarRight,
-    headerTitleStyle: Styles.Common.headerTitleStyle,
+		headerTitleStyle: Styles.Common.headerTitleStyle,
 
-  });
+	});
 
-  render() {
-    const { navigate } = this.props.navigation;
-    // const rootNavigation = this.props.screenProps.rootNavigation;
+	render() {
+		const { navigate } = this.props.navigation;
 
-    return (
-      <View style={{flex: 1, alignItems: "center"}}>
-          <View style={
-              {
-                width: "90%",
-                backgroundColor: "#fff",
-                borderRadius: 3,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: 15,
-                paddingTop: 35,
-                paddingBottom: 35
-              }
-          }>
-              <Image
-                source={Images.ContactUs}
-                style={{width: 100, height: 90, marginBottom: 15}}
-                resizeMode="contain" />
-
-              <Text style={
-                  {
-                    fontSize: 20,
-                    color: "#000",
-                    fontFamily: Constants.fontFamilyLato,
-                    marginBottom: 15
-                  }
-              }>
-                How can we help?
-              </Text>
-
-              <Text style={
-                  {
-                    fontSize: 14,
-                    color: "#818995",
-                    fontFamily: Constants.fontFamilyLato,
-                    marginBottom: 15
-                  }
-              }>
-                Call us daily from 10.00 PM to 11.00 AM at
-              </Text>
-
-              <Text style={
-                  {
-                    fontSize: 24,
-                    fontFamily: Constants.fontFamilyLato,
-                    fontWeight: "bold",
-                    color: "#E9485E",
-                    marginTop: 10,
-                    marginBottom: 15
-                  }
-              }>
-                +9746464534343
-              </Text>
-
-              <Text style={
-                  {
-                    fontSize: 14,
-                    color: "#818995",
-                    fontFamily: Constants.fontFamilyLato,
-                    marginBottom: 15
-                  }
-              }>
-                or Email us
-              </Text>
-
-              <Text style={
-                  {
-                    fontSize: 24,
-                    fontFamily: Constants.fontFamilyLato,
-                    color: "#1ABC9C",
-                    marginTop: 10,
-                    marginBottom: 15
-                  }
-              }>
-                  help@domain.com
-              </Text>
-              
-          </View>
-      </View>
-    );
-  }
+		return (
+			<ScrollView
+				contentContainerStyle={{
+					width: "100%",
+					padding: 15
+				}}
+			>
+				{
+					Config.policies.map((item, index) => {
+						return (
+							<View key={`p-${index}`} style={{marginBottom: 15}}>
+								<Text
+									style={{
+										fontFamily: Constants.fontFamilyLato,
+										color: "#000",
+										fontSize: 18,
+										fontWeight: "bold",
+										marginBottom: 5
+								}}>
+									{item.heading}
+								</Text>
+								<Text style={{
+									color: "#7C8592",
+									fontSize: 16
+								}}>
+									{item.text}
+								</Text>
+							</View>
+						)
+					})
+				}
+			</ScrollView>
+		);
+	}
 }

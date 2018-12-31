@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import { Styles, Events, Images, Config } from "@common";
-import { NavigationBarIcon, CartIcons } from "@components";
+import { NavigationBarIcon, CartIcons, ProductDetailsIcons } from "@components";
 import { toggleDrawer, CustomIcon } from "@app/Omni";
 
 // Icons for HeaderBar
@@ -30,11 +30,6 @@ const Menu = () => (
 				},
 			]}
 		/>
-		{/* <CustomIcon
-			name="paragraph-justify"
-			color="#333"
-			size={18}
-		/> */}
 	</TouchableOpacity>
 );
 
@@ -80,6 +75,8 @@ const HeaderHomeRight = (navigation, item) => (
 
 const CartWishListIcons = (navigation) => <CartIcons navigation={navigation} />;
 
+const ProductDetailsRightNav = (navigation) => <ProductDetailsIcons navigation={navigation} />
+
 const Back = (navigation, iconBack) => (
 	<TouchableOpacity
 		hitSlop={hitSlop}
@@ -107,4 +104,5 @@ export {
 	CartWishListIcons,
 	HeaderHomeRight,
 	Back,
+	ProductDetailsRightNav
 };

@@ -77,7 +77,7 @@ class CategoriesScreen extends React.PureComponent {
 
 	render() {
 		const { categories, selectedLayout } = this.props;
-
+console.log(categories);
 		if (categories.error) {
 			return <Empty text={categories.error} />;
 		}

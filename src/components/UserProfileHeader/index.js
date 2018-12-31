@@ -8,51 +8,51 @@ import styles from "./styles";
 import { LinearGradient } from "@expo";
 
 export default class UserProfileHeader extends PureComponent {
-  //   constructor(props) {
-  //     super(props)
-  //   }
-  static propTypes = {
-    onLogin: PropTypes.func.isRequired,
-    onLogout: PropTypes.func.isRequired,
-    user: PropTypes.object,
-  };
+	//   constructor(props) {
+	//     super(props)
+	//   }
+	static propTypes = {
+		onLogin: PropTypes.func.isRequired,
+		onLogout: PropTypes.func.isRequired,
+		user: PropTypes.object,
+	};
 
-  loginHandle = () => {
-    if (this.props.user.name === Languages.Guest) {
-      this.props.onLogin();
-    } else {
-      this.props.onLogout();
-    }
-  };
+	loginHandle = () => {
+		if (this.props.user.name === Languages.Guest) {
+			this.props.onLogin();
+		} else {
+			this.props.onLogout();
+		}
+	};
 
-  render() {
-    const { user } = this.props;
-    const avatar = Tools.getAvatar(user);
-    return (
-      <View style={styles.container}>
-        <View style={styles.header}>
+	render() {
+		const { user } = this.props;
+		const avatar = Tools.getAvatar(user);
+		return (
+			<View style={styles.container}>
+				<View style={styles.header}>
 
-          <LinearGradient colors={['#F76B1C', '#FAD961']} style={styles.headerGradient} />
-    
-          <View style={styles.profilePic}>
-            <Image source={avatar} style={styles.avatar} />
-          </View>
+					<LinearGradient colors={['#F76B1C', '#FAD961']} style={styles.headerGradient} />
+		
+					<View style={styles.profilePic}>
+						<Image source={avatar} style={styles.avatar} />
+					</View>
 
-          <View style={styles.textContainer}>
-            <Text style={styles.fullName}>{user.name}</Text>
-            <Text style={styles.address}>{user ? user.address : ""}</Text>
+					<View style={styles.textContainer}>
+						<Text style={styles.fullName}>{user.name}</Text>
+						<Text style={styles.address}>{user ? user.address : ""}</Text>
 
-            <TouchableOpacity onPress={this.loginHandle}>
-              <Text style={styles.loginText}>
-                {user.name === Languages.Guest
-                  ? Languages.Login
-                  : Languages.Logout}
-              </Text>
-            </TouchableOpacity>
-          </View>
+						<TouchableOpacity onPress={this.loginHandle}>
+							<Text style={styles.loginText}>
+								{user.name === Languages.Guest
+									? Languages.Login
+									: Languages.Logout}
+							</Text>
+						</TouchableOpacity>
+					</View>
 
-        </View>
-      </View>
-    );
-  }
+				</View>
+			</View>
+		);
+	}
 }

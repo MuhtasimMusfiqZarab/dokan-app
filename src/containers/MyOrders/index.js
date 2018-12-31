@@ -12,9 +12,7 @@ import {
 	TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
-import Accordion from "react-native-collapsible/Accordion";
-import { AnimatedHeader } from "@components";
-import { Constants, Languages } from "@common";
+import { Constants, Languages, Color } from "@common";
 import styles from "./styles";
 import OrderEmpty from "./Empty";
 
@@ -62,22 +60,18 @@ class MyOrders extends Component {
 	}
 
 	setSections = sections => {
-    this.setState({
-      activeSections: sections.includes(undefined) ? [] : sections,
-    });
-  };
+		this.setState({
+			activeSections: sections.includes(undefined) ? [] : sections,
+		});
+	};
 
 	renderRow = ({ item, index }) => {
 		const order = item;
-
-		const dataSource = new ListView.DataSource({ rowHasChanged: () => true });
-		const getDataSource = (products) => dataSource.cloneWithRows(products);
+		const products = order.line_items;
 
 		if (typeof order.line_items === "undefined") {
 			return this.renderError(Languages.NoOrder);
 		}
-
-		const dataSource2 = getDataSource(order.line_items);
 
 		const renderAttribute = (label, context, _style) => {
 			return (
@@ -88,6 +82,35 @@ class MyOrders extends Component {
 			);
 		};
 
+		const renderOrderDetails = (products) => {
+			return ( 
+				<View style={[styles.row, {marginBottom: 15}]}>
+					<View style={{flex: 2}}>
+						{
+							products.map((item, index) => {
+								return (
+									<Text
+										key={`item-${index}`}
+										style={{color: "#000", fontSize: 16, marginBottom: 5}}>
+										{item.name} x {item.quantity}
+									</Text>
+								)
+							})
+						}
+					</View>
+					<View style={{flex: 1, alignItems: "flex-end", justifyContent: "center"}}>
+						<Text style={{color: Color.wdgray}}>Total Price</Text>
+						<Text style={{
+							fontWeight: "bold",
+							fontSize: 16,
+							fontFamily: Constants.fontFamilyLato,
+							color: "#333",
+						}}>{order.total} {order.currency}</Text>
+					</View>
+				</View>
+			)
+		}
+
 		const dateFormat = (date) => {
 			const year = date.substr(0, 4);
 			const month = date.substr(5, 2);
@@ -96,86 +119,36 @@ class MyOrders extends Component {
 		};
 
 		return (
-			<View style={{ margin: cardMargin, marginBottom: 0 }}>
-				<View style={styles.labelView}>
-					<Text style={styles.label}>#{order.number}</Text>
-				</View>
-				<View style={{ padding: 5, backgroundColor: "#FFF" }}>
-					{renderAttribute(Languages.OrderDate, dateFormat(order.date_created))}
-					{renderAttribute(Languages.OrderStatus, order.status.toUpperCase())}
-					{renderAttribute(Languages.OrderPayment, order.payment_method_title)}
+			<View>
+				<View style={{
+					padding: 15,
+					backgroundColor: "#FFF",
+					borderBottomWidth: 1,
+					borderBottomColor: "#E6EAEB"
+				}}>
+					{renderOrderDetails(products)}
 					{renderAttribute(
-						Languages.OrderTotal,
-						`${order.total} ${order.currency}`,
+						"Order Code",
+						`#${order.number}`,
 						{
-							fontWeight: "bold",
-							fontSize: 16,
-							fontFamily: Constants.fontHeader,
-							color: "#333",
+							color: "#E9485E"
 						}
 					)}
-
-					<Accordion
-						activeSections={this.state.activeSections}
-						underlayColor="transparent"
-						sections={[{}]}
-						renderHeader={() => {
-							return (
-								<View style={{ flex: 1, alignItems: "flex-end" }}>
-									<Text style={styles.orderDetailLabel}>
-										{Languages.OrderDetails}
-									</Text>
-								</View>
-							);
-						}}
-						renderContent={() => {
-							return (
-								<ListView
-									contentContainerStyle={{ backgroundColor: "#FFF" }}
-									dataSource={dataSource2}
-									enableEmptySections
-									renderRow={(product) => (
-										<View
-											style={{
-												flexDirection: "row",
-												justifyContent: "space-between",
-											}}>
-											<Text
-												style={{
-													margin: 4,
-													color: "#333",
-													width: Constants.Dimension.ScreenWidth(0.6),
-												}}
-												numberOfLines={2}
-												ellipsizeMode="tail">
-												{product.name}
-											</Text>
-
-											<Text
-												style={{
-													margin: 4,
-													color: "#333",
-													alignSelf: "center",
-												}}>
-												{`x${product.quantity}`}
-											</Text>
-
-											<Text
-												style={{
-													margin: 4,
-													color: "#333",
-													alignSelf: "center",
-												}}>
-												{product.total}
-											</Text>
-										</View>
-									)}
-								/>
-							);
-						}}
-						touchableComponent={TouchableOpacity}
-						onChange=""
-					/>
+					{renderAttribute(Languages.OrderDate, dateFormat(order.date_created))}
+					{renderAttribute(
+						Languages.OrderStatus,
+						order.status.toUpperCase(),
+						{
+							color: "#1ABC9C"
+						}
+					)}
+					{renderAttribute(
+						Languages.OrderPayment,
+						order.payment_method_title,
+						{
+							color: "#1A9ED4"
+						}
+					)}
 				</View>
 			</View>
 		);
@@ -183,7 +156,8 @@ class MyOrders extends Component {
 
 	render() {
 		const data = this.props.carts.myOrders;
-
+		const orderCount = data.length;
+		
 		if (typeof data === "undefined" || data.length == 0) {
 			return (
 				<OrderEmpty
@@ -196,10 +170,13 @@ class MyOrders extends Component {
 
 		return (
 			<View style={styles.listView}>
-				<AnimatedHeader
-					scrollY={Platform.OS !== "android" && this.state.scrollY}
-					label={Languages.MyOrder}
-				/>
+				<Text style={{
+					margin: cardMargin,
+					color: Color.wdDeepGray,
+					fontSize: 20
+				}}>
+					{orderCount} Items
+				</Text>
 				<AnimatedFlatList
 					data={data}
 					onScroll={Animated.event(

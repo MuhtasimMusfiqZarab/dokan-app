@@ -1,15 +1,17 @@
 // @flow
 /**
- * Created by InspireUI on 19/02/2017.
  * @format
  */
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import { connect } from "react-redux";
-import { Constants } from "@common";
+import { Constants, Config } from "@common";
 import { HorizonList, ModalLayout, PostList } from "@components";
 import styles from "./styles";
+import { request } from "@app/Omni"
+import WooWorker from "@services/WooCommerce/WooWorker";
+import CurrencyWorker from '@services/CurrencyWorker';
 
 class Home extends PureComponent {
 	static propTypes = {
@@ -19,11 +21,30 @@ class Home extends PureComponent {
 		onShowAll: PropTypes.func,
 	};
 
+
 	componentDidMount() {
 		const { countries, fetchAllCountries } = this.props;
 		if (!countries || (countries && countries.length === 0)) {
 			fetchAllCountries();
 		}
+		// this.getAuthToken();
+		this.setDefaultCurrency();
+	}
+
+	getAuthToken = async () => {
+		const isSecured = Config.WooCommerce.url.startsWith("https");
+		const secure = isSecured ? "" : "&insecure=cool";
+		const cookieLifeTime = 120960000000;
+		const _url = `${Config.WooCommerce.url}/api/user/generate_auth_cookie/?second=${cookieLifeTime}&username=admin&password=admin${secure}`;
+		const response = await request(_url);
+		console.log(response);
+	}
+
+	setDefaultCurrency = async () => {
+		const response = await WooWorker.getDefaultCurrency();
+		const currency = CurrencyWorker.find(currency => currency.code == response.value);
+
+		this.props.setCurrency(currency);
 	}
 
 	render() {
@@ -64,10 +85,12 @@ class Home extends PureComponent {
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
 	const CountryRedux = require("@redux/CountryRedux");
+	const CurrencyRedux = require("@redux/CurrencyRedux");
 	return {
 		...ownProps,
 		...stateProps,
 		fetchAllCountries: () => CountryRedux.actions.fetchAllCountries(dispatch),
+		setCurrency: (currency) => CurrencyRedux.actions.changeCurrency(dispatch, currency)
 	};
 }
 

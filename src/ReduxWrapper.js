@@ -1,6 +1,4 @@
 /**
- * Created by InspireUI on 18/02/2017.
- *
  * @format
  */
 
@@ -18,63 +16,68 @@ import "./../ReactotronConfig";
 import Router from "./Router";
 
 export default class ReduxWrapper extends Component {
-  async componentDidMount() {
-    const notification = await getNotification();
+	constructor(props) {
+		super(props)
+		OneSignal.init("265739e7-93c8-49f8-b1a0-f69990ce8458");
+	}
 
-    if (notification) {
-      OneSignal.removeEventListener("opened", this.onOpened);
-      OneSignal.addEventListener("received", this.onReceived);
-      OneSignal.addEventListener("ids", this.onIds);
-    }
-    // console.ignoredYellowBox = ['Warning: View.propTypes', 'Warning: BackAndroid'];
+	async componentDidMount() {
+		const notification = await getNotification();
 
-    const language = store.getState().language;
-    // set default Language for App
-    Languages.setLanguage(language.lang);
-    EventEmitter.emit(Constants.EmitCode.MenuReload, language.lang);
-    // Enable for mode RTL
-    I18nManager.forceRTL(language.rtl);
+		if (notification) {
+			OneSignal.removeEventListener("opened", this.onOpened);
+			OneSignal.addEventListener("received", this.onReceived);
+			OneSignal.addEventListener("ids", this.onIds);
+		}
+		// console.ignoredYellowBox = ['Warning: View.propTypes', 'Warning: BackAndroid'];
 
-    if (__DEV__) {
-      Reactotron.connect();
-      Reactotron.clear();
-    }
-  }
+		const language = store.getState().language;
+		// set default Language for App
+		Languages.setLanguage(language.lang);
+		EventEmitter.emit(Constants.EmitCode.MenuReload, language.lang);
+		// Enable for mode RTL
+		I18nManager.forceRTL(language.rtl);
 
-  async componentWillUnmount() {
-    const notification = await getNotification();
+		if (__DEV__) {
+			Reactotron.connect();
+			Reactotron.clear();
+		}
+	}
 
-    if (notification) {
-      OneSignal.removeEventListener("opened", this.onOpened);
-      OneSignal.removeEventListener("received", this.onReceived);
-      OneSignal.removeEventListener("ids", this.onIds);
-    }
-  }
+	async componentWillUnmount() {
+		const notification = await getNotification();
 
-  onReceived(notification) {
-    console.log("Notification received: ", notification);
-  }
+		if (notification) {
+			OneSignal.removeEventListener("opened", this.onOpened);
+			OneSignal.removeEventListener("received", this.onReceived);
+			OneSignal.removeEventListener("ids", this.onIds);
+		}
+	}
 
-  onOpened(openResult) {
-    console.log("Message: ", openResult.notification.payload.body);
-    console.log("Data: ", openResult.notification.payload.additionalData);
-    console.log("isActive: ", openResult.notification.isAppInFocus);
-    console.log("openResult: ", openResult);
-  }
+	onReceived(notification) {
+		console.log("Notification received: ", notification);
+	}
 
-  onIds(device) {
-    console.log("Device info: ", device);
-  }
+	onOpened(openResult) {
+		console.log("Message: ", openResult.notification.payload.body);
+		console.log("Data: ", openResult.notification.payload.additionalData);
+		console.log("isActive: ", openResult.notification.isAppInFocus);
+		console.log("openResult: ", openResult);
+	}
 
-  render() {
-    const persistor = persistStore(store);
+	onIds(device) {
+		console.log("Device info: ", device);
+	}
 
-    return (
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <Router />
-        </PersistGate>
-      </Provider>
-    );
-  }
+	render() {
+		const persistor = persistStore(store);
+
+		return (
+			<Provider store={store}>
+				<PersistGate persistor={persistor}>
+					<Router />
+				</PersistGate>
+			</Provider>
+		);
+	}
 }

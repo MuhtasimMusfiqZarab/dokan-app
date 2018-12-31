@@ -6,15 +6,17 @@ import Icons from './wdIcons'
 
 export default {
 	/**
-		 Step 1: change to your website URL and the wooCommerce API consumeKey
+		 Step 1: change to your website URL and the wooCommerce API consumerKey
 		*/
 	WooCommerce: {
-		// url: 'http://mstore.io',
-		// consumerKey: 'ck_b7594bc4391db4b56c635fe6da1072a53ca4535a',
-		// consumerSecret: 'cs_980b9edb120e15bd2a8b668cacc734f7eca0ba40',
 		url: 'http://ajaira.website/dokan-app',
 		consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
 		consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
+
+		// url: 'https://tedhut.com/',
+		// consumerKey: 'ck_288d122af9ac2a56977970fa404352a0ed32b6e6',
+		// consumerSecret: 'cs_ef48540035466d888768e10cc3571214b20e2af3',
+
 	},
 	Dokan: {
 		url: 'http://ajaira.website/dokan-app',
@@ -36,7 +38,8 @@ export default {
 	// BUG: Language can not change when set default value in Config.js ==> pass string to change Languages
 	// NOTE: name is define value --> change field in Language.js
 	HorizonLayout: [
-		{ tag: 273, paging: true, layout: Constants.Layout.miniBanner },
+		{ tag: 355, paging: true, layout: Constants.Layout.miniBanner },
+		// { tag: 604, paging: true, layout: Constants.Layout.miniBanner },
 		{
 			purpose: "atAglance",
 			layout: Constants.Layout.atAglance,
@@ -45,7 +48,6 @@ export default {
 		{
 			name: "featuredProducts",
 			purpose: "featuredProducts",
-			category: 21,
 			image: Images.Banner.Feature,
 			layout: Constants.Layout.threeColumn,
 		},
@@ -56,14 +58,12 @@ export default {
 		{
 			name: "bestSellingProducts",
 			purpose: 'bestSellingProducts',
-			category: 23,
 			image: Images.Banner.Bag,
 			layout: Constants.Layout.threeColumn,
 		},
 		{
 			name: "topRatedProducts",
 			purpose: "topRatedProducts",
-			category: 22,
 			image: Images.Banner.Woman,
 			layout: Constants.Layout.threeColumn,
 		},
@@ -118,7 +118,6 @@ export default {
 	},
 	showStatusBar: true,
 	LogoImage: require('@images/new_logo.png'),
-	// LogoWithText: require('@images/logo_with_text.png'),
 	LogoWithText: require('@images/dokan-logo.png'),
 	LogoLoading: require('@images/logo.png'),
 
@@ -131,7 +130,7 @@ export default {
 	},
 	appFacebookId: '422035778152242',
 	CustomPages: { contact_id: 10941 },
-	WebPages: { marketing: 'http://inspireui.com' },
+	WebPages: { marketing: 'http://wedevs.com' },
 	CategoryListView: true,
 	intro: [
 		{
@@ -229,34 +228,34 @@ export default {
 				},
 				iconLeft: Icons.MaterialCommunityIcons.Order,
 			},
+			// {
+			// 	index: 4,
+			// 	text: 'Currency',
+			// 	routeName: 'CustomPage',
+			// 	params: {
+			// 		isActive: false
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Currency,
+			// },
+			// {
+			// 	index: 5,
+			// 	text: 'Languages',
+			// 	routeName: 'SettingScreen',
+			// 	params: {
+			// 		isActive: false
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Language,
+			// },
+			// {
+			// 	index: 6,
+			// 	text: 'Push Notification',
+			// 	params: {
+			// 		isActive: false
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Bell,
+			// },
 			{
 				index: 4,
-				text: 'Currency',
-				routeName: 'CustomPage',
-				params: {
-					isActive: false
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Currency,
-			},
-			{
-				index: 5,
-				text: 'Languages',
-				routeName: 'SettingScreen',
-				params: {
-					isActive: false
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Language,
-			},
-			{
-				index: 6,
-				text: 'Push Notification',
-				params: {
-					isActive: false
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Bell,
-			},
-			{
-				index: 7,
 				text: 'Contact Us',
 				routeName: 'ContactUs',
 				params: {
@@ -265,7 +264,7 @@ export default {
 				iconLeft: Icons.MaterialCommunityIcons.Wechat,
 			},
 			{
-				index: 8,
+				index: 5,
 				text: 'Privacy Policies',
 				routeName: 'PrivacyPolicy',
 				params: {
@@ -274,7 +273,7 @@ export default {
 				iconLeft: Icons.MaterialCommunityIcons.Lock,
 			},
 			{
-				index: 9,
+				index: 6,
 				text: 'About Us',
 				routeName: 'AboutUs',
 				params: {
@@ -284,7 +283,7 @@ export default {
 				iconLeft: Icons.MaterialCommunityIcons.About,
 			},
 			{
-				index: 10,
+				index: 7,
 				text: 'Settings',
 				routeName: 'SettingScreen',
 				params: {
@@ -330,20 +329,26 @@ export default {
 	],
 
 	// weDevs
-	dummyReview: [
+	policies: [
 		{
-			customer_name: 'Test Customer 1',
-			rating: 5,
-			title: "Review Ttile 1",
-			comment: "Efficiently foster client-centric partnerships rather than mission-critical internal or sources. Globally customize web-enabled.",
-			date: "25 July, 2018 | 04:30 pm"
+			heading: "Heading 01",
+			text: "Proactively e-enable best-of-breed communities before long-term high-impact niche markets. Assertively reinvent superior interfaces after global."
 		},
 		{
-			customer_name: 'Test Customer 2',
-			rating: 4,
-			title: "Review Ttile 2",
-			comment: "Seamlessly strategize sustainable models vis-a-vis dynamic solutions. Quickly deploy bleeding-edge architectures with excellent portals.",
-			date: "25 July, 2018 | 04:30 pm"
+			heading: "Heading 02",
+			text: "Intrinsicly communicate diverse expertise without enabled communities. Dramatically implement cross-unit opportunities through functionalized results. Holisticly innovate maintainable channels with exceptional."
+		},
+		{
+			heading: "Heading 03",
+			text: "Holisticly administrate user friendly products without sustainable architectures. Synergistically maximize parallel supply chains whereas performance based results. Dynamically expedite multimedia based leadership with superior e-commerce."
+		},
+		{
+			heading: "Heading 04",
+			text: "Completely myocardinate cooperative resources and fully researched systems. Monotonectally brand unique partnerships with maintainable platforms. Rapidiously embrace client-centric markets rather than innovative portals. Quickly seize interactive human capital vis-a-vis viral."
+		},
+		{
+			heading: "Heading 05",
+			text: "Intrinsicly communicate diverse expertise without enabled communities. Dramatically implement cross-unit opportunities through functionalized results. Holisticly innovate maintainable channels with exceptional."
 		},
 	],
 	sortingTexts: [

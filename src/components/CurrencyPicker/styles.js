@@ -33,6 +33,5 @@ export default StyleSheet.create({
   text: {
     fontWeight: "bold",
     marginLeft: 10,
-    color: Color.blackTextPrimary,
   },
 });

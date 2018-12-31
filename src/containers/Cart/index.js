@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { Languages, Images, Config, Constants } from "@common";
 import { BlockTimer } from "@app/Omni";
 import Modal from "react-native-modalbox";
-import { StepIndicator, StripePanel } from "@components";
+import { StepIndicator, StripePanel, ModalBox, Spinner} from "@components";
 import base64 from "base-64";
 import { isObject } from "lodash";
 import MyCart from "./MyCart";
@@ -160,7 +160,7 @@ class Cart extends PureComponent {
 	onShowCheckOut = async (order, payment) => {
 		await this.setState({ order });
 		if (payment === "stripe") {
-			this.stripeModal.open()
+			this.stripeModal.openModal()
 		}
 		// this.checkoutModal.open();
 	};
@@ -195,18 +195,19 @@ class Cart extends PureComponent {
 		this.setState({ userInfo: formValues });
 	}
 
+	closeStripeModal = () => {
+		this.stripeModal.closeModal();
+	}
+
 	renderStripeLayout = () => {
 		return (
-			<Modal
-				ref="StripeModal"
-				ref={(smodal) => (this.stripeModal = smodal)}
-				backdropPressToClose={false}
-				backButtonClose
-				swipeToClose
-				// onClosed={() => this.completePurchase(this.state.paymentState)}
-				style={{ flex: 1 }}>
-				<StripePanel />
-			</Modal>
+			<ModalBox ref={(smodal) => (this.stripeModal = smodal)}>
+				<StripePanel
+					order={this.state.order}
+					closeStripeModal={this.closeStripeModal}
+					emptyCart={this.props.emptyCart}
+					onNext={this.onNext} />
+			</ModalBox>
 		);
 	};
 
@@ -224,12 +225,6 @@ class Cart extends PureComponent {
 				gradientColorFrom: "#F9769D",
 				gradientColorTo: "#BB6DF7",
 			},
-			// { 
-			//   label: Languages.Delivery,
-			//   icon: Images.IconDeliveryGradient,
-			//   gradientColorFrom: "#00E9F0",
-			//   gradientColorTo: "#0096FF"
-			// },
 			{
 				label: Languages.Payment,
 				icon: Images.IconPaymentGradient,
@@ -243,9 +238,11 @@ class Cart extends PureComponent {
 				gradientColorTo: "#5B56D7"
 			},
 		];
+
 		return (
 			<View style={styles.fill}>
 				{this.renderCheckOut()}
+				{this.props.isProcessing ? <Spinner mode="overlay" color="#000" /> : null}
 				<View style={styles.indicator}>
 					<StepIndicator
 						steps={steps}
@@ -272,14 +269,6 @@ class Cart extends PureComponent {
 							navigation={navigation}
 							onViewProduct={onViewProduct}
 						/>
-						{/* <Delivery
-							key="delivery"
-							onNext={(formValues) => {
-								this.setState({ userInfo: formValues });
-								this.onNext();
-							}}
-							onPrevious={this.onPrevious}
-						/> */}
 						<Payment
 							key="payment"
 							onPrevious={this.onPrevious}
@@ -289,7 +278,6 @@ class Cart extends PureComponent {
 							isLoading={this.state.isLoading}
 							onShowCheckOut={this.onShowCheckOut}
 						/>
-
 						<FinishOrder key="finishOrder" finishOrder={this.finishOrder} />
 					</ScrollableTabView>
 
@@ -304,9 +292,10 @@ class Cart extends PureComponent {
 	}
 }
 
-const mapStateToProps = ({ carts, user }) => ({
+const mapStateToProps = ({ carts, user, spinner }) => ({
 	cartItems: carts.cartItems,
 	user,
+	isProcessing: spinner.isOpen
 });
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;

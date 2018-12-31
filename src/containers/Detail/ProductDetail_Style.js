@@ -7,402 +7,394 @@ import { Color } from "@common";
 const { width, height } = Dimensions.get("window");
 
 export default {
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(247, 247, 249, 1)",
-  },
-  naviBar: {
-    height: 64,
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "white",
-  },
-  naviTitle: {
-    flex: 1,
-    marginTop: 20,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  btnBack: {
-    zIndex: 2,
-    position: "absolute",
-    top: 20,
-    left: 10,
-  },
-  btnBackImage: {
-    height: 30,
-    width: 30,
-  },
-  listContainer: {
-    flex: 1,
-  },
-  productInfo: {
-    alignItems: "center",
-    // backgroundColor: "#f6f6f8",
+	container: {
+		flex: 1,
+		backgroundColor: "rgba(247, 247, 249, 1)",
+	},
+	naviBar: {
+		height: 64,
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		backgroundColor: "white",
+	},
+	naviTitle: {
+		flex: 1,
+		marginTop: 20,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	btnBack: {
+		zIndex: 2,
+		position: "absolute",
+		top: 20,
+		left: 10,
+	},
+	btnBackImage: {
+		height: 30,
+		width: 30,
+	},
+	listContainer: {
+		flex: 1,
+	},
+	productInfo: {
+		alignItems: "center",
+		backgroundColor: "#E8E8E8",
+		paddingBottom: 10
+	},
+	imageSlider: {
+		flex: 1,
+		marginTop: 0,
+	},
+	imageProduct: {
+		flex: 1,
+		paddingLeft: 40,
+		paddingRight: 40,
+		marginTop: 10,
+		marginBottom: 10,
+		resizeMode: "contain",
+		width: Constants.Window.width,
+		height: 300,
+	},
+	imageProductFull: {
+		flex: 1,
+		marginLeft: 4,
+		marginRight: 4,
+		marginTop: 4,
+		marginBottom: 4,
+		resizeMode: "contain",
+		height,
+	},
+	productSizeContainer: {
+		flexDirection: "row",
+		justifyContent: "center",
+		flexWrap: "wrap",
+		marginTop: 15,
+	},
+	productSize: {
+		marginLeft: 5,
+		marginRight: 5,
+	},
+	productName: {
+		// textAlign: "center",
+		// fontSize: 20,
+		fontSize: 18,
+		color: Color.Text,
+		color: '#79828F',
+		// padding: 8,
+		marginBottom: 4,
+		// fontFamily: Constants.fontHeader,
+		fontFamily: Constants.fontFamilyLato,
+	},
+	productPrice: {
+		// fontSize: 18,
+		fontSize: 20,
+		// color: Color.blackTextPrimary,
+		color: "#4D4D4D",
+		fontFamily: Constants.fontFamilyLato,
+	},
+	sale_price: {
+		textDecorationLine: "line-through",
+		color: Color.blackTextDisable,
+		// marginLeft: 5,
+		// marginTop: 4,
+		marginRight: 5,
+		fontFamily: Constants.fontFamily,
+	},
+	tabButton: {
+		flexDirection: "row",
+		borderTopWidth: 1,
+		borderBottomWidth: 1,
+		borderTopColor: "#f5f5f5",
+		borderBottomColor: "#f5f5f5",
+		paddingLeft: 10,
+		paddingRight: 10,
+		backgroundColor: "rgba(255,255,255,1)",
+	},
+	textTab: {
+		fontFamily: Constants.fontHeader,
+		color: "rgba(183, 196, 203, 1)",
+		fontSize: 16,
+	},
+	tabButtonHead: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
+		backgroundColor: "white",
+		opacity: 0,
+	},
+	tabItem: {
+		flex: 0.32,
+		backgroundColor: "rgba(255,255,255,1)",
+	},
+	bottomView: {
+		height: 50,
+		flexDirection: "row",
+		borderTopWidth: 1,
+		borderTopColor: "#f3f7f9",
+	},
+	buttonContainer: {
+		flex: 0.5,
+		backgroundColor: "white",
+		// backgroundColor: "#F8F8FA",
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	imageButton: {
+		width: 20,
+		height: 20,
+		tintColor: "#ccc",
+		flex: 1,
+	},
+	buttonStyle: {
+		flex: 1 / 3,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	btnBuy: {
+		flex: 0.5,
+		backgroundColor: Color.BuyNowButton,
+	},
+	outOfStock: {
+		backgroundColor: Color.OutOfStockButton,
+	},
+	btnBuyText: {
+		color: "white",
+		fontSize: 14,
+		fontWeight: "bold",
+		fontFamily: Constants.fontHeader,
+	},
+	description: {
+		padding: 20,
+		paddingTop: 10,
+		backgroundColor: "rgba(255,255,255,1)",
+		alignItems: I18nManager.isRTL ? "flex-end" : "flex-start",
+	},
+	productColorContainer: {
+		position: "absolute",
+		top: 50,
+		left: I18nManager.isRTL ? width - 50 : 0,
+		alignItems: "center",
+		justifyContent: "center",
+		paddingTop: 10,
+		paddingBottom: 10,
+		width: 50,
+	},
 
-    // weDevs
-    backgroundColor: "#E8E8E8",
-    paddingBottom: 10
-  },
-  imageSlider: {
-    flex: 1,
-    marginTop: 0,
-  },
-  imageProduct: {
-    flex: 1,
-    paddingLeft: 40,
-    paddingRight: 40,
-    marginTop: 10,
-    marginBottom: 10,
-    resizeMode: "contain",
-    width: Constants.Window.width,
-    height: 300,
-  },
-  imageProductFull: {
-    flex: 1,
-    marginLeft: 4,
-    marginRight: 4,
-    marginTop: 4,
-    marginBottom: 4,
-    resizeMode: "cover",
-    height,
-  },
-  productSizeContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    marginTop: 15,
-  },
-  productSize: {
-    marginLeft: 5,
-    marginRight: 5,
-  },
-  productName: {
-    // textAlign: "center",
-    // fontSize: 20,
-    fontSize: 18,
-    color: Color.Text,
-    color: '#79828F',
-    // padding: 8,
-    marginBottom: 4,
-    // fontFamily: Constants.fontHeader,
-    fontFamily: Constants.fontFamilyLato,
-  },
-  productPrice: {
-    // fontSize: 18,
-    fontSize: 20,
-    // color: Color.blackTextPrimary,
-    color: "#4D4D4D",
-    fontFamily: Constants.fontFamilyLato,
-  },
-  sale_price: {
-    textDecorationLine: "line-through",
-    color: Color.blackTextDisable,
-    // marginLeft: 5,
-    // marginTop: 4,
-    marginRight: 5,
-    fontFamily: Constants.fontFamily,
-  },
-  tabButton: {
-    flexDirection: "row",
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderTopColor: "#f5f5f5",
-    borderBottomColor: "#f5f5f5",
-    paddingLeft: 10,
-    paddingRight: 10,
-    backgroundColor: "rgba(255,255,255,1)",
-  },
-  textTab: {
-    fontFamily: Constants.fontHeader,
-    color: "rgba(183, 196, 203, 1)",
-    fontSize: 16,
-  },
-  tabButtonHead: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "white",
-    opacity: 0,
-  },
-  tabItem: {
-    flex: 0.32,
-    backgroundColor: "rgba(255,255,255,1)",
-  },
-  bottomView: {
-    height: 50,
-    flexDirection: "row",
-    borderTopWidth: 1,
-    borderTopColor: "#f3f7f9",
-  },
-  buttonContainer: {
-    flex: 0.5,
-    backgroundColor: "white",
-    // backgroundColor: "#F8F8FA",
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  imageButton: {
-    width: 20,
-    height: 20,
-    tintColor: "#ccc",
-    flex: 1,
-  },
-  buttonStyle: {
-    flex: 1 / 3,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  btnBuy: {
-    flex: 0.5,
-    backgroundColor: Color.BuyNowButton,
-  },
-  outOfStock: {
-    backgroundColor: Color.OutOfStockButton,
-  },
-  btnBuyText: {
-    color: "white",
-    fontSize: 14,
-    fontWeight: "bold",
-    fontFamily: Constants.fontHeader,
-  },
-  description: {
-    padding: 20,
-    paddingTop: 10,
-    backgroundColor: "rgba(255,255,255,1)",
-    alignItems: I18nManager.isRTL ? "flex-end" : "flex-start",
-  },
-  productColorContainer: {
-    position: "absolute",
-    top: 50,
-    left: I18nManager.isRTL ? width - 50 : 0,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 10,
-    paddingBottom: 10,
-    width: 50,
-  },
+	modalBoxWrap: {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		borderRadius: 2,
+		width,
+		height,
+		zIndex: 9999,
+	},
+	iconZoom: {
+		position: "absolute",
+		right: 0,
+		top: 10,
+		backgroundColor: "rgba(255,255,255,.9)",
+		paddingTop: 4,
+		paddingRight: 4,
+		paddingBottom: 4,
+		paddingLeft: 4,
+		zIndex: 9999,
+	},
+	textClose: {
+		color: "#666",
+		fontWeight: "600",
+		fontSize: 10,
+		margin: 4,
+		zIndex: 9999,
+	},
+	image: {
+		width,
+		height: height - 40,
+		zIndex: 9999,
+	},
+	dotActive: {
+		backgroundColor: "rgba(183, 196, 203, 1)",
+		width: 10,
+		height: 10,
+		borderRadius: 20,
+	},
+	dot: {
+		width: 6,
+		height: 6,
+		backgroundColor: "rgba(183, 196, 203, 1)",
+		backgroundColor: "blue",
+	},
+	tabView: {
+		minHeight: height / 2,
+	},
+	price_wrapper: {
+		flexDirection: "row",
+		marginBottom: 8,
+	},
+	textRating: {
+		fontSize: Styles.FontSize.small,
+		marginLeft: 6,
+	},
 
-  modalBoxWrap: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    borderRadius: 2,
-    width,
-    height,
-    zIndex: 9999,
-  },
-  iconZoom: {
-    position: "absolute",
-    right: 0,
-    top: 10,
-    backgroundColor: "rgba(255,255,255,.9)",
-    paddingTop: 4,
-    paddingRight: 4,
-    paddingBottom: 4,
-    paddingLeft: 4,
-    zIndex: 9999,
-  },
-  textClose: {
-    color: "#666",
-    fontWeight: "600",
-    fontSize: 10,
-    margin: 4,
-    zIndex: 9999,
-  },
-  image: {
-    width,
-    height: height - 40,
-    zIndex: 9999,
-  },
-  dotActive: {
-    backgroundColor: "rgba(183, 196, 203, 1)",
-    width: 10,
-    height: 10,
-    borderRadius: 20,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    backgroundColor: "rgba(183, 196, 203, 1)",
-    backgroundColor: "blue",
-  },
-  tabView: {
-    minHeight: height / 2,
-  },
-  price_wrapper: {
-    flexDirection: "row",
-    marginBottom: 8,
-  },
-  textRating: {
-    fontSize: Styles.FontSize.small,
-    marginLeft: 6,
-  },
+	attributeName: {
+		color: "#aaa",
+		fontFamily: Constants.fontFamily,
+		fontSize: 11,
+	},
 
-  attributeName: {
-    color: "#aaa",
-    fontFamily: Constants.fontFamily,
-    fontSize: 11,
-  },
-
-  /**
-   * weDevs
-   */
-  productDetailContainer: {
-    // backgroundColor: "#F7F7F9",
-    padding: 15
-  },
-  topVendorInfoContainer: {
-    width: "85%",
-    height: 50,
-    padding: 10,
-    backgroundColor: "#fff",
-    borderRadius: 30,
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 10,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOpacity: 0.2,
-        shadowOffset: { width: 1, height: 2 }
-      },
-      android: {
-        elevation: 3
-      }
-    })
-  },
-  topVendorNameInitials: {
-    width: 35,
-    height: 35,
-    borderRadius: 17.5,
-    backgroundColor: "red",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  productMetaContainer: {
-    marginTop: 10,
-    marginBottom: 15,
-    flexDirection: "row",
-    alignItems: "flex-start"
-  },
-  productPriceContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "center",
-  },
-  productBadgeContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-  },
-  productBadge: {
-    width: 50,
-    height: 45,
-    marginLeft: 10,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOpacity: 0.3,
-        shadowOffset: {width: 2, height: 2},
-      },
-      android: {
-        elevation: 3
-      }
-    })
-  },
-  productBadgeNumber: {
-    fontFamily: Constants.fontFamilyLato,
-    color: "#79828F",
-    fontWeight: "bold",
-    fontSize: 12
-  },
-  productBadgeText: {
-    fontFamily: Constants.fontFamilyLato,
-    color: "#A5B1B5",
-    fontSize: 10
-  },
-  productDescription: {
-    color: "#A5B1B5"
-  },
-  accordionHeader: {
-    flexDirection: "row",
-    // justifyContent: "center",
-    alignItems: "center",
-    padding: 15,
-    borderRadius: 5,
-    height: 60,
-    marginTop: 15,
-  },
-  accordionHeaderInActive: {
-    backgroundColor: "#fff",
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOpacity: 0.1,
-        shadowOffset: {width: 0, height: 1}
-      },
-      android: {
-        elevation: 3
-      }
-    })
-  },
-  accordionHeaderActive: {
-    backgroundColor: "#fff",
-    borderBottomWidth: 0.5,
-    borderBottomColor: "#E9EDED",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
-  },
-  accordionHeaderText: {
-    color: "#7C8592",
-    fontSize: 18,
-    fontFamily: Constants.fontFamilyLato
-  },
-  accordionContent: {
-    padding: 15,
-  },
-  accordionContentInActive: {
-    backgroundColor: "#fff",
-  },
-  accordionContentActive: {
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.5,
-    shadowOffset: {width: -5, height: 5}
-  },
-  accordionHeaderIcon: {
-    width: 45,
-    height: 45,
-    borderRadius: 22.5,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: '#fff',
-    marginRight: 15,
-    ...Platform.select({
-      ios: {
-        shadowColor: "#000",
-        shadowOpacity: 0.3,
-        shadowOffset: {width: -1, height: 1},
-      },
-      android: {
-        elevation: 3
-      }
-    })
-  },
-  accordionDescriptionText: {
-    color: "#9199A4",
-    fontSize: 16,
-    fontFamily: Constants.fontFamilyLato,
-  },
-
+	/**
+	 * weDevs
+	 */
+	productDetailContainer: {
+		// backgroundColor: "#F7F7F9",
+		padding: 15
+	},
+	topVendorInfoContainer: {
+		width: "85%",
+		height: 50,
+		padding: 10,
+		backgroundColor: "#fff",
+		borderRadius: 30,
+		flexDirection: "row",
+		alignItems: "center",
+		margin: 10,
+		...Platform.select({
+			ios: {
+				shadowColor: "#000",
+				shadowOpacity: 0.2,
+				shadowOffset: { width: 1, height: 2 }
+			},
+			android: {
+				elevation: 3
+			}
+		})
+	},
+	topVendorNameInitials: {
+		width: 35,
+		height: 35,
+		borderRadius: 17.5,
+		backgroundColor: "red",
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	productMetaContainer: {
+		marginTop: 10,
+		marginBottom: 15,
+		flexDirection: "row",
+		alignItems: "flex-start"
+	},
+	productPriceContainer: {
+		flex: 1,
+		flexDirection: "row",
+		justifyContent: "flex-start",
+		alignItems: "center",
+	},
+	productBadgeContainer: {
+		flex: 1,
+		flexDirection: "row",
+		justifyContent: "flex-end",
+		alignItems: "center",
+	},
+	productBadge: {
+		width: 50,
+		height: 45,
+		marginLeft: 10,
+		backgroundColor: "#fff",
+		borderRadius: 5,
+		justifyContent: "center",
+		alignItems: "center",
+		...Platform.select({
+			ios: {
+				shadowColor: "#000",
+				shadowOpacity: 0.3,
+				shadowOffset: {width: 2, height: 2},
+			},
+			android: {
+				elevation: 3
+			}
+		})
+	},
+	productBadgeNumber: {
+		fontFamily: Constants.fontFamilyLato,
+		color: "#79828F",
+		fontWeight: "bold",
+		fontSize: 12
+	},
+	productBadgeText: {
+		fontFamily: Constants.fontFamilyLato,
+		color: "#A5B1B5",
+		fontSize: 10
+	},
+	productDescription: {
+		color: "#A5B1B5"
+	},
+	accordionHeader: {
+		flexDirection: "row",
+		// justifyContent: "center",
+		alignItems: "center",
+		padding: 15,
+		borderRadius: 5,
+		height: 60,
+		marginTop: 15,
+	},
+	accordionHeaderInActive: {
+		backgroundColor: "#fff",
+		...Platform.select({
+			ios: {
+				shadowColor: "#000",
+				shadowOpacity: 0.1,
+				shadowOffset: {width: 0, height: 1}
+			},
+			android: {
+				elevation: 3
+			}
+		})
+	},
+	accordionHeaderActive: {
+		backgroundColor: "#fff",
+		borderBottomWidth: 0.5,
+		borderBottomColor: "#E9EDED",
+		borderBottomLeftRadius: 0,
+		borderBottomRightRadius: 0
+	},
+	accordionHeaderText: {
+		color: "#7C8592",
+		fontSize: 18,
+		fontFamily: Constants.fontFamilyLato
+	},
+	accordionContent: {
+		padding: 15,
+	},
+	accordionContentInActive: {
+		backgroundColor: "#fff",
+	},
+	accordionContentActive: {
+		backgroundColor: "#fff",
+		shadowColor: "#000",
+		shadowOpacity: 0.5,
+		shadowOffset: {width: -5, height: 5}
+	},
+	accordionHeaderIcon: {
+		width: 45,
+		height: 45,
+		borderRadius: 22.5,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: '#fff',
+		marginRight: 15,
+		...Platform.select({
+			ios: {
+				shadowColor: "#000",
+				shadowOpacity: 0.3,
+				shadowOffset: {width: -1, height: 1},
+			},
+			android: {
+				elevation: 3
+			}
+		})
+	},
+	
 };

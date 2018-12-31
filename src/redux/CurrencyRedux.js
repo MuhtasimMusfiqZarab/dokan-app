@@ -1,6 +1,4 @@
 /**
- * Created by InspireUI on 06/03/2017.
- *
  * @format
  */
 
@@ -9,31 +7,31 @@
 // import CurrencyWorker from '@services/CurrencyWorker'
 
 const types = {
-  CHANGE_CURRENCY: "CHANGE_CURRENCY",
+	CHANGE_CURRENCY: "CHANGE_CURRENCY",
 };
 
 export const actions = {
-  changeCurrency: (dispatch, currency) => {
-    dispatch({ type: types.CHANGE_CURRENCY, currency });
-  },
+	changeCurrency: (dispatch, currency) => {
+		dispatch({ type: types.CHANGE_CURRENCY, currency });
+	},
 };
 
 const initialState = {
-  symbol: "$",
-  name: "US Dollar",
-  symbol_native: "$",
-  decimal_digits: 2,
-  rounding: 0,
-  code: "USD",
-  name_plural: "US dollars",
+	symbol: "$",
+	name: "US Dollar",
+	symbol_native: "$",
+	decimal_digits: 2,
+	rounding: 0,
+	code: "USD",
+	name_plural: "US dollars",
 };
 
 export const reducer = (state = initialState, action) => {
-  const { currency } = action;
-  switch (action.type) {
-    case types.CHANGE_CURRENCY:
-      return Object.assign({}, state, { ...currency });
-    default:
-      return state;
-  }
+	const { currency } = action;
+	switch (action.type) {
+		case types.CHANGE_CURRENCY:
+			return Object.assign({}, state, { ...currency });
+		default:
+			return state;
+	}
 };

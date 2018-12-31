@@ -63,7 +63,6 @@ class LoginScreen extends PureComponent {
 	// handle the logout screen and navigate to cart page if the new user login object exist
 	componentWillReceiveProps(nextProps) {
 		const { onViewCartScreen, user: oldUser, onViewHomeScreen } = this.props;
-
 		const { user } = nextProps.user;
 		const { params } = nextProps.navigation.state;
 
@@ -110,6 +109,45 @@ class LoginScreen extends PureComponent {
 		}
 	};
 
+	// onLoginPressHandle = async () => {
+	// 	const { login, netInfo } = this.props;
+
+	// 	if (!netInfo.isConnected) {
+	// 		return toast(Languages.noConnection);
+	// 	}
+
+	// 	this.setState({ isLoading: true });
+
+	// 	const { username, password } = this.state;
+
+	// 	// login the customer via Wordpress API and get the access token
+	// 	const json = await WPUserAPI.login(username.trim(), password);
+
+	// 	if (json === undefined) {
+	// 		this.stopAndToast(Languages.GetDataError);
+	// 	} else if (json.error) {
+	// 		this.stopAndToast(json.error.message);
+	// 	} else {
+	// 		let customers = await WooWorker.getCustomerById(json.user.id);
+	// 		customers = { ...customers, username, password };
+
+	// 		this._onBack();
+	// 		login(customers, json.cookie);
+	// 	}
+
+	// 	if (json === undefined) {
+	// 		this.stopAndToast(Languages.GetDataError);
+	// 	} else if (json.code) {
+	// 		this.stopAndToast(json.message);
+	// 	} else {
+	// 		let customers = await WooWorker.getCustomerByEmail(json.user_email);
+	// 		customers = { ...customers, username, password };
+
+	// 		this._onBack();
+	// 		login(customers, json.token);
+	// 	}
+	// };
+
 	onLoginPressHandle = async () => {
 		const { login, netInfo } = this.props;
 
@@ -118,9 +156,9 @@ class LoginScreen extends PureComponent {
 		}
 
 		this.setState({ isLoading: true });
-
+		
 		const { username, password } = this.state;
-
+		
 		// login the customer via Wordpress API and get the access token
 		const json = await WPUserAPI.login(username.trim(), password);
 
@@ -167,6 +205,10 @@ class LoginScreen extends PureComponent {
 		this.props.onViewSignUp();
 	};
 
+	onForgetPassHandle = () => {
+		this.props.onForgetPassword();
+	}
+
 	checkConnection = () => {
 		const { netInfo } = this.props;
 		if (!netInfo.isConnected) toast(Languages.noConnection);
@@ -199,45 +241,36 @@ class LoginScreen extends PureComponent {
 						</Text>
 					</View>
 					<View style={styles.subContain}>
-						<View style={styles.loginForm}>
+						<View>
 							<View style={styles.inputWrap}>
-								<Icon
-									name={Icons.MaterialCommunityIcons.Email}
-									size={Styles.IconSize.TextInput}
-									color={Color.blackTextSecondary}
-								/>
+								<Text style={styles.label}>Username</Text>
 								<TextInput
 									{...commonInputProps}
+									style={styles.input}
 									ref={(comp) => (this.username = comp)}
-									placeholder={Languages.UserOrEmail}
 									keyboardType="email-address"
 									onChangeText={this.onUsernameEditHandle}
 									onSubmitEditing={this.focusPassword}
 									returnKeyType="next"
 									value={username}
 								/>
-						</View>
+							</View>
 							<View style={styles.inputWrap}>
-								<Icon
-									name={Icons.MaterialCommunityIcons.Lock}
-									size={Styles.IconSize.TextInput}
-									color={Color.blackTextSecondary}
-								/>
+								<Text style={styles.label}>Password</Text>
 								<TextInput
 									{...commonInputProps}
 									ref={(comp) => (this.password = comp)}
-									placeholder={Languages.password}
 									onChangeText={this.onPasswordEditHandle}
 									secureTextEntry
 									returnKeyType="go"
 									value={password}
 								/>
 							</View>
-							{/* <ButtonIndex
-								text={Languages.Login.toUpperCase()}
-								containerStyle={styles.loginButton}
-								onPress={this.onLoginPressHandle}
-							/> */}
+							<TouchableOpacity
+								// style={Styles.Common.ColumnCenter}
+								onPress={this.onForgetPassHandle}>
+								<Text style={styles.highlight}>Forget Password?</Text>
+							</TouchableOpacity>
 							<Button
 								type="gradientBtn"
 								text="Login"
@@ -268,7 +301,6 @@ class LoginScreen extends PureComponent {
 							</Text>
 						</TouchableOpacity>
 					</View>
-
 					{isLoading ? <Spinner mode="overlay" /> : null}
 				</ScrollView>
 			</ImageBackground>
@@ -295,6 +327,7 @@ const mapDispatchToProps = (dispatch) => {
 	const backAction = NavigationActions.back({
 		key: null,
 	});
+
 	return {
 		login: (user, token) => dispatch(actions.login(user, token)),
 		logout: () => dispatch(actions.logout()),

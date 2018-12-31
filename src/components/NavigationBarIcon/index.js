@@ -9,7 +9,7 @@ import {
 	Image,
 } from "react-native";
 import { Color, Styles } from "@common";
-import { CustomIcon } from "@app/Omni";
+import { CustomIcon, Icon } from "@app/Omni";
 import * as Animatable from "react-native-animatable";
 
 class NavigationBarIcon extends Component {
@@ -29,7 +29,7 @@ class NavigationBarIcon extends Component {
 
 	render() {
 		const { onPress, number, icon, color, size, type } = this.props;
-		const iconColor = color ? color : "#333";
+		const iconColor = color ? color : "#000";
 		
 		const renderItem = () => {
 			if (type === "icon") {
@@ -40,7 +40,18 @@ class NavigationBarIcon extends Component {
 							styles.icon,
 							{ color: iconColor },
 						]}
-						size={18}
+						size={size ? size : 18}
+					/>
+				)
+			} else if (type === "materialIcon") {
+				return (
+					<Icon
+						name={icon}
+						style={[
+							styles.icon,
+							{ color: iconColor },
+						]}
+						size={size ? size : 18}
 					/>
 				)
 			} else {
@@ -60,7 +71,7 @@ class NavigationBarIcon extends Component {
 				)
 			}
 		}
-
+		
 		return (
 			<TouchableOpacity onPress={onPress} style={styles.iconWrap}>
 				{renderItem()}
@@ -79,7 +90,7 @@ const styles = StyleSheet.create({
 		...Styles.Common.ColumnCenter,
 		width: Platform.OS === "android" ? 30 : Styles.headerHeight,
 		height: Styles.headerHeight,
-		marginRight: 5
+		// marginRight: 5
 	},
 	numberWrap: {
 		...Styles.Common.ColumnCenter,

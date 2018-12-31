@@ -3,131 +3,131 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import {
-  View,
-  Platform,
-  StyleSheet,
-  TouchableWithoutFeedback,
+	View,
+	Platform,
+	StyleSheet,
+	TouchableWithoutFeedback,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { connect } from "react-redux";
 import { Device } from "@common";
 
 const styles = StyleSheet.create({
-  tabbar: {
-    // height: Device.isIphoneX ? 60 : 49,
-    height: 49,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#eee",
-    backgroundColor: "#fff",
-  },
-  tab: {
-    alignSelf: "stretch",
-    flex: 1,
-    alignItems: "center",
-    ...Platform.select({
-      ios: {
-        justifyContent: Device.isIphoneX ? "flex-start" : "center",
-        paddingTop: Device.isIphoneX ? 12 : 0,
-      },
-      android: {
-        justifyContent: "center",
-      },
-    }),
-  },
+	tabbar: {
+		// height: Device.isIphoneX ? 60 : 49,
+		height: 49,
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		borderTopWidth: 1,
+		borderTopColor: "#eee",
+		backgroundColor: "#fff",
+	},
+	tab: {
+		alignSelf: "stretch",
+		flex: 1,
+		alignItems: "center",
+		...Platform.select({
+			ios: {
+				justifyContent: Device.isIphoneX ? "flex-start" : "center",
+				paddingTop: Device.isIphoneX ? 12 : 0,
+			},
+			android: {
+				justifyContent: "center",
+			},
+		}),
+	},
 });
 
 class TabBar extends PureComponent {
-  onPress = (index, route) => {
-    this.refs[`tabItem${index}`].flipInY(900);
-    // this.props.jumpToIndex(index)
-    this.props.jumpTo(route.key);
-  };
+	onPress = (index, route) => {
+		this.refs[`tabItem${index}`].flipInY(900);
+		// this.props.jumpToIndex(index)
+		this.props.jumpTo(route.key);
+	};
 
-  render() {
-    const {
-      navigation,
-      renderIcon,
-      activeTintColor,
-      inactiveTintColor,
-      activeBackgroundColor
-    } = this.props;
+	render() {
+		const {
+			navigation,
+			renderIcon,
+			activeTintColor,
+			inactiveTintColor,
+			activeBackgroundColor
+		} = this.props;
 
-    const { routes } = navigation.state;
+		const { routes } = navigation.state;
 
-    const ignoreScreen = [
-      "DetailScreen",
-      "SearchScreen",
-      "Detail",
-      "NewsScreen",
-      "LoginScreen",
-      "SignUpScreen",
-      "CustomPage",
-      "CategoryDetail",
-      "SettingScreen",
-      "WishListScreen",
-      "LoginStack",
-      "VendorsScreen",
-      "VendorProfileScreen",
-      "ContactUs",
-      "AboutUs",
-      "PrivacyPolicy"
-    ];
+		const ignoreScreen = [
+			"DetailScreen",
+			"SearchScreen",
+			"Detail",
+			"NewsScreen",
+			"LoginScreen",
+			"SignUpScreen",
+			"CustomPage",
+			"CategoryDetail",
+			"SettingScreen",
+			"WishListScreen",
+			"LoginStack",
+			"VendorsScreen",
+			"VendorProfileScreen",
+			"ContactUs",
+			"AboutUs",
+			"PrivacyPolicy"
+		];
 
-    return (
-      <View style={styles.tabbar}>
-        {routes &&
-          routes.map((route, index) => {
-            const focused = index === navigation.state.index;
-            const tintColor = focused ? activeTintColor : inactiveTintColor;
+		return (
+			<View style={styles.tabbar}>
+				{routes &&
+					routes.map((route, index) => {
+						const focused = index === navigation.state.index;
+						const tintColor = focused ? activeTintColor : inactiveTintColor;
 
-            if (ignoreScreen.indexOf(route.key) > -1) {
-              return <View key={route.key} />;
-            }
+						if (ignoreScreen.indexOf(route.key) > -1) {
+							return <View key={route.key} />;
+						}
 
-            if (this.props.user === null && route.key === "MyOrders") {
-              return <View key={route.key} />;
-            }
+						if (this.props.user === null && route.key === "MyOrders") {
+							return <View key={route.key} />;
+						}
 
-            return (
-              <TouchableWithoutFeedback
-                key={route.key}
-                style={styles.tab}
-                onPress={() => this.onPress(index, route)}>
-                <Animatable.View
-                  ref={`tabItem${index}`}
-                  style={
-                    [
-                      styles.tab,
-                      {
-                        "backgroundColor" : focused ? activeBackgroundColor : "transparent"
-                      }
-                    ]
-                  }>
-                  {renderIcon({
-                    route,
-                    index,
-                    focused,
-                    tintColor,
-                  })}
-                </Animatable.View>
-              </TouchableWithoutFeedback>
-            );
-          })}
-      </View>
-    );
-  }
+						return (
+							<TouchableWithoutFeedback
+								key={route.key}
+								style={styles.tab}
+								onPress={() => this.onPress(index, route)}>
+								<Animatable.View
+									ref={`tabItem${index}`}
+									style={
+										[
+											styles.tab,
+											{
+												"backgroundColor" : focused ? activeBackgroundColor : "transparent"
+											}
+										]
+									}>
+									{renderIcon({
+										route,
+										index,
+										focused,
+										tintColor,
+									})}
+								</Animatable.View>
+							</TouchableWithoutFeedback>
+						);
+					})}
+			</View>
+		);
+	}
 }
 
 TabBar.propTypes = {
-  user: PropTypes.object,
-  navigation: PropTypes.object,
-  renderIcon: PropTypes.any,
-  activeTintColor: PropTypes.string,
-  inactiveTintColor: PropTypes.string,
-  jumpTo: PropTypes.func,
+	user: PropTypes.object,
+	navigation: PropTypes.object,
+	renderIcon: PropTypes.any,
+	activeTintColor: PropTypes.string,
+	inactiveTintColor: PropTypes.string,
+	jumpTo: PropTypes.func,
 };
 const mapStateToProps = ({ user }) => ({ user: user.user });
 export default connect(mapStateToProps)(TabBar);

@@ -1,7 +1,5 @@
-/**
- *
- * @format
- */
+/** @format */
+
 import reactotron from "reactotron-react-native";
 import { PixelRatio, AsyncStorage } from "react-native";
 import store from "@store/configureStore";
@@ -54,50 +52,87 @@ export const error = (values) => __DEV__ && reactotron.error(values);
  * @param data
  * @returns {Promise.<*>}
  */
-export const request = async (url, data = {}) => {
-  try {
-    const response = await fetch(url, data);
+// export const request =  async (url, data = {}) => {
+// 	try {
+// 		const response = await fetch(url, data);
+// 		return await response.json();
+// 	} catch (err) {
+// 		error(err);
+// 		return { error: err };
+// 	}
+// };
 
-    return await response.json();
-  } catch (err) {
-    error(err);
-    return { error: err };
-  }
+export const request = async (url, data = {}, method = null) => {
+	if (method === "POST") {
+		try {
+			const response =
+				await fetch(url, {
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				});
+			return await response.json();
+		} catch (err) {
+			error(err);
+			return { error : err };
+		}
+	} else {
+		try {
+			const response = await fetch(url, data);
+			return await response.json();
+		} catch (err) {
+			error(err);
+			return { error: err };
+		}
+	}
 };
 
 // Drawer
 export const openDrawer = () =>
-  // EventEmitter.emit(Constants.EmitCode.SideMenuOpen)
-  store.dispatch({
-    type: Constants.EmitCode.SideMenuOpen,
-  });
+	// EventEmitter.emit(Constants.EmitCode.SideMenuOpen)
+	store.dispatch({
+		type: Constants.EmitCode.SideMenuOpen,
+	});
 export const closeDrawer = () =>
-  // EventEmitter.emit(Constants.EmitCode.SideMenuClose)
-  store.dispatch({
-    type: Constants.EmitCode.SideMenuClose,
-  });
+	// EventEmitter.emit(Constants.EmitCode.SideMenuClose)
+	store.dispatch({
+		type: Constants.EmitCode.SideMenuClose,
+	});
 export const toggleDrawer = () =>
-  // EventEmitter.emit(Constants.EmitCode.SideMenuClose)
-  store.dispatch({
-    type: Constants.EmitCode.SideMenuToggle,
-  });
+	// EventEmitter.emit(Constants.EmitCode.SideMenuClose)
+	store.dispatch({
+		type: Constants.EmitCode.SideMenuToggle,
+	});
 
 // weDevs Filter Drawer
 export const openFilterDrawer = () =>
-  // EventEmitter.emit(Constants.EmitCode.SideMenuOpen)
-  store.dispatch({
-    type: Constants.EmitCode.FilterMenuOpen,
-  });
+	// EventEmitter.emit(Constants.EmitCode.SideMenuOpen)
+	store.dispatch({
+		type: Constants.EmitCode.FilterMenuOpen,
+	});
 export const closeFilterDrawer = () =>
-  // EventEmitter.emit(Constants.EmitCode.SideMenuClose)
-  store.dispatch({
-    type: Constants.EmitCode.FilterMenuClose,
-  });
+	// EventEmitter.emit(Constants.EmitCode.SideMenuClose)
+	store.dispatch({
+		type: Constants.EmitCode.FilterMenuClose,
+	});
 export const toggleFilterDrawer = () =>
-  // EventEmitter.emit(Constants.EmitCode.SideMenuClose)
-  store.dispatch({
-    type: Constants.EmitCode.FilterMenuToggle,
-  });
+	// EventEmitter.emit(Constants.EmitCode.SideMenuClose)
+	store.dispatch({
+		type: Constants.EmitCode.FilterMenuToggle,
+	});
+
+// weDevs Add || Remove spinner
+export const addSpinner = () =>
+	store.dispatch({
+		type: Constants.EmitCode.AddSpinner
+	})
+export const removeSpinner = () =>
+	store.dispatch({
+		type: Constants.EmitCode.RemoveSpinner
+	})
 
 /**
  * Display the message toast-like (work both with Android and iOS)
@@ -105,67 +140,74 @@ export const toggleFilterDrawer = () =>
  * @param duration Display duration
  */
 export const toast = (msg, duration = 4000) =>
-  EventEmitter.emit(Constants.EmitCode.Toast, msg, duration);
-export const currencyFormatter = _.bind(
-  _currencyFormatter.format,
-  undefined,
-  _,
-  {
-    symbol: "$",
-    decimal: ".",
-    thousand: ",",
-    precision: 2,
-    format: "%s%v", // %s is the symbol and %v is the value
-  }
-);
+	EventEmitter.emit(Constants.EmitCode.Toast, msg, duration);
+
+// Modified currency formatter
+export const currencyFormatter = (price) => {
+	const state = store.getState();
+	const symbol = state.currency.symbol
+	let formattedPrice = _.bind(
+		_currencyFormatter.format,
+		undefined,
+		_,
+		{
+			symbol: symbol,
+			decimal: ".",
+			thousand: ",",
+			precision: 2,
+			format: "%s%v", // %s is the symbol and %v is the value
+		}
+	);
+	return formattedPrice(price);
+}
 
 export const getProductImage = (uri, containerWidth) => {
-  // Enhance number if you want to fetch a better quality image (may affect performance
-  const DPI_NUMBER = 0.5; // change this to 1 for high quality image
+	// Enhance number if you want to fetch a better quality image (may affect performance
+	const DPI_NUMBER = 0.5; // change this to 1 for high quality image
 
-  if (!Config.ProductSize.enable) {
-    return uri;
-  }
+	if (!Config.ProductSize.enable) {
+		return uri;
+	}
 
-  if (typeof uri !== "string") {
-    return Images.PlaceHolderURL;
-  }
+	if (typeof uri !== "string") {
+		return Images.PlaceHolderURL;
+	}
 
-  // parse uri into parts
-  const index = uri.lastIndexOf(".");
-  let editedURI = uri.slice(0, index);
-  const defaultType = uri.slice(index);
+	// parse uri into parts
+	const index = uri.lastIndexOf(".");
+	let editedURI = uri.slice(0, index);
+	const defaultType = uri.slice(index);
 
-  const SMALL = Config.ProductSize.ProductThumbnails;
-  const MEDIUM = Config.ProductSize.CatalogImages;
-  const LARGE = Config.ProductSize.SingleProductImage;
+	const SMALL = Config.ProductSize.ProductThumbnails;
+	const MEDIUM = Config.ProductSize.CatalogImages;
+	const LARGE = Config.ProductSize.SingleProductImage;
 
-  const pixelWidth = PixelRatio.getPixelSizeForLayoutSize(containerWidth);
+	const pixelWidth = PixelRatio.getPixelSizeForLayoutSize(containerWidth);
 
-  switch (true) {
-    case pixelWidth * DPI_NUMBER < SMALL.width:
-      editedURI = `${editedURI}-${SMALL.width}x${SMALL.height}${defaultType}`;
-      break;
-    case pixelWidth * DPI_NUMBER < MEDIUM.width:
-      editedURI = `${editedURI}-${MEDIUM.width}x${MEDIUM.height}${defaultType}`;
-      break;
-    case pixelWidth * DPI_NUMBER < LARGE.width:
-      editedURI = `${editedURI}-${LARGE.width}x${LARGE.height}${defaultType}`;
-      break;
-    default:
-      editedURI += defaultType;
-  }
+	switch (true) {
+		case pixelWidth * DPI_NUMBER < SMALL.width:
+			editedURI = `${editedURI}-${SMALL.width}x${SMALL.height}${defaultType}`;
+			break;
+		case pixelWidth * DPI_NUMBER < MEDIUM.width:
+			editedURI = `${editedURI}-${MEDIUM.width}x${MEDIUM.height}${defaultType}`;
+			break;
+		case pixelWidth * DPI_NUMBER < LARGE.width:
+			editedURI = `${editedURI}-${LARGE.width}x${LARGE.height}${defaultType}`;
+			break;
+		default:
+			editedURI += defaultType;
+	}
 
-  return editedURI;
+	return editedURI;
 };
 
 export const getNotification = async () => {
-  try {
-    const notification = await AsyncStorage.getItem("@notification");
-    return JSON.parse(notification);
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		const notification = await AsyncStorage.getItem("@notification");
+		return JSON.parse(notification);
+	} catch (error) {
+		console.log(error);
+	}
 };
 
 /**
@@ -174,11 +216,11 @@ export const getNotification = async () => {
  * @returns rgb color code
  */
 export const hexToRgb = (hex) => {
-  const hashOmitted = hex.split("#")[1];
-  const bigint = parseInt(hashOmitted, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
+	const hashOmitted = hex.split("#")[1];
+	const bigint = parseInt(hashOmitted, 16);
+	const r = (bigint >> 16) & 255;
+	const g = (bigint >> 8) & 255;
+	const b = bigint & 255;
 
-  return `${r}, ${g}, ${b}`;
+	return `${r}, ${g}, ${b}`;
 }

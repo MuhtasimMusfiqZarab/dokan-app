@@ -1,4 +1,5 @@
 /**
+ * @format
  * Created by weDevs 07/08/2018
 */
 
@@ -7,10 +8,9 @@ import {
 	View,
 	Text,
 	TouchableOpacity,
-	Button
 } from "react-native";
-import Modal from 'react-native-modalbox';
 import { Icon, IconIO, toggleFilterDrawer } from "@app/Omni";
+import { DokanModal } from "@components";
 import { Icons, Constants, Config } from "@common";
 import { actions } from "@redux/ProductRedux";
 import { connect } from "react-redux";
@@ -60,30 +60,36 @@ class WdProductListToolBar extends Component {
 	}
 
 	render() {
+		const { showSorting } = this.props;
+		
 		return (
 			<View style={styles.toolbarContainer}>
 				<TouchableOpacity style={styles.toolbarLeft} onPress={toggleFilterDrawer}>
-					<IconIO
+					{/* <IconIO
 						style={styles.toolbarIcon}
 						name={Icons.Ionicons.Sort}
 						size={18}
 					/>
-					<Text style={{color: '#818995', marginLeft: 10}}>Filter</Text>
+					<Text style={{color: '#818995', marginLeft: 10}}>Filter</Text> */}
 				</TouchableOpacity>
-				<View style={styles.toolbarRight}>
-					<TouchableOpacity
-						style={{flexDirection: 'row'}}
-						// onPress={Events.openModalLayout}
-						onPress={() => this.refs.modal.open()}>
-							<Text style={{color: '#818995', marginRight: 10}}>
-								Default Sorting
-							</Text>
-							<IconIO
-								style={styles.toolbarIcon}
-								name={Icons.Ionicons.Down}
-								size={18}
-							/>
-					</TouchableOpacity>
+				<View
+					style={[styles.toolbarRight, !showSorting && {justifyContent: "flex-end"}]}>
+					{
+						showSorting && (
+							<TouchableOpacity
+								style={{flexDirection: 'row'}}
+								onPress={() => this.dokanModal.openModal()}>
+									<Text style={{color: '#818995', marginRight: 10}}>
+										Default Sorting
+									</Text>
+									<IconIO
+										style={styles.toolbarIcon}
+										name={Icons.Ionicons.Down}
+										size={18}
+									/>
+							</TouchableOpacity>
+						)
+					}
 					<TouchableOpacity onPress={() => this.layoutChangeHandler()}>
 						<Icon
 							style={styles.toolbarIcon}
@@ -93,22 +99,15 @@ class WdProductListToolBar extends Component {
 					</TouchableOpacity>
 				</View>
 
-				<Modal
-					style={[styles.modal]}
-					ref={"modal"}
-					swipeToClose={this.state.swipeToClose}
-					onClosed={this.onClose}
-					onOpened={this.onOpen}
-					onClosingState={this.onClosingState}
-					coverScreen
-					backdrop={false}>
-					<View style={styles.modalClose}>
-						<TouchableOpacity onPress={ () => this.refs.modal.close() }>
-							<IconIO name={Icons.Ionicons.Close} size={26} color="red" />
-						</TouchableOpacity>
-					</View>
-
-					<View style={styles.modalContent}>
+				<DokanModal
+					ref={(dm) => (this.dokanModal = dm)}
+					customStyle={
+						{
+							width: "70%",
+							height: 250
+						}
+					}
+					>
 						{
 							Config.sortingTexts.map((item, index) => {
 								return (
@@ -120,8 +119,7 @@ class WdProductListToolBar extends Component {
 								)
 							})
 						}
-					</View>
-				</Modal>
+				</DokanModal>
 			</View>
 		)
 	}

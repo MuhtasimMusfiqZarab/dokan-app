@@ -6,10 +6,10 @@ import { connect } from "react-redux";
 import {
 	UserProfileHeader,
 	UserProfileItem,
-	ModalBox,
+	DokanModal,
 	CurrencyPicker,
 } from "@components";
-import { Languages, Color, Tools } from "@common";
+import { Languages, Color, Tools, Icons } from "@common";
 import { getNotification } from "@app/Omni";
 
 import styles from "./styles";
@@ -42,20 +42,24 @@ class UserProfile extends PureComponent {
 			{
 				label: `${Languages.WishList  } (${  wishListTotal  })`,
 				routeName: "WishListScreen",
+				iconLeft: Icons.MaterialCommunityIcons.Wishlist,
 			},
 			userProfile.user && {
 				label: Languages.MyOrder,
 				routeName: "MyOrders",
+				iconLeft: Icons.MaterialCommunityIcons.Order
 			},
 			{
 				label: Languages.Currency,
 				value: currency.code,
 				isActionSheet: true,
+				iconLeft: Icons.MaterialCommunityIcons.Currency,
 			},
 			{
 				label: Languages.Languages,
 				routeName: "SettingScreen",
 				value: Languages.LanguageName,
+				iconLeft: Icons.MaterialCommunityIcons.Setting,
 			},
 			{
 				label: Languages.PushNotification,
@@ -66,18 +70,22 @@ class UserProfile extends PureComponent {
 						tintColor={Color.blackDivide}
 					/>
 				),
+				iconLeft: Icons.MaterialCommunityIcons.Bell,
 			},
 			{
 				label: Languages.contactus,
 				routeName: "ContactUs",
+				iconLeft: Icons.MaterialCommunityIcons.Wechat,
 			},
 			{
 				label: Languages.Privacy,
 				routeName: "PrivacyPolicy",
+				iconLeft: Icons.MaterialCommunityIcons.Lock,
 			},
 			{
 				label: Languages.About,
 				routeName: "AboutUs",
+				iconLeft: Icons.MaterialCommunityIcons.About,
 			},
 		];
 
@@ -116,6 +124,7 @@ class UserProfile extends PureComponent {
 		const user = userProfile.user || {};
 		const name = Tools.getName(user);
 		const listItem = this._getListItem();
+		const address = Tools.getAddress(user);
 
 		return (
 			<View style={styles.container}>
@@ -132,17 +141,26 @@ class UserProfile extends PureComponent {
 					/>
 
 					{userProfile.user && (
-						<View style={styles.profileSection}>
+						<View style={{marginTop: 15}}>
 							<Text style={styles.headerSection}>
 								{Languages.AccountInformations.toUpperCase()}
 							</Text>
 							<UserProfileItem
 								label={Languages.Name}
-								onPress={this._handlePress}
 								value={name}
+								iconLeft={Icons.MaterialCommunityIcons.User}
+								valueBlack
 							/>
-							<UserProfileItem label={Languages.Email} value={user.email} />
-							<UserProfileItem label={Languages.Address} value={user.address} />
+							<UserProfileItem
+								label={Languages.Email}
+								value={user.email}
+								iconLeft={Icons.MaterialCommunityIcons.Email}
+								valueBlack />
+							<UserProfileItem
+								label={Languages.Address}
+								value={address}
+								iconLeft={Icons.MaterialCommunityIcons.Pin}
+								valueBlack />
 						</View>
 					)}
 
@@ -162,9 +180,17 @@ class UserProfile extends PureComponent {
 					</View>
 				</ScrollView>
 
-				<ModalBox ref={(c) => (this.currencyPicker = c)}>
-					<CurrencyPicker currency={currency} changeCurrency={changeCurrency} />
-				</ModalBox>
+				<DokanModal
+					ref={(c) => (this.currencyPicker = c)}
+					customStyle={{
+						width: "90%",
+						height: 300
+					}}>
+					<CurrencyPicker
+						closeCurrencyModal={() => this.currencyPicker.closeModal()}
+						currency={currency}
+						changeCurrency={changeCurrency} />
+				</DokanModal>
 			</View>
 		);
 	}

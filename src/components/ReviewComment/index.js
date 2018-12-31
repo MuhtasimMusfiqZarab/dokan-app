@@ -11,10 +11,17 @@ import {
 	Text,
 	Image
 } from "react-native";
-import { Languages, Color, Events, Images } from "@common";
+import moment from "moment";
+import { Color, Images } from "@common";
+import { Rating, Button } from "@components";
 import styles from "./styles";
 
+const dateFormat = (date) => {
+	return moment.parseZone(date).format("MMMM DD, YYYY, HH:mm");
+}
+
 const ReviewComment = (props) => {
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -26,12 +33,13 @@ const ReviewComment = (props) => {
 					/>
 				</View>
 				<View style={styles.headerText}>
-					<Text style={{fontWeight: "bold"}}>
-						{props.item.customer_name}
+					<Text style={{fontWeight: "bold", color: "#000"}}>
+						{props.review.name}
 					</Text>
-					<Text style={{color: Color.textBlue}}>
+					{/* <Text style={{color: Color.textBlue}}>
 						{props.item.title}
-					</Text>
+					</Text> */}
+					<Rating rating={props.review.rating} size={15} />
 				</View>
 			</View>
 			<View style={styles.content}>
@@ -42,12 +50,13 @@ const ReviewComment = (props) => {
 					style={
 						{ color: Color.reviewTextColor}
 					}>
-					{props.item.comment}
+					{props.review.review}
 				</TextInput>
 			</View>
 			<View style={styles.footer}>
 				<Text style={{color: Color.reviewTextColor}}>
-					{props.item.date}
+					{dateFormat(props.review.date_created)}
+					
 				</Text>
 			</View>
   	</View>

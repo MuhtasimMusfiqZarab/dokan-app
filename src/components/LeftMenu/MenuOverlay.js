@@ -31,7 +31,7 @@ class MenuOverlay extends PureComponent {
 				onClose={() => this.toggleMenu(false)}
 				panCloseMask={0.3}
 				panThreshold={0.3}
-				openDrawerOffset={0.3}
+				openDrawerOffset={0.2}
 				useInteractionManager
 				content={<Drawer goToScreen={this.props.goToScreen} />}>
 				{this.props.routes}

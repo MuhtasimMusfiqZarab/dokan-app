@@ -1,6 +1,4 @@
 /**
- * Created by InspireUI on 19/02/2017.
- *
  * @format
  */
 
@@ -19,85 +17,76 @@ import MenuSide from "@components/LeftMenu/MenuOverlay";
 // import MenuSide from '@components/LeftMenu/MenuSmall';
 // import MenuSide from '@components/LeftMenu/MenuWide';
 
-import { toast, closeDrawer } from "./Omni";
-import DokanWorker from "@services/Dokan/DokanWorker";
+import { toast, closeDrawer, request } from "./Omni";
 
 class Router extends React.PureComponent {
-  static propTypes = {
-    introStatus: PropTypes.bool,
-  };
+	static propTypes = {
+		introStatus: PropTypes.bool,
+	};
 
-  componentWillMount() {
-    // init wooworker
-    WooWorker.init({
-      url: Config.WooCommerce.url,
-      consumerKey: Config.WooCommerce.consumerKey,
-      consumerSecret: Config.WooCommerce.consumerSecret,
-      wp_api: true,
-      version: "wc/v2",
-      queryStringAuth: true,
-      language: this.props.language.lang,
-    });
-    
-    // init DokanWorker
-    // DokanWorker.init({
-    //   url: Config.Dokan.url,
-    //   wp_api: true,
-    //   version: "dokan/v1",
-    //   language: this.props.language.lang,
-    // });
-  }
+	componentWillMount() {
+		// init wooworker
+		WooWorker.init({
+			url: Config.WooCommerce.url,
+			consumerKey: Config.WooCommerce.consumerKey,
+			consumerSecret: Config.WooCommerce.consumerSecret,
+			wp_api: true,
+			version: "wc/v2",
+			queryStringAuth: true,
+			language: this.props.language.lang,
+		});
+	}
 
-  goToScreen = (routeName, params) => {
-    if (!this.navigator) {
-      return toast("Cannot navigate");
-    }
-    this.navigator.dispatch({ type: "Navigation/NAVIGATE", routeName, params });
-    closeDrawer();
-  };
+	goToScreen = (routeName, params) => {
+		if (!this.navigator) {
+			return toast("Cannot navigate");
+		}
+		this.navigator.dispatch({ type: "Navigation/NAVIGATE", routeName, params });
+		closeDrawer();
+	};
 
-  render() {
-    if (!this.props.introStatus) {
-      return <AppIntro />;
-    }
-    return (
-      Device.isIphoneX ?
-      <SafeAreaView style={{flex: 1}}>
-        <MenuSide
-          goToScreen={this.goToScreen}
-          routes={
-            <View style={Styles.app}>
-              <StatusBar
-                hidden={Device.isIphoneX ? false : !Config.showStatusBar}
-              />
-              <Navigation ref={(comp) => (this.navigator = comp)} />
-              <MyToast />
-              <ModalReview />
-              <MyNetInfo />
-            </View>
-          }
-        />
-      </SafeAreaView> :
-      <MenuSide
-        goToScreen={this.goToScreen}
-        routes={
-          <View style={Styles.app}>
-            <StatusBar
-              hidden={Device.isIphoneX ? false : !Config.showStatusBar}
-            />
-            <Navigation ref={(comp) => (this.navigator = comp)} />
-            <MyToast />
-            <ModalReview />
-            <MyNetInfo />
-          </View>
-        }
-      />
-    );
-  }
+	render() {
+		// if (!this.props.introStatus) {
+		// 	return <AppIntro />;
+		// }
+		return (
+			Device.isIphoneX ?
+			<SafeAreaView style={{flex: 1}}>
+				<MenuSide
+					goToScreen={this.goToScreen}
+					routes={
+						<View style={Styles.app}>
+							<StatusBar
+								hidden={Device.isIphoneX ? false : !Config.showStatusBar}
+							/>
+							<Navigation ref={(comp) => (this.navigator = comp)} />
+							<MyToast />
+							<ModalReview />
+							<MyNetInfo />
+						</View>
+					}
+				/>
+			</SafeAreaView> :
+			<MenuSide
+				goToScreen={this.goToScreen}
+				routes={
+					<View style={Styles.app}>
+						<StatusBar
+							hidden={Device.isIphoneX ? false : !Config.showStatusBar}
+						/>
+						<Navigation ref={(comp) => (this.navigator = comp)} />
+						<MyToast />
+						<ModalReview />
+						<MyNetInfo />
+					</View>
+				}
+			/>
+		);
+	}
 }
 
 const mapStateToProps = ({ user, language }) => ({
-  introStatus: user.finishIntro,
-  language,
+	introStatus: user.finishIntro,
+	language,
 });
 export default connect(mapStateToProps)(Router);

@@ -8,18 +8,18 @@ import { Button } from "@components";
 import { Languages } from "@common";
 
 export default class ShopButton extends Component {
-  render() {
-    return (
-      <View style={styles.buttonContainer}>
-        <Button
-          type="gradientBtn"
-          text={this.props.text ? this.props.text : Languages.ShopNow}
-          // style={[styles.button, this.props.css]}
-          // textStyle={styles.buttonText}
-          marginTop={30}
-          onPress={this.props.onPress}
-        />
-      </View>
-    );
-  }
+	render() {
+		return (
+			<View style={styles.buttonContainer}>
+				<Button
+					type="gradientBtn"
+					text={this.props.text ? this.props.text : Languages.ShopNow}
+					// style={[styles.button, this.props.css]}
+					// textStyle={styles.buttonText}
+					marginTop={30}
+					onPress={this.props.onPress}
+				/>
+			</View>
+		);
+	}
 }

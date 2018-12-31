@@ -20,28 +20,39 @@ import { reducer as CurrencyRedux } from "./CurrencyRedux";
 import { reducer as SideMenuRedux } from "./SideMenuRedux";
 import { reducer as FilterMenuRedux } from "./WdFilterMenuRedux";
 import { reducer as VendorReducer } from "./VendorRedux";
+import { reducer as SpinnerReducer } from "./SpinnerRedux";
 
 const config = {
-  key: "root",
-  storage,
-  blacklist: ["netInfo", "toast", "nav", "layouts", "payment", "sideMenu", "filterMenu"],
+	key: "root",
+	storage,
+	blacklist: [
+		"netInfo",
+		"toast",
+		"nav",
+		"layouts",
+		"payment",
+		"sideMenu",
+		"filterMenu",
+		"spinner"
+	],
 };
 
 export default persistCombineReducers(config, {
-  categories: CategoryReducer,
-  products: ProductRedux,
-  netInfo: NetInfoReducer,
-  toast: ToastReducer,
-  user: UserRedux,
-  carts: CartRedux,
-  wishList: WishListRedux,
-  news: NewsRedux,
-  layouts: LayoutRedux,
-  language: LangRedux,
-  payments: PaymentRedux,
-  countries: CountryRedux,
-  currency: CurrencyRedux,
-  sideMenu: SideMenuRedux,
-  filterMenu: FilterMenuRedux,
-  vendors: VendorReducer
+	categories: CategoryReducer,
+	products: ProductRedux,
+	netInfo: NetInfoReducer,
+	toast: ToastReducer,
+	user: UserRedux,
+	carts: CartRedux,
+	wishList: WishListRedux,
+	news: NewsRedux,
+	layouts: LayoutRedux,
+	language: LangRedux,
+	payments: PaymentRedux,
+	countries: CountryRedux,
+	currency: CurrencyRedux,
+	sideMenu: SideMenuRedux,
+	filterMenu: FilterMenuRedux,
+	vendors: VendorReducer,
+	spinner: SpinnerReducer
 });

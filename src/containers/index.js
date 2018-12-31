@@ -59,3 +59,6 @@ export const Vendors = _Vendors;
 
 import _VendorProfile from "./VendorProfile";
 export const VendorProfile = _VendorProfile;
+
+import _ForgetPassword from "./ForgetPassword";
+export const ForgetPassword = _ForgetPassword;

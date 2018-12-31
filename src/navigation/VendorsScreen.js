@@ -4,7 +4,6 @@ import React, { PureComponent } from 'react'
 import { Back, CartWishListIcons } from './IconNav'
 
 import { Color, Config, Constants, Images, Styles } from '@common'
-import { TabBarIcon } from '@components'
 import { Vendors } from '@containers'
 
 export default class CategoriesScreen extends PureComponent {
@@ -18,12 +17,14 @@ export default class CategoriesScreen extends PureComponent {
 		headerTitleStyle: Styles.Common.headerTitleStyle,
 	})
 
-  render() {
-    const { navigate } = this.props.navigation
-    return (
-      <Vendors
-        onViewVendorScreen={(item) => navigate('VendorProfileScreen', item)}
-      />
-    )
-  }
+	render() {
+		const { navigate, state } = this.props.navigation
+		console.log(this.props.navigation);
+		return (
+			<Vendors
+				onViewVendorScreen={(item) => navigate('VendorProfileScreen', item)}
+				showToolBar={true}
+			/>
+		)
+	}
 }

@@ -1,8 +1,4 @@
-/**
- * Created by weDevs on 06/08/2016
- *
- * @format
- */
+/** @format */
 
 import { Dimensions } from 'react-native'
 
@@ -34,7 +30,9 @@ const Constants = {
 		MenuReload: 'menu.reload',
 		FilterMenuOpen: 'OPEN_FILTER_MENU',
 		FilterMenuClose: 'CLOSE_FILTER_MENU',
-		FilterMenuToggle: 'TOGGLE_FILTER_MENU'
+		FilterMenuToggle: 'TOGGLE_FILTER_MENU',
+		AddSpinner: 'ADD_SPINNER',
+		RemoveSpinner: 'REMOVE_SPINNER',
 	},
 	Dimension: {
 		ScreenWidth(percent = 1) {

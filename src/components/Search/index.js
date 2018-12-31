@@ -140,6 +140,7 @@ class Search extends PureComponent {
 
 	renderResultList = () => {
 		const { list, isFetching } = this.props;
+		console.log(list);
 		const { isSubmit } = this.state;
 		const dataSource = new ListView.DataSource({
 			rowHasChanged: (r1, r2) => r1 !== r2,

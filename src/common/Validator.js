@@ -11,82 +11,82 @@
 import validate from "validate.js";
 
 const emailConstraints = {
-  foo: {
-    presence: {
-      presence: true,
-      message: "This field is empty",
-    },
-    email: {
-      email: true,
-      message: "Incorrect email format",
-    },
-  },
+	foo: {
+		presence: {
+			presence: true,
+			message: "This field is empty",
+		},
+		email: {
+			email: true,
+			message: "Incorrect email format",
+		},
+	},
 };
 
 const phoneConstraints = {
-  foo: {
-    presence: {
-      presence: true,
-      message: "Please fill in your phone number",
-    },
-    format: {
-      pattern: "^[0-9]{9,12}$",
-      flags: "i",
-      message: "Incorrect phone number",
-    },
-  },
+	foo: {
+		presence: {
+			presence: true,
+			message: "Please fill in your phone number",
+		},
+		format: {
+			pattern: "^[0-9]{9,12}$",
+			flags: "i",
+			message: "Incorrect phone number",
+		},
+	},
 };
 
 const passwordConstraints = {
-  foo: {
-    presence: {
-      presence: true,
-      message: "This field is empty",
-    },
-    length: {
-      minimum: 6,
-      message: "Must be at least 6 characters",
-    },
-  },
+	foo: {
+		presence: {
+			presence: true,
+			message: "This field is empty",
+		},
+		length: {
+			minimum: 6,
+			message: "Must be at least 6 characters",
+		},
+	},
 };
 
 const confirmPasswordConstraints = {
-  foo2: {
-    equality: "foo",
-  },
+	foo2: {
+		equality: "foo",
+	},
 };
 
 const Validator = {
-  // Most validate function receive a value (or a group of value) and return undefined if there is no error,
-  // Otherwise, return a string as a error (or a array of strings for multi errors);
+	// Most validate function receive a value (or a group of value) and return undefined if there is no error,
+	// Otherwise, return a string as a error (or a array of strings for multi errors);
 
-  /**
-   * Check a string as email
-   *
-   * @param {string} input
-   * @returns undefined as true, string as false
-   */
-  checkEmail(input) {
-    return facade(emailConstraints, input);
-  },
+	/**
+	 * Check a string as email
+	 *
+	 * @param {string} input
+	 * @returns undefined as true, string as false
+	 */
+	checkEmail(input) {
+		return facade(emailConstraints, input);
+	},
 
-  /**
-   * Check a string as phone
-   *
-   * @param {string} input
-   * @returns undefined as true, string as false
-   */
-  checkPhone(input) {
-    return facade(phoneConstraints, input);
-  },
+	/**
+	 * Check a string as phone
+	 *
+	 * @param {string} input
+	 * @returns undefined as true, string as false
+	 */
+	checkPhone(input) {
+		return facade(phoneConstraints, input);
+	},
 
-  checkPassword(password) {
-    return facade(passwordConstraints, password);
-  },
+	checkPassword(password) {
+		return facade(passwordConstraints, password);
+	},
 
-  checkConfirmPassword(password, confirmPassword) {
-    return facade(confirmPasswordConstraints, password, confirmPassword);
-  },
+	checkConfirmPassword(password, confirmPassword) {
+		return facade(confirmPasswordConstraints, password, confirmPassword);
+	},
 };
 
 /**
@@ -97,11 +97,11 @@ const Validator = {
  * @returns undefined as true, string as false
  */
 const facade = (constraints, input, input2 = undefined) => {
-  let result;
-  if (input2 != undefined)
-    result = validate({ foo: input, foo2: input2 }, constraints);
-  else result = validate({ foo: input }, constraints);
-  return result === undefined ? result : removeFirstWord(result.foo[0]);
+	let result;
+	if (input2 != undefined)
+		result = validate({ foo: input, foo2: input2 }, constraints);
+	else result = validate({ foo: input }, constraints);
+	return result === undefined ? result : removeFirstWord(result.foo[0]);
 };
 
 /**

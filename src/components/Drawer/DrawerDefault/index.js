@@ -54,6 +54,8 @@ class DrawerDefault extends PureComponent {
 
 		if (userProfile && userProfile.user) {
 			this.buttonList = [...Config.menu.listMenu, ...Config.menu.listMenuLogged]
+		} else {
+			this.buttonList = [...Config.menu.listMenu, ...Config.menu.listMenuUnlogged]
 		}
 	}
 
