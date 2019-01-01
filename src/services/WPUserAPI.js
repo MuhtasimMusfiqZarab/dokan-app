@@ -14,32 +14,24 @@ const secure = isSecured ? "" : "&insecure=cool";
 const cookieLifeTime = 120960000000;
 
 const WPUserAPI = {
-	// login: async (username, password) => {
-	// 	const _url =
-	// 		`${url}/api/user/generate_auth_cookie/?second=${cookieLifeTime}&username=${username}&password=${password}${secure}`;
-
-	// 	const _url = `${url}/wp-json/jwt-auth/v1/token`;
-	// 	const data = {
-	// 		username: username,
-	// 		password: password
-	// 	}
-	// 	const method = "GET"
-
-	// 	return await request(_url);
-	// },
-	// loginFacebook: async (token) => {
-	// 	const _url =
-	// 		`${url}/api/mstore_user/fb_connect/?second=${cookieLifeTime}&access_token=${token}${secure}`;
-	// 	return await request(_url);
-	// },
-
 	login: async (username, password) => {
-		const _url = `${url}/api/user/generate_auth_cookie/?second=${cookieLifeTime}&username=${username}&password=${password}${secure}`;
+		const _url = `${url}/wp-json/jwt-auth/v1/token`;
+		const data = {
+			username: username,
+			password: password
+		}
+		const method = "POST"
 
-		return await request(_url);
+		return await request(_url, data, method);
 	},
+	// login: async (username, password) => {
+	// 	const _url = `${url}/api/user/generate_auth_cookie/?second=${cookieLifeTime}&username=${username}&password=${password}${secure}`;
+
+	// 	return await request(_url);
+	// },
 	loginFacebook: async (token) => {
-		const _url = `${url}/api/mstore_user/fb_connect/?second=${cookieLifeTime}&access_token=${token}${secure}`;
+		const _url =
+			`${url}/api/mstore_user/fb_connect/?second=${cookieLifeTime}&access_token=${token}${secure}`;
 		return await request(_url);
 	},
 
@@ -49,19 +41,22 @@ const WPUserAPI = {
 		firstName,
 		lastName,
 		password = undefined,
+		confirmPassword = undefined,
+		role
 	}) => {
 		try {
-			const nonce = await WPUserAPI.getNonce();
-			const _url =
-				`${`${url}/api/user/register/?` +
-					`username=${username}` +
-					`&email=${email}` +
-					`&display_name=${`${firstName}+${lastName}`}` +
-					`&first_name=${firstName}` +
-					`&last_name=${lastName}`}${
-					password ? `&user_pass=${password}` : ""
-				}&nonce=${nonce}` + `&notify=both${secure}`;
-			return await request(_url);
+			const _url = `${url}/wp-json/dokan/v1/user/register`
+			const data = {
+				username: username,
+				email: email,
+				first_name: firstName,
+				last_name: lastName,
+				password: password ? password : "",
+				confirm_password: confirmPassword ? confirmPassword : "",
+				role: role
+			}
+
+			return await request(_url, data, "POST");
 		} catch (err) {
 			error(err);
 			return { error: err };

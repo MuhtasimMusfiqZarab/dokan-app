@@ -39,7 +39,10 @@ class Spinner extends React.Component {
 					color={color}
 					style={[
 						styles.wrapper,
-						{ borderRadius: size == SIZES.SMALL ? 10 : 20 },
+						{
+							borderRadius: size == SIZES.SMALL ? 10 : 20,
+							zIndex: 99
+						}
 					]}
 				/>
 			</View>

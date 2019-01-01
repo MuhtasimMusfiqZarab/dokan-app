@@ -74,6 +74,7 @@ export const request = async (url, data = {}, method = null) => {
 					},
 					body: JSON.stringify(data),
 				});
+	
 			return await response.json();
 		} catch (err) {
 			error(err);

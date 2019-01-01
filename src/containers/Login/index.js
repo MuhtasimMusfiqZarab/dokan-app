@@ -18,7 +18,7 @@ import {
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
 import { Icons, Color, Languages, Styles, Config, Images } from "@common";
-import { Icon, toast, warn, FacebookAPI } from "@app/Omni";
+import { Icon, toast, warn, FacebookAPI, Validate } from "@app/Omni";
 import { Spinner, ButtonIndex, Button } from "@components";
 import WooWorker from "@services/WooCommerce/WooWorker";
 import WPUserAPI from "@services/WPUserAPI";
@@ -109,6 +109,37 @@ class LoginScreen extends PureComponent {
 		}
 	};
 
+	onLoginPressHandle = async () => {
+		const { login, netInfo } = this.props;
+
+		if (!netInfo.isConnected) {
+			return toast(Languages.noConnection);
+		}
+
+		if(this.state.isLoading) return;
+		this.setState({ isLoading: true });
+
+		const _error = this.validateForm();
+		if (_error) return this.stopAndToast(_error);
+
+		const { username, password } = this.state;
+
+		// login the customer via Wordpress API and get the access token
+		const json = await WPUserAPI.login(username.trim(), password);
+
+		if (json === undefined) {
+			this.stopAndToast(Languages.GetDataError);
+		} else if (json.code) {
+			this.stopAndToast("Invalid Username or Password");
+		} else {
+			let customers = await WooWorker.getCustomerByEmail(json.user_email);
+			customers = { ...customers[0], username, password };
+
+			this._onBack();
+			login(customers, json.token);
+		}
+	};
+
 	// onLoginPressHandle = async () => {
 	// 	const { login, netInfo } = this.props;
 
@@ -117,62 +148,43 @@ class LoginScreen extends PureComponent {
 	// 	}
 
 	// 	this.setState({ isLoading: true });
-
+		
 	// 	const { username, password } = this.state;
-
+		
 	// 	// login the customer via Wordpress API and get the access token
 	// 	const json = await WPUserAPI.login(username.trim(), password);
 
 	// 	if (json === undefined) {
 	// 		this.stopAndToast(Languages.GetDataError);
 	// 	} else if (json.error) {
-	// 		this.stopAndToast(json.error.message);
+	// 		this.stopAndToast(json.error);
 	// 	} else {
 	// 		let customers = await WooWorker.getCustomerById(json.user.id);
+	// 		console.log(customers);
 	// 		customers = { ...customers, username, password };
 
 	// 		this._onBack();
 	// 		login(customers, json.cookie);
 	// 	}
-
-	// 	if (json === undefined) {
-	// 		this.stopAndToast(Languages.GetDataError);
-	// 	} else if (json.code) {
-	// 		this.stopAndToast(json.message);
-	// 	} else {
-	// 		let customers = await WooWorker.getCustomerByEmail(json.user_email);
-	// 		customers = { ...customers, username, password };
-
-	// 		this._onBack();
-	// 		login(customers, json.token);
-	// 	}
 	// };
 
-	onLoginPressHandle = async () => {
-		const { login, netInfo } = this.props;
+	validateForm = () => {
+		const {
+			username,
+			password,
+		} = this.state;
 
-		if (!netInfo.isConnected) {
-			return toast(Languages.noConnection);
+		if (
+			Validate.isEmpty(
+				username,
+				password
+			)
+		) {
+			// check empty
+			return "Please complete the form";
 		}
 
-		this.setState({ isLoading: true });
-		
-		const { username, password } = this.state;
-		
-		// login the customer via Wordpress API and get the access token
-		const json = await WPUserAPI.login(username.trim(), password);
-
-		if (json === undefined) {
-			this.stopAndToast(Languages.GetDataError);
-		} else if (json.error) {
-			this.stopAndToast(json.error);
-		} else {
-			let customers = await WooWorker.getCustomerById(json.user.id);
-			customers = { ...customers, username, password };
-
-			this._onBack();
-			login(customers, json.cookie);
-		}
+		return undefined;
 	};
 
 	onFBLoginPressHandle = () => {
@@ -301,8 +313,8 @@ class LoginScreen extends PureComponent {
 							</Text>
 						</TouchableOpacity>
 					</View>
-					{isLoading ? <Spinner mode="overlay" /> : null}
 				</ScrollView>
+				{isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</ImageBackground>
 		);
 	}

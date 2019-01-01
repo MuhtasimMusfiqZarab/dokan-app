@@ -155,12 +155,14 @@ class UserProfile extends PureComponent {
 								label={Languages.Email}
 								value={user.email}
 								iconLeft={Icons.MaterialCommunityIcons.Email}
-								valueBlack />
+								valueBlack
+							/>
 							<UserProfileItem
 								label={Languages.Address}
 								value={address}
 								iconLeft={Icons.MaterialCommunityIcons.Pin}
-								valueBlack />
+								valueBlack
+							/>
 						</View>
 					)}
 

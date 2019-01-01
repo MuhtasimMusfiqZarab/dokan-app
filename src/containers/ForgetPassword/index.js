@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
-import { Icons, Color, Languages, Styles, Config, Images } from "@common";
+import { Color, Languages, Constants, Config, Images } from "@common";
 import { Icon, toast, warn, FacebookAPI } from "@app/Omni";
 import { Spinner, ButtonIndex, Button } from "@components";
 import WooWorker from "@services/WooCommerce/WooWorker";
@@ -105,20 +105,20 @@ class ForgetPassword extends PureComponent {
 					styles.backgroundImage
 				}
 				resizeMode="cover">
-				<ScrollView contentContainerStyle={styles.container}>
-					<View style={styles.logoWrap}>
-						<Image
-							source={Config.LogoWithText}
-							style={styles.logo}
-							resizeMode="contain"
-						/>
-						<Text style={styles.logoText}>
-							Build Your Dream Multi Vendor Market Place
-						</Text>
-					</View>
-					<View style={styles.subContain}>
-						{
-							showResetForm && (
+				{
+					showResetForm && (
+						<ScrollView contentContainerStyle={styles.container}>
+							<View style={styles.logoWrap}>
+								<Image
+									source={Config.LogoWithText}
+									style={styles.logo}
+									resizeMode="contain"
+								/>
+								<Text style={styles.logoText}>
+									Build Your Dream Multi Vendor Market Place
+								</Text>
+							</View>
+							<View style={styles.subContain}>
 								<View style={styles.loginForm}>
 									<View style={styles.inputWrap}>
 										<Text style={styles.label}>Type in Your Username or Email</Text>
@@ -141,15 +141,24 @@ class ForgetPassword extends PureComponent {
 										onPress={this.onForgetPasswordPressHandle}
 									/>
 								</View>
-							)
-						}
-
-						{
-							!showResetForm && (<Text>Link sent</Text>)
-						}
-					</View>
-					{isLoading ? <Spinner mode="overlay" /> : null}
-				</ScrollView>
+							</View>
+						</ScrollView>
+					)
+				}
+				{
+					!showResetForm && (
+						<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+							<View style={styles.pwdResetInfo}>
+								<Text style={{
+									fontFamily: Constants.fontFamilyLato,
+									color: Color.wdred1,
+									fontSize: 18
+								}}>Reset Link Has been sent to your email</Text>
+							</View>
+						</View>
+					)
+				}
+				{isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</ImageBackground>
 		);
 	}

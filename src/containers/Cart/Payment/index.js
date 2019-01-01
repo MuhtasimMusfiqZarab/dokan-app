@@ -247,6 +247,7 @@ class PaymentOptions extends PureComponent {
 
 	render() {
 		const { list } = this.props.payments;
+		
 		return (
 			<View style={styles.container}>
 				<ScrollView>

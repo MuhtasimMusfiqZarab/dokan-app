@@ -1,357 +1,451 @@
 /**
- * Created by InspireUI on 01/03/2017.
- *
  * @format
  */
 
 import React, { Component } from "react";
 import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  ScrollView,
-  TextInput,
-  Switch,
-  LayoutAnimation,
-  ImageBackground,
-  I18nManager,
-  Dimensions
+	View,
+	Text,
+	Image,
+	StyleSheet,
+	ScrollView,
+	TextInput,
+	Switch,
+	LayoutAnimation,
+	ImageBackground,
+	I18nManager,
+	Dimensions,
+	Platform
 } from "react-native";
 import WooWorker from "@services/WooCommerce/WooWorker";
-import { Styles, Languages, Color, Images, Config } from "@common";
+import { Styles, Languages, Color, Images, Config, Constants } from "@common";
 import { toast, error, Validate } from "@app/Omni";
 import { Button } from "@components";
-// import Button from "@components/Button";
 import Spinner from "@components/Spinner";
 import WPUserAPI from "@services/WPUserAPI";
 
 import { connect } from "react-redux";
 
 class SignUpScreen extends Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    let state = {
-      username: "",
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      useGeneratePass: false,
-      isLoading: false,
-    };
+		let state = {
+			username: "",
+			email: "",
+			password: "",
+			firstName: "",
+			lastName: "",
+			confirmPassword: "",
+			role: "customer",
+			useGeneratePass: false,
+			isLoading: false,
+			showSignupForm: true,
+		};
 
-    const params = props.params;
-    if (params && params.user) {
-      state = { ...state, ...params.user, useGeneratePass: true };
-    }
+		const params = props.params;
+		if (params && params.user) {
+			state = { ...state, ...params.user, useGeneratePass: true };
+		}
 
-    this.state = state;
+		this.state = state;
 
-    this.onFirstNameEditHandle = (firstName) => this.setState({ firstName });
-    this.onLastNameEditHandle = (lastName) => this.setState({ lastName });
-    this.onUsernameEditHandle = (username) => this.setState({ username });
-    this.onEmailEditHandle = (email) => this.setState({ email });
-    this.onPasswordEditHandle = (password) => this.setState({ password });
+		this.onFirstNameEditHandle = (firstName) => this.setState({ firstName });
+		this.onLastNameEditHandle = (lastName) => this.setState({ lastName });
+		this.onUsernameEditHandle = (username) => this.setState({ username });
+		this.onEmailEditHandle = (email) => this.setState({ email });
+		this.onPasswordEditHandle = (password) => this.setState({ password });
+		this.onConfirmPasswordEditHandle = (confirmPassword) => this.setState({confirmPassword});
 
-    this.onPasswordSwitchHandle = () =>
-      this.setState({ useGeneratePass: !this.state.useGeneratePass });
+		this.onPasswordSwitchHandle = () =>
+			this.setState({ useGeneratePass: !this.state.useGeneratePass });
 
-    this.focusLastName = () => this.lastName && this.lastName.focus();
-    this.focusUsername = () => this.username && this.username.focus();
-    this.focusEmail = () => this.email && this.email.focus();
-    this.focusPassword = () =>
-      !this.state.useGeneratePass && this.password && this.password.focus();
-  }
+		this.focusLastName = () => this.lastName && this.lastName.focus();
+		this.focusUsername = () => this.username && this.username.focus();
+		this.focusEmail = () => this.email && this.email.focus();
+		this.focusPassword = () =>
+			!this.state.useGeneratePass && this.password && this.password.focus();
+	}
 
-  shouldComponentUpdate() {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    return true;
-  }
+	shouldComponentUpdate() {
+		LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+		return true;
+	}
 
-  onSignUpHandle = async () => {
-    const { login, netInfo } = this.props;
-    if (!netInfo.isConnected) return toast(Languages.noConnection);
+	onSignUpHandle = async () => {
+		this.refs._scrollView.scrollTo({
+			x: 0,
+			y: 0,
+			animated: true
+		});
 
-    const {
-      username,
-      email,
-      firstName,
-      lastName,
-      password,
-      useGeneratePass,
-      isLoading,
-    } = this.state;
-    if (isLoading) return;
-    this.setState({ isLoading: true });
+		const { login, netInfo } = this.props;
 
-    const _error = this.validateForm();
-    if (_error) return this.stopAndToast(_error);
+		if (!netInfo.isConnected) return toast(Languages.noConnection);
 
-    const user = {
-      username,
-      email,
-      firstName,
-      lastName,
-      password: useGeneratePass ? undefined : password,
-    };
-    const json = await WPUserAPI.register(user);
-    if (json === undefined) {
-      return this.stopAndToast("Server don't response correctly");
-    } else if (json.error) {
-      return this.stopAndToast(json.error);
-    }
-    const customer = await WooWorker.getCustomerById(json.user_id);
-    if (customer) {
-      this.setState({ isLoading: false });
-      login(customer, json.cookie);
-    } else {
-      toast("Can't register user, please try again.");
-    }
-  };
+		const {
+			username,
+			email,
+			firstName,
+			lastName,
+			password,
+			useGeneratePass,
+			confirmPassword,
+			role,
+			isLoading,
+		} = this.state;
 
-  validateForm = () => {
-    const {
-      username,
-      email,
-      password,
-      firstName,
-      lastName,
-      useGeneratePass,
-    } = this.state;
-    if (
-      Validate.isEmpty(
-        username,
-        email,
-        firstName,
-        lastName,
-        useGeneratePass ? "1" : password
-      )
-    ) {
-      // check empty
-      return "Please complete the form";
-    } else if (!Validate.isEmail(email)) {
-      return "Email is not correct";
-    }
-    return undefined;
-  };
+		if (isLoading) return;
+		
+		this.setState({ isLoading: true });
 
-  stopAndToast = (msg) => {
-    toast(msg);
-    error(msg);
-    this.setState({ isLoading: false });
-  };
+		const _error = this.validateForm();
+		if (_error) return this.stopAndToast(_error);
 
-  render() {
-    const {
-      username,
-      email,
-      password,
-      firstName,
-      lastName,
-      useGeneratePass,
-      isLoading,
-    } = this.state;
-    const params = this.props.params;
-    return (
-      <ImageBackground
-        source={Images.LoginScreenBackground}
-        style={
-          styles.backgroundImage
-        }
-        resizeMode="cover">
-      <ScrollView style={styles.container}>
-        <View style={styles.logoWrap}>
-          <Image
-            source={Config.LogoWithText}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-          <Text style={styles.logoText}>
-            Build Your Dream Multi Vendor Market Place
-          </Text>
-        </View>
-        <View style={styles.formContainer}>
-          <Text style={styles.label}>{Languages.profileDetail}</Text>
-          <TextInput
-            {...commonInputProps}
-            ref={(comp) => (this.firstName = comp)}
-            placeholder={Languages.firstName}
-            onChangeText={this.onFirstNameEditHandle}
-            onSubmitEditing={this.focusLastName}
-            autoCapitalize="words"
-            returnKeyType="next"
-            value={firstName}
-          />
-          <TextInput
-            {...commonInputProps}
-            ref={(comp) => (this.lastName = comp)}
-            placeholder={Languages.lastName}
-            onChangeText={this.onLastNameEditHandle}
-            onSubmitEditing={this.focusUsername}
-            autoCapitalize="words"
-            returnKeyType="next"
-            value={lastName}
-          />
+		const user = {
+			username,
+			email,
+			firstName,
+			lastName,
+			password: useGeneratePass ? undefined : password,
+			confirmPassword: confirmPassword ? confirmPassword : "",
+			role: role
+		};
+		
+		const json = await WPUserAPI.register(user);
 
-          <Text style={styles.label}>{Languages.accountDetails}</Text>
-          <TextInput
-            {...commonInputProps}
-            ref={(comp) => (this.username = comp)}
-            placeholder={Languages.username}
-            onChangeText={this.onUsernameEditHandle}
-            onSubmitEditing={this.focusEmail}
-            autoCapitalize="none"
-            returnKeyType="next"
-            value={username}
-          />
-          <TextInput
-            {...commonInputProps}
-            ref={(comp) => (this.email = comp)}
-            placeholder={Languages.email}
-            onChangeText={this.onEmailEditHandle}
-            onSubmitEditing={this.focusPassword}
-            keyboardType="email-address"
-            returnKeyType={useGeneratePass ? "done" : "next"}
-            value={email}
-          />
-          {params && params.user ? (
-            <View style={styles.switchWrap}>
-              <Switch
-                value={useGeneratePass}
-                onValueChange={this.onPasswordSwitchHandle}
-                thumbTintColor={Color.accent}
-                onTintColor={Color.accentLight}
-              />
-              <Text
-                style={[
-                  styles.text,
-                  {
-                    color: useGeneratePass
-                      ? Color.accent
-                      : Color.blackTextSecondary,
-                  },
-                ]}>
-                {Languages.generatePass}
-              </Text>
-            </View>
-          ) : null}
-          {useGeneratePass ? (
-            <View />
-          ) : (
-            <TextInput
-              {...commonInputProps}
-              ref={(comp) => (this.password = comp)}
-              placeholder={Languages.password}
-              onChangeText={this.onPasswordEditHandle}
-              secureTextEntry
-              returnKeyType="done"
-              value={password}
-            />
-          )}
-          {/* <Button
-            containerStyle={styles.signUpButton}
-            text={Languages.signup}
-            onPress={this.onSignUpHandle}
-          /> */}
-          <Button
-            type="gradientBtn"
-            text={Languages.signup}
-            size="sm"
-            alignSelf="flex-start"
-            marginTop={15}
-            onPress={this.onSignUpHandle}
-          />
-        </View>
-        {isLoading ? <Spinner mode="overlay" /> : null}
-      </ScrollView>
-    </ImageBackground>
-    );
-  }
+		if (json === undefined) {
+			return this.stopAndToast("Server didn't response correctly");
+		} else if (json.code === "user_created") {
+			this.setState({
+				showSignupForm: false,
+				isLoading: false
+			});
+		} else {
+			return this.stopAndToast(json.message);
+		}
+
+	};
+
+	validateForm = () => {
+		const {
+			username,
+			email,
+			password,
+			firstName,
+			lastName,
+			useGeneratePass,
+			confirmPassword
+		} = this.state;
+		if (
+			Validate.isEmpty(
+				username,
+				email,
+				firstName,
+				lastName,
+				useGeneratePass ? "1" : password,
+				confirmPassword
+			)
+		) {
+			// check empty
+			return "Please complete the form";
+		} else if (!Validate.isEmail(email)) {
+			return "Email is not correct";
+		}
+		return undefined;
+	};
+
+	stopAndToast = (msg) => {
+		toast(msg);
+		error(msg);
+		this.setState({ isLoading: false });
+	};
+
+	render() {
+		const {
+			username,
+			email,
+			password,
+			firstName,
+			lastName,
+			confirmPassword,
+			useGeneratePass,
+			isLoading,
+			showSignupForm
+		} = this.state;
+		const params = this.props.params;
+
+		return (
+			<ImageBackground
+				source={Images.LoginScreenBackground}
+				style={
+					styles.backgroundImage
+				}
+				resizeMode="cover">
+				{
+					showSignupForm && (
+						<ScrollView style={styles.container} ref="_scrollView">
+							<View style={styles.logoWrap}>
+								<Image
+									source={Config.LogoWithText}
+									style={styles.logo}
+									resizeMode="contain"
+								/>
+								<Text style={styles.logoText}>
+									Build Your Dream Multi Vendor Market Place
+								</Text>
+							</View>
+							<View style={styles.formContainer}>
+								<Text style={styles.label}>{Languages.profileDetail}</Text>
+								<View style={styles.inputWrap}>
+									<Text style={styles.label2}>First Name</Text>
+									<TextInput
+										{...commonInputProps}
+										ref={(comp) => (this.firstName = comp)}
+										onChangeText={this.onFirstNameEditHandle}
+										onSubmitEditing={this.focusLastName}
+										autoCapitalize="words"
+										returnKeyType="next"
+										value={firstName}
+									/>
+								</View>
+								<View style={styles.inputWrap}>
+									<Text style={styles.label2}>Last Name</Text>
+									<TextInput
+										{...commonInputProps}
+										ref={(comp) => (this.lastName = comp)}
+										onChangeText={this.onLastNameEditHandle}
+										onSubmitEditing={this.focusUsername}
+										autoCapitalize="words"
+										returnKeyType="next"
+										value={lastName}
+									/>
+								</View>
+
+								<Text style={styles.label}>{Languages.accountDetails}</Text>
+								<View style={styles.inputWrap}>
+									<Text style={styles.label2}>Username</Text>
+									<TextInput
+										{...commonInputProps}
+										ref={(comp) => (this.username = comp)}
+										onChangeText={this.onUsernameEditHandle}
+										onSubmitEditing={this.focusEmail}
+										autoCapitalize="none"
+										returnKeyType="next"
+										value={username}
+									/>
+								</View>
+								<View style={styles.inputWrap}>
+									<Text style={styles.label2}>Email</Text>
+									<TextInput
+										{...commonInputProps}
+										ref={(comp) => (this.email = comp)}
+										onChangeText={this.onEmailEditHandle}
+										onSubmitEditing={this.focusPassword}
+										keyboardType="email-address"
+										returnKeyType={useGeneratePass ? "done" : "next"}
+										value={email}
+									/>
+								</View>
+								{params && params.user ? (
+									<View style={styles.switchWrap}>
+										<Switch
+											value={useGeneratePass}
+											onValueChange={this.onPasswordSwitchHandle}
+											thumbTintColor={Color.accent}
+											onTintColor={Color.accentLight}
+										/>
+										<Text
+											style={[
+												styles.text,
+												{
+													color: useGeneratePass
+														? Color.accent
+														: Color.blackTextSecondary,
+												},
+											]}>
+											{Languages.generatePass}
+										</Text>
+									</View>
+								) : null}
+								{useGeneratePass ? (
+									<View />
+								) : (
+									<View style={styles.inputWrap}>
+										<Text style={styles.label2}>Password</Text>
+										<TextInput
+											{...commonInputProps}
+											ref={(comp) => (this.password = comp)}
+											onChangeText={this.onPasswordEditHandle}
+											secureTextEntry
+											returnKeyType="next"
+											value={password}
+										/>
+									</View>
+								)}
+								<View style={styles.inputWrap}>
+									<Text style={styles.label2}>Confirm Password</Text>
+									<TextInput
+										{...commonInputProps}
+										ref={(comp) => (this.confirmPassword = comp)}
+										onChangeText={this.onConfirmPasswordEditHandle}
+										secureTextEntry
+										returnKeyType="done"
+										value={confirmPassword}
+									/>
+								</View>
+								<Button
+									type="gradientBtn"
+									text={Languages.signup}
+									size="sm"
+									alignSelf="flex-start"
+									marginTop={15}
+									onPress={this.onSignUpHandle}
+								/>
+							</View>
+						</ScrollView>
+					)
+				}
+				{
+					!showSignupForm && (
+						<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+							<View style={styles.successInfo}>
+								<Text style={{
+									fontFamily: Constants.fontFamilyLato,
+									color: Color.wdred1,
+									fontSize: 30,
+									marginBottom: 20
+								}}>Success!</Text>
+								<Button
+									type="gradientBtn"
+									text="Login"
+									size="sm"
+									alignSelf="flex-start"
+									marginTop={15}
+									onPress={this.props.onLoginScreen}
+								/>
+							</View>
+						</View>
+					)
+				}
+			{isLoading ? <Spinner mode="overlay" color="#000" /> : null}
+		</ImageBackground>
+		);
+	}
 }
 
 const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    // backgroundColor: Color.background,
-  },
-  formContainer: {
-    padding: Styles.width * 0.1,
-  },
-  label: {
-    fontWeight: "bold",
-    fontSize: Styles.FontSize.medium,
-    color: Color.blackTextPrimary,
-    marginTop: 20,
-  },
-
-  input: {
-    borderBottomWidth: 1,
-    borderColor: Color.blackTextDisable,
-    height: 40,
-    marginTop: 10,
-    padding: 0,
-    margin: 0,
-    // flex: 1,
-    textAlign: I18nManager.isRTL ? "right" : "left",
-    color: Color.blackTextPrimary,
-  },
-  signUpButton: {
-    marginTop: 20,
-    backgroundColor: Color.primary,
-    borderRadius: 5,
-    elevation: 1,
-  },
-  switchWrap: {
-    ...Styles.Common.RowCenterLeft,
-    marginTop: 10,
-  },
-  text: {
-    marginLeft: 10,
-    color: Color.blackTextSecondary,
-  },
-  backgroundImage: {
-    flex: 1,
-    width: null,
-    height: null
-  },
-  logoWrap: {
-    flexGrow: 0.3,
-    paddingHorizontal: Styles.width * 0.1,
-  },
-  logo: {
-    width: 120,
-    height: 80
-  },
-  logoText: {
-    width: width / 2,
-    color: Color.wdgray5
-  },
+	container: {
+		flexGrow: 1,
+	},
+	formContainer: {
+		padding: Styles.width * 0.1,
+	},
+	label: {
+		fontWeight: "bold",
+		fontSize: Styles.FontSize.medium,
+		color: Color.blackTextPrimary,
+		marginTop: 20,
+		marginBottom: 10
+	},
+	label2: {
+		color: "#7C8592"
+	},
+	inputWrap: {
+		marginBottom: 20
+	},
+	input: {
+		color: Color.blackTextPrimary,
+		backgroundColor: "#fff",
+		borderRadius: 5,
+		height: 45,
+		marginTop: 10,
+		paddingHorizontal: 10,
+		textAlign: I18nManager.isRTL ? "right" : "left",
+		...Platform.select({
+			ios: {
+				shadowColor: "#000",
+				shadowOpacity: 0.05,
+				shadowOffset: { width: 0, height: 1 }
+			},
+			android: {
+				elevation: 1
+			}
+		})
+	},
+	signUpButton: {
+		marginTop: 20,
+		backgroundColor: Color.primary,
+		borderRadius: 5,
+		elevation: 1,
+	},
+	switchWrap: {
+		...Styles.Common.RowCenterLeft,
+		marginTop: 10,
+	},
+	text: {
+		marginLeft: 10,
+		color: Color.blackTextSecondary,
+	},
+	backgroundImage: {
+		flex: 1,
+		width: null,
+		height: null
+	},
+	logoWrap: {
+		flexGrow: 0.3,
+		paddingHorizontal: Styles.width * 0.1,
+	},
+	logo: {
+		width: 120,
+		height: 80
+	},
+	logoText: {
+		width: width / 2,
+		color: Color.wdgray5
+	},
+	successInfo: {
+		width: width / 1.2,
+		height: 300,
+		justifyContent: "center",
+		alignItems: "center",
+		borderRadius: 5,
+		backgroundColor: "#fff",
+		...Platform.select({
+			ios: {
+				shadowColor: "#000",
+				shadowOpacity: 0.3,
+				shadowOffset: {width: 0, height: 0}
+			},
+			android: {
+				elevation: 3
+			}
+		})
+	}
 });
 
 const commonInputProps = {
-  style: styles.input,
-  underlineColorAndroid: "transparent",
-  placeholderTextColor: Color.blackTextSecondary,
+	style: styles.input,
+	underlineColorAndroid: "transparent",
+	placeholderTextColor: Color.blackTextSecondary,
 };
 
 const mapStateToProps = (state) => {
-  return {
-    netInfo: state.netInfo,
-  };
+	return {
+		netInfo: state.netInfo,
+	};
 };
 
 const mapDispatchToProps = (dispatch) => {
-  const { actions } = require("@redux/UserRedux");
-  return {
-    login: (user, token) => dispatch(actions.login(user, token)),
-  };
+	const { actions } = require("@redux/UserRedux");
+	return {
+		login: (user, token) => dispatch(actions.login(user, token)),
+	};
 };
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+	mapStateToProps,
+	mapDispatchToProps
 )(SignUpScreen);

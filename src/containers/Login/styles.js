@@ -107,4 +107,22 @@ export default StyleSheet.create({
 		width,
 		height,
 	},
+	pwdResetInfo: {
+		width: width / 1.5,
+		height: 200,
+		justifyContent: "center",
+		alignItems: "center",
+		borderRadius: 5,
+		backgroundColor: "#fff",
+		...Platform.select({
+			ios: {
+				shadowColor: "#000",
+				shadowOpacity: 0.3,
+				shadowOffset: {width: 0, height: 0}
+			},
+			android: {
+				elevation: 3
+			}
+		})
+	}
 });

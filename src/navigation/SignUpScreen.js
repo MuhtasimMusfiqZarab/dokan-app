@@ -6,20 +6,26 @@ import { Color, Languages, Styles, Images } from "@common";
 import { Back, EmptyView } from "./IconNav";
 
 export default class SignUpScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    title: Languages.signup,
-    headerLeft: Back(navigation, Images.icons.arrowBack),
-    headerRight: EmptyView(),
+	static navigationOptions = ({ navigation }) => ({
+		title: Languages.signup,
+		headerLeft: Back(navigation, Images.icons.arrowBack),
+		headerRight: EmptyView(),
 
-    headerTintColor: Color.headerTintColor,
-    headerStyle: Styles.Common.toolbar,
-    headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		headerTintColor: Color.headerTintColor,
+		headerStyle: Styles.Common.toolbar,
+		headerLeftContainerStyle: Styles.Common.toolbarLeft,
 		headerRightContainerStyle: Styles.Common.toolbarRight,
-    headerTitleStyle: Styles.Common.headerTitleStyle,
-  });
+		headerTitleStyle: Styles.Common.headerTitleStyle,
+	});
 
-  render() {
-    const { state, navigate } = this.props.navigation;
-    return <SignUp params={state.params} onBackCart={() => navigate("Cart")} />;
-  }
+	render() {
+		const { state, navigate } = this.props.navigation;
+		return (
+			<SignUp
+				params={state.params}
+				onBackCart={() => navigate("Cart")}
+				onLoginScreen={() => navigate("LoginScreen")}
+			/>
+		);
+	}
 }
