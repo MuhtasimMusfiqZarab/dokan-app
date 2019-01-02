@@ -256,7 +256,6 @@ HomeStack.navigationOptions = ({ navigation }) => {
 }
 // End
 
-
 const AppNavigator = createBottomTabNavigator(
 	{
 		Default: {

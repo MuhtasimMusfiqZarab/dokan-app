@@ -1,6 +1,4 @@
 /**
- * Created by InspireUI on 4/07/2018.
- *  luyxtran264@gmail.com
  * @format
  */
 

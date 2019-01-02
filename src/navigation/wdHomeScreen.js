@@ -4,7 +4,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Color, Styles } from '@common'
 import { Home } from '@containers'
-import { Logo, Menu, HeaderHomeRight, CartWishListIcons } from './IconNav'
+import { Menu, CartWishListIcons } from './IconNav'
 
 export default class HomeScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({

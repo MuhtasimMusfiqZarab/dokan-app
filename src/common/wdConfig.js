@@ -48,7 +48,7 @@ export default {
 		{
 			name: "featuredProducts",
 			purpose: "featuredProducts",
-			image: Images.Banner.Feature,
+			image: Images.Banner.Banner1,
 			layout: Constants.Layout.threeColumn,
 		},
 		{
@@ -58,13 +58,13 @@ export default {
 		{
 			name: "bestSellingProducts",
 			purpose: 'bestSellingProducts',
-			image: Images.Banner.Bag,
+			image: Images.Banner.Banner3,
 			layout: Constants.Layout.threeColumn,
 		},
 		{
 			name: "topRatedProducts",
 			purpose: "topRatedProducts",
-			image: Images.Banner.Woman,
+			image: Images.Banner.Banner2,
 			layout: Constants.Layout.threeColumn,
 		},
 		{
