@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		006CDFA8AA554606A0960059 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 449337E0EBB84AA58F4FE566 /* SimpleLineIcons.ttf */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -40,6 +41,9 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* DokanTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DokanTests.m */; };
 		300E73C5DA104DA5B427B8A3 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02EE618CF6D9417AA1EF61B9 /* Lato-Bold.ttf */; };
+		3435D7C821DFDC6F00B27269 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3435D7C521DFDC4C00B27269 /* libRNShare.a */; };
+		3435D7CA21DFDCD600B27269 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3435D7C921DFDCD600B27269 /* Social.framework */; };
+		3435D7CC21DFDCEB00B27269 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3435D7CB21DFDCEA00B27269 /* MessageUI.framework */; };
 		3492E6FC2192FF010074BBA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3492E6CD2192FF010074BBA4 /* Images.xcassets */; };
 		55A5A5E3C754415EB080B12F /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13DD8E6339E249BBA1FA3D08 /* MaterialIcons.ttf */; };
 		5B52A20147384E4E9B16AFF5 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 287BB49048D540C6A265086A /* Lato-Medium.ttf */; };
@@ -137,6 +141,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "Dokan-tvOS";
+		};
+		3435D7C421DFDC4C00B27269 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3435D79321DFDC4B00B27269 /* RNShare.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNShare;
 		};
 		34C9E8122199480500A36162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -440,6 +451,9 @@
 		287BB49048D540C6A265086A /* Lato-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Medium.ttf"; path = "../assets/fonts/Lato-Medium.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Dokan-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dokan-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Dokan-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Dokan-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3435D79321DFDC4B00B27269 /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
+		3435D7C921DFDCD600B27269 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		3435D7CB21DFDCEA00B27269 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3492E6CD2192FF010074BBA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = dokan/Images.xcassets; sourceTree = "<group>"; };
 		34C9E80E2199480500A36162 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		4053A10B79FA9438C4093465 /* Pods_Dokan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dokan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -491,6 +505,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3435D7CC21DFDCEB00B27269 /* MessageUI.framework in Frameworks */,
+				3435D7CA21DFDCD600B27269 /* Social.framework in Frameworks */,
+				3435D7C821DFDC6F00B27269 /* libRNShare.a in Frameworks */,
 				BA3BBCEF217A0628002F3D30 /* libRCTRestart.a in Frameworks */,
 				24E286E0216F2F9900648432 /* libRNAdMobManager.a in Frameworks */,
 				24E286B2216F2F8E00648432 /* libRCTOneSignal.a in Frameworks */,
@@ -666,6 +683,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		3435D79421DFDC4B00B27269 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3435D7C521DFDC4C00B27269 /* libRNShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		34C9E80F2199480500A36162 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -710,6 +735,8 @@
 		62D71D092077695B0097A97F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3435D7CB21DFDCEA00B27269 /* MessageUI.framework */,
+				3435D7C921DFDCD600B27269 /* Social.framework */,
 				4F302911B3A075A7108892DC /* Pods_Dokan.framework */,
 			);
 			name = Frameworks;
@@ -727,6 +754,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3435D79321DFDC4B00B27269 /* RNShare.xcodeproj */,
 				34C9E80E2199480500A36162 /* AirMaps.xcodeproj */,
 				6211E34220AD4F5B00441C2B /* FastImage.xcodeproj */,
 				BAF69BFC2065D50E00B353CD /* ReactNativeLocalization.xcodeproj */,
@@ -1089,6 +1117,10 @@
 					ProjectRef = D9CE71C237724CC3A53CA6F8 /* RNFetchBlob.xcodeproj */;
 				},
 				{
+					ProductGroup = 3435D79421DFDC4B00B27269 /* Products */;
+					ProjectRef = 3435D79321DFDC4B00B27269 /* RNShare.xcodeproj */;
+				},
+				{
 					ProductGroup = BACB30421EEE74EB00052FC2 /* Products */;
 					ProjectRef = 5C8FC3263B04480A884BD4D1 /* RNVectorIcons.xcodeproj */;
 				},
@@ -1158,6 +1190,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3435D7C521DFDC4C00B27269 /* libRNShare.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNShare.a;
+			remoteRef = 3435D7C421DFDC4C00B27269 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		34C9E8132199480500A36162 /* libAirMaps.a */ = {

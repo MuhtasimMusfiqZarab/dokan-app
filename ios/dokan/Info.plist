@@ -42,6 +42,9 @@
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
 		<string>fb-messenger-share-api</string>
+		<string>whatsapp</string>
+		<string>slack</string>
+		<string>mailto</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -59,7 +62,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-Regular.ttf</string>
