@@ -9,10 +9,11 @@ import {
 	View,
 	Animated,
 	Image,
-	Share,
+	// Share,
 	Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
+import Share from "react-native-share"
 import {
 	Timer,
 	getProductImage,
@@ -147,8 +148,8 @@ class Detail extends PureComponent {
 		this.setState({
 			showPopover: !this.state.showPopover
 		})
-		Share.share({
-			message: this.props.product.description.replace(/(<([^>]+)>)/gi, ""),
+		Share.open({
+			// message: this.props.product.description.replace(/(<([^>]+)>)/gi, ""),
 			url: this.props.product.permalink,
 			title: this.props.product.name,
 		});
@@ -271,7 +272,7 @@ class Detail extends PureComponent {
 		const { width } = Dimensions.get('window');
 		const scrollX = new Animated.Value(0);
 		let position = Animated.divide(scrollX, width);
-		
+
 		return (
 			<View style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}>
 				<ScrollView
