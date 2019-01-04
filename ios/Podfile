@@ -11,7 +11,4 @@ target 'Dokan' do
   pod 'FBSDKShareKit'
   pod 'Google-Mobile-Ads-SDK'
 
-  # Add new pods below this line
-  pod 'RNShare', :path => '../node_modules/react-native-share'
-
 end
