@@ -271,6 +271,7 @@ class Detail extends PureComponent {
 		const { width } = Dimensions.get('window');
 		const scrollX = new Animated.Value(0);
 		let position = Animated.divide(scrollX, width);
+		
 		return (
 			<View style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}>
 				<ScrollView
@@ -420,7 +421,7 @@ class Detail extends PureComponent {
 						</Text>
 					</View>
 					<View style={{marginLeft: 15}}>
-						<Text>
+						<Text style={{color: Color.wdDeepGray}}>
 							{vendorName}
 						</Text>
 					</View>
@@ -429,7 +430,7 @@ class Detail extends PureComponent {
 		} else {
 			return (
 				<View style={styles.topVendorInfoContainer}>
-					<Text style={{alignSelf: "center"}}>Vendor Info Not found</Text>
+					<Text style={{ color: Color.wdDeepGray}}>Vendor Info Not found</Text>
 				</View>
 			)
 		}

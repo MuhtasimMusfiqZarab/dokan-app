@@ -28,7 +28,7 @@ export default class AccordionRelatedProducts extends PureComponent {
 	}
 
 	render() {
-		console.log("related");
+		
 		return (
 			<FlatList
 				data={this.props.relatedProducts}

@@ -9,19 +9,14 @@ export default {
 		 Step 1: change to your website URL and the wooCommerce API consumerKey
 		*/
 	WooCommerce: {
-		// url: 'http://ajaira.website/dokan-app',
-		// consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
-		// consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
-
-		url: 'https://tedhut.com/',
-		consumerKey: 'ck_288d122af9ac2a56977970fa404352a0ed32b6e6',
-		consumerSecret: 'cs_ef48540035466d888768e10cc3571214b20e2af3',
-
-	},
-	Dokan: {
 		url: 'http://ajaira.website/dokan-app',
-	},
+		consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
+		consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
 
+		// url: 'https://tedhut.com/',
+		// consumerKey: 'ck_288d122af9ac2a56977970fa404352a0ed32b6e6',
+		// consumerSecret: 'cs_ef48540035466d888768e10cc3571214b20e2af3',
+	},
 	/**
 		 Step 2: Setting Product Images
 		- ProductSize: Explode the guide from: update the product display size: https://mstore.gitbooks.io/mstore-manual/content/chapter5.html
@@ -38,8 +33,8 @@ export default {
 	// BUG: Language can not change when set default value in Config.js ==> pass string to change Languages
 	// NOTE: name is define value --> change field in Language.js
 	HorizonLayout: [
-		// { tag: 355, paging: true, layout: Constants.Layout.miniBanner },
-		{ tag: 604, paging: true, layout: Constants.Layout.miniBanner },
+		{ tag: 355, paging: true, layout: Constants.Layout.miniBanner },
+		// { tag: 604, paging: true, layout: Constants.Layout.miniBanner },
 		{
 			purpose: "atAglance",
 			layout: Constants.Layout.atAglance,

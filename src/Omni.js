@@ -164,7 +164,7 @@ export const currencyFormatter = (price) => {
 
 export const getProductImage = (uri, containerWidth) => {
 	// Enhance number if you want to fetch a better quality image (may affect performance
-	const DPI_NUMBER = 0.5; // change this to 1 for high quality image
+	const DPI_NUMBER = 0.1; // change this to 1 for high quality image
 
 	if (!Config.ProductSize.enable) {
 		return uri;

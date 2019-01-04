@@ -36,7 +36,7 @@ export default class ListAllScreen extends Component {
 					showSortingModal={true}
 					vendorListType={params.config.vendorListType}
 				/>
-			) 
+			)
 		} else {
 			return (
 				<MenuFilter

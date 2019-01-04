@@ -153,9 +153,8 @@ class PaymentOptions extends PureComponent {
 
 			this.setState({ loading: this.props.isLoading });
 
-			// warn([userInfo, payload]);
-
 			if (list[this.state.selectedIndex].id == "cod") {
+				// console.log(payload);
 				this.setState({ loading: true });
 				WooWorker.createNewOrder(
 					payload,
@@ -164,7 +163,8 @@ class PaymentOptions extends PureComponent {
 						this.props.emptyCart();
 						this.props.onNext();
 					},
-					() => {
+					(response) => {
+						console.log(response);
 						this.setState({ loading: false });
 					}
 				);

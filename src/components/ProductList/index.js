@@ -144,7 +144,7 @@ class ProductList extends PureComponent {
 		const renderFooter = () => isFetching && <Spinkit />;
 		const showModalSorting = 
 			config ? config.name === "allProducts" ? true : false : false
-		
+		console.log(list);
 		return (
 			<View style={styles.listView}>
 				{this.props.showToolBar && <WdProductListToolBar showSorting={showModalSorting} />}

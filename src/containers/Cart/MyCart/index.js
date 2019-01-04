@@ -28,17 +28,19 @@ class MyCart extends PureComponent {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		console.log(nextProps);
 		if (
 			nextProps.hasOwnProperty("type") &&
-			nextProps.type == "GET_COUPON_CODE_FAIL"
+			nextProps.type == "GET_COUPON_CODE_FAIL" &&
+			nextProps.message
 		) {
+			this.props.cleanOldCoupon();
 			toast(nextProps.message);
 		}
 	}
 
 	render() {
 		const { cartItems, totalPrice, isFetching, discountType } = this.props;
-
 		let couponBtn = Languages.ApplyCoupon;
 		let colors = [Color.darkOrange, Color.darkYellow, Color.yellow];
 		const finalPrice =
@@ -47,7 +49,7 @@ class MyCart extends PureComponent {
 				: totalPrice - this.getExistCoupon();
 
 		if (isFetching) {
-			couponBtn = Languages.ApplyCoupon;
+			couponBtn = "Applying...";
 		} else if (this.getExistCoupon() > 0) {
 			colors = [Color.darkRed, Color.red];
 			couponBtn = Languages.remove;
