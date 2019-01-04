@@ -2,6 +2,7 @@ package com.wedevs.dokan;
 
 import android.app.Application;
 import com.facebook.react.ReactApplication;
+import cl.json.RNSharePackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new RNSharePackage(),
         new FastImageViewPackage(),
         new RNFetchBlobPackage(),
         new ReactNativeRestartPackage(),
