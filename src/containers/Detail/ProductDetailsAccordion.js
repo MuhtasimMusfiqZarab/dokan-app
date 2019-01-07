@@ -126,7 +126,7 @@ export default class ProductDetailsAccordion extends Component {
 			},
 			{
 				title: "Vendor Info",
-				content: <AccordionVendorInfo />,
+				content: <AccordionVendorInfo store={this.props.product.store} />,
 				fromColor: "#7ED500",
 				toColor: "#00BF8D",
 				icon: "library"

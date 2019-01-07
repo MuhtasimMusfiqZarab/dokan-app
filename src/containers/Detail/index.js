@@ -445,27 +445,36 @@ class Detail extends PureComponent {
 
 	//weDevs
 	renderVendorInfo = () => {
-		const vendorName = this.props.product.store? this.props.product.store.name : ""
-		const vendorInitial = vendorName.charAt(0);
-		if (vendorName) {
+		const storeName = this.props.product.store? this.props.product.store.shop_name : ""
+		const storeInitial = storeName.charAt(0).toUpperCase();
+
+		if (storeName) {
 			return (
 				<View style={styles.topVendorInfoContainer}>
 					<View style={styles.topVendorNameInitials}>
-						<Text style={{color: "white"}}>
-							{vendorInitial}
+						<Text style={{color: "white", fontSize: 17}}>
+							{storeInitial}
 						</Text>
 					</View>
 					<View style={{marginLeft: 15}}>
-						<Text style={{color: Color.wdDeepGray}}>
-							{vendorName}
+						<Text style={{
+							color: Color.wdDeepGray,
+							fontSize: 17
+						}}>
+							{storeName}
 						</Text>
 					</View>
 				</View>
 			)
 		} else {
 			return (
-				<View style={styles.topVendorInfoContainer}>
-					<Text style={{ color: Color.wdDeepGray}}>Vendor Info Not found</Text>
+				<View style={
+					[
+						styles.topVendorInfoContainer,
+						{justifyContent: "center"}
+					]
+				}>
+					<Text style={{ color: "red"}}>Store Info Not found</Text>
 				</View>
 			)
 		}
@@ -526,7 +535,7 @@ class Detail extends PureComponent {
 
 	render() {
 		const { product } = this.props;
-console.log(product);
+
 		return (
 			<View style={styles.container}>
 				{

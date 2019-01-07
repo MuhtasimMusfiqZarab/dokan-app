@@ -118,6 +118,7 @@ export default {
 	wdgray4: "#7D8693",
 	wdgray5: "#808994",
 	wdDeepGray: "#79828F",
-	wdLightGray: '#868D9B'
+	wdLightGray: '#868D9B',
+	starRating: "#F5A623"
 
 }
