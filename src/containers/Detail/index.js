@@ -137,9 +137,11 @@ class Detail extends PureComponent {
 	};
 
 	openPhoto = () => {
-		this.setState({
-			showPopover: !this.state.showPopover
-		});
+		if (this.state.showPopover) {
+			this.setState({
+				showPopover: !this.state.showPopover
+			});
+		}
 		this._modalPhoto.open();
 	};
 
