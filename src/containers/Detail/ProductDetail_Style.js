@@ -166,6 +166,12 @@ export default {
 		fontWeight: "bold",
 		fontFamily: Constants.fontHeader,
 	},
+	butnCartText: {
+		color: "#D2DBE0",
+		fontSize: 15,
+		fontWeight: "bold",
+		fontFamily: Constants.fontHeader,
+	},
 	description: {
 		padding: 20,
 		paddingTop: 10,

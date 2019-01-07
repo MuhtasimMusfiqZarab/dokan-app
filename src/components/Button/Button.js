@@ -37,7 +37,9 @@ Button.propTypes = {
 	type: PropTypes.string,
 };
 
-const TextButton = (props) => (
+const TextButton = (props) => {
+	console.log(props)
+	return (
 	<TouchableHighlight
 		disabled={props.disabled || props.isLoading}
 		onPress={() => props.onPress()}
@@ -53,7 +55,7 @@ const TextButton = (props) => (
 				<CustomIcon
 					name={props.icon}
 					style={
-						props.iconStyle ? props.iconStyle : style.iconStyle
+						props.iconStyle ? props.iconStyle : styles.iconStyle
 					}
 					size={props.iconSize ? props.iconSize : 18}
 				/>
@@ -79,7 +81,7 @@ const TextButton = (props) => (
 			)}
 		</View>
 	</TouchableHighlight>
-);
+)};
 
 const BorderButton = (props) => (
 	<TouchableHighlight

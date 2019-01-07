@@ -378,7 +378,7 @@ class Detail extends PureComponent {
 				styles.bottomView,
 				Constants.RTL && { flexDirection: "row-reverse" },
 			]}>
-				<View style={styles.buttonContainer}>
+				{/* <View style={styles.buttonContainer}>
 					<Button
 						type="image"
 						source={require("@images/icons/icon-share.png")}
@@ -395,16 +395,30 @@ class Detail extends PureComponent {
 						onPress={() => this.addToWishList(isAddWishList)}
 					/>
 					<Button
-						type="image"
+						text="Add to Cart"
 						isAddToCart={isAddToCart}
-						source={require("@images/icons/icon-cart.png")}
-						imageStyle={styles.imageButton}
-						disabled={!this.props.product.in_stock}
-						buttonStyle={styles.buttonStyle}
-						onPress={() => this.props.product.in_stock && this.addToCart(true)}
+						textStyle={styles.btnBuyText}
+						disabled={!this.props.product.in_stock && this.props.product.stock_status === "outofstock"}
+						buttonStyle={styles.btnBuy}
+						onPress={
+							() => this.props.product.in_stock || this.props.product.stock_status == "instock" && this.addToCart()
+						}
 					/>
-				</View>
+				</View> */}
 
+				<Button
+					type="text"
+					text="ADD CART"
+					icon="cart"
+					iconStyle={{marginRight: 5, color: "#D2DBE0"}}
+					isAddToCart={isAddToCart}
+					textStyle={styles.butnCartText}
+					disabled={!this.props.product.in_stock && this.props.product.stock_status === "outofstock"}
+					style={styles.buttonContainer}
+					onPress={
+						() => this.props.product.in_stock || this.props.product.stock_status == "instock" && this.addToCart()
+					}
+				/>
 				<Button
 					text={
 						this.props.product.in_stock ||
@@ -413,7 +427,7 @@ class Detail extends PureComponent {
 					}
 					style={this.buyNowBtnStyle}
 					textStyle={styles.btnBuyText}
-					disabled={!this.props.product.in_stock || this.props.product.stock_status !== "outofstock"}
+					disabled={!this.props.product.in_stock && this.props.product.stock_status === "outofstock"}
 					onPress={() => {
 						this.props.product.in_stock ||
 						this.props.product.stock_status !== "outofstock" &&
