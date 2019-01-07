@@ -75,6 +75,15 @@ class Detail extends PureComponent {
 		this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
 		this.inCartTotal = 0;
 		this.isInWishList = false;
+		this.buyNowBtnStyle = [styles.btnBuy]
+
+		// set Buy Now btn color
+		if(
+			!this.props.product.in_stock &&
+			this.props.product.stock_status === "outofstock"
+		) {
+			this.buyNowBtnStyle = [...this.buyNowBtnStyle, styles.outOfStock]
+		}
 	}
 
 	componentDidMount() {
@@ -397,12 +406,18 @@ class Detail extends PureComponent {
 				</View>
 
 				<Button
-					text={this.props.product.in_stock ? Languages.BUYNOW : Languages.OutOfStock}
-					style={[styles.btnBuy, !this.props.product.in_stock && styles.outOfStock]}
+					text={
+						this.props.product.in_stock ||
+						this.props.product.stock_status !== "outofstock" ?
+						Languages.BUYNOW : Languages.OutOfStock
+					}
+					style={this.buyNowBtnStyle}
 					textStyle={styles.btnBuyText}
-					disabled={!this.props.product.in_stock}
+					disabled={!this.props.product.in_stock || this.props.product.stock_status !== "outofstock"}
 					onPress={() => {
-						this.props.product.in_stock && this.addToCart(true);
+						this.props.product.in_stock ||
+						this.props.product.stock_status !== "outofstock" &&
+						this.addToCart(true);
 					}}
 				/>
 			</View>
@@ -492,7 +507,7 @@ class Detail extends PureComponent {
 
 	render() {
 		const { product } = this.props;
-
+console.log(product);
 		return (
 			<View style={styles.container}>
 				{this.state.showPopover && <PopOver share={this.share} />}
