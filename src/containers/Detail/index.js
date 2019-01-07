@@ -137,6 +137,9 @@ class Detail extends PureComponent {
 	};
 
 	openPhoto = () => {
+		this.setState({
+			showPopover: !this.state.showPopover
+		});
 		this._modalPhoto.open();
 	};
 
@@ -524,7 +527,10 @@ class Detail extends PureComponent {
 console.log(product);
 		return (
 			<View style={styles.container}>
-				{this.state.showPopover && <PopOver share={this.share} />}
+				{
+					this.state.showPopover &&
+						<PopOver share={this.share} openPhoto={this.openPhoto.bind(this)} />
+				}
 				<Animated.ScrollView
 					style={styles.listContainer}
 					scrollEventThrottle={1}

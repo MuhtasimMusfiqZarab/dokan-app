@@ -37,9 +37,7 @@ Button.propTypes = {
 	type: PropTypes.string,
 };
 
-const TextButton = (props) => {
-	console.log(props)
-	return (
+const TextButton = (props) => (
 	<TouchableHighlight
 		disabled={props.disabled || props.isLoading}
 		onPress={() => props.onPress()}
@@ -81,7 +79,7 @@ const TextButton = (props) => {
 			)}
 		</View>
 	</TouchableHighlight>
-)};
+);
 
 const BorderButton = (props) => (
 	<TouchableHighlight

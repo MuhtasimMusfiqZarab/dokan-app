@@ -10,7 +10,7 @@ export default class PopOver extends PureComponent {
 	render() {
 		return (
 			<View style={styles.popOver}>
-				<Button
+				{/* <Button
 					type="text"
 					style={[
 						styles.popOverBtn,
@@ -24,7 +24,7 @@ export default class PopOver extends PureComponent {
 					iconSize={16}
 					text="Message"
 					textStyle={styles.popOverBtnText}
-				/>
+				/> */}
 				<Button
 					type="text"
 					style={[
@@ -52,6 +52,7 @@ export default class PopOver extends PureComponent {
 					iconSize={16}
 					text="Media Gallery"
 					textStyle={styles.popOverBtnText}
+					onPress={this.props.openPhoto}
 				/>
 			</View>
 		)
