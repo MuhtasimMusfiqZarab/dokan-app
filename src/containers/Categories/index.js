@@ -30,6 +30,7 @@ class CategoriesScreen extends React.PureComponent {
 
 	onRowClickHandle = (category) => {
 		const { setSelectedCategory, onViewCategory } = this.props;
+		
 		BlockTimer.execute(() => {
 			setSelectedCategory({
 				...category,
@@ -77,7 +78,7 @@ class CategoriesScreen extends React.PureComponent {
 
 	render() {
 		const { categories, selectedLayout } = this.props;
-console.log(categories);
+
 		if (categories.error) {
 			return <Empty text={categories.error} />;
 		}

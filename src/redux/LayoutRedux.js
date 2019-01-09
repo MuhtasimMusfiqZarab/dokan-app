@@ -40,16 +40,14 @@ export const actions = {
 		});
 	},
 	fetchProductsLayout: (dispatch, categoryId = "", tagId = "", page, index, name) => {
+		// debugger;
 		return (dispatch) => {
-			dispatch({ type: types.LAYOUT_FETCHING, extra: { index } });
-
+			// dispatch({ type: types.LAYOUT_FETCHING, extra: { index } });
 			switch (name) {
 				case "newArrival": {
-					console.log("newArrival");
 					return (
-						DokanWorker.getLatestProducts()
+						DokanWorker.getLatestProducts(page)
 							.then( (json) => {
-								console.log(json);
 								if (json === undefined) {
 									dispatch(actions.fetchProductsFailure(Languages.getDataError));
 								} else if (json.code) {
@@ -68,7 +66,7 @@ export const actions = {
 				}
 				case "featuredProducts": {
 					return (
-						DokanWorker.getFeaturedProducts()
+						DokanWorker.getFeaturedProducts(page)
 							.then( (json) => {
 								if (json === undefined) {
 									dispatch(actions.fetchProductsFailure(Languages.getDataError));
@@ -88,7 +86,7 @@ export const actions = {
 				}
 				case "bestSellingProducts": {
 					return (
-						DokanWorker.getBestSellingProducts()
+						DokanWorker.getBestSellingProducts(page)
 							.then( (json) => {
 								if (json === undefined) {
 									dispatch(actions.fetchProductsFailure(Languages.getDataError));
@@ -108,7 +106,7 @@ export const actions = {
 				}
 				case "topRatedProducts": {
 					return (
-						DokanWorker.getTopRatedProducts()
+						DokanWorker.getTopRatedProducts(page)
 							.then( (json) => {
 								if (json === undefined) {
 									dispatch(actions.fetchProductsFailure(Languages.getDataError));
@@ -148,6 +146,29 @@ export const actions = {
 			}
 		};
 	},
+	// fetchProductsLayout: (dispatch, categoryId = "", tagId = "", page, index) => {
+  //   return (dispatch) => {
+  //     dispatch({ type: types.LAYOUT_FETCHING, extra: { index } });
+
+  //     return WooWorker.productsByCategoryTag(categoryId, tagId, 10, page).then(
+  //       (json) => {
+  //         if (json === undefined) {
+  //           dispatch(actions.fetchProductsFailure(Languages.getDataError));
+  //         } else if (json.code) {
+  //           dispatch(actions.fetchProductsFailure(json.message));
+  //         } else {
+  //           dispatch({
+  //             type:
+  //               page > 1 ? types.LAYOUT_FETCH_MORE : types.LAYOUT_FETCH_SUCCESS,
+  //             payload: json,
+  //             extra: { index },
+  //             finish: json.length === 0,
+  //           });
+  //         }
+  //       }
+  //     );
+  //   };
+  // },
 	fetchProductsLayoutTagId: async (
 		dispatch,
 		categoryId = "",
@@ -246,6 +267,7 @@ export const reducer = (state = initialState, action) => {
 		}
 
 		case types.LAYOUT_FETCHING: {
+			console.log("layout fecthing");
 			const layout = [];
 			state.layout.map((item, index) => {
 				if (index === extra.index) {

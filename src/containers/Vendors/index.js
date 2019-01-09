@@ -2,21 +2,17 @@
 
 	import React, { Component, PureComponent } from "react";
 	import {
-	FlatList,
-	Image,
-	Platform,
-	RefreshControl,
-	Animated,
-	View,
-	TouchableOpacity,
-	Text
+		FlatList,
+		Image,
+		Platform,
+		RefreshControl,
+		Animated,
+		View,
 	} from "react-native";
 	import {
-	PostLayout,
-	AnimatedHeader,
-	Spinkit,
-	WdVendorListToolBar,
-	WdModalSorting,
+		PostLayout,
+		Spinkit,
+		WdVendorListToolBar,
 	} from "@components";
 	import { Constants, Languages } from "@common";
 	import { connect } from "react-redux";
@@ -28,136 +24,141 @@
 	const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 	class Vendors extends Component {
-	state = {
-		scrollY: new Animated.Value(0),
-	};
+		state = {
+			scrollY: new Animated.Value(0),
+		};
 
-	constructor(props) {
-		super(props);
+		constructor(props) {
+			super(props);
 
-		this.page = props.page ? props.page : 0;
-		this.limit = Constants.pagingLimit;
-		this.isVendorList = props.type === undefined;
-	}
-
-	componentDidMount() {
-		this.page === 0 && this.fetchData();
-	}
-
-	shouldComponentUpdate(nextProps) {
-		return(
-			nextProps.layoutVendorScreen !== this.props.layoutVendorScreen ||
-			nextProps.list !== this.props.list
-		)
-	}
-
-	fetchData = (reload = false) => {
-		if (reload) {
-			this.page = 1;
+			this.page = props.page ? props.page : 0;
+			this.limit = Constants.pagingLimit;
+			this.isVendorList = props.type === undefined;
 		}
-		this.props.fetchAllVendors();
-	};
 
-	handleLoadMore = () => {
-		if (!this.props.finish) {
-			this.page += 1;
+		componentDidMount() {
 			this.fetchData();
 		}
-	};
 
-	onRowClickHandle = (item) => {
-		this.props.fetchVendorProducts(item.id);
-		this.props.onViewVendorScreen(item);
-	};
+		shouldComponentUpdate(nextProps) {
+			return(
+				nextProps.layoutVendorScreen !== this.props.layoutVendorScreen ||
+				nextProps.list !== this.props.list
+			)
+		}
 
-	renderItem = ({ item, index }) => {
-		if (item == null) return <View />;
+		fetchData = (reload = false) => {
+			if (reload) {
+				this.page = 1;
+			}
+			
+			this.props.fetchAllVendors(this.page, 10);
+		};
 
-		return (
-			<PostLayout
-				post={item}
-				type={"Vendor"}
-				key={`key-${index}`}
-				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
-				layout={this.props.layoutVendorScreen}
-			/>
-		);
-	};
+		handleLoadMore = () => {
+			console.log(`finish: ${this.props.finish}`);
+			if (!this.props.finish) {
+				this.page += 1;
+				// console.log(`page: ${this.page}`);
+				this.fetchData();
+			}
+		};
 
-	headerComponent = () => {
-		const { headerImage } = this.props;
+		onRowClickHandle = (item) => {
+			this.props.fetchVendorProducts(item.id);
+			this.props.onViewVendorScreen(item);
+		};
 
-		return (
-			<View style={styles.headerView}>
-				{headerImage && (
-					<Image style={styles.bannerImage} source={headerImage} />
-				)}
-			</View>
-		);
-	};
+		renderItem = ({ item, index }) => {
+			if (item == null) return <View />;
 
-	render() {
-		const { list, config, isFetching, navigation } = this.props;
-		
-		const renderFooter = () => isFetching && <Spinkit />;
-		return (
-			<View style={styles.listView}>
-				{this.props.showToolBar && <WdVendorListToolBar />}
-				<AnimatedFlatList
-					contentContainerStyle={styles.flatlist}
-					data={list}
-					keyExtractor={(item, index) => `${item.id} || ${index}`}
-					renderItem={this.renderItem}
-					ListHeaderComponent={this.headerComponent}
-					ListFooterComponent={renderFooter()}
-					refreshing={isFetching}
-					refreshControl={
-						<RefreshControl
-							refreshing={isFetching}
-							onRefresh={() => this.fetchData(true)}
-						/>
-					}
-					onEndReachedThreshold={100}
-					onEndReached={(distance) =>
-						distance.distanceFromEnd > 100 && this.handleLoadMore()
-					}
-					scrollEventThrottle={1}
-					onScroll={Animated.event(
-						[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-						{ useNativeDriver: Platform.OS !== "android" }
-					)}
+			return (
+				<PostLayout
+					post={item}
+					type={"Vendor"}
+					key={`key-${index}`}
+					onViewPost={() => this.onRowClickHandle(item, this.props.type)}
+					layout={this.props.layoutVendorScreen}
 				/>
-			</View>
-		);
-	}
+			);
+		};
+
+		headerComponent = () => {
+			const { headerImage } = this.props;
+
+			return (
+				<View style={styles.headerView}>
+					{headerImage && (
+						<Image style={styles.bannerImage} source={headerImage} />
+					)}
+				</View>
+			);
+		};
+
+		render() {
+			const { list, config, isFetching, navigation } = this.props;
+			const renderFooter = () => isFetching && <Spinkit />;
+
+			return (
+				<View style={styles.listView}>
+					{this.props.showToolBar && <WdVendorListToolBar />}
+					<AnimatedFlatList
+						contentContainerStyle={styles.flatlist}
+						data={list}
+						keyExtractor={(item, index) => `${item.id} || ${index}`}
+						renderItem={this.renderItem}
+						ListHeaderComponent={this.headerComponent}
+						ListFooterComponent={renderFooter()}
+						refreshing={isFetching}
+						refreshControl={
+							<RefreshControl
+								refreshing={isFetching}
+								onRefresh={() => this.fetchData(true)}
+							/>
+						}
+						onEndReachedThreshold={100}
+						onEndReached={
+							(distance) => distance.distanceFromEnd > 100 && this.handleLoadMore()
+						}
+						// onEndReached={this.handleLoadMore}
+						scrollEventThrottle={1}
+						onScroll={Animated.event(
+							[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+							{ useNativeDriver: Platform.OS !== "android" }
+						)}
+					/>
+				</View>
+			);
+		}
 	}
 
 	const mapStateToProps = ({ vendors }, ownProp) => {
-	const list = vendors.vendorList;
-	const isFetching = vendors.isFetching;
-	const layoutVendorScreen = vendors.layoutVendorScreen;
-	const finish = true;
+		const list = vendors.vendorList;
+		const isFetching = vendors.isFetching;
+		const layoutVendorScreen = vendors.layoutVendorScreen;
+		const finish = vendors.finish;
 
-	return { list, isFetching, finish, layoutVendorScreen };
+		return { list, isFetching, finish, layoutVendorScreen };
 	};
 
 	const mergeProps = (stateProps, dispatchProps, ownProps) => {
-	const { dispatch } = dispatchProps;
-	const { actions: VendorActions } = require("@redux/VendorRedux");
-	return {
-		...ownProps,
-		...stateProps,
-		fetchAllVendors: () => {
-			VendorActions.fetchVendors(dispatch);
-		},
-		fetchVendorProducts: (vendorID) => {
-			VendorActions.fetchVendorProducts( dispatch, vendorID );
-		}
-	};
+		const { dispatch } = dispatchProps;
+		const { actions: VendorActions } = require("@redux/VendorRedux");
+
+		return {
+			...ownProps,
+			...stateProps,
+			fetchAllVendors: (page, per_page) => {
+				VendorActions.fetchVendors(dispatch, page, per_page);
+			},
+			fetchVendorProducts: (vendorID) => {
+				VendorActions.fetchVendorProducts( dispatch, vendorID );
+			}
+		};
 	};
 
 	export default connect(
-	mapStateToProps,
-	null,
-	mergeProps
+		mapStateToProps,
+		null,
+		mergeProps
 	)(Vendors);

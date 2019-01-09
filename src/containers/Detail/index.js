@@ -445,8 +445,8 @@ class Detail extends PureComponent {
 
 	//weDevs
 	renderVendorInfo = () => {
-		const storeName = this.props.product.store? this.props.product.store.shop_name : ""
-		const storeInitial = storeName.charAt(0).toUpperCase();
+		const storeName = this.props.product.store? this.props.product.store.shop_name : "";
+		const storeInitial = storeName ? storeName.charAt(0).toUpperCase() : "";
 
 		if (storeName) {
 			return (

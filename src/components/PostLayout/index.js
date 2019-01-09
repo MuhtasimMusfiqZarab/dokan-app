@@ -11,131 +11,131 @@ import CardLayout from "./Card";
 import SimpleLayout from "./Simple";
 
 export default class PostLayout extends PureComponent {
-  viewCategoryDetail(id) {
-    Tools.viewCateDetail(id);
-    this.props.navigate("Default");
-  }
+	viewCategoryDetail(id) {
+		Tools.viewCateDetail(id);
+		this.props.navigate("Default");
+	}
 
-  render() {
-    const data = this.props.post;
-    const { onViewPost, type } = this.props;
-    const isProduct = type == "undefined";
+	render() {
+		const data = this.props.post;
+		const { onViewPost, type } = this.props;
+		const isProduct = type == "undefined";
 
-    let image_width = 0;
-    let imageURL = "";
+		let image_width = 0;
+		let imageURL = "";
 
-    const categories = this.props.categories ? this.props.categories : 1;
-    const cate =
-      typeof data.categories !== "undefined" ? data.categories[0] : 1;
-    let postTitle =
-      data.store_name ? data.store_name :
-      typeof data.name === "undefined" ? "" : data.name;
-    
-    if (typeof type !== "undefined" && type !== "Vendor") {
-      // news type
-      imageURL = Tools.getImage(data, Constants.PostImage.large);
-      postTitle =
-        typeof data.title !== "undefined"
-          ? Tools.getDescription(data.title.rendered, 300)
-          : "";
-    } else if (typeof type !== "undefined" && type === "Vendor") {
-      // vendor type by weDevs
-      image_width = Constants.Layout.card
-        ? Styles.width
-        : Styles.width * 0.45 - 2;
-      imageURL = data.banner ?
-        getProductImage(data.banner, image_width) :
-        getProductImage(data.gravatar, image_width)
-    } else {
-      // product type
-      image_width = Constants.Layout.card
-        ? Styles.width
-        : Styles.width * 0.45 - 2;
-      imageURL =
-        typeof data.images !== "undefined"
-          ? getProductImage(data.images[0].src, image_width)
-          : ""
-    }
+		const categories = this.props.categories ? this.props.categories : 1;
+		const cate =
+			typeof data.categories !== "undefined" ? data.categories[0] : 1;
+		let postTitle =
+			data.store_name ? data.store_name :
+			typeof data.name === "undefined" ? "" : data.name;
+		
+		if (typeof type !== "undefined" && type !== "Vendor") {
+			// news type
+			imageURL = Tools.getImage(data, Constants.PostImage.large);
+			postTitle =
+				typeof data.title !== "undefined"
+					? Tools.getDescription(data.title.rendered, 300)
+					: "";
+		} else if (typeof type !== "undefined" && type === "Vendor") {
+			// vendor type by weDevs
+			image_width = Constants.Layout.card
+				? Styles.width
+				: Styles.width * 0.45 - 2;
+			imageURL = data.banner ?
+				getProductImage(data.banner, image_width) :
+				getProductImage(data.gravatar, image_width)
+		} else {
+			// product type
+			image_width = Constants.Layout.card
+				? Styles.width
+				: Styles.width * 0.45 - 2;
+			imageURL =
+				typeof data.images !== "undefined" && data.images.length !== 0
+					? getProductImage(data.images[0].src, image_width)
+					: ""
+		}
 
-    switch (this.props.layout) {
-      case Constants.Layout.simple:
-        return (
-          <SimpleLayout
-            imageURL={imageURL}
-            title={Tools.getDescription(postTitle, 100)}
-            viewPost={onViewPost}
-            post={data}
-            type={type}
-            category={categories[cate]}
-            date={type ? data.date : data.date_created}
-          />
-        );
+		switch (this.props.layout) {
+			case Constants.Layout.simple:
+				return (
+					<SimpleLayout
+						imageURL={imageURL}
+						title={Tools.getDescription(postTitle, 100)}
+						viewPost={onViewPost}
+						post={data}
+						type={type}
+						category={categories[cate]}
+						date={type ? data.date : data.date_created}
+					/>
+				);
 
-      case Constants.Layout.card:
-        return (
-          <CardLayout
-            imageURL={imageURL}
-            title={Tools.getDescription(postTitle, 300)}
-            viewPost={onViewPost}
-            post={data}
-            type={type}
-            date={type ? data.date : data.date_created}
-          />
-        );
+			case Constants.Layout.card:
+				return (
+					<CardLayout
+						imageURL={imageURL}
+						title={Tools.getDescription(postTitle, 300)}
+						viewPost={onViewPost}
+						post={data}
+						type={type}
+						date={type ? data.date : data.date_created}
+					/>
+				);
 
-      case Constants.Layout.twoColumn:
-        return (
-          <ColumnLayout
-            imageURL={imageURL}
-            title={Tools.getDescription(postTitle)}
-            viewPost={onViewPost}
-            post={data}
-            type={type}
-            date={type ? data.date : data.date_created}
-          />
-        );
+			case Constants.Layout.twoColumn:
+				return (
+					<ColumnLayout
+						imageURL={imageURL}
+						title={Tools.getDescription(postTitle)}
+						viewPost={onViewPost}
+						post={data}
+						type={type}
+						date={type ? data.date : data.date_created}
+					/>
+				);
 
-      case Constants.Layout.threeColumn:
-        imageURL = isProduct
-          ? getProductImage(data.images[0].src, Styles.width / 3)
-          : imageURL;
-        return (
-          <ThreeColumn
-            imageURL={imageURL}
-            title={Tools.getDescription(postTitle)}
-            viewPost={onViewPost}
-            post={data}
-            type={type}
-            date={type ? data.date : data.date_created}
-          />
-        );
+			case Constants.Layout.threeColumn:
+				imageURL = isProduct
+					? getProductImage(data.images[0].src, Styles.width / 3)
+					: imageURL;
+				return (
+					<ThreeColumn
+						imageURL={imageURL}
+						title={Tools.getDescription(postTitle)}
+						viewPost={onViewPost}
+						post={data}
+						type={type}
+						date={type ? data.date : data.date_created}
+					/>
+				);
 
-      case Constants.Layout.list:
-        return (
-          <ReadMoreLayout
-            imageURL={imageURL}
-            title={Tools.getDescription(postTitle)}
-            viewPost={onViewPost}
-            post={data}
-            type={type}
-            date={type ? data.date : data.date_created}
-          />
-        );
+			case Constants.Layout.list:
+				return (
+					<ReadMoreLayout
+						imageURL={imageURL}
+						title={Tools.getDescription(postTitle)}
+						viewPost={onViewPost}
+						post={data}
+						type={type}
+						date={type ? data.date : data.date_created}
+					/>
+				);
 
-      default:
-        imageURL = isProduct
-          ? getProductImage(data.images[0].src, Styles.width / 3)
-          : imageURL;
-        return (
-          <ThreeColumn
-            imageURL={imageURL}
-            title={Tools.getDescription(postTitle)}
-            viewPost={onViewPost}
-            post={data}
-            type={type}
-            date={type ? data.date : data.date_created}
-          />
-        );
-    }
-  }
+			default:
+				imageURL = isProduct
+					? getProductImage(data.images[0].src, Styles.width / 3)
+					: imageURL;
+				return (
+					<ThreeColumn
+						imageURL={imageURL}
+						title={Tools.getDescription(postTitle)}
+						viewPost={onViewPost}
+						post={data}
+						type={type}
+						date={type ? data.date : data.date_created}
+					/>
+				);
+		}
+	}
 }

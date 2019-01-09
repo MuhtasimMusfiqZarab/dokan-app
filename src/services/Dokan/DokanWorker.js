@@ -4,8 +4,11 @@ import { Config } from "@common";
 import { error, warn, log } from "@app/Omni";
 
 const DokanWorker = {
-	getFeaturedProducts: async () => {
-		return await fetch(`${Config.WooCommerce.url}/wp-json/dokan/v1/products/featured`)
+	getFeaturedProducts: async (page=1, per_page=5) => {
+		// console.log("dokan worker -> featured products");
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/featured?page=${page}&per_page=${per_page}`
+			)
 			.then((response) => response.json())
 			.then((json) => {
 				if (json.length != 0) {
@@ -14,8 +17,10 @@ const DokanWorker = {
 			})
 			.catch((error) => warn(error));
 	},
-	getTopRatedProducts: async () => {
-		return await fetch(`${Config.WooCommerce.url}/wp-json/dokan/v1/products/top_rated`)
+	getTopRatedProducts: async (page=1, per_page=5) => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/top_rated?page=${page}&per_page=${per_page}`
+			)
 			.then((response) => response.json())
 			.then((json) => {
 				if (json.length != 0) {
@@ -24,8 +29,10 @@ const DokanWorker = {
 			})
 			.catch((error) => warn(error));
 	},
-	getBestSellingProducts: async () => {
-		return await fetch(`${Config.WooCommerce.url}/wp-json/dokan/v1/products/best_selling`)
+	getBestSellingProducts: async (page=1, per_page=5) => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/best_selling?page=${page}&per_page=${per_page}`
+			)
 			.then((response) => response.json())
 			.then((json) => {
 				if (json.length != 0) {
@@ -34,8 +41,10 @@ const DokanWorker = {
 			})
 			.catch((error) => warn(error));
 	},
-	getLatestProducts: async () => {
-		return await fetch(`${Config.WooCommerce.url}/wp-json/dokan/v1/products/latest`)
+	getLatestProducts: async (page=1, per_page=5) => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/latest?page=${page}&per_page=${per_page}`
+			)
 			.then((response) => response.json())
 			.then((json) => {
 				if (json.length != 0) {
@@ -56,13 +65,14 @@ const DokanWorker = {
 			})
 			.catch((error) => warn(error));
 	},
-	getVendors: async () => {
-		return await fetch(`${Config.WooCommerce.url}/wp-json/dokan/v1/stores`)
+	getVendors: async (page, per_page) => {
+		const url = `${Config.WooCommerce.url}/wp-json/dokan/v1/stores?page=${page}&per_page=${per_page}`
+
+		return await fetch (url)
 			.then((response) => response.json())
 			.then((json) => {
-				if (json.length != 0) {
-					return json;
-				}
+				console.log(json);
+				return json;
 			})
 			.catch((error) => warn(error));
 	},

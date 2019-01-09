@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component, PureComponent } from "react";
+import React, { Component } from "react";
 import {
 	FlatList,
 	Image,
@@ -27,7 +27,7 @@ import styles from "./styles";
 //   Constants.Window.headerHeight - HEADER_MIN_HEIGHT;
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-class ProductList extends PureComponent {
+class ProductList extends Component {
 	state = {
 		scrollY: new Animated.Value(0),
 	};
@@ -60,7 +60,7 @@ class ProductList extends PureComponent {
 			this.props.config.name &&
 			this.props.config.name === "allProducts"
 		) {
-			this.props.fetchAllProducts();
+			this.props.fetchAllProducts(20, this.page);
 		}
 
 		if (
@@ -84,19 +84,22 @@ class ProductList extends PureComponent {
 	fetchData = (reload = false) => {
 		if (this.props.vendorID)
 			return;
-		const { config,
-			index,
-			fetchProductsByCollections,
-		} = this.props;
+
+		const { config, index, fetchAllProducts, fetchProductsByCollections } = this.props;
 
 		if (reload) {
 			this.page = 1;
+		}
+
+		if(config.name === "allProducts") {
+			fetchAllProducts(20, this.page);
 		}
 
 		fetchProductsByCollections(config.category, config.tag, this.page, index, config.name);
 	};
 
 	handleLoadMore = () => {
+		console.log(this.props.finish);
 		if (!this.props.finish) {
 			this.page += 1;
 			this.fetchData();
@@ -143,8 +146,8 @@ class ProductList extends PureComponent {
 		const { list, config, isFetching, navigation } = this.props;
 		const renderFooter = () => isFetching && <Spinkit />;
 		const showModalSorting = 
-			config ? config.name === "allProducts" ? true : false : false
-		console.log(list);
+			config ? config.name === "allProducts" ? true : false : false;
+
 		return (
 			<View style={styles.listView}>
 				{this.props.showToolBar && <WdProductListToolBar showSorting={showModalSorting} />}
@@ -162,12 +165,12 @@ class ProductList extends PureComponent {
 							onRefresh={() => this.fetchData(true)}
 						/>
 					}
-					onEndReachedThreshold={100}
+					onEndReachedThreshold={50}
 					onEndReached={(distance) =>
-						distance.distanceFromEnd > 100 && this.handleLoadMore()
+						{console.log(distance)
+						return distance.distanceFromEnd > 50 && this.handleLoadMore()}
 					}
 					scrollEventThrottle={1}
-					removeClippedSubviews={true}
 				/>
 				{this.props.showSortingModal && <WdModalSorting />}
 			</View>
@@ -185,7 +188,7 @@ const mapStateToProps = ({ layouts, products, vendors }, ownProp) => {
 	} else if (ownProp.config.name === "allProducts") {
 		const list = products.listAll;
 		const isFetching = products.isFetching;
-		const finish = products.finish;
+		const finish = products.productFinish;
 		const layoutProductScreen = products.layoutProductScreen;
 
 		return { list, isFetching, finish, layoutProductScreen }
@@ -211,11 +214,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
 	const { actions: LayoutActions } = require("@redux/LayoutRedux");
 	const { actions: ProductActions } = require("@redux/ProductRedux");
+
 	return {
 		...ownProps,
 		...stateProps,
-		fetchAllProducts: () => {
-			ProductActions.fetchAllProducts(dispatch);
+		fetchAllProducts: (per_page, page) => {
+			ProductActions.fetchAllProducts(dispatch, per_page, page);
 		},
 		fetchProductsByCollections: (category_id, tag_id, page, index, name) => {
 			LayoutActions.fetchProductsLayout(

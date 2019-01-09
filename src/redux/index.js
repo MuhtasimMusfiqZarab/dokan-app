@@ -33,7 +33,8 @@ const config = {
 		"payment",
 		"sideMenu",
 		"filterMenu",
-		"spinner"
+		"spinner",
+		"vendors",
 	],
 };
 

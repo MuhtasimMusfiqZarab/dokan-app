@@ -19,10 +19,11 @@ export default class CategoriesScreen extends PureComponent {
 
 	render() {
 		const { navigate, state } = this.props.navigation
-		console.log(this.props.navigation);
+		
 		return (
 			<Vendors
 				onViewVendorScreen={(item) => navigate('VendorProfileScreen', item)}
+				page={1}
 				showToolBar={true}
 			/>
 		)

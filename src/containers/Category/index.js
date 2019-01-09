@@ -237,7 +237,7 @@ class CategoryScreen extends Component {
 		fetchProductsByCategoryId(selectedCategory.id, this.pageNumber++);
 	}
 
-	onListViewScroll(event: Object) {
+	onListViewScroll(event) {
 		this.state.scrollY.setValue(event.nativeEvent.contentOffset.y);
 	}
 }

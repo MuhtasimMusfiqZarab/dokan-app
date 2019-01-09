@@ -79,6 +79,7 @@ export const actions = {
 	fetchReviewsByProductId: async (dispatch, productId) => {
 		dispatch({ type: types.FETCH_REVIEWS_PENDING });
 		const json = await WooWorker.reviewsByProductId(productId);
+		
 		if (json === undefined) {
 			dispatch({
 				type: types.FETCH_REVIEWS_FAILURE,
@@ -161,6 +162,7 @@ export const actions = {
 			Constants.PostList.order,
 			Constants.PostList.orderby
 		);
+		
 		if (json === undefined) {
 			dispatch({
 				type: types.FETCH_PRODUCTS_FAILURE,
@@ -171,14 +173,14 @@ export const actions = {
 				type: types.FETCH_ALL_PRODUCTS_MORE,
 				items: json,
 				page,
-				finish: true,
+				finish: json.length === 0,
 			});
 		} else {
 			dispatch({
 				type: types.FETCH_ALL_PRODUCTS_SUCCESS,
 				items: json,
 				page,
-				finish: true,
+				finish: json.length === 0,
 			});
 		}
 	},
@@ -312,7 +314,7 @@ export const actions = {
 			});
 		}
 	},
-	fetchNewArrivals: async (dispatch, productID) => {
+	fetchNewArrivals: async (dispatch) => {
 		dispatch({
 			type: types.FETCH_NEW_ARRIVALS_PENDING
 		});
@@ -362,6 +364,7 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
 	const { type, error, items, page, finish } = action;
+
 	switch (type) {
 		case types.FETCH_PRODUCTS_PENDING:
 		case types.FETCH_PRODUCTS_BY_TAGS_PENDING:
