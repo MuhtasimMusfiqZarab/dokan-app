@@ -68,6 +68,7 @@ class HorizonList extends PureComponent {
 			fetchAllVendors,
 			categoriesList
 		} = this.props
+
 		return (
 			<HList
 				horizontal
@@ -102,7 +103,6 @@ class HorizonList extends PureComponent {
 		return (
 			<FlatList
 				data={HorizonLayouts}
-				// keyExtractor={(item, index) => `h_${item.layout}` || `h_${index}`}
 				keyExtractor={(item, index) => `h_${index}`}
 				renderItem={this._renderItem}
 				scrollEventThrottle={1}
@@ -122,8 +122,6 @@ class HorizonList extends PureComponent {
 const makeMapStateToProps = () => {
 	const getCollections = makeGetCollections()
 	const mapStateToProps = (state, props) => {
-		const collections = getCollections(state, props);
-		// console.log(collections)
 		return {
 			collections: getCollections(state, props),
 			// collections: state.layouts.layout,
@@ -134,6 +132,7 @@ const makeMapStateToProps = () => {
 			categoriesList: state.categories.list
 		}
 	}
+
 	return mapStateToProps
 }
 

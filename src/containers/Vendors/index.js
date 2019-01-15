@@ -26,10 +26,15 @@
 	class Vendors extends Component {
 		state = {
 			scrollY: new Animated.Value(0),
+
 		};
 
 		constructor(props) {
 			super(props);
+
+			this.state = {
+				isFooterFetching: false
+			}
 
 			this.page = props.page ? props.page : 0;
 			this.limit = Constants.pagingLimit;
@@ -58,9 +63,15 @@
 		handleLoadMore = () => {
 			console.log(`finish: ${this.props.finish}`);
 			if (!this.props.finish) {
+				this.setState({
+					isFooterFetching: true
+				});
 				this.page += 1;
-				// console.log(`page: ${this.page}`);
 				this.fetchData();
+			} else {
+				this.setState({
+					isFooterFetching: false
+				});
 			}
 		};
 
@@ -97,7 +108,7 @@
 
 		render() {
 			const { list, config, isFetching, navigation } = this.props;
-			const renderFooter = () => isFetching && <Spinkit />;
+			const renderFooter = () => this.state.isFooterFetching ? <Spinkit /> : "";
 
 			return (
 				<View style={styles.listView}>
@@ -116,11 +127,11 @@
 								onRefresh={() => this.fetchData(true)}
 							/>
 						}
-						onEndReachedThreshold={100}
-						onEndReached={
-							(distance) => distance.distanceFromEnd > 100 && this.handleLoadMore()
-						}
-						// onEndReached={this.handleLoadMore}
+						onEndReachedThreshold={0.5}
+						// onEndReached={
+						// 	(distance) => distance.distanceFromEnd > 100 && this.handleLoadMore()
+						// }
+						onEndReached={this.handleLoadMore}
 						scrollEventThrottle={1}
 						onScroll={Animated.event(
 							[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],

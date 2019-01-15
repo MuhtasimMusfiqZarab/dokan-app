@@ -6,9 +6,9 @@ import { View, ActivityIndicator } from "react-native";
 import Color from "@common/Color";
 import styles from "./styles";
 
-const Spinkit = ({ css }) => (
+const Spinkit = ({ css, size }) => (
   <View style={[styles.spinner, typeof css !== "undefined" ? css : null]}>
-    <ActivityIndicator color={Color.spin} />
+    <ActivityIndicator color={Color.spin} size={size ? size : "small"} />
   </View>
 );
 

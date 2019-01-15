@@ -10,11 +10,10 @@ class AccordionReview extends PureComponent {
 		super(props);
 		this.state = {
 			showReviews: true,
-			showNewReviews: false
 		}
 		
-		this.newReviews = [];
 		this.props.fetchReviews(this.props.product.id);
+		this.reviewCount = this.props.reviews.length
 	}
 
 	toggleReviewContentHandler = () => {
@@ -33,21 +32,27 @@ class AccordionReview extends PureComponent {
 		const navigateAction = NavigationActions.navigate({
 			routeName: "ReviewsScreen",
 			params: {
-				reviews: this.props.reviews
+				productID: this.props.product.id
 			},
 		});
 		this.props.navigation.dispatch(navigateAction);
 	};
 
-	onNewReview = () => {
+	onNewReview = (newReview = {}) => {
+		this.newReview = newReview;
+		this.reviewCount = this.reviewCount + 1;
+
+		this.props.reviews.unshift(newReview);
+		
 		this.setState({
-			showNewReviews: !this.state.showNewReviews
-		})
+			showReviews: !this.state.showReviews
+		});
 	}
 
 	render() {
-		const reviewCount = this.props.reviews.length;
+		let reviewCount = this.props.reviews.length;
 		const toggleBtnText = this.state.showReviews ? "Write a Review" : "See Reviews";
+		reviewCount = this.state.showNewReview ? reviewCount + 1 : reviewCount;
 
 		return (
 			<View style={{alignItems: "center"}}>
@@ -68,7 +73,9 @@ class AccordionReview extends PureComponent {
 					/>
 				</View>
 				{
-					this.state.showReviews && reviewCount !== 0 && (
+					this.state.showReviews &&
+					// !this.state.showNewReview &&
+					reviewCount !== 0 && (
 						this.props.reviews.map((item, index) => {
 							if(index < 2) {
 								return (
@@ -110,6 +117,35 @@ class AccordionReview extends PureComponent {
 					!this.state.showReviews &&
 						<Review post={this.props.product} onNewReview={this.onNewReview} />
 				}
+				{/* {
+					this.state.showNewReview && (
+						<View style={{width: "100%", alignItems: "center"}}>
+							<ReviewComment review={this.newReview}/>
+							<ButtonIndex
+								onPress={() => this.seeAllReviews()}
+								type="text"
+								text="See all Reviews"
+								textColor="#79828F"
+								containerColor="#fff"
+								containerStyle={
+									{
+										width: '70%',
+										...Platform.select({
+											ios: {
+												shadowColor: '#000',
+												shadowOpacity: 0.1,
+												shadowOffset: {width: 1, height: 1},
+											},
+											android: {
+												elevation: 3
+											}
+										}),
+									}
+								} 
+							/>
+						</View>
+					)
+				} */}
 			</View>
 		)
 	}

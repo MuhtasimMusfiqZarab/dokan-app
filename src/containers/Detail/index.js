@@ -75,14 +75,23 @@ class Detail extends PureComponent {
 		this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
 		this.inCartTotal = 0;
 		this.isInWishList = false;
-		this.buyNowBtnStyle = [styles.btnBuy]
+		this.buyNowBtnStyle = [styles.btnBuy],
+		this.disableAddCartBtn = false,
+		this.disableBuyNowBtn = false
 
 		// set Buy Now btn color
-		if(
-			!this.props.product.in_stock &&
-			this.props.product.stock_status === "outofstock"
-		) {
-			this.buyNowBtnStyle = [...this.buyNowBtnStyle, styles.outOfStock]
+		if(this.props.product.stock_status) {
+			if(this.props.product.stock_status === "outofstock") {
+				this.buyNowBtnStyle = [...this.buyNowBtnStyle, styles.outOfStock];
+				this.disableAddCartBtn = true;
+				this.disableBuyNowBtn = true;
+			}
+		} else {
+			if(!this.props.product.in_stock) {
+				this.buyNowBtnStyle = [...this.buyNowBtnStyle, styles.outOfStock];
+				this.disableAddCartBtn = true;
+				this.disableBuyNowBtn = true;
+			}
 		}
 	}
 
@@ -418,25 +427,42 @@ class Detail extends PureComponent {
 					iconStyle={{marginRight: 5, color: "#D2DBE0"}}
 					isAddToCart={isAddToCart}
 					textStyle={styles.butnCartText}
-					disabled={!this.props.product.in_stock && this.props.product.stock_status === "outofstock"}
+					// disabled={!this.props.product.in_stock || this.props.product.stock_status === "outofstock"}
+					disabled={this.disableAddCartBtn}
 					style={styles.buttonContainer}
-					onPress={
-						() => this.props.product.in_stock || this.props.product.stock_status == "instock" && this.addToCart()
+					onPress={() => {
+							if(this.props.product.stock_status) {
+								if(this.props.product.stock_status == "instock") {
+									this.addToCart()
+								}
+							} else {
+								if(this.props.product.in_stock) {
+									this.addToCart()
+								}
+							}
+						}
 					}
 				/>
 				<Button
 					text={
 						this.props.product.in_stock ||
-						this.props.product.stock_status !== "outofstock" ?
+						this.props.product.stock_status === "instock" ?
 						Languages.BUYNOW : Languages.OutOfStock
 					}
 					style={this.buyNowBtnStyle}
 					textStyle={styles.btnBuyText}
-					disabled={!this.props.product.in_stock && this.props.product.stock_status === "outofstock"}
+					// disabled={!this.props.product.in_stock || this.props.product.stock_status === "outofstock"}
+					disabled={this.disableBuyNowBtn}
 					onPress={() => {
-						this.props.product.in_stock ||
-						this.props.product.stock_status !== "outofstock" &&
-						this.addToCart(true);
+						if(this.props.product.stock_status) {
+							if(this.props.product.stock_status == "instock") {
+								this.addToCart(true)
+							}
+						} else {
+							if(this.props.product.in_stock) {
+								this.addToCart(true)
+							}
+						}
 					}}
 				/>
 			</View>
@@ -445,7 +471,8 @@ class Detail extends PureComponent {
 
 	//weDevs
 	renderVendorInfo = () => {
-		const storeName = this.props.product.store? this.props.product.store.shop_name : "";
+		const storeName = this.props.product.store?
+			this.props.product.store.shop_name || this.props.product.store.name : "";
 		const storeInitial = storeName ? storeName.charAt(0).toUpperCase() : "";
 
 		if (storeName) {
@@ -535,7 +562,7 @@ class Detail extends PureComponent {
 
 	render() {
 		const { product } = this.props;
-
+// console.log(product);
 		return (
 			<View style={styles.container}>
 				{

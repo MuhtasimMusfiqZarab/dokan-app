@@ -30,6 +30,7 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 class ProductList extends Component {
 	state = {
 		scrollY: new Animated.Value(0),
+		isFooterFetching: false
 	};
 
 	constructor(props) {
@@ -68,16 +69,17 @@ class ProductList extends Component {
 			this.props.config.name &&
 			this.props.config.name === "newArrival"
 		) {
-			this.props.fetchNewArrivals();
+			this.props.fetchNewArrivals(this.page);
 		}
 
 		this.page === 0 && this.fetchData();
 	}
 
-	shouldComponentUpdate(nextProps) {
+	shouldComponentUpdate(nextProps, nextState) {
 		return(
 			nextProps.layoutProductScreen !== this.props.layoutProductScreen ||
-			nextProps.list !== this.props.list
+			nextProps.list !== this.props.list ||
+			nextState.isFooterFetching !== this.state.isFooterFetching
 		)
 	}
 
@@ -92,17 +94,26 @@ class ProductList extends Component {
 		}
 
 		if(config.name === "allProducts") {
-			fetchAllProducts(20, this.page);
+			fetchAllProducts(this.page);
+		} else if(config.name === "newArrival") {
+			this.props.fetchNewArrivals(this.page);
+		} else {
+			fetchProductsByCollections(config.category, config.tag, this.page, index, config.name);
 		}
-
-		fetchProductsByCollections(config.category, config.tag, this.page, index, config.name);
 	};
 
 	handleLoadMore = () => {
 		console.log(this.props.finish);
 		if (!this.props.finish) {
+			this.setState({
+				isFooterFetching: true
+			})
 			this.page += 1;
 			this.fetchData();
+		} else {
+			this.setState({
+				isFooterFetching: false
+			})
 		}
 	};
 
@@ -144,7 +155,7 @@ class ProductList extends Component {
 
 	render() {
 		const { list, config, isFetching, navigation } = this.props;
-		const renderFooter = () => isFetching && <Spinkit />;
+		const renderFooter = () => this.state.isFooterFetching ? <Spinkit /> : "";
 		const showModalSorting = 
 			config ? config.name === "allProducts" ? true : false : false;
 
@@ -165,11 +176,9 @@ class ProductList extends Component {
 							onRefresh={() => this.fetchData(true)}
 						/>
 					}
-					onEndReachedThreshold={50}
-					onEndReached={(distance) =>
-						{console.log(distance)
-						return distance.distanceFromEnd > 50 && this.handleLoadMore()}
-					}
+					onEndReachedThreshold={0.5}
+					// onEndReached={(distance) => distance.distanceFromEnd > 100 && this.handleLoadMore()}
+					onEndReached={this.handleLoadMore}
 					scrollEventThrottle={1}
 				/>
 				{this.props.showSortingModal && <WdModalSorting />}
@@ -195,7 +204,7 @@ const mapStateToProps = ({ layouts, products, vendors }, ownProp) => {
 	} else if (ownProp.config.name === "newArrival") {
 		const list = products.list;
 		const isFetching = products.isFetching;
-		const finish = products.finish;
+		const finish = products.productFinish;
 		const layoutProductScreen = products.layoutProductScreen;
 
 		return { list, isFetching, finish, layoutProductScreen }
@@ -219,7 +228,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		...ownProps,
 		...stateProps,
 		fetchAllProducts: (per_page, page) => {
-			ProductActions.fetchAllProducts(dispatch, per_page, page);
+			ProductActions.fetchAllProducts(dispatch, page);
 		},
 		fetchProductsByCollections: (category_id, tag_id, page, index, name) => {
 			LayoutActions.fetchProductsLayout(
@@ -231,8 +240,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 				name
 			);
 		},
-		fetchNewArrivals: () => {
-			ProductActions.fetchNewArrivals(dispatch);
+		fetchNewArrivals: (page, per_page) => {
+			ProductActions.fetchNewArrivals(dispatch, page);
 		}
 	};
 };

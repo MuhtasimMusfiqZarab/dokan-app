@@ -4,52 +4,43 @@ import { Config } from "@common";
 import { error, warn, log } from "@app/Omni";
 
 const DokanWorker = {
-	getFeaturedProducts: async (page=1, per_page=5) => {
-		// console.log("dokan worker -> featured products");
+	getFeaturedProducts: async (page=1, per_page=10) => {
 		return await fetch(
 			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/featured?page=${page}&per_page=${per_page}`
 			)
 			.then((response) => response.json())
 			.then((json) => {
-				if (json.length != 0) {
-					return json;
-				}
+				return json;
 			})
 			.catch((error) => warn(error));
 	},
-	getTopRatedProducts: async (page=1, per_page=5) => {
+	getTopRatedProducts: async (page=1, per_page=10) => {
 		return await fetch(
 			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/top_rated?page=${page}&per_page=${per_page}`
 			)
 			.then((response) => response.json())
 			.then((json) => {
-				if (json.length != 0) {
-					return json;
-				}
+				return json;
 			})
 			.catch((error) => warn(error));
 	},
-	getBestSellingProducts: async (page=1, per_page=5) => {
+	getBestSellingProducts: async (page=1, per_page=10) => {
 		return await fetch(
 			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/best_selling?page=${page}&per_page=${per_page}`
 			)
 			.then((response) => response.json())
 			.then((json) => {
-				if (json.length != 0) {
-					return json;
-				}
+				return json;
 			})
 			.catch((error) => warn(error));
 	},
-	getLatestProducts: async (page=1, per_page=5) => {
+	getLatestProducts: async (page=1, per_page=10) => {
 		return await fetch(
 			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/latest?page=${page}&per_page=${per_page}`
 			)
 			.then((response) => response.json())
 			.then((json) => {
-				if (json.length != 0) {
-					return json;
-				}
+				return json;
 			})
 			.catch((error) => warn(error));
 	},
@@ -71,7 +62,6 @@ const DokanWorker = {
 		return await fetch (url)
 			.then((response) => response.json())
 			.then((json) => {
-				console.log(json);
 				return json;
 			})
 			.catch((error) => warn(error));

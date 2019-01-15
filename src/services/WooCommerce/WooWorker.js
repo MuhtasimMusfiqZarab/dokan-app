@@ -88,6 +88,28 @@ export default class WooWorker {
 		}
 	};
 	static reviewsByProductId = async (id) => {
+		// if (this._api.version === "wc/v3") {
+		// 	let params = {
+		// 		product_id: id
+		// 	}
+		// 	try {
+		// 		const response = await this._api.get(`products/reviews`, params);
+		// 		console.log(response.json());
+		// 		return response.json();
+		// 	} catch (err) {
+		// 		console.log(err);
+		// 	}
+		// } else {
+		// 	try {
+		// 		const response = await this._api.get(`products/${id}/reviews`);
+		// 		return response.json();
+		// 	} catch (err) {
+		// 		console.log(err);
+		// 	}
+		// }
+		if (this._api.version === "wc/v3") {
+			this._api.version = "wc/v2";
+		}
 		try {
 			const response = await this._api.get(`products/${id}/reviews`);
 			return response.json();
@@ -96,11 +118,29 @@ export default class WooWorker {
 		}
 	};
 	static createProductReview = async (params) => {
-		try {
-			const response = await this._api.post(`products/reviews`, params);
-			return response.json();
-		} catch (err) {
-			console.log(err);
+		if (this._api.version === "wc/v3") {
+			try {
+				const response = await this._api.post(`products/reviews`, params);
+				return response.json();
+			} catch (err) {
+				console.log(err);
+			}
+		} else {
+			let product_id = params.product_id;
+			const v2Params = {
+				review: params.review,
+				name: params.reviewer,
+				email: params.reviewer_email,
+				rating: params.rating,
+			}
+
+			try {
+				const response =
+					await this._api.post(`products/${product_id}/reviews`, v2Params);
+				return response.json();
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	};
 	static createOrder = async (data) => {

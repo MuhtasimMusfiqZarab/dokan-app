@@ -11,6 +11,7 @@ import {
 	Text,
 	Image
 } from "react-native";
+import HTML from 'react-native-render-html';
 import moment from "moment";
 import { Color, Images } from "@common";
 import { Rating, Button } from "@components";
@@ -21,7 +22,7 @@ const dateFormat = (date) => {
 }
 
 const ReviewComment = (props) => {
-
+console.log(props);
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -34,7 +35,7 @@ const ReviewComment = (props) => {
 				</View>
 				<View style={styles.headerText}>
 					<Text style={{fontWeight: "bold", color: "#000"}}>
-						{props.review.name}
+						{props.review.name || props.review.reviewer}
 					</Text>
 					{/* <Text style={{color: Color.textBlue}}>
 						{props.item.title}
@@ -43,20 +44,33 @@ const ReviewComment = (props) => {
 				</View>
 			</View>
 			<View style={styles.content}>
-				<TextInput
-					multiline={true}
-					editable={false}
-					underlineColorAndroid="transparent"
-					style={
-						{ color: Color.reviewTextColor}
-					}>
-					{props.review.review}
-				</TextInput>
+				{
+					props.review.name && (
+						<TextInput
+							multiline={true}
+							editable={false}
+							underlineColorAndroid="transparent"
+							style={
+								{ color: Color.reviewTextColor}
+							}>
+							{props.review.review}
+						</TextInput>
+					)
+				}
+				{
+					props.review.reviewer && (
+						<HTML
+							html={props.review.review}
+							tagsStyles={{ 
+								p: { color: Color.reviewTextColor}
+							}}
+						/>
+					)
+				}
 			</View>
 			<View style={styles.footer}>
 				<Text style={{color: Color.reviewTextColor}}>
 					{dateFormat(props.review.date_created)}
-					
 				</Text>
 			</View>
   	</View>

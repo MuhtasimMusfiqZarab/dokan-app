@@ -31,7 +31,7 @@ class Router extends React.PureComponent {
 			consumerKey: Config.WooCommerce.consumerKey,
 			consumerSecret: Config.WooCommerce.consumerSecret,
 			wp_api: true,
-			version: "wc/v3",
+			version: "wc/v2",
 			queryStringAuth: true,
 			language: this.props.language.lang,
 		});
@@ -51,7 +51,22 @@ class Router extends React.PureComponent {
 		// }
 		return (
 			Device.isIphoneX ?
-			<SafeAreaView style={{flex: 1}}>
+				<SafeAreaView style={{flex: 1}}>
+					<MenuSide
+						goToScreen={this.goToScreen}
+						routes={
+							<View style={Styles.app}>
+								<StatusBar
+									hidden={Device.isIphoneX ? false : !Config.showStatusBar}
+								/>
+								<Navigation ref={(comp) => (this.navigator = comp)} />
+								<MyToast />
+								<ModalReview />
+								<MyNetInfo />
+							</View>
+						}
+					/>
+				</SafeAreaView> :
 				<MenuSide
 					goToScreen={this.goToScreen}
 					routes={
@@ -66,21 +81,6 @@ class Router extends React.PureComponent {
 						</View>
 					}
 				/>
-			</SafeAreaView> :
-			<MenuSide
-				goToScreen={this.goToScreen}
-				routes={
-					<View style={Styles.app}>
-						<StatusBar
-							hidden={Device.isIphoneX ? false : !Config.showStatusBar}
-						/>
-						<Navigation ref={(comp) => (this.navigator = comp)} />
-						<MyToast />
-						<ModalReview />
-						<MyNetInfo />
-					</View>
-				}
-			/>
 		);
 	}
 }

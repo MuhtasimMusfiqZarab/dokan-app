@@ -31,16 +31,16 @@ export default class WdNewArrival extends PureComponent {
 	render() {
 		return (
 			<LinearGradient
-			colors={['#907CFF', '#6EACFF']}
-			start={ {x: 0.0, y: 0.5} }
-			end={ {x: 1.0, y: 0.5}}
-			locations={[0.0, 1.0]}
-			style={styles.gradientArea} >
+				colors={['#907CFF', '#6EACFF']}
+				start={ {x: 0.0, y: 0.5} }
+				end={ {x: 1.0, y: 0.5}}
+				locations={[0.0, 1.0]}
+				style={styles.gradientArea}>
 				<TouchableOpacity onPress={() => this.onPressNewArrival()}>
 					<Text style={ styles.text}> New Arrivals </Text>
 				</TouchableOpacity>
 				<Image source={Images.NewArrival} style={styles.newArrivalImg} />
-		</LinearGradient>
+			</LinearGradient>
 		)
 	}
 }

@@ -14,7 +14,7 @@ export default StyleSheet.create({
 		backgroundColor: "#FFF",
 		// flex: 1,
 		width: "100%",
-		height: 400
+		height: 400,
 	},
 	fullWidth: {
 		width: width - 20,

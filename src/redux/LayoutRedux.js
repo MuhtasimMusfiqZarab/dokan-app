@@ -40,9 +40,113 @@ export const actions = {
 		});
 	},
 	fetchProductsLayout: (dispatch, categoryId = "", tagId = "", page, index, name) => {
-		// debugger;
-		return (dispatch) => {
-			// dispatch({ type: types.LAYOUT_FETCHING, extra: { index } });
+		if (page === 1) {
+			return (dispatch) => {
+				dispatch({ type: types.LAYOUT_FETCHING, extra: { index } });
+				switch (name) {
+					case "newArrival": {
+						return (
+							DokanWorker.getLatestProducts(page)
+								.then( (json) => {
+									if (json === undefined) {
+										dispatch(actions.fetchProductsFailure(Languages.getDataError));
+									} else if (json.code) {
+										dispatch(actions.fetchProductsFailure(json.message));
+									} else {
+										dispatch({
+											type:
+												page > 1 ? types.LAYOUT_FETCH_MORE : types.LAYOUT_FETCH_SUCCESS,
+											payload: json,
+											extra: { index },
+											finish: json.length === 0,
+										});
+									}
+								})
+						)
+					}
+					case "featuredProducts": {
+						return (
+							DokanWorker.getFeaturedProducts(page)
+								.then( (json) => {
+									if (json === undefined) {
+										dispatch(actions.fetchProductsFailure(Languages.getDataError));
+									} else if (json.code) {
+										dispatch(actions.fetchProductsFailure(json.message));
+									} else {
+										dispatch({
+											type:
+												page > 1 ? types.LAYOUT_FETCH_MORE : types.LAYOUT_FETCH_SUCCESS,
+											payload: json,
+											extra: { index },
+											finish: json.length === 0,
+										});
+									}
+								})
+						)
+					}
+					case "bestSellingProducts": {
+						return (
+							DokanWorker.getBestSellingProducts(page)
+								.then( (json) => {
+									if (json === undefined) {
+										dispatch(actions.fetchProductsFailure(Languages.getDataError));
+									} else if (json.code) {
+										dispatch(actions.fetchProductsFailure(json.message));
+									} else {
+										dispatch({
+											type:
+												page > 1 ? types.LAYOUT_FETCH_MORE : types.LAYOUT_FETCH_SUCCESS,
+											payload: json,
+											extra: { index },
+											finish: json.length === 0,
+										});
+									}
+								})
+						)
+					}
+					case "topRatedProducts": {
+						return (
+							DokanWorker.getTopRatedProducts(page)
+								.then( (json) => {
+									if (json === undefined) {
+										dispatch(actions.fetchProductsFailure(Languages.getDataError));
+									} else if (json.code) {
+										dispatch(actions.fetchProductsFailure(json.message));
+									} else {
+										dispatch({
+											type:
+												page > 1 ? types.LAYOUT_FETCH_MORE : types.LAYOUT_FETCH_SUCCESS,
+											payload: json,
+											extra: { index },
+											finish: json.length === 0,
+										});
+									}
+								})
+						)
+					}
+					default: {
+						return WooWorker.productsByCategoryTag(categoryId, tagId, 10, page).then(
+							(json) => {
+								if (json === undefined) {
+									dispatch(actions.fetchProductsFailure(Languages.getDataError));
+								} else if (json.code) {
+									dispatch(actions.fetchProductsFailure(json.message));
+								} else {
+									dispatch({
+										type:
+											page > 1 ? types.LAYOUT_FETCH_MORE : types.LAYOUT_FETCH_SUCCESS,
+										payload: json,
+										extra: { index },
+										finish: json.length === 0,
+									});
+								}
+							}
+						);
+					}
+				}
+			};
+		} else {
+			dispatch({ type: types.LAYOUT_FETCHING, extra: { index } });
 			switch (name) {
 				case "newArrival": {
 					return (
@@ -144,31 +248,9 @@ export const actions = {
 					);
 				}
 			}
-		};
+		}
+		
 	},
-	// fetchProductsLayout: (dispatch, categoryId = "", tagId = "", page, index) => {
-  //   return (dispatch) => {
-  //     dispatch({ type: types.LAYOUT_FETCHING, extra: { index } });
-
-  //     return WooWorker.productsByCategoryTag(categoryId, tagId, 10, page).then(
-  //       (json) => {
-  //         if (json === undefined) {
-  //           dispatch(actions.fetchProductsFailure(Languages.getDataError));
-  //         } else if (json.code) {
-  //           dispatch(actions.fetchProductsFailure(json.message));
-  //         } else {
-  //           dispatch({
-  //             type:
-  //               page > 1 ? types.LAYOUT_FETCH_MORE : types.LAYOUT_FETCH_SUCCESS,
-  //             payload: json,
-  //             extra: { index },
-  //             finish: json.length === 0,
-  //           });
-  //         }
-  //       }
-  //     );
-  //   };
-  // },
 	fetchProductsLayoutTagId: async (
 		dispatch,
 		categoryId = "",
@@ -247,6 +329,7 @@ export const reducer = (state = initialState, action) => {
 		}
 
 		case types.LAYOUT_FETCH_MORE: {
+			console.log("more")
 			const layout = [];
 			state.layout.map((item, index) => {
 				if (index === extra.index) {
@@ -267,7 +350,7 @@ export const reducer = (state = initialState, action) => {
 		}
 
 		case types.LAYOUT_FETCHING: {
-			console.log("layout fecthing");
+			console.log("layout fetching");
 			const layout = [];
 			state.layout.map((item, index) => {
 				if (index === extra.index) {

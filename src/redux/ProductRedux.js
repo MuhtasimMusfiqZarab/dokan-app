@@ -46,6 +46,7 @@ const types = {
 	FETCH_RELATED_PRODUCTS_SUCCESS: "FETCH_RELATED_PRODUCTS_SUCCESS",
 	FETCH_NEW_ARRIVALS_PENDING: "FETCH_NEW_ARRIVALS_PENDING",
 	FETCH_NEW_ARRIVALS_FAIL: "FETCH_NEW_ARRIVALS_FAIL",
+	FETCH_NEW_ARRIVALS_MORE: "FETCH_NEW_ARRIVALS_MORE",
 	FETCH_NEW_ARRIVALS_SUCCESS: "FETCH_NEW_ARRIVALS_SUCCESS",
 
 };
@@ -314,12 +315,12 @@ export const actions = {
 			});
 		}
 	},
-	fetchNewArrivals: async (dispatch) => {
+	fetchNewArrivals: async (dispatch, page) => {
 		dispatch({
 			type: types.FETCH_NEW_ARRIVALS_PENDING
 		});
 
-		const json = await DokanWorker.getLatestProducts();
+		const json = await DokanWorker.getLatestProducts(page);
 
 		if (json === undefined) {
 			dispatch({
@@ -331,10 +332,18 @@ export const actions = {
 				type: types.FETCH_NEW_ARRIVALS_FAIL,
 				message: json.message,
 			});
+		} else if (page > 1) {
+			dispatch({
+				type: types.FETCH_NEW_ARRIVALS_MORE,
+				items: json,
+				page,
+				finish: json.length === 0,
+			});
 		} else {
 			dispatch({
 				type: types.FETCH_NEW_ARRIVALS_SUCCESS,
-				items: json
+				items: json,
+				finish: json.length === 0
 			});
 		}
 	},
@@ -545,11 +554,21 @@ export const reducer = (state = initialState, action) => {
 				relatedProducts: items,
 			});
 		}
+		case types.FETCH_NEW_ARRIVALS_MORE: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				list: state.list.concat(items),
+				page,
+				productFinish: finish
+			});
+		}
 		case types.FETCH_NEW_ARRIVALS_SUCCESS: {
 			return Object.assign({}, state, {
 				isFetching: false,
 				error: null,
 				list: items,
+				productFinish: finish
 			});
 		}
 

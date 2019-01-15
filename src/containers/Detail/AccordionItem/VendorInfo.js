@@ -30,7 +30,7 @@ export default class AccordionVendorInfo extends PureComponent {
 		return (
 			<View>
 				<View style={{marginBottom: 20}}>
-					<Text style={{color: "#000", fontSize: 18}}>{store.shop_name}</Text>
+					<Text style={{color: "#000", fontSize: 18}}>{store.shop_name || store.name}</Text>
 					<Rating rating={4.5} size={15} />
 				</View>
 

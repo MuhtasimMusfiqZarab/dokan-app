@@ -136,7 +136,6 @@ class HorizonList extends PureComponent {
 			collection,
 			config,
 			index,
-			fetchProductsByCollections,
 			featuredVendorList,
 			onShowAll,
 			setSelectedCategory,
