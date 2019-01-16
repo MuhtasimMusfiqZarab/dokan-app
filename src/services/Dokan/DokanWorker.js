@@ -85,6 +85,16 @@ const DokanWorker = {
 				}
 			})
 			.catch((error) => warn(error));
+	},
+	getSingleVendor: async(vendorID) => {
+		return await fetch(`${Config.WooCommerce.url}/wp-json/dokan/v1/stores/${vendorID}/`)
+			.then((response) => response.json())
+			.then((json) => {
+				if (json.length != 0) {
+					return json;
+				}
+			})
+			.catch((error) => warn(error));
 	}
 };
 
