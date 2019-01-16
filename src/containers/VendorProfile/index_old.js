@@ -44,9 +44,13 @@ class VendorProfile extends Component {
 
 	render() {
 		const { vendor, navigation } = this.props;
-console.log(vendor);
+
 		return (
-			<View style={styles.container}>
+			<View
+				onStartShouldSetResponderCapture={() => {
+					this.setState({ enableScrollViewScroll: true });
+				}}
+				style={styles.container}>
 				{/* <View
 					style={{
 						width: "100%",
@@ -63,8 +67,16 @@ console.log(vendor);
 					<Text style={{color: "white"}}>Transparent Header</Text>
 				</View> */}
 
-				<ScrollView stickyHeaderIndices={[1]}>
+				<ScrollView
+					ref="scrollView"
+					scrollEnabled={this.state.enableScrollViewScroll}
+					ref={myScroll => (this._myScroll = myScroll)}
+					stickyHeaderIndices={[1]}
+					onMomentumScrollEnd={(event) => this.parentScrollHandler(event)}
+					onScroll={() => console.log("Parent Scroll")} >
+
 					<VendorProfileHeader vendor={vendor} />
+
 					<View style={styles.tabView}>
 						<View
 							style={[
@@ -101,7 +113,15 @@ console.log(vendor);
 							</View>
 						</View>
 						{this.state.tabIndex === 0 && (
-							<View style={styles.tabContent}>
+							<View
+								onStartShouldSetResponderCapture={() => {
+									this.setState({ enableScrollViewScroll: false });
+									if (this._myScroll.contentOffset === 0
+										&& this.state.enableScrollViewScroll === false) {
+										this.setState({ enableScrollViewScroll: true });
+									}
+								}}
+								style={styles.tabContent}>
 								<ProductList
 									page={1}
 									navigation={navigation}
