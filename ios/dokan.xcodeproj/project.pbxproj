@@ -44,6 +44,7 @@
 		3435D7C821DFDC6F00B27269 /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3435D7C521DFDC4C00B27269 /* libRNShare.a */; };
 		3435D7CA21DFDCD600B27269 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3435D7C921DFDCD600B27269 /* Social.framework */; };
 		3435D7CC21DFDCEB00B27269 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3435D7CB21DFDCEA00B27269 /* MessageUI.framework */; };
+		345EABF821EF2B62003CCBCE /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C9E8132199480500A36162 /* libAirMaps.a */; };
 		3492E6FC2192FF010074BBA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3492E6CD2192FF010074BBA4 /* Images.xcassets */; };
 		55A5A5E3C754415EB080B12F /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13DD8E6339E249BBA1FA3D08 /* MaterialIcons.ttf */; };
 		5B52A20147384E4E9B16AFF5 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 287BB49048D540C6A265086A /* Lato-Medium.ttf */; };
@@ -506,6 +507,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				345EABF821EF2B62003CCBCE /* libAirMaps.a in Frameworks */,
 				3435D7CC21DFDCEB00B27269 /* MessageUI.framework in Frameworks */,
 				3435D7CA21DFDCD600B27269 /* Social.framework in Frameworks */,
 				3435D7C821DFDC6F00B27269 /* libRNShare.a in Frameworks */,
