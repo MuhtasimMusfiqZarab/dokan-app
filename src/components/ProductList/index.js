@@ -134,9 +134,11 @@ class ProductList extends Component {
 				type={this.props.type}
 				key={`key-${index}`}
 				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
+				onViewVendor={this.props.onViewVendorScreen}
 				layout={
 					this.props.vendorID ? 3 : this.props.layoutProductScreen
 				}
+				isVendorProduct={this.props.vendorID ? true : false}
 			/>
 		);
 	};
@@ -158,7 +160,7 @@ class ProductList extends Component {
 		const renderFooter = () => this.state.isFooterFetching ? <Spinkit /> : "";
 		const showModalSorting = 
 			config ? config.name === "allProducts" ? true : false : false;
-
+console.log(this.props);
 		return (
 			<View style={styles.listView}>
 				{this.props.showToolBar && <WdProductListToolBar showSorting={showModalSorting} />}
@@ -240,9 +242,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 				name
 			);
 		},
-		fetchNewArrivals: (page, per_page) => {
+		fetchNewArrivals: (page) => {
 			ProductActions.fetchNewArrivals(dispatch, page);
-		}
+		},
 	};
 };
 

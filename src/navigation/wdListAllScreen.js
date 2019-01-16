@@ -49,6 +49,7 @@ export default class ListAllScreen extends Component {
 							navigation={this.props.navigation}
 							index={params.index}
 							onViewProductScreen={(item) => navigate("DetailScreen", item)}
+							onViewVendorScreen={(item) => navigate("VendorProfileScreen", item)}
 							showToolBar={true}
 						/>
 					}

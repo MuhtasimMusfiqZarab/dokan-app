@@ -6,6 +6,7 @@ import { Text, View, TouchableOpacity, I18nManager } from "react-native";
 import { WishListIcon, ImageCache, ProductPrice, Rating } from "@components";
 import { Color } from "@common";
 import css from "./style";
+import DokanWorker from "@services/Dokan/DokanWorker";
 
 export default class SimpleLayout extends PureComponent {
 	static propTypes = {
@@ -20,6 +21,11 @@ export default class SimpleLayout extends PureComponent {
 		viewCategory: PropTypes.func,
 	};
 
+	viewVendorFromProductList = async (vendorID) => {
+		const vendor = await DokanWorker.getSingleVendor(vendorID)
+		this.props.onViewVendor(vendor)
+	}
+
 	render() {
 		const {
 			imageURL,
@@ -31,8 +37,8 @@ export default class SimpleLayout extends PureComponent {
 			viewPost,
 			category,
 			viewCategory,
+			isVendorProduct
 		} = this.props;
-
 		const price = {
 			alignItems: "flex-start",
 			marginLeft: 5,
@@ -66,11 +72,13 @@ export default class SimpleLayout extends PureComponent {
 				<View style={css.simpleContent}>
 					<Text style={css.simpleTitle}>{title}</Text>
 					
-					{typeof type === "undefined" &&
+					{typeof type === "undefined" && !isVendorProduct &&
 						<View style={css.simpleVendorNameView}>
 							<Text style={{color: Color.textGray, fontSize: 12}}>by</Text>
-							<TouchableOpacity>
-								<Text style={{color: Color.textBlue, fontSize: 12, marginLeft: 5}}>Vendor Name</Text>
+							<TouchableOpacity onPress={() => this.viewVendorFromProductList(post.store.id)}>
+								<Text style={{color: Color.textBlue, fontSize: 12, marginLeft: 5}}>
+									{post.store.name}
+								</Text>
 							</TouchableOpacity>
 						</View>
 					}
