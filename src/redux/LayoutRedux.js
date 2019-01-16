@@ -329,7 +329,6 @@ export const reducer = (state = initialState, action) => {
 		}
 
 		case types.LAYOUT_FETCH_MORE: {
-			console.log("more")
 			const layout = [];
 			state.layout.map((item, index) => {
 				if (index === extra.index) {
@@ -350,7 +349,6 @@ export const reducer = (state = initialState, action) => {
 		}
 
 		case types.LAYOUT_FETCHING: {
-			console.log("layout fetching");
 			const layout = [];
 			state.layout.map((item, index) => {
 				if (index === extra.index) {

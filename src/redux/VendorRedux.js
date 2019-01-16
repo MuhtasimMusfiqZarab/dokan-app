@@ -114,7 +114,6 @@ export const reducer = (state = initialState, action) => {
 			};
 		}
 		case types.FETCH_VENDORS_MORE: {
-			// console.log(`item length more: ${items.length}`)
 			return {
 				...state,
 				isFetching: false,
@@ -124,7 +123,6 @@ export const reducer = (state = initialState, action) => {
 			};
 		}
 		case types.FETCH_VENDORS_SUCCESS: {
-			// console.log(`item length scuccess: ${items.length}`)
 			return {
 				...state,
 				isFetching: false,

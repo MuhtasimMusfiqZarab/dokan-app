@@ -162,7 +162,7 @@ WooCommerceAPI.prototype._request = async function(method, endpoint, newData) {
 		};
 		params.body = JSON.stringify(data);
 	}
-	console.log(params);
+	// console.log(params);
 	return await fetch(params.url, params);
 };
 

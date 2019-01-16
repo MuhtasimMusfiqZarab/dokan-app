@@ -49,8 +49,7 @@ class HorizonList extends PureComponent {
 	}
 
 	_fetchVendorProducts = (vendorID) => {
-		const { fetchVendorProducts } = this.props;
-		fetchVendorProducts(vendorID);
+		this.props.fetchVendorProducts(vendorID);
 	}
 
 	_renderItem = ({ item, index }) => {
