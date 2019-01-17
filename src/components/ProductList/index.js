@@ -39,6 +39,7 @@ class ProductList extends Component {
 		this.page = props.page ? props.page : 0;
 		this.limit = Constants.pagingLimit;
 		this.isProductList = props.type === undefined;
+		this.key=1;
 
 		if(!this.props.vendorID) {
 			if (this.props.config.name === "featuredProducts") {
@@ -73,6 +74,11 @@ class ProductList extends Component {
 		}
 
 		this.page === 0 && this.fetchData();
+	}
+
+	componentWillReceiveProps(nexprops) {
+		nexprops.layoutProductScreen !== this.props.layoutProductScreen ?
+			this.key = this.key + 1 : 1;
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -156,7 +162,7 @@ class ProductList extends Component {
 	};
 
 	render() {
-		const { list, config, isFetching, navigation } = this.props;
+		const { list, config, isFetching, layoutProductScreen, navigation } = this.props;
 		const renderFooter = () => this.state.isFooterFetching ? <Spinkit /> : "";
 		const showModalSorting = 
 			config ? config.name === "allProducts" ? true : false : false;
@@ -165,7 +171,9 @@ console.log(this.props);
 			<View style={styles.listView}>
 				{this.props.showToolBar && <WdProductListToolBar showSorting={showModalSorting} />}
 				<AnimatedFlatList
+					key={this.key}
 					contentContainerStyle={styles.flatlist}
+					numColumns={layoutProductScreen == 2 ? 2 : 1}
 					data={list}
 					keyExtractor={(item, index) => `${item.id} || ${index}`}
 					renderItem={this.renderItem}
@@ -179,7 +187,6 @@ console.log(this.props);
 						/>
 					}
 					onEndReachedThreshold={0.5}
-					// onEndReached={(distance) => distance.distanceFromEnd > 100 && this.handleLoadMore()}
 					onEndReached={this.handleLoadMore}
 					scrollEventThrottle={1}
 				/>

@@ -7,8 +7,9 @@ const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
 	flatlist: {
-		flexWrap: "wrap",
-		flexDirection: "row",
+		// flexWrap: "wrap",
+		// flexDirection: "row",
+		flexDirection: "column",
 		paddingBottom: 40,
 		// paddingTop: Platform.OS === "ios" ? 50 : 50
 		paddingTop: 25,
