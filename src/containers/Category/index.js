@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		flexWrap: "wrap",
 		alignItems: "flex-start",
-		paddingBottom: Styles.navBarHeight + 10,
+		// paddingBottom: Styles.navBarHeight + 10,
+		paddingBottom: 50
 	},
 	container: {
 		flexGrow: 1,
@@ -117,7 +118,7 @@ class CategoryScreen extends Component {
 		});
 		return (
 			<View style={styles.container}>
-				<Animated.View style={{ marginTop: marginControlBar }}>
+				<Animated.View>
 					<ControlBar
 						openCategoryPicker={this.openCategoryPicker}
 						isVisible={displayControlBar}

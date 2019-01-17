@@ -8,7 +8,8 @@ import {
   Dimensions,
   I18nManager,
   StyleSheet,
-  Animated,
+	Animated,
+	Platform
 } from "react-native";
 import {
   createStackNavigator,
@@ -123,7 +124,7 @@ const HomeStack = createStackNavigator(
 	{
 		navigationOptions: {
 			gestureResponseDistance: { horizontal: width / 2 },
-			gesturesEnabled: true,
+			gesturesEnabled: false,
 			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
 		},
 	}
@@ -248,7 +249,17 @@ HomeStack.navigationOptions = ({ navigation }) => {
 	let { routeName } = navigation.state.routes[navigation.state.index];
 	let navigationOptions = {};
 
-	if(routeName === "DetailScreen") {
+	if(routeName === "DetailScreen" || routeName === "CategoryScreen") {
+		navigationOptions.tabBarVisible = false;
+	}
+
+	return navigationOptions;
+}
+CategoryStack.navigationOptions = ({ navigation }) => {
+	let { routeName } = navigation.state.routes[navigation.state.index];
+	let navigationOptions = {};
+
+	if(routeName === "DetailScreen" || routeName === "CategoryScreen") {
 		navigationOptions.tabBarVisible = false;
 	}
 
