@@ -62,7 +62,7 @@ console.log(vendor);
 					<Text style={{color: "white"}}>Transparent Header</Text>
 				</View> */}
 
-				<ScrollView stickyHeaderIndices={[1]}>
+				<ScrollView>
 					<VendorProfileHeader vendor={vendor} />
 					<View style={styles.tabView}>
 						<View
