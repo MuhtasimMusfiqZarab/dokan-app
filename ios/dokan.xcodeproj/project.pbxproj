@@ -24,7 +24,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -46,6 +45,7 @@
 		3435D7CC21DFDCEB00B27269 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3435D7CB21DFDCEA00B27269 /* MessageUI.framework */; };
 		345EABF821EF2B62003CCBCE /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C9E8132199480500A36162 /* libAirMaps.a */; };
 		3492E6FC2192FF010074BBA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3492E6CD2192FF010074BBA4 /* Images.xcassets */; };
+		34C500D921F1CCF200C85B80 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34C500D821F1CCF200C85B80 /* LaunchScreen.xib */; };
 		55A5A5E3C754415EB080B12F /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13DD8E6339E249BBA1FA3D08 /* MaterialIcons.ttf */; };
 		5B52A20147384E4E9B16AFF5 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 287BB49048D540C6A265086A /* Lato-Medium.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -443,7 +443,6 @@
 		13B07F961A680F5B00A75B9A /* Dokan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dokan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Dokan/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Dokan/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Dokan/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Dokan/main.m; sourceTree = "<group>"; };
 		13DD8E6339E249BBA1FA3D08 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -456,6 +455,7 @@
 		3435D7C921DFDCD600B27269 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3435D7CB21DFDCEA00B27269 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		3492E6CD2192FF010074BBA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = dokan/Images.xcassets; sourceTree = "<group>"; };
+		34C500D821F1CCF200C85B80 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		34C9E80E2199480500A36162 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		34EFDC0421EEEDD20030BC83 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
 		4053A10B79FA9438C4093465 /* Pods_Dokan.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dokan.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -648,7 +648,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				BAC4DA961FFA2AD500B16A82 /* main.jsbundle */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				34C500D821F1CCF200C85B80 /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = Dokan;
@@ -1491,11 +1491,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				04BE587302114210B570F49D /* Entypo.ttf in Resources */,
 				0E0848BEB0054479A3DAEC0A /* EvilIcons.ttf in Resources */,
 				0635DA738487405AB5CD371A /* FontAwesome.ttf in Resources */,
 				E0F9914EEFE94F7DA6557B0A /* Foundation.ttf in Resources */,
+				34C500D921F1CCF200C85B80 /* LaunchScreen.xib in Resources */,
 				03BACA7DE5EC4CC7A4492F7C /* Ionicons.ttf in Resources */,
 				C9EEFAA340EB4243997382D1 /* MaterialCommunityIcons.ttf in Resources */,
 				55A5A5E3C754415EB080B12F /* MaterialIcons.ttf in Resources */,
@@ -1655,18 +1655,6 @@
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = Dokan;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
