@@ -13,8 +13,7 @@ import {
 	Review
 } from "@components";
 import { Constants } from "@common";
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-
+import VendorContact from "./VendorContact";
 import styles from "./styles";
 
 class VendorProfile extends Component {
@@ -108,7 +107,6 @@ console.log(vendor);
 									onViewProductScreen={
 										(item) => this.props.navigation.navigate("DetailScreen", item)
 									}
-									vendorProducts={true}
 									vendorID={vendor.id}
 								/>
 							</View>
@@ -119,26 +117,10 @@ console.log(vendor);
 							</View>
 						)}
 						{this.state.tabIndex === 2 && (
-							<View style={styles.tabContentMap}>
-								<MapView
-									//provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-									style={{width: 330, height: 200}}
-									initialRegion={{
-										latitude: 23.8103,
-										longitude: 90.4125,
-										latitudeDelta: 0.015,
-										longitudeDelta: 0.0121,
-									}}
-								>
-									<Marker
-										coordinate={{
-											latitude: 23.8103,
-											longitude: 90.4125,
-										}}
-										title="Store Location"
-									/>
-								</MapView>
-							</View>
+							<VendorContact
+								location={vendor.location}
+								storeName={vendor.store_name}
+							/>
 						)}
 					</View>
 
