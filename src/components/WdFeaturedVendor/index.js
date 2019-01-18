@@ -33,7 +33,7 @@ const WdFeaturedVendor = (props) => {
 									style={{width: 60, height: 60, borderRadius: 30}}/>
 							</View>
 							<View style={styles.vendorInfo}>
-								<Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
+								<Text style={{fontSize: 18, color: "#000"}}>
 									{item.store_name}
 								</Text>
 								<Rating rating={item.rating.rating} />
