@@ -64,7 +64,7 @@ class WdProductListToolBar extends Component {
 		
 		return (
 			<View style={styles.toolbarContainer}>
-				<TouchableOpacity style={styles.toolbarLeft} onPress={toggleFilterDrawer}>
+				<TouchableOpacity style={styles.toolbarLeft} onPress={() => false}>
 					{/* <IconIO
 						style={styles.toolbarIcon}
 						name={Icons.Ionicons.Sort}
@@ -90,7 +90,7 @@ class WdProductListToolBar extends Component {
 							</TouchableOpacity>
 						)
 					}
-					<TouchableOpacity onPress={() => this.layoutChangeHandler()}>
+					<TouchableOpacity style={{width: 20}} onPress={() => this.layoutChangeHandler()}>
 						<Icon
 							style={styles.toolbarIcon}
 							name={this.props.layoutChangeIcon}
