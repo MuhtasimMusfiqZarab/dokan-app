@@ -140,17 +140,18 @@ class WishList extends PureComponent {
 					</View>
 				</ScrollView>
 
-				<View style={styles.buttonContainer}>
+				<View style={styles.bottomView}>
 					<Button
 						text={Languages.CleanAll}
-						style={[styles.button, { backgroundColor: "#ff1744" }]}
-						textStyle={styles.buttonText}
+						// style={[styles.button, { backgroundColor: "#ff1744" }]}
+						style={styles.btnClean}
+						textStyle={styles.btnCleanText}
 						onPress={this.cleanAll}
 					/>
 					<Button
 						text={Languages.MoveAllToCart}
-						style={styles.button}
-						textStyle={styles.buttonText}
+						style={styles.btnCart}
+						textStyle={styles.btnCartText}
 						onPress={this.moveAllToCart}
 					/>
 				</View>

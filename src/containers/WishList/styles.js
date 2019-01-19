@@ -50,14 +50,15 @@ export default StyleSheet.create({
 		justifyContent: "space-between",
 		marginTop: 10,
 		marginBottom: 10,
-		paddingLeft: 20,
-		paddingRight: 20,
+		paddingLeft: Platform.OS === "ios" ? 20 : 10,
+		paddingRight: Platform.OS === "ios" ? 20 : 10,
 		flexDirection: "row",
 	},
 	button: {
 		height: 40,
 		width: width / 2,
 		backgroundColor: "#4cb906",
+		borderRadius: 0
 	},
 	buttonText: {
 		fontSize: 14,
@@ -150,5 +151,32 @@ export default StyleSheet.create({
 		paddingBottom: 100,
 		height: height,
 		paddingTop: 20,
+	},
+	bottomView: {
+		height: 40,
+		flexDirection: "row",
+		borderTopWidth: 1,
+		borderTopColor: "#f3f7f9",
+	},
+	btnClean: {
+		flex: 0.5,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: Color.BuyNowButton,
+	},
+	btnCleanText: {
+		color: "white",
+		fontSize: 14,
+		fontFamily: Constants.fontHeader,
+	},
+	btnCart: {
+		flex: 0.5,
+		backgroundColor: "#f5f5f5",
+	},
+	btnCartText: {
+		color: "#999",
+		fontSize: 14,
+		fontWeight: "bold",
+		fontFamily: Constants.fontHeader,
 	},
 });
