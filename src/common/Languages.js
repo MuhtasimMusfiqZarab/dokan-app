@@ -72,7 +72,7 @@ export default new LocalizedStrings({
 		ThankYou: "Thank you",
 		FinishOrderCOD: "You can use to number of order to track shipping status",
 		FinishOrder:
-			"Thank you so much for your purchased, to check your delivery status please go to My Orders",
+			"Thank you for your purchase",
 		NextStep: "Next Step",
 		ConfirmOrder: "Confirm Order",
 		RequireEnterAllFileds: "Please enter all fields",
