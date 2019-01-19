@@ -7,11 +7,12 @@ import {
 	ListView,
 	View,
 	TouchableOpacity,
-	Image,
+	Platform,
 	I18nManager,
 	Keyboard
 } from "react-native";
 import { connect } from "react-redux";
+import { Device } from "@common";
 import { Icon, IconIO } from "@app/Omni";
 import { Config } from "@common"
 
@@ -85,7 +86,7 @@ class Search extends PureComponent {
 					height: 50,
 					flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
 					// marginBottom: 10,
-					// marginTop: 20,
+					marginTop: !Device.isIphoneX && Platform.OS === "ios" ? 20 : 0,
 					borderBottomWidth: 0.5,
 					borderColor: Color.DirtyBackground,
 					backgroundColor: "#fff"

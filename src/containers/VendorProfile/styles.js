@@ -54,8 +54,41 @@ export default StyleSheet.create({
 		// padding: 35,
 	},
 	tabContentMap: {
+		width: "100%",
 		paddingTop: 20,
 		justifyContent: "center",
 		alignItems: "center"
+	},
+	noLocation: {
+		width: "95%",
+		height: 250,
+		position: "absolute",
+		top: 20,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "rgba(0, 0, 0, 0.3)"
+	},
+	mapAddressBar: {
+		width: "95%",
+		height: 70,
+		backgroundColor: "#fff",
+		flexDirection: "row",
+		...Platform.select({
+			ios: {
+				shadowColor: '#000',
+				shadowOpacity: 0.3,
+				shadowOffset: {width: 0, height: 1},
+			},
+			android: {
+				elevation: 3
+			}
+		}),
+	},
+	mapContactItem: {
+		flex: 0.5,
+		paddingHorizontal: 10,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	}
 });

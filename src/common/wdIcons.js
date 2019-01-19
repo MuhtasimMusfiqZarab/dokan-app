@@ -108,6 +108,7 @@ const MaterialCommunityIcons = {
 	Mic: 'microphone',
 	DotHorizontal: 'dots-horizontal',
 	User: 'account',
+	Phone: "phone"
 };
 
 export default {MaterialCommunityIcons, Ionicons};

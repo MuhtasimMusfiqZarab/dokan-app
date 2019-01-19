@@ -5,7 +5,7 @@ import { Rating } from "@components";
 
 export default class AccordionVendorInfo extends PureComponent {
 	getAddress = () => {
-		const addressObj = this.props.store.address;
+		const addressObj = this.props.store.address ? this.props.store.address : "";
 
 		if(!_.isEmpty(addressObj)) {
 			const street1 = addressObj.street_1;
@@ -31,7 +31,7 @@ export default class AccordionVendorInfo extends PureComponent {
 			<View>
 				<View style={{marginBottom: 20}}>
 					<Text style={{color: "#000", fontSize: 18}}>{store.shop_name || store.name}</Text>
-					<Rating rating={4.5} size={15} />
+					{/* <Rating rating={4.5} size={15} /> */}
 				</View>
 
 				<View style={{flexDirection: "row", marginBottom: 5}}>

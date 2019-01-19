@@ -95,8 +95,8 @@ const styles = StyleSheet.create({
 	numberWrap: {
 		...Styles.Common.ColumnCenter,
 		position: "absolute",
-		top: Platform.OS === "ios" ? 3 : 8,
-		right: Platform.OS === "ios" ? 3 : 18,
+		top: Platform.OS === "ios" ? 1 : 8,
+		right: Platform.OS === "ios" ? 20 : 18,
 		height: 20,
 		minWidth: 20,
 		backgroundColor: Color.error,

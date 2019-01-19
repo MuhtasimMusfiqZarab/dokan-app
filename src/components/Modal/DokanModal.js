@@ -1,4 +1,5 @@
 /** @format */
+
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Platform, View, TouchableOpacity } from "react-native";

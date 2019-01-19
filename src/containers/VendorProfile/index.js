@@ -112,7 +112,9 @@ console.log(vendor);
 							</View>
 						)}
 						{this.state.tabIndex === 1 && (
-							<View style={styles.tabContent}>
+							<View style={{
+								padding: 20
+							}}>
 								<Review />
 							</View>
 						)}
@@ -120,6 +122,8 @@ console.log(vendor);
 							<VendorContact
 								location={vendor.location}
 								storeName={vendor.store_name}
+								address={vendor.address}
+								phone={vendor.phone}
 							/>
 						)}
 					</View>

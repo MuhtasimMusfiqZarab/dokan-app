@@ -537,7 +537,7 @@ class Detail extends PureComponent {
 							{productPrice}
 						</Text>
 					</View>
-					<View style={styles.productBadgeContainer}>
+					{/* <View style={styles.productBadgeContainer}>
 						<View style={styles.productBadge}>
 							<Text style={styles.productBadgeNumber}>86</Text>
 							<Text style={styles.productBadgeText}>Order</Text>
@@ -546,7 +546,7 @@ class Detail extends PureComponent {
 							<Text style={styles.productBadgeNumber}>130</Text>
 							<Text style={styles.productBadgeText}>Wishlist</Text>
 						</View>
-					</View>
+					</View> */}
 				</View>
 				<Text style={styles.productDescription}>
 					{productDescription}
