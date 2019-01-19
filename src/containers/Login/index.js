@@ -1,5 +1,4 @@
 /**
- * Created by InspireUI on 19/02/2017.
  *
  * @format
  */
@@ -14,6 +13,7 @@ import {
 	ImageBackground,
 	TextInput,
 	TouchableOpacity,
+	KeyboardAvoidingView
 } from "react-native";
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
@@ -241,7 +241,10 @@ class LoginScreen extends PureComponent {
 					styles.backgroundImage
 				}
 				resizeMode="cover">
-				<ScrollView contentContainerStyle={styles.container}>
+				<ScrollView
+					keyboardDismissMode="on-drag"
+					keyboardShouldPersistTaps="always"
+				>
 					<View style={styles.logoWrap}>
 						<Image
 							source={Config.LogoWithText}
@@ -253,7 +256,7 @@ class LoginScreen extends PureComponent {
 						</Text>
 					</View>
 					<View style={styles.subContain}>
-						<View>
+						
 							<View style={styles.inputWrap}>
 								<Text style={styles.label}>Username</Text>
 								<TextInput
@@ -291,7 +294,7 @@ class LoginScreen extends PureComponent {
 								marginTop={15}
 								onPress={this.onLoginPressHandle}
 							/>
-						</View>
+						
 						<View style={styles.separatorWrap}>
 							<View style={styles.separator} />
 								<Text style={styles.separatorText}>{Languages.Or}</Text>

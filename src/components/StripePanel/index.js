@@ -158,13 +158,10 @@ export default class StripePanel extends PureComponent {
 	render() {
 		return (
 			<View style={{ width: "100%"}}>
-				
 				<ScrollView
-					contentContainerStyle={
-						{
-							padding: 25
-						}
-					}
+					keyboardDismissMode="on-drag"
+					keyboardShouldPersistTaps="always"
+					contentContainerStyle={{padding: 25}}
 				>
 					<StripeForm
 						ref={c => this._stripeForm = c}

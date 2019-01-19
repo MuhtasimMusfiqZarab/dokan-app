@@ -297,14 +297,16 @@ class Delivery extends PureComponent {
 
 		return (
 			<View style={styles.container}>
-				<ScrollView style={styles.form}>
+				<ScrollView
+					keyboardDismissMode="on-drag"
+					keyboardShouldPersistTaps="always"
+					style={styles.form}>
 					{Config.shipping.visible &&
 						shippings.length > 0 && (
 							<View>
 								<View style={css.rowEmpty}>
 									<Text style={css.label}>{Languages.ShippingType}</Text>
 								</View>
-
 								<ScrollView contentContainerStyle={styles.shippingMethod}>
 									{shippings.map((item, index) => (
 										<ShippingMethod
