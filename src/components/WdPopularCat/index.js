@@ -58,7 +58,7 @@ export default class WdPopularCat extends PureComponent {
 											<CustomIcon
 												name={iconName}
 												size={30}
-												color={item.icon_color} />
+												color={item.icon_color ? item.icon_color : "black"} />
 											<Text style={{color: '#808894', marginTop: 5}}>{item.name}</Text>
 									</TouchableOpacity>
 								)
