@@ -129,8 +129,12 @@ class LoginScreen extends PureComponent {
 
 		if (json === undefined) {
 			this.stopAndToast(Languages.GetDataError);
-		} else if (json.code) {
-			this.stopAndToast("Invalid Username or Password");
+		} else if (json.code === "[jwt_auth] incorrect_password") {
+			this.stopAndToast("Invalid Password");
+		} else if (json.code === "[jwt_auth] invalid_username") {
+			this.stopAndToast("Invalid User Name");
+		} else if(json.code) {
+			this.stopAndToast(json.message);
 		} else {
 			let customers = await WooWorker.getCustomerByEmail(json.user_email);
 			customers = { ...customers[0], username, password };
