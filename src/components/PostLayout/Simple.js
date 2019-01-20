@@ -3,7 +3,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { Text, View, TouchableOpacity, I18nManager } from "react-native";
-import { WishListIcon, ImageCache, ProductPrice, Rating } from "@components";
+import { WishListIcon, ImageCache, ProductPrice, Rating, Spinner } from "@components";
 import { Color } from "@common";
 import css from "./style";
 import DokanWorker from "@services/Dokan/DokanWorker";
@@ -20,10 +20,15 @@ export default class SimpleLayout extends PureComponent {
 		viewPost: PropTypes.func,
 		viewCategory: PropTypes.func,
 	};
+	constructor(props) {
+		super(props)
+		this.state = {
+			isLoading: false
+		}
+	}
 
 	viewVendorFromProductList = async (vendorID) => {
-		const vendor = await DokanWorker.getSingleVendor(vendorID)
-		this.props.onViewVendor(vendor)
+		this.props.viewVendorFromProductList(vendorID);
 	}
 
 	render() {
@@ -116,7 +121,7 @@ export default class SimpleLayout extends PureComponent {
 
 					</View>
 				</View>
-				
+				{this.state.isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</View>
 		);
 	}

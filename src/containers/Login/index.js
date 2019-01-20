@@ -238,6 +238,7 @@ class LoginScreen extends PureComponent {
 
 	render() {
 		const { username, password, isLoading } = this.state;
+		
 		return (
 			<ImageBackground
 				source={Images.LoginScreenBackground}

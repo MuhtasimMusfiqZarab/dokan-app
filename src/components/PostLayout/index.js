@@ -18,7 +18,7 @@ export default class PostLayout extends PureComponent {
 
 	render() {
 		const data = this.props.post;
-		const { onViewPost, onViewVendor, type } = this.props;
+		const { onViewPost, onViewVendor, type, viewVendorFromProductList } = this.props;
 		const isProduct = type == "undefined";
 
 		let image_width = 0;
@@ -64,12 +64,12 @@ export default class PostLayout extends PureComponent {
 						imageURL={imageURL}
 						title={Tools.getDescription(postTitle, 100)}
 						viewPost={onViewPost}
-						onViewVendor={onViewVendor}
 						post={data}
 						type={type}
 						category={categories[cate]}
 						date={type ? data.date : data.date_created}
 						isVendorProduct={this.props.isVendorProduct}
+						viewVendorFromProductList={viewVendorFromProductList}
 					/>
 				);
 

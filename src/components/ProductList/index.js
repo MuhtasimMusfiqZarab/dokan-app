@@ -17,10 +17,12 @@ import {
 	Spinkit,
 	WdProductListToolBar,
 	WdModalSorting,
+	Spinner
 } from "@components";
 import { Constants, Languages } from "@common";
 import { connect } from "react-redux";
 import styles from "./styles";
+import DokanWorker from "@services/Dokan/DokanWorker";
 
 // const HEADER_MIN_HEIGHT = 40;
 // const HEADER_SCROLL_DISTANCE =
@@ -30,7 +32,8 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 class ProductList extends Component {
 	state = {
 		scrollY: new Animated.Value(0),
-		isFooterFetching: false
+		isFooterFetching: false,
+		isSpinner: false
 	};
 
 	constructor(props) {
@@ -85,7 +88,8 @@ class ProductList extends Component {
 		return(
 			nextProps.layoutProductScreen !== this.props.layoutProductScreen ||
 			nextProps.list !== this.props.list ||
-			nextState.isFooterFetching !== this.state.isFooterFetching
+			nextState.isFooterFetching !== this.state.isFooterFetching ||
+			nextState.isSpinner !== this.state.isSpinner
 		)
 	}
 
@@ -156,6 +160,14 @@ class ProductList extends Component {
 		}
 	};
 
+	viewVendorFromProductList = async (vendorID) => {
+		this.setState({ isSpinner: true })
+		const vendor = await DokanWorker.getSingleVendor(vendorID);
+		this.props.fetchVendorProducts(vendorID);
+		this.setState({ isSpinner: false });
+		this.props.onViewVendorScreen(vendor);
+	}
+
 	renderItem = ({ item, index }) => {
 		if (item == null) return <View />;
 
@@ -165,11 +177,11 @@ class ProductList extends Component {
 				type={this.props.type}
 				key={`key-${index}`}
 				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
-				onViewVendor={this.props.onViewVendorScreen}
 				layout={
 					this.props.vendorID ? 3 : this.props.layoutProductScreen
 				}
 				isVendorProduct={this.props.vendorID ? true : false}
+				viewVendorFromProductList={this.viewVendorFromProductList}
 			/>
 		);
 	};
@@ -191,7 +203,6 @@ class ProductList extends Component {
 		const renderFooter = () => this.state.isFooterFetching ? <Spinkit /> : "";
 		const showModalSorting = 
 			config ? config.name === "allProducts" ? true : false : false;
-console.log(this.props);
 
 		return (
 			<View style={styles.listView}>
@@ -217,6 +228,7 @@ console.log(this.props);
 					scrollEventThrottle={1}
 				/>
 				{this.props.showSortingModal && <WdModalSorting />}
+				{this.state.isSpinner ? <Spinner mode="overlay" color="#000" /> : null}
 			</View>
 		);
 	}
@@ -259,6 +271,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
 	const { actions: LayoutActions } = require("@redux/LayoutRedux");
 	const { actions: ProductActions } = require("@redux/ProductRedux");
+	const { actions: VendorActions } = require("@redux/VendorRedux");
 
 	return {
 		...ownProps,
@@ -275,6 +288,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 				index,
 				name
 			);
+		},
+		fetchVendorProducts: (vendorID) => {
+			VendorActions.fetchVendorProducts( dispatch, vendorID );
 		},
 		fetchNewArrivals: (page) => {
 			ProductActions.fetchNewArrivals(dispatch, page);
