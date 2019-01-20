@@ -184,7 +184,11 @@ class SignUpScreen extends Component {
 				resizeMode="cover">
 				{
 					showSignupForm && (
-						<ScrollView style={styles.container} ref="_scrollView">
+						<ScrollView
+							keyboardDismissMode="on-drag"
+							keyboardShouldPersistTaps="always"
+							style={styles.container} ref="_scrollView"
+						>
 							<View style={styles.logoWrap}>
 								<Image
 									source={Config.LogoWithText}
