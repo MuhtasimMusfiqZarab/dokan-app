@@ -31,63 +31,41 @@ class Review extends PureComponent {
 	}
 
 	submitComment = async () => {
-		this.setState({
-			isLoading: true
-		})
-		const { cookie, userData, post } = this.props;
-		const self = this;
-		if (this.state.txtComment == "") {
-			return toast(Languages.errInputComment);
-		}
-		if (this.state.starCount == 0) {
-			return toast(Languages.errRatingComment);
-		}
-		// console.log(post)
-		// const commentData = {
-		// 	post_id: post.id,
-		// 	content: this.state.txtComment,
-		// 	cookie,
-		// 	comment_status: "hold",
-		// 	meta: JSON.stringify({
-		// 		rating: this.state.starCount,
-		// 		verified: 0,
-		// 	}),
-		// };
-		
-		// CustomAPI.createComment(commentData).then((data) => {
-		// 	console.log(data);
-		// 	if (data.status == "ok") {
-		// 		self.setState({
-		// 			addComment: true,
-		// 			txtComment: "",
-		// 		});
-		// 		toast(Languages.thanksForReview);
-		// 		this.props.onNewReview();
-		// 		Events.closeModalReview();
-		// 	}
-		// 	this.props.onNewReview();
-		// })
-		// .catch((error) => console.log(error));
-
-		const reviewer = `${userData.user.first_name} ${userData.user.last_name}`
-		const reviewer_email = userData.user.email
-		const commentData = {
-			product_id: post.id,
-			review: this.state.txtComment,
-			reviewer: reviewer,
-			reviewer_email: reviewer_email,
-			rating: this.state.starCount
-		};
-
-		const response = await WooWorker.createProductReview(commentData);
-
-		if (response.id) {
+		if(this.props.vendorReview) {
+			toast("API Needed");
+		} else {
 			this.setState({
-				isLoading: false
+				isLoading: true
 			})
-			this.props.onNewReview(response);
+			const { cookie, userData, post } = this.props;
+			const self = this;
+			if (this.state.txtComment == "") {
+				return toast(Languages.errInputComment);
+			}
+			if (this.state.starCount == 0) {
+				return toast(Languages.errRatingComment);
+			}
+	
+			const reviewer = `${userData.user.first_name} ${userData.user.last_name}`
+			const reviewer_email = userData.user.email
+			const commentData = {
+				product_id: post.id,
+				review: this.state.txtComment,
+				reviewer: reviewer,
+				reviewer_email: reviewer_email,
+				rating: this.state.starCount
+			};
+	
+			const response = await WooWorker.createProductReview(commentData);
+	
+			if (response.id) {
+				this.setState({
+					isLoading: false
+				})
+				this.props.onNewReview(response);
+			}
 		}
-
+		
 	};
 
 	renderCommentInput = () => {

@@ -55,7 +55,7 @@ class AccordionReview extends PureComponent {
 		reviewCount = this.state.showNewReview ? reviewCount + 1 : reviewCount;
 
 		return (
-			<View style={{alignItems: "center"}}>
+			<View style={{alignItems: "center"}} keyboardShouldPersistTaps="always">
 				<View style={{
 					width: "100%",
 					flexDirection: "row",

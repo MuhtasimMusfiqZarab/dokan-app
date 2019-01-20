@@ -62,7 +62,10 @@ console.log(vendor);
 					<Text style={{color: "white"}}>Transparent Header</Text>
 				</View> */}
 
-				<ScrollView>
+				<ScrollView
+					keyboardDismissMode="on-drag"
+					keyboardShouldPersistTaps="always"
+				>
 					<VendorProfileHeader vendor={vendor} />
 					<View style={styles.tabView}>
 						<View
@@ -115,7 +118,7 @@ console.log(vendor);
 							<View style={{
 								padding: 20
 							}}>
-								<Review />
+								<Review vendorReview={true} />
 							</View>
 						)}
 						{this.state.tabIndex === 2 && (
