@@ -9,13 +9,13 @@ export default {
 		 Step 1: change to your website URL and the wooCommerce API consumerKey
 		*/
 	WooCommerce: {
-		url: 'http://ajaira.website/dokan-app',
-		consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
-		consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
+		// url: 'http://ajaira.website/dokan-app',
+		// consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
+		// consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
 
-		// url: 'http://mobileapp.getdokan.com',
-		// consumerKey: 'ck_058d37798c6d4fde333cce1e24864340d6a78017',
-		// consumerSecret: 'cs_6c3776e01ec312fcc2de6517edc76c139731469c',
+		url: 'http://mobileapp.getdokan.com',
+		consumerKey: 'ck_058d37798c6d4fde333cce1e24864340d6a78017',
+		consumerSecret: 'cs_6c3776e01ec312fcc2de6517edc76c139731469c',
 
 		// url: 'https://tedhut.com/',
 		// consumerKey: 'ck_288d122af9ac2a56977970fa404352a0ed32b6e6',
@@ -37,8 +37,9 @@ export default {
 	// BUG: Language can not change when set default value in Config.js ==> pass string to change Languages
 	// NOTE: name is define value --> change field in Language.js
 	HorizonLayout: [
-		{ tag: 355, paging: true, layout: Constants.Layout.miniBanner },
+		// { tag: 355, paging: true, layout: Constants.Layout.miniBanner },
 		// { tag: 604, paging: true, layout: Constants.Layout.miniBanner },
+		{ tag: 25, paging: true, layout: Constants.Layout.miniBanner },
 		{
 			purpose: "atAglance",
 			layout: Constants.Layout.atAglance,
@@ -351,7 +352,7 @@ export default {
 		},
 	],
 	sortingTexts: [
-		"Sort by popularity",
+		// "Sort by popularity",
 		"Sort by average rating",
 		"Sort by newness",
 		"Sort by price high to low",

@@ -31,7 +31,7 @@ class Router extends React.PureComponent {
 			consumerKey: Config.WooCommerce.consumerKey,
 			consumerSecret: Config.WooCommerce.consumerSecret,
 			wp_api: true,
-			version: "wc/v2",
+			version: "wc/v3",
 			queryStringAuth: true,
 			language: this.props.language.lang,
 		});

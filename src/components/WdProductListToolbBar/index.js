@@ -58,6 +58,22 @@ class WdProductListToolBar extends Component {
 			})
 		}
 	}
+	productSortingHandler = (item) => {
+		this.props.clearProducts();
+		this.dokanModal.closeModal();
+
+		if (item === "Sort by average rating") {
+			this.props.sortByRating(10, 1, "desc", "rating");
+		} else if (item === "Sort by newness") {
+			this.props.sortByDate(10, 1, "desc", "date");
+		} else if (item === "Sort by price high to low") {
+			this.props.sortByPriceDesc(10, 1, "desc", "price");
+		} else if (item === "Sort by price low to high") {
+			this.props.sortByPriceAsc(10, 1, "asc", "price");
+		} else {
+			return false;
+		}
+	}
 
 	render() {
 		const { showSorting } = this.props;
@@ -112,6 +128,7 @@ class WdProductListToolBar extends Component {
 							Config.sortingTexts.map((item, index) => {
 								return (
 									<TouchableOpacity
+										onPress={() => this.productSortingHandler(item)}
 										style={styles.sortingTextContainer}
 										key={`${index}`}>
 										<Text style={styles.sortingText}>{item}</Text>
@@ -131,5 +148,38 @@ const mapStateToProps = ({ products }) => (
 		layoutProductScreen: products.layoutProductScreen
 	}
 );
-const switchLayoutProductPage = actions.switchLayoutProductPage;
-export default connect(mapStateToProps, {switchLayoutProductPage})(WdProductListToolBar);
+function mergeProps(stateProps, dispatchProps, ownProps) {
+	const { netInfo } = stateProps;
+	const { dispatch } = dispatchProps;
+	const { actions } = require("@redux/ProductRedux");
+	
+	return {
+		...ownProps,
+		...stateProps,
+		clearProducts: () => dispatch(actions.clearProducts()),
+		switchLayoutProductPage: (layout, layoutChangeIcon) =>
+			dispatch(actions.switchLayoutProductPage(layout, layoutChangeIcon)),
+		sortByRating: (per_page, page, order, order_by) => {
+			return (
+				actions.sortByRating(dispatch, per_page, page, order, order_by)
+			)
+		},
+		sortByDate: (per_page, page, order, order_by) => {
+			return (
+				actions.sortByDate(dispatch, per_page, page, order, order_by)
+			)
+		},
+		sortByPriceDesc: (per_page, page, order, order_by) => {
+			return (
+				actions.sortByPriceDesc(dispatch, per_page, page, order, order_by)
+			)
+		},
+		sortByPriceAsc: (per_page, page, order, order_by) => {
+			return (
+				actions.sortByPriceAsc(dispatch, per_page, page, order, order_by)
+			)
+		}
+	};
+}
+
+export default connect(mapStateToProps, undefined, mergeProps)(WdProductListToolBar);

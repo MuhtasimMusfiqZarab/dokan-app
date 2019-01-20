@@ -48,7 +48,22 @@ const types = {
 	FETCH_NEW_ARRIVALS_FAIL: "FETCH_NEW_ARRIVALS_FAIL",
 	FETCH_NEW_ARRIVALS_MORE: "FETCH_NEW_ARRIVALS_MORE",
 	FETCH_NEW_ARRIVALS_SUCCESS: "FETCH_NEW_ARRIVALS_SUCCESS",
-
+	SORT_BY_RATING_PENDING: "SORT_BY_RATING_PENDING",
+	SORT_BY_RATING_FAIL: "SORT_BY_RATING_FAIL",
+	SORT_BY_RATING_MORE: "SORT_BY_RATING_MORE",
+	SORT_BY_RATING_SUCCESS: "SORT_BY_RATING_SUCCESS",
+	SORT_BY_DATE_PENDING: "SORT_BY_DATE_PENDING",
+	SORT_BY_DATE_FAIL: "SORT_BY_DATE_FAIL",
+	SORT_BY_DATE_MORE: "SORT_BY_DATE_MORE",
+	SORT_BY_DATE_SUCCESS: "SORT_BY_DATE_SUCCESS",
+	SORT_BY_PRICE_DESC_PENDING: "SORT_BY_PRICE_DESC_PENDING",
+	SORT_BY_PRICE_DESC_FAIL: "SORT_BY_PRICE_DESC_FAIL",
+	SORT_BY_PRICE_DESC_MORE: "SORT_BY_PRICE_DESC_MORE",
+	SORT_BY_PRICE_DESC_SUCCESS: "SORT_BY_PRICE_DESC_SUCCESS",
+	SORT_BY_PRICE_ASC_PENDING: "SORT_BY_PRICE_ASC_PENDING",
+	SORT_BY_PRICE_ASC_FAIL: "SORT_BY_PRICE_ASC_FAIL",
+	SORT_BY_PRICE_ASC_MORE: "SORT_BY_PRICE_ASC_MORE",
+	SORT_BY_PRICE_ASC_SUCCESS: "SORT_BY_PRICE_ASC_SUCCESS"
 };
 
 export const actions = {
@@ -156,6 +171,7 @@ export const actions = {
 		}
 	},
 	fetchAllProducts: async (dispatch, per_page = 20, page = 1) => {
+		console.log(page);
 		dispatch({ type: types.FETCH_PRODUCTS_PENDING });
 		const json = await WooWorker.getAllProducts(
 			per_page,
@@ -347,6 +363,134 @@ export const actions = {
 			});
 		}
 	},
+	sortByRating: async (dispatch, per_page, page, order, order_by) => {
+		console.log(page);
+		dispatch({
+			type: types.SORT_BY_RATING_PENDING
+		});
+		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+
+		if (json === undefined) {
+			dispatch({
+				type: types.SORT_BY_RATING_FAIL,
+				message: Languages.ErrorMessageRequest,
+			});
+		} else if (json.code) {
+			dispatch({
+				type: types.SORT_BY_RATING_FAIL,
+				message: json.message,
+			});
+		} else if (page > 1) {
+			dispatch({
+				type: types.SORT_BY_RATING_MORE,
+				items: json,
+				page,
+				finish: json.length === 0,
+			});
+		} else {
+			dispatch({
+				type: types.SORT_BY_RATING_SUCCESS,
+				items: json,
+				finish: json.length === 0
+			});
+		}
+	},
+	sortByDate: async (dispatch, per_page, page, order, order_by) => {
+		console.log(page);
+		dispatch({
+			type: types.SORT_BY_RATING_PENDING
+		});
+		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+
+		if (json === undefined) {
+			dispatch({
+				type: types.SORT_BY_DATE_FAIL,
+				message: Languages.ErrorMessageRequest,
+			});
+		} else if (json.code) {
+			dispatch({
+				type: types.SORT_BY_DATE_FAIL,
+				message: json.message,
+			});
+		} else if (page > 1) {
+			dispatch({
+				type: types.SORT_BY_DATE_MORE,
+				items: json,
+				page,
+				finish: json.length === 0,
+			});
+		} else {
+			dispatch({
+				type: types.SORT_BY_DATE_SUCCESS,
+				items: json,
+				finish: json.length === 0
+			});
+		}
+	},
+	sortByPriceDesc: async (dispatch, per_page, page, order, order_by) => {
+		console.log(page);
+		dispatch({
+			type: types.SORT_BY_PRICE_DESC_PENDING
+		});
+		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+
+		if (json === undefined) {
+			dispatch({
+				type: types.SORT_BY_PRICE_DESC_FAIL,
+				message: Languages.ErrorMessageRequest,
+			});
+		} else if (json.code) {
+			dispatch({
+				type: types.SORT_BY_PRICE_DESC_FAIL,
+				message: json.message,
+			});
+		} else if (page > 1) {
+			dispatch({
+				type: types.SORT_BY_PRICE_DESC_MORE,
+				items: json,
+				page,
+				finish: json.length === 0,
+			});
+		} else {
+			dispatch({
+				type: types.SORT_BY_PRICE_DESC_SUCCESS,
+				items: json,
+				finish: json.length === 0
+			});
+		}
+	},
+	sortByPriceAsc: async (dispatch, per_page, page, order, order_by) => {
+		console.log(page);
+		dispatch({
+			type: types.SORT_BY_PRICE_ASC_PENDING
+		});
+		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+
+		if (json === undefined) {
+			dispatch({
+				type: types.SORT_BY_PRICE_ASC_FAIL,
+				message: Languages.ErrorMessageRequest,
+			});
+		} else if (json.code) {
+			dispatch({
+				type: types.SORT_BY_PRICE_ASC_FAIL,
+				message: json.message,
+			});
+		} else if (page > 1) {
+			dispatch({
+				type: types.SORT_BY_PRICE_ASC_MORE,
+				items: json,
+				page,
+				finish: json.length === 0,
+			});
+		} else {
+			dispatch({
+				type: types.SORT_BY_PRICE_ASC_SUCCESS,
+				items: json,
+				finish: json.length === 0
+			});
+		}
+	}
 };
 
 const initialState = {
@@ -357,6 +501,7 @@ const initialState = {
 	stillFetch: true,
 	page: 1,
 	layoutHome: Constants.Layout.horizon,
+	message: "",
 
 	productFinish: false,
 	productsByName: [],
@@ -392,6 +537,42 @@ export const reducer = (state = initialState, action) => {
 			};
 		}
 
+		case types.SORT_BY_RATING_PENDING: {
+			return {
+				...state,
+				isFetching: true,
+				error: null,
+				message: "sortRating",
+			};
+		}
+
+		case types.SORT_BY_DATE_PENDING: {
+			return {
+				...state,
+				isFetching: true,
+				error: null,
+				message: "sortDate",
+			};
+		}
+
+		case types.SORT_BY_PRICE_DESC_PENDING: {
+			return {
+				...state,
+				isFetching: true,
+				error: null,
+				message: "sortPriceDesc",
+			};
+		}
+
+		case types.SORT_BY_PRICE_ASC_PENDING: {
+			return {
+				...state,
+				isFetching: true,
+				error: null,
+				message: "sortPriceAsc",
+			};
+		}
+
 		case types.FETCH_PRODUCTS_STICKY_FAILURE:
 		case types.FETCH_PRODUCTS_BY_TAGS_FAILURE:
 		case types.FETCH_PRODUCTS_BY_NAME_FAILURE:
@@ -400,7 +581,11 @@ export const reducer = (state = initialState, action) => {
 		case types.FETCH_PRODUCTS_FAILURE:
 		case types.FETCH_PRODUCTS_RELATED_FAIL:
 		case types.FETCH_RELATED_PRODUCTS_FAIL:
-		case types.FETCH_NEW_ARRIVALS_FAIL: {
+		case types.FETCH_NEW_ARRIVALS_FAIL:
+		case types.SORT_BY_RATING_FAIL:
+		case types.SORT_BY_DATE_FAIL:
+		case types.SORT_BY_PRICE_DESC_FAIL:
+		case types.SORT_BY_PRICE_ASC_FAIL: {
 			return {
 				...state,
 				isFetching: false,
@@ -411,6 +596,7 @@ export const reducer = (state = initialState, action) => {
 		case types.FETCH_ALL_PRODUCTS_SUCCESS: {
 			return Object.assign({}, state, {
 				isFetching: false,
+				// listAll: state.listAll.concat(items),
 				listAll: items,
 				stillFetch: items.length !== 0,
 				error: null,
@@ -433,7 +619,7 @@ export const reducer = (state = initialState, action) => {
 		case types.FETCH_PRODUCTS_SUCCESS: {
 			return Object.assign({}, state, {
 				isFetching: false,
-				list: state.list.concat(items),
+				listAll: state.listAll.concat(items),
 				stillFetch: items.length !== 0,
 				error: null,
 				productFinish: finish,
@@ -441,7 +627,8 @@ export const reducer = (state = initialState, action) => {
 		}
 
 		case types.CLEAR_PRODUCTS: {
-			initialState.listAll = state.listAll;
+			// initialState.listAll = state.listAll;
+			initialState.listAll = [];
 			initialState.layoutHome = state.layoutHome;
 			initialState.productSticky = state.productSticky;
 			return Object.assign({}, initialState);
@@ -571,7 +758,74 @@ export const reducer = (state = initialState, action) => {
 				productFinish: finish
 			});
 		}
-
+		case types.SORT_BY_RATING_MORE: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: state.listAll.concat(items),
+				page,
+				productFinish: finish
+			});
+		}
+		case types.SORT_BY_RATING_SUCCESS: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: items,
+				productFinish: finish
+			});
+		}
+		case types.SORT_BY_DATE_MORE: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: state.listAll.concat(items),
+				page,
+				productFinish: finish
+			});
+		}
+		case types.SORT_BY_DATE_SUCCESS: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: items,
+				productFinish: finish
+			});
+		}
+		case types.SORT_BY_PRICE_DESC_MORE: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: state.listAll.concat(items),
+				page,
+				productFinish: finish
+			});
+		}
+		case types.SORT_BY_PRICE_DESC_SUCCESS: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: items,
+				productFinish: finish
+			});
+		}
+		case types.SORT_BY_PRICE_ASC_MORE: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: state.listAll.concat(items),
+				page,
+				productFinish: finish
+			});
+		}
+		case types.SORT_BY_PRICE_ASC_SUCCESS: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error: null,
+				listAll: items,
+				productFinish: finish
+			});
+		}
 		default: {
 			return state;
 		}

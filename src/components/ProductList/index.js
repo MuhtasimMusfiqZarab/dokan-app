@@ -93,14 +93,38 @@ class ProductList extends Component {
 		if (this.props.vendorID)
 			return;
 
-		const { config, index, fetchAllProducts, fetchProductsByCollections } = this.props;
+		const {
+			config,
+			index,
+			message,
+			fetchAllProducts,
+			fetchProductsByCollections,
+			sortByRating,
+			sortByDate,
+			sortByPriceDesc,
+			sortByPriceAsc
+		} = this.props;
 
 		if (reload) {
 			this.page = 1;
 		}
 
 		if(config.name === "allProducts") {
-			fetchAllProducts(this.page);
+			if(message) {
+				if(message === "sortRating") {
+					sortByRating(10, this.page, "desc", "rating")
+				} else if(message === "sortByDate") {
+					sortByDate(10, this.page, "desc", "rating");
+				} else if (message === "sortPriceDesc") {
+					sortByPriceDesc(10, this.page, "desc", "price");
+				} else if (message === "sortPriceAsc") {
+					sortByPriceAsc(10, this.page, "asc", "price");
+				} else {
+					return false;
+				}
+			} else {
+				fetchAllProducts(20, this.page);
+			}
 		} else if(config.name === "newArrival") {
 			this.props.fetchNewArrivals(this.page);
 		} else {
@@ -120,6 +144,7 @@ class ProductList extends Component {
 			this.setState({
 				isFooterFetching: false
 			})
+			this.page = 1;
 		}
 	};
 
@@ -167,6 +192,7 @@ class ProductList extends Component {
 		const showModalSorting = 
 			config ? config.name === "allProducts" ? true : false : false;
 console.log(this.props);
+
 		return (
 			<View style={styles.listView}>
 				{this.props.showToolBar && <WdProductListToolBar showSorting={showModalSorting} />}
@@ -207,9 +233,10 @@ const mapStateToProps = ({ layouts, products, vendors }, ownProp) => {
 		const list = products.listAll;
 		const isFetching = products.isFetching;
 		const finish = products.productFinish;
+		const message = products.message
 		const layoutProductScreen = products.layoutProductScreen;
-
-		return { list, isFetching, finish, layoutProductScreen }
+console.log(list);
+		return { list, isFetching, finish, layoutProductScreen, message }
 	} else if (ownProp.config.name === "newArrival") {
 		const list = products.list;
 		const isFetching = products.isFetching;
@@ -237,7 +264,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		...ownProps,
 		...stateProps,
 		fetchAllProducts: (per_page, page) => {
-			ProductActions.fetchAllProducts(dispatch, page);
+			ProductActions.fetchAllProducts(dispatch, per_page, page);
 		},
 		fetchProductsByCollections: (category_id, tag_id, page, index, name) => {
 			LayoutActions.fetchProductsLayout(
@@ -252,6 +279,26 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		fetchNewArrivals: (page) => {
 			ProductActions.fetchNewArrivals(dispatch, page);
 		},
+		sortByRating: (per_page, page, order, order_by) => {
+			return (
+				ProductActions.sortByRating(dispatch, per_page, page, order, order_by)
+			)
+		},
+		sortByDate: (per_page, page, order, order_by) => {
+			return (
+				ProductActions.sortByDate(dispatch, per_page, page, order, order_by)
+			)
+		},
+		sortByPriceDesc: (per_page, page, order, order_by) => {
+			return (
+				ProductActions.sortByPriceDesc(dispatch, per_page, page, order, order_by)
+			)
+		},
+		sortByPriceAsc: (per_page, page, order, order_by) => {
+			return (
+				ProductActions.sortByPriceAsc(dispatch, per_page, page, order, order_by)
+			)
+		}
 	};
 };
 

@@ -126,8 +126,8 @@ export const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				isFetching: false,
-				// vendorList: state.vendorList.concat(items),
-				vendorList: items || [],
+				vendorList: state.vendorList.concat(items),
+				// vendorList: items || [],
 				finish: items.length === 0,
 				error: null,
 			};
