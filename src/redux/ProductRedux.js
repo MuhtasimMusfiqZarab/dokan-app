@@ -608,6 +608,7 @@ export const reducer = (state = initialState, action) => {
 		case types.FETCH_ALL_PRODUCTS_MORE: {
 			return Object.assign({}, state, {
 				isFetching: false,
+				list: state.list.concat(items),
 				listAll: state.listAll.concat(items),
 				stillFetch: items.length !== 0,
 				error: null,
@@ -619,7 +620,7 @@ export const reducer = (state = initialState, action) => {
 		case types.FETCH_PRODUCTS_SUCCESS: {
 			return Object.assign({}, state, {
 				isFetching: false,
-				list: items, // needed for showing individual category product
+				list: state.list.concat(items), // needed for showing individual category product
 				listAll: state.listAll.concat(items),
 				stillFetch: items.length !== 0,
 				error: null,
