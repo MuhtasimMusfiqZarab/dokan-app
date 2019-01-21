@@ -4,19 +4,19 @@
  * @format
  */
 
-import _Color from "./wdColor";
+import _Color from "./Color";
 
-import _Constants from "./wdConstants";
+import _Constants from "./Constants";
 
-import _Config from "./wdConfig";
+import _Config from "./Config";
 
-import _Icons from "./wdIcons";
+import _Icons from "./Icons";
 
-import _Images from "./wdImages";
+import _Images from "./Images";
 
 import _Languages from "./Languages";
 
-import _Styles from "./wdStyles";
+import _Styles from "./Styles";
 
 import _Tools from "./Tools";
 
