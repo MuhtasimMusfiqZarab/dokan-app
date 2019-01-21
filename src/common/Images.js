@@ -53,10 +53,6 @@ const Images = {
 		iconHorizal: require("@images/icon-horizal.png"),
 	},
 	Banner: {
-		Feature: require("@images/banner/feature.png"),
-		Man: require("@images/banner/woman.png"),
-		Woman: require("@images/banner/man.png"),
-		Bag: require("@images/banner/bag.png"),
 		Banner1: require("@images/banner/banner1.png"),
 		Banner2: require("@images/banner/banner2.png"),
 		Banner3: require("@images/banner/banner3.png"),
