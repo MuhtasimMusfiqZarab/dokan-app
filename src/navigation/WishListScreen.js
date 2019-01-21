@@ -1,19 +1,22 @@
 /** @format */
 
 import React, { PureComponent } from "react";
-import { Menu, EmptyView, Back, HeaderRight } from "./IconNav";
+import { Back, HeaderRight } from "./IconNav";
 
 import { Images, Config, Constants, Color, Styles, Languages } from "@common";
 import { WishList } from "@containers";
 
 export default class WishListScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
-    title: Languages.WishList,
+    title: "Wish List",
+    headerLeft: Back(navigation, Images.icons.arrowBack),
+    headerRight: HeaderRight(navigation),
+
+    headerTintColor: Color.headerTintColor,
     headerStyle: Styles.Common.toolbar,
     headerLeftContainerStyle: Styles.Common.toolbarLeft,
 		headerRightContainerStyle: Styles.Common.toolbarRight,
-    headerLeft: Back(navigation),
-    headerRight: HeaderRight(navigation)
+    headerTitleStyle: Styles.Common.headerTitleStyle,
 
   });
 

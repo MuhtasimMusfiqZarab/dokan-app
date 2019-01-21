@@ -1,23 +1,24 @@
 /** @format */
 
 import React, { PureComponent } from "react";
-import { Logo, Menu } from "./IconNav";
-import { Color, Constants, Images, Config, Styles } from "@common";
+import { Menu, EmptyView } from "./IconNav";
+import { Color, Styles } from "@common";
 import { UserProfile } from "@containers";
-import { warn } from "@app/Omni";
 
 export default class UserProfileScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: Logo(),
-    headerLeft: Menu(),
+	static navigationOptions = ({ navigation }) => ({
+		headerTitle: "My Account",
+		headerLeft: Menu(),
+		headerRight: EmptyView(),
 
-    headerTintColor: Color.headerTintColor,
-    headerStyle: Styles.Common.toolbar,
-  });
+		headerTintColor: Color.headerTintColor,
+		headerStyle: Styles.Common.toolbar,
+		headerTitleStyle: Styles.Common.headerTitleStyle,
+	});
 
-  render() {
-    const { navigation } = this.props;
+	render() {
+		const { navigation } = this.props;
 
-    return <UserProfile navigation={navigation} />;
-  }
+		return <UserProfile navigation={navigation} />;
+	}
 }

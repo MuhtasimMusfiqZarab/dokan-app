@@ -17,27 +17,27 @@ import {
   NavigationActions,
 } from "react-navigation";
 import { TabViewPagerPan } from "react-native-tab-view";
-import HomeScreen from "./wdHomeScreen";
+import HomeScreen from "./HomeScreen";
 import NewsScreen from "./NewsScreen";
 import NewsDetailScreen from "./NewsDetailScreen";
-import CategoriesScreen from "./wdCategoriesScreen";
-import CategoryScreen from "./wdCategoryScreen";
-import DetailScreen from "./wdDetailScreen";
-import CartScreen from "./wdCartScreen";
-import MyOrdersScreen from "./wdMyOrdersScreen";
-import WishListScreen from "./wdWishListScreen";
+import CategoriesScreen from "./CategoriesScreen";
+import CategoryScreen from "./CategoryScreen";
+import DetailScreen from "./DetailScreen";
+import CartScreen from "./CartScreen";
+import MyOrdersScreen from "./MyOrdersScreen";
+import WishListScreen from "./WishListScreen";
 import SearchScreen from "./SearchScreen";
-import LoginScreen from "./wdLoginScreen";
+import LoginScreen from "./LoginScreen";
 import SignUpScreen from "./SignUpScreen";
 import CustomPageScreen from "./CustomPageScreen";
-import ListAllScreen from "./wdListAllScreen";
+import ListAllScreen from "./ListAllScreen";
 import SettingScreen from "./SettingScreen";
-import UserProfileScreen from "./wdUserProfileScreen";
+import UserProfileScreen from "./UserProfileScreen";
 import VendorsScreen from "./VendorsScreen";
-import VendorProfileScreen from "./wdVendorProfileScreen";
-import ContactUsScreen from "./wdContactUsScreen";
-import AboutUsScreen from "./wdAboutUsScreen";
-import PrivacyPolicyScreen from "./wdPrivacyPolicyScreen";
+import VendorProfileScreen from "./VendorProfileScreen";
+import ContactUsScreen from "./ContactUsScreen";
+import AboutUsScreen from "./AboutUsScreen";
+import PrivacyPolicyScreen from "./PrivacyPolicyScreen";
 import ReviewsScreen from "./ReviewsScreen";
 import ForgetPasswordScreen from './ForgetPasswordScreen'
 
