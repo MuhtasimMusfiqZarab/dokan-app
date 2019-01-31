@@ -1,10 +1,10 @@
 /** @format */
 
-import React, { Component } from "react";
-import { View } from "react-native";
-import { Styles, Constants, Images } from "@common";
-import { connect } from "react-redux";
-import { NavigationBarIcon } from "@components";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { Styles, Constants } from '@common';
+import { connect } from 'react-redux';
+import { NavigationBarIcon } from '@components';
 
 class CartIcons extends Component {
 	render() {
@@ -24,13 +24,13 @@ class CartIcons extends Component {
 					type="icon"
 					icon="cart"
 					number={totalCart}
-					onPress={() => navigation.navigate("CartScreen")}
+					onPress={() => navigation.navigate('CartScreen')}
 				/>
 				<NavigationBarIcon
 					type="icon"
 					icon="heart"
 					number={wishListTotal}
-					onPress={() => navigation.navigate("WishListScreen")}
+					onPress={() => navigation.navigate('WishListScreen')}
 				/>
 			</View>
 		);

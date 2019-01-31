@@ -1,16 +1,14 @@
 /** @format */
 
-import { StyleSheet, Platform, Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
-import { Color, Config, Constants, Device } from "@common";
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#F5F5F5",
+		backgroundColor: '#F5F5F5',
 	},
 	profileSection: {
-		backgroundColor: "#FFF",
+		backgroundColor: '#FFF',
 		marginTop: 15,
 	},
 	headerSection: {
@@ -18,7 +16,7 @@ export default StyleSheet.create({
 		paddingVertical: 10,
 		fontSize: 13,
 		// color: "#4A4A4A",
-		color: "#000",
-		fontWeight: "600",
+		color: '#000',
+		fontWeight: '600',
 	},
 });

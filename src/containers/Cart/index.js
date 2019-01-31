@@ -1,22 +1,22 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { View, WebView, Text, TouchableOpacity } from "react-native";
-import ScrollableTabView from "react-native-scrollable-tab-view";
-import { connect } from "react-redux";
-import { Languages, Images, Config, Constants } from "@common";
-import { BlockTimer } from "@app/Omni";
-import Modal from "react-native-modalbox";
-import { StepIndicator, StripePanel, ModalBox, Spinner} from "@components";
-import base64 from "base-64";
-import { isObject } from "lodash";
-import MyCart from "./MyCart";
-import Payment from "./Payment";
-import FinishOrder from "./FinishOrder";
-import PaymentEmpty from "./Empty";
-import Buttons from "./Buttons";
-import styles from "./styles";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { View, WebView, Text, TouchableOpacity } from 'react-native';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
+import { connect } from 'react-redux';
+import { Languages, Images, Config, Constants } from '@common';
+import { BlockTimer } from '@app/Omni';
+import Modal from 'react-native-modalbox';
+import { StepIndicator, StripePanel, ModalBox, Spinner } from '@components';
+import base64 from 'base-64';
+import { isObject } from 'lodash';
+import MyCart from './MyCart';
+import Payment from './Payment';
+import FinishOrder from './FinishOrder';
+import PaymentEmpty from './Empty';
+import Buttons from './Buttons';
+import styles from './styles';
 
 class Cart extends PureComponent {
 	static propTypes = {
@@ -29,6 +29,8 @@ class Cart extends PureComponent {
 		onViewProduct: PropTypes.func,
 		cartItems: PropTypes.array,
 		onViewHome: PropTypes.func,
+		emptyCart: PropTypes.any,
+		isProcessing: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -42,18 +44,18 @@ class Cart extends PureComponent {
 			currentIndex: 0,
 			// createdOrder: {},
 			userInfo: null,
-			order: "",
+			order: '',
 			isLoading: false,
 			orderId: null,
 			paymentState: false,
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.props.navigation.setParams({ title: Languages.ShoppingCart });
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		// reset current index when update cart item
 		if (this.props.cartItems && nextProps.cartItems) {
 			if (nextProps.cartItems.length !== 0) {
@@ -84,7 +86,7 @@ class Cart extends PureComponent {
 			default:
 				break;
 		}
-		if (valid && typeof this.tabCartView !== "undefined") {
+		if (valid && typeof this.tabCartView !== 'undefined') {
 			const nextPage = this.state.currentIndex + 1;
 			this.tabCartView.goToPage(nextPage);
 		}
@@ -96,7 +98,7 @@ class Cart extends PureComponent {
 		);
 		// warn(params)
 		const userAgentAndroid =
-			"Mozilla/5.0 (Linux; U; Android 4.1.1; en-gb; Build/KLP) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30";
+			'Mozilla/5.0 (Linux; U; Android 4.1.1; en-gb; Build/KLP) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30';
 
 		const checkOutUrl = `${Config.WooCommerce.url}/${
 			Constants.WordPress.checkout
@@ -105,7 +107,7 @@ class Cart extends PureComponent {
 		// warn([checkOutUrl, this.state.order])
 		return (
 			<Modal
-				ref={(modal) => (this.checkoutModal = modal)}
+				ref={modal => (this.checkoutModal = modal)}
 				backdropPressToClose={false}
 				backButtonClose
 				backdropColor="#fff"
@@ -115,7 +117,7 @@ class Cart extends PureComponent {
 					style={styles.webView}
 					source={{ uri: checkOutUrl }}
 					userAgent={userAgentAndroid}
-					onNavigationStateChange={(status) =>
+					onNavigationStateChange={status =>
 						this._onNavigationStateChange(status)
 					}
 					scalesPageToFit
@@ -137,20 +139,20 @@ class Cart extends PureComponent {
 		this.setState({ isLoading: false });
 	};
 
-	_onNavigationStateChange = (status) => {
+	_onNavigationStateChange = status => {
 		const { url } = status;
 
 		if (
 			url.indexOf(Config.WooCommerce.url) == 0 &&
-			url.indexOf("order-received") != -1
+			url.indexOf('order-received') != -1
 		) {
-			let params = status.url.split("?");
+			let params = status.url.split('?');
 			if (params.length > 1) {
-				params = params[1].split("&");
-				params.forEach((val) => {
-					const now = val.split("=");
-					if (now[0] == "key" && now["1"].indexOf("wc_order") == 0) {
-						this.setState({ orderId: now["1"].indexOf("wc_order") });
+				params = params[1].split('&');
+				params.forEach(val => {
+					const now = val.split('=');
+					if (now[0] == 'key' && now['1'].indexOf('wc_order') == 0) {
+						this.setState({ orderId: now['1'].indexOf('wc_order') });
 					}
 				});
 			}
@@ -159,8 +161,8 @@ class Cart extends PureComponent {
 
 	onShowCheckOut = async (order, payment) => {
 		await this.setState({ order });
-		if (payment === "stripe") {
-			this.stripeModal.openModal()
+		if (payment === 'stripe') {
+			this.stripeModal.openModal();
 		}
 		// this.checkoutModal.open();
 	};
@@ -173,11 +175,11 @@ class Cart extends PureComponent {
 		this.tabCartView.goToPage(this.state.currentIndex - 1);
 	};
 
-	updatePageIndex = (page) => {
+	updatePageIndex = page => {
 		this.setState({ currentIndex: isObject(page) ? page.i : page });
 	};
 
-	onChangeTabIndex = (page) => {
+	onChangeTabIndex = page => {
 		if (this.tabCartView) {
 			this.tabCartView.goToPage(page);
 		}
@@ -191,22 +193,24 @@ class Cart extends PureComponent {
 		}, 1500);
 	};
 
-	onChangeUserInfo = (formValues) => { //weDevs
+	onChangeUserInfo = formValues => {
+		//weDevs
 		this.setState({ userInfo: formValues });
-	}
+	};
 
 	closeStripeModal = () => {
 		this.stripeModal.closeModal();
-	}
+	};
 
 	renderStripeLayout = () => {
 		return (
-			<ModalBox ref={(smodal) => (this.stripeModal = smodal)}>
+			<ModalBox ref={smodal => (this.stripeModal = smodal)}>
 				<StripePanel
 					order={this.state.order}
 					closeStripeModal={this.closeStripeModal}
 					emptyCart={this.props.emptyCart}
-					onNext={this.onNext} />
+					onNext={this.onNext}
+				/>
 			</ModalBox>
 		);
 	};
@@ -219,30 +223,32 @@ class Cart extends PureComponent {
 			return <PaymentEmpty onViewHome={onViewHome} />;
 		}
 		const steps = [
-			{ 
+			{
 				label: Languages.MyCart,
 				icon: Images.IconCartGradient,
-				gradientColorFrom: "#F9769D",
-				gradientColorTo: "#BB6DF7",
+				gradientColorFrom: '#F9769D',
+				gradientColorTo: '#BB6DF7',
 			},
 			{
 				label: Languages.Payment,
 				icon: Images.IconPaymentGradient,
-				gradientColorFrom: "#7ED500",
-				gradientColorTo: "#00BF8D"
+				gradientColorFrom: '#7ED500',
+				gradientColorTo: '#00BF8D',
 			},
 			{
 				label: Languages.Order,
 				icon: Images.IconOrderGradient,
-				gradientColorFrom: "#C444FB",
-				gradientColorTo: "#5B56D7"
+				gradientColorFrom: '#C444FB',
+				gradientColorTo: '#5B56D7',
 			},
 		];
 
 		return (
 			<View style={styles.fill}>
 				{this.renderCheckOut()}
-				{this.props.isProcessing ? <Spinner mode="overlay" color="#000" /> : null}
+				{this.props.isProcessing ? (
+					<Spinner mode="overlay" color="#000" />
+				) : null}
 				<View style={styles.indicator}>
 					<StepIndicator
 						steps={steps}
@@ -252,12 +258,12 @@ class Cart extends PureComponent {
 				</View>
 				<View style={styles.content}>
 					<ScrollableTabView
-						ref={(tabView) => {
+						ref={tabView => {
 							this.tabCartView = tabView;
 						}}
 						locked
 						onChangeTab={this.updatePageIndex}
-						style={{ backgroundColor: "#fff" }}
+						style={{ backgroundColor: '#fff' }}
 						initialPage={0}
 						tabBarPosition="overlayTop"
 						prerenderingSiblingsNumber={1}
@@ -274,7 +280,7 @@ class Cart extends PureComponent {
 							onPrevious={this.onPrevious}
 							onNext={this.onNext}
 							userInfo={this.state.userInfo}
-							onChangeUserInfo = {this.onChangeUserInfo}
+							onChangeUserInfo={this.onChangeUserInfo}
 							isLoading={this.state.isLoading}
 							onShowCheckOut={this.onShowCheckOut}
 						/>
@@ -295,11 +301,11 @@ class Cart extends PureComponent {
 const mapStateToProps = ({ carts, user, spinner }) => ({
 	cartItems: carts.cartItems,
 	user,
-	isProcessing: spinner.isOpen
+	isProcessing: spinner.isOpen,
 });
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const CartRedux = require("@redux/CartRedux");
+	const CartRedux = require('@redux/CartRedux');
 
 	return {
 		...ownProps,

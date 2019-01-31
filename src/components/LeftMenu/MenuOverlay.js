@@ -1,19 +1,20 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import SideMenu from "react-native-drawer";
-import { Drawer } from "@components";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import SideMenu from 'react-native-drawer';
+import { Drawer } from '@components';
 
 class MenuOverlay extends PureComponent {
 	static propTypes = {
 		goToScreen: PropTypes.func,
 		routes: PropTypes.object,
 		isOpenMenu: PropTypes.bool.isRequired,
+		toggleMenu: PropTypes.func.isRequired,
 	};
 
-	toggleMenu = (isOpen) => {
+	toggleMenu = isOpen => {
 		if (!isOpen) {
 			this.props.toggleMenu(isOpen);
 		}
@@ -24,7 +25,7 @@ class MenuOverlay extends PureComponent {
 
 		return (
 			<SideMenu
-				ref={(_drawer) => (this.drawer = _drawer)}
+				ref={_drawer => (this.drawer = _drawer)}
 				type="overlay"
 				tapToClose
 				open={isOpenMenu}
@@ -46,11 +47,11 @@ const mapStateToProps = ({ sideMenu }) => ({
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
-	const { actions: sideMenuActions } = require("@redux/SideMenuRedux");
+	const { actions: sideMenuActions } = require('@redux/SideMenuRedux');
 	return {
 		...ownProps,
 		...stateProps,
-		toggleMenu: (isOpen) => dispatch(sideMenuActions.toggleMenu(isOpen)),
+		toggleMenu: isOpen => dispatch(sideMenuActions.toggleMenu(isOpen)),
 	};
 };
 export default connect(

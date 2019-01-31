@@ -1,14 +1,14 @@
 /** @format */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Images, Color, Styles } from "@common";
-import { Back, HeaderRight } from "./IconNav";
-import { MyOrders } from "@containers";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Images, Color, Styles } from '@common';
+import { Back, HeaderRight } from './IconNav';
+import { MyOrders } from '@containers';
 
 export default class MyOrdersScreen extends Component {
 	static navigationOptions = ({ navigation }) => ({
-		title: "My Orders",
+		title: 'My Orders',
 		headerLeft: Back(navigation, Images.icons.arrowBack),
 		headerRight: HeaderRight(navigation),
 
@@ -28,7 +28,7 @@ export default class MyOrdersScreen extends Component {
 		return (
 			<MyOrders
 				navigate={this.props.navigation}
-				onViewHomeScreen={() => navigate("Default")}
+				onViewHomeScreen={() => navigate('Default')}
 			/>
 		);
 	}

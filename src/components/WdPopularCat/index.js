@@ -1,24 +1,23 @@
-import React, { PureComponent } from "react"
+import React, { PureComponent } from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
-  Platform,
-  Dimensions,
-  TouchableOpacity
-} from "react-native";
-import { ButtonIndex } from "@components";
-import { Color } from "@common";
-import { NavigationActions } from "react-navigation";
-import { BlockTimer, CustomIcon, hexToRgb } from "@app/Omni";
+	Text,
+	View,
+	StyleSheet,
+	Platform,
+	Dimensions,
+	TouchableOpacity,
+} from 'react-native';
+import { ButtonIndex } from '@components';
+import { Color } from '@common';
+import { NavigationActions } from 'react-navigation';
+import { BlockTimer, CustomIcon, hexToRgb } from '@app/Omni';
 
 const navigateAction = NavigationActions.navigate({
-  routeName: "CategoriesScreen",
+	routeName: 'CategoriesScreen',
 });
 
 export default class WdPopularCat extends PureComponent {
-
-	onRowClickHandle = (category) => {
+	onRowClickHandle = category => {
 		const { setSelectedCategory, onViewCategory } = this.props;
 		BlockTimer.execute(() => {
 			setSelectedCategory({
@@ -33,74 +32,74 @@ export default class WdPopularCat extends PureComponent {
 		return (
 			<View style={styles.popCatWrapper}>
 				<View style={styles.popCatContainer}>
-					<View style={{width: '100%', padding:5, marginBottom: 10}}>
-						<Text style={{color: Color.wdDeepGray, fontSize: 18}}>Popular Categories</Text>
+					<View style={{ width: '100%', padding: 5, marginBottom: 10 }}>
+						<Text style={{ color: Color.wdDeepGray, fontSize: 18 }}>
+							Popular Categories
+						</Text>
 					</View>
-					{
-						this.props.categories.map((item, index) => {
-							if (index < 9){
-								let iconName = item.icon ? item.icon.replace("icon-", "") : "";
-								let rgbColorCode = item.icon_color ? hexToRgb(item.icon_color) : "";
-								return (
-									<TouchableOpacity
-										key={`pcat-${index}`}
-										onPress={() => this.onRowClickHandle(item)}
-										style={
-											[
-												styles.popCat,
-												{
-													backgroundColor: rgbColorCode ?
-														`rgba(${rgbColorCode}, 0.1)` :
-														"rgba(255, 255, 255, 0.5)"
-												}
-											]
-										}>
-											<CustomIcon
-												name={iconName}
-												size={30}
-												color={item.icon_color ? item.icon_color : "black"} />
-											<Text style={{color: '#808894', marginTop: 5}}>{item.name}</Text>
-									</TouchableOpacity>
-								)
-							}
-						})
-					}
+					{this.props.categories.map((item, index) => {
+						if (index < 9) {
+							let iconName = item.icon ? item.icon.replace('icon-', '') : '';
+							let rgbColorCode = item.icon_color
+								? hexToRgb(item.icon_color)
+								: '';
+							return (
+								<TouchableOpacity
+									key={`pcat-${index}`}
+									onPress={() => this.onRowClickHandle(item)}
+									style={[
+										styles.popCat,
+										{
+											backgroundColor: rgbColorCode
+												? `rgba(${rgbColorCode}, 0.1)`
+												: 'rgba(255, 255, 255, 0.5)',
+										},
+									]}>
+									<CustomIcon
+										name={iconName}
+										size={30}
+										color={item.icon_color ? item.icon_color : 'black'}
+									/>
+									<Text style={{ color: '#808894', marginTop: 5 }}>
+										{item.name}
+									</Text>
+								</TouchableOpacity>
+							);
+						}
+					})}
 
 					<View style={styles.btnContainer}>
 						<ButtonIndex
-							onPress={ () => this.props.navigation.dispatch(navigateAction) }
+							onPress={() => this.props.navigation.dispatch(navigateAction)}
 							type="text"
 							text="View all Categories"
 							textColor="#79828F"
 							containerColor="#fff"
-							containerStyle={
-								{
-									width: '70%',
-									...Platform.select({
-										ios: {
-											shadowColor: '#000',
-											shadowOpacity: 0.1,
-											shadowOffset: {width: 1, height: 1},
-										},
-										android: {
-											elevation: 3
-										}
-									}),
-								}
-							} 
+							containerStyle={{
+								width: '70%',
+								...Platform.select({
+									ios: {
+										shadowColor: '#000',
+										shadowOpacity: 0.1,
+										shadowOffset: { width: 1, height: 1 },
+									},
+									android: {
+										elevation: 3,
+									},
+								}),
+							}}
 						/>
 					</View>
 				</View>
 			</View>
-		)
+		);
 	}
 }
-
 
 const styles = StyleSheet.create({
 	popCatWrapper: {
 		width: Dimensions.get('window').width,
-		padding: 15
+		padding: 15,
 	},
 	popCatContainer: {
 		flexDirection: 'row',
@@ -114,11 +113,11 @@ const styles = StyleSheet.create({
 			ios: {
 				shadowColor: '#000',
 				shadowOpacity: 0.1,
-				shadowOffset: {width: 1, height: 1},
+				shadowOffset: { width: 1, height: 1 },
 			},
 			android: {
-				elevation: 3
-			}
+				elevation: 3,
+			},
 		}),
 	},
 	popCat: {
@@ -127,13 +126,13 @@ const styles = StyleSheet.create({
 		width: '31%',
 		height: 100,
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	btnContainer: {
 		width: '100%',
 		paddingTop: 10,
-		justifyContent:'center',
+		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: 10
-	}
-})
+		marginBottom: 10,
+	},
+});

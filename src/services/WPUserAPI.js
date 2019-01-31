@@ -5,12 +5,12 @@
  * @format
  */
 
-import { Config } from "@common";
-import { error, request } from "@app/Omni";
+import { Config } from '@common';
+import { error, request } from '@app/Omni';
 
 const url = Config.WooCommerce.url;
-const isSecured = url.startsWith("https");
-const secure = isSecured ? "" : "&insecure=cool";
+const isSecured = url.startsWith('https');
+const secure = isSecured ? '' : '&insecure=cool';
 const cookieLifeTime = 120960000000;
 
 const WPUserAPI = {
@@ -18,9 +18,9 @@ const WPUserAPI = {
 		const _url = `${url}/wp-json/jwt-auth/v1/token`;
 		const data = {
 			username: username,
-			password: password
-		}
-		const method = "POST"
+			password: password,
+		};
+		const method = 'POST';
 
 		return await request(_url, data, method);
 	},
@@ -29,9 +29,8 @@ const WPUserAPI = {
 
 	// 	return await request(_url);
 	// },
-	loginFacebook: async (token) => {
-		const _url =
-			`${url}/api/mstore_user/fb_connect/?second=${cookieLifeTime}&access_token=${token}${secure}`;
+	loginFacebook: async token => {
+		const _url = `${url}/api/mstore_user/fb_connect/?second=${cookieLifeTime}&access_token=${token}${secure}`;
 		return await request(_url);
 	},
 
@@ -42,21 +41,21 @@ const WPUserAPI = {
 		lastName,
 		password = undefined,
 		confirmPassword = undefined,
-		role
+		role,
 	}) => {
 		try {
-			const _url = `${url}/wp-json/dokan/v1/user/register`
+			const _url = `${url}/wp-json/dokan/v1/user/register`;
 			const data = {
 				username: username,
 				email: email,
 				first_name: firstName,
 				last_name: lastName,
-				password: password ? password : "",
-				confirm_password: confirmPassword ? confirmPassword : "",
-				role: role
-			}
+				password: password ? password : '',
+				confirm_password: confirmPassword ? confirmPassword : '',
+				role: role,
+			};
 
-			return await request(_url, data, "POST");
+			return await request(_url, data, 'POST');
 		} catch (err) {
 			error(err);
 			return { error: err };
@@ -67,12 +66,12 @@ const WPUserAPI = {
 		const json = await request(_url);
 		return json && json.nonce;
 	},
-	forgetPassword: async (userLogin) => {
+	forgetPassword: async userLogin => {
 		const _url = `${url}/wp-json/dokan/v1/user/lostpassword`;
-		const json = await request(_url, {user_login: userLogin}, "POST");
+		const json = await request(_url, { user_login: userLogin }, 'POST');
 
 		return json;
-	}
+	},
 };
 
 export default WPUserAPI;

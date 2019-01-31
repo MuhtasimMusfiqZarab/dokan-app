@@ -1,23 +1,23 @@
 /** @format */
 
-import { StyleSheet } from "react-native";
-import { Color, Constants } from "@common";
+import { StyleSheet } from 'react-native';
+import { Color, Constants } from '@common';
 
 export default StyleSheet.create({
 	container: {
 		height: 74,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		paddingBottom: 6,
 	},
 	labelContainer: {
 		flex: 1,
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 	},
 	label: {
 		color: Color.blackTextDisable,
 		fontSize: 12,
-		textAlign: "center",
+		textAlign: 'center',
 		fontFamily: Constants.fontHeader,
 	},
 	labelActive: {
@@ -25,9 +25,9 @@ export default StyleSheet.create({
 		fontFamily: Constants.fontHeader,
 	},
 	indicatorContainer: {
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingTop: 8,
 	},
 });

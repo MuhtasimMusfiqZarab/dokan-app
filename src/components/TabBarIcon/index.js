@@ -1,10 +1,10 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { View, StyleSheet, Text, Image } from "react-native";
-import { Styles, Color } from "@common";
-import { connect } from "react-redux";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { View, StyleSheet, Text, Image } from 'react-native';
+import { Styles, Color } from '@common';
+import { connect } from 'react-redux';
 
 class TabBarIcon extends PureComponent {
 	static propTypes = {
@@ -34,9 +34,9 @@ class TabBarIcon extends PureComponent {
 			</View>
 		);
 		return (
-			<View style={{ justifyContent: "center" }}>
+			<View style={{ justifyContent: 'center' }}>
 				<Image
-					ref={(comp) => (this._image = comp)}
+					ref={comp => (this._image = comp)}
 					source={icon}
 					style={[styles.icon, { tintColor }, css]}
 				/>
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
 	icon: {
 		width: 20,
 		height: 20,
-		resizeMode: "contain",
+		resizeMode: 'contain',
 	},
 	numberWrap: {
 		...Styles.Common.ColumnCenter,
-		position: "absolute",
+		position: 'absolute',
 		top: -10,
 		right: -10,
 		height: 18,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 		borderRadius: 9,
 	},
 	number: {
-		color: "white",
+		color: 'white',
 		fontSize: 12,
 		marginLeft: 3,
 		marginRight: 3,

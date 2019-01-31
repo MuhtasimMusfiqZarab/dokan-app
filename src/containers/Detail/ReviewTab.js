@@ -1,23 +1,23 @@
 /** @format */
 
-"use strict";
+'use strict';
 
-import React, { Component } from "react";
-import { Text, View, StyleSheet, ListView } from "react-native";
-import { connect } from "react-redux";
-import { toast } from "@app/Omni";
-import { Constants, Color, Languages } from "@common";
+import React, { Component } from 'react';
+import { Text, View, ListView } from 'react-native';
+import { connect } from 'react-redux';
+import { toast } from '@app/Omni';
+import { Languages } from '@common';
 
-import Spinner from "@components/Spinner";
-import styles from "./ReviewTab_Style.js";
-import ReviewItem from "./ListItem/ReviewItem.js";
+import Spinner from '@components/Spinner';
+import styles from './ReviewTab_Style.js';
+import ReviewItem from './ListItem/ReviewItem.js';
 
 class ReviewTab extends Component {
 	constructor(props) {
 		super(props);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.props.fetchReviews(this.props.product.id);
 	}
 
@@ -47,14 +47,14 @@ class ReviewTab extends Component {
 					style={styles.list}
 					enableEmptySections={true}
 					dataSource={ds.cloneWithRows(this.props.reviews)}
-					renderRow={(rowData) => <ReviewItem review={rowData} />}
+					renderRow={rowData => <ReviewItem review={rowData} />}
 				/>
 			);
 		}
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		netInfo: state.netInfo,
 		reviews: state.products.reviews,
@@ -66,12 +66,12 @@ const mapStateToProps = (state) => {
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { netInfo } = stateProps;
 	const { dispatch } = dispatchProps;
-	const { actions } = require("./../../redux/ProductRedux");
+	const { actions } = require('./../../redux/ProductRedux');
 
 	return {
 		...ownProps,
 		...stateProps,
-		fetchReviews: (productId) => {
+		fetchReviews: productId => {
 			if (!netInfo.isConnected) return toast(Languages.NoConnection);
 			actions.fetchReviewsByProductId(dispatch, productId);
 		},

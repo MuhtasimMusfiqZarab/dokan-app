@@ -1,6 +1,6 @@
 /** @format */
 
-import { Constants } from "@common";
+import { Constants } from '@common';
 
 export const actions = {
 	addSpinner: () => {
@@ -8,7 +8,7 @@ export const actions = {
 	},
 	removeSpinner: () => {
 		return { type: Constants.EmitCode.RemoveSpinner };
-	}
+	},
 };
 
 const initialState = {
@@ -19,12 +19,12 @@ export const reducer = (state = initialState, action) => {
 	const { type } = action;
 
 	switch (type) {
-    case Constants.EmitCode.AddSpinner:
+		case Constants.EmitCode.AddSpinner:
 			return {
 				...state,
 				isOpen: true,
 			};
-    case Constants.EmitCode.RemoveSpinner:
+		case Constants.EmitCode.RemoveSpinner:
 			return {
 				...state,
 				isOpen: false,

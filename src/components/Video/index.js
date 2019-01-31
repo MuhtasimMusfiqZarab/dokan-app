@@ -1,39 +1,39 @@
 /** @format */
 
-"use strict";
-import React, { Component } from "react";
-import { View, WebView } from "react-native";
+'use strict';
+import React, { Component } from 'react';
+import { WebView } from 'react-native';
 
-import VideoSourceReader from "./VideoSourceReader";
+import VideoSourceReader from './VideoSourceReader';
 
 export default class Video extends Component {
-  createSourceObject(source) {
-    const sourceReader = new VideoSourceReader(source);
-    const url = sourceReader.getUrl();
+	createSourceObject(source) {
+		const sourceReader = new VideoSourceReader(source);
+		const url = sourceReader.getUrl();
 
-    if (sourceReader.isEmbeddableVideo()) {
-      return {
-        uri: url,
-      };
-    }
+		if (sourceReader.isEmbeddableVideo()) {
+			return {
+				uri: url,
+			};
+		}
 
-    const HTML = `
+		const HTML = `
 			    <video width="100%" height="auto" controls  >
 			       <source src="${url}" >
 			     </video>
 			  `;
-    return {
-      html: HTML,
-    };
-  }
+		return {
+			html: HTML,
+		};
+	}
 
-  render() {
-    return (
-      <WebView
-        style={this.props.style ? this.props.style : null}
-        source={this.createSourceObject(this.props.source)}
-        scrollEnabled={false}
-      />
-    );
-  }
+	render() {
+		return (
+			<WebView
+				style={this.props.style ? this.props.style : null}
+				source={this.createSourceObject(this.props.source)}
+				scrollEnabled={false}
+			/>
+		);
+	}
 }

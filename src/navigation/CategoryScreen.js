@@ -1,11 +1,11 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { Color, Images, Styles } from "@common";
-import { TabBarIcon } from "@components";
-import { Category } from "@containers";
-import { Back, CartWishListIcons } from "./IconNav";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Color, Images, Styles } from '@common';
+import { TabBarIcon } from '@components';
+import { Category } from '@containers';
+import { Back, CartWishListIcons } from './IconNav';
 
 export default class CategoryScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => {
@@ -26,8 +26,8 @@ export default class CategoryScreen extends PureComponent {
 			headerLeftContainerStyle: Styles.Common.toolbarLeft,
 			headerRightContainerStyle: Styles.Common.toolbarRight,
 			headerTitleStyle: Styles.Common.headerTitleStyle,
-			tabBarVisible: false
-		}
+			tabBarVisible: false,
+		};
 	};
 
 	static propTypes = {
@@ -35,11 +35,11 @@ export default class CategoryScreen extends PureComponent {
 	};
 
 	render() {
-		const { navigate, } = this.props.navigation;
+		const { navigate } = this.props.navigation;
 		return (
 			<Category
-				onViewProductScreen={(item) => {
-					navigate("DetailScreen", item);
+				onViewProductScreen={item => {
+					navigate('DetailScreen', item);
 				}}
 			/>
 		);

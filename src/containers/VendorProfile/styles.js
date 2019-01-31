@@ -1,23 +1,22 @@
 /** @format */
 
-import { StyleSheet, Platform, Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
-import { Color, Config, Constants, Device } from "@common";
+import { StyleSheet, Platform } from 'react-native';
+import { Constants } from '@common';
 
 export default StyleSheet.create({
 	container: {
 		flex: 1,
 	},
 	profileSection: {
-		backgroundColor: "#FFF",
+		backgroundColor: '#FFF',
 		marginTop: 15,
 	},
 	headerSection: {
 		paddingHorizontal: 20,
 		paddingVertical: 10,
 		fontSize: 13,
-		color: "#4A4A4A",
-		fontWeight: "600",
+		color: '#4A4A4A',
+		fontWeight: '600',
 	},
 	tabView: {
 		// minHeight: height / 2,
@@ -26,69 +25,69 @@ export default StyleSheet.create({
 	},
 	tabItem: {
 		// flex: 0.32,
-		backgroundColor: "rgba(255,255,255,1)",
+		backgroundColor: 'rgba(255,255,255,1)',
 	},
 	tabButton: {
-		width: "100%",
-		flexDirection: "row",
-		justifyContent: "space-around",
+		width: '100%',
+		flexDirection: 'row',
+		justifyContent: 'space-around',
 		height: 50,
-		backgroundColor: "rgba(255,255,255,1)",
+		backgroundColor: 'rgba(255,255,255,1)',
 		...Platform.select({
 			ios: {
 				shadowColor: '#000',
 				shadowOpacity: 0.3,
-				shadowOffset: {width: 0, height: 4},
+				shadowOffset: { width: 0, height: 4 },
 			},
 			android: {
-				elevation: 3
-			}
+				elevation: 3,
+			},
 		}),
 	},
 	textTab: {
 		fontFamily: Constants.fontFamilyLato,
 		fontSize: 14,
-		color: "#7C8592"
+		color: '#7C8592',
 	},
 	tabContent: {
 		// padding: 35,
 	},
 	tabContentMap: {
-		width: "100%",
+		width: '100%',
 		paddingTop: 20,
-		justifyContent: "center",
-		alignItems: "center"
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	noLocation: {
-		width: "95%",
+		width: '95%',
 		height: 250,
-		position: "absolute",
+		position: 'absolute',
 		top: 20,
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "rgba(0, 0, 0, 0.3)"
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: 'rgba(0, 0, 0, 0.3)',
 	},
 	mapAddressBar: {
-		width: "95%",
+		width: '95%',
 		height: 70,
-		backgroundColor: "#fff",
-		flexDirection: "row",
+		backgroundColor: '#fff',
+		flexDirection: 'row',
 		...Platform.select({
 			ios: {
 				shadowColor: '#000',
 				shadowOpacity: 0.3,
-				shadowOffset: {width: 0, height: 1},
+				shadowOffset: { width: 0, height: 1 },
 			},
 			android: {
-				elevation: 3
-			}
+				elevation: 3,
+			},
 		}),
 	},
 	mapContactItem: {
 		flex: 0.5,
 		paddingHorizontal: 10,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-	}
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
 });

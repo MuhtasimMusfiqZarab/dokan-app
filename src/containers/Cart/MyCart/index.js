@@ -1,22 +1,21 @@
 /** @format */
 
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 import {
 	Text,
 	View,
 	ScrollView,
 	TouchableOpacity,
 	TextInput,
-} from "react-native";
-import css from "@cart/styles";
-import { currencyFormatter, toast } from "@app/Omni";
-import { ProductItem, Button } from "@components";
-import { connect } from "react-redux";
-import { SwipeRow } from "react-native-swipe-list-view";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Languages, Color } from "@common";
-import { LinearGradient } from "@expo";
-import styles from "./styles";
+} from 'react-native';
+import css from '@cart/styles';
+import { currencyFormatter, toast } from '@app/Omni';
+import { ProductItem, Button } from '@components';
+import { connect } from 'react-redux';
+import { SwipeRow } from 'react-native-swipe-list-view';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Languages, Color } from '@common';
+import styles from './styles';
 
 class MyCart extends PureComponent {
 	constructor(props) {
@@ -27,11 +26,11 @@ class MyCart extends PureComponent {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
-		console.log(nextProps);
+	UNSAFE_componentWillReceiveProps(nextProps) {
+		// console.log(nextProps);
 		if (
-			nextProps.hasOwnProperty("type") &&
-			nextProps.type == "GET_COUPON_CODE_FAIL" &&
+			nextProps.hasOwnProperty('type') &&
+			nextProps.type == 'GET_COUPON_CODE_FAIL' &&
 			nextProps.message
 		) {
 			this.props.cleanOldCoupon();
@@ -42,14 +41,14 @@ class MyCart extends PureComponent {
 	render() {
 		const { cartItems, totalPrice, isFetching, discountType } = this.props;
 		let couponBtn = Languages.ApplyCoupon;
-		let colors = [Color.darkOrange, Color.darkYellow, Color.yellow];
+		// let colors = [Color.darkOrange, Color.darkYellow, Color.yellow];
 		const finalPrice =
-			discountType == "percent"
+			discountType == 'percent'
 				? totalPrice - this.getExistCoupon() * totalPrice
 				: totalPrice - this.getExistCoupon();
 
 		if (isFetching) {
-			couponBtn = "Applying...";
+			couponBtn = 'Applying...';
 		} else if (this.getExistCoupon() > 0) {
 			colors = [Color.darkRed, Color.red];
 			couponBtn = Languages.remove;
@@ -85,11 +84,13 @@ class MyCart extends PureComponent {
 							))}
 					</View>
 					<View style={styles.couponView}>
-						<Text style={styles.couponLabel}>{Languages.CouponPlaceholder}:</Text>
+						<Text style={styles.couponLabel}>
+							{Languages.CouponPlaceholder}:
+						</Text>
 						<View style={styles.row}>
 							<TextInput
 								value={this.state.coupon}
-								onChangeText={(coupon) => this.setState({ coupon })}
+								onChangeText={coupon => this.setState({ coupon })}
 								style={[
 									styles.couponInput,
 									this.getExistCoupon() > 0 && {
@@ -115,7 +116,6 @@ class MyCart extends PureComponent {
 								text={couponBtn}
 								onPress={() => this.checkCouponCode()}
 							/>
-
 						</View>
 						{this.getExistCoupon() > 0 && (
 							<Text style={styles.couponMessage}>
@@ -151,14 +151,14 @@ class MyCart extends PureComponent {
 				this.props.cleanOldCoupon();
 			}
 		} else {
-			alert("No Coupon was Entered");
+			alert('No Coupon was Entered');
 		}
 	};
 
 	getCouponString = () => {
 		const { discountType } = this.props;
 		const couponValue = this.getExistCoupon();
-		if (discountType == "percent") {
+		if (discountType == 'percent') {
 			return `${couponValue * 100}%`;
 		}
 		return currencyFormatter(couponValue);
@@ -167,7 +167,7 @@ class MyCart extends PureComponent {
 	getExistCoupon = () => {
 		const { couponCode, couponAmount, discountType } = this.props;
 		if (couponCode == this.state.coupon) {
-			if (discountType == "percent") {
+			if (discountType == 'percent') {
 				return couponAmount / 100.0;
 			}
 			return couponAmount;
@@ -177,7 +177,7 @@ class MyCart extends PureComponent {
 }
 
 MyCart.defaultProps = {
-	couponCode: "",
+	couponCode: '',
 	couponAmount: 0,
 };
 
@@ -197,8 +197,8 @@ const mapStateToProps = ({ carts, products }) => {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const { actions } = require("@redux/CartRedux");
-	const productActions = require("@redux/ProductRedux").actions;
+	const { actions } = require('@redux/CartRedux');
+	const productActions = require('@redux/ProductRedux').actions;
 	return {
 		...ownProps,
 		...stateProps,
@@ -208,7 +208,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		cleanOldCoupon: () => {
 			productActions.cleanOldCoupon(dispatch);
 		},
-		getCouponAmount: (coupon) => {
+		getCouponAmount: coupon => {
 			productActions.getCouponAmount(dispatch, coupon);
 		},
 	};

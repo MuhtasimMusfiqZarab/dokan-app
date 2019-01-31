@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 import {
 	Text,
 	TextInput,
@@ -9,25 +9,21 @@ import {
 	TouchableOpacity,
 	Platform,
 	I18nManager,
-	Keyboard
-} from "react-native";
-import { connect } from "react-redux";
-import { Device } from "@common";
-import { Icon, IconIO } from "@app/Omni";
-import { Config } from "@common"
+	Keyboard,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { Device, Color, Constants, Icons, Languages } from '@common';
+import { FlatButton, Spinkit, ProductItem } from '@components';
+import { BlockTimer, Icon, IconIO } from '@app/Omni';
+import styles from './styles';
 
-import { Color, Constants, Icons, Languages } from "@common";
-import { Button, FlatButton, Spinkit, ProductItem , WdPopularCat} from "@components";
-import { BlockTimer, warn } from "@app/Omni";
-import styles from "./styles";
-
-class Search extends PureComponent {
+export default class Search extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.page = 1;
 		this.limit = Constants.pagingLimit;
 		this.state = {
-			text: "",
+			text: '',
 			isSubmit: false,
 			loading: false,
 			focus: true,
@@ -40,8 +36,12 @@ class Search extends PureComponent {
 			return (
 				<TouchableOpacity
 					onPress={this.onBack}
-					style={{ width: 50, justifyContent: "center", alignItems: "center" }}>
-					<Icon name={Icons.MaterialCommunityIcons.Back} size={25} color="#000" />
+					style={{ width: 50, justifyContent: 'center', alignItems: 'center' }}>
+					<Icon
+						name={Icons.MaterialCommunityIcons.Back}
+						size={25}
+						color="#000"
+					/>
 				</TouchableOpacity>
 			);
 		};
@@ -50,7 +50,7 @@ class Search extends PureComponent {
 			return (
 				<TouchableOpacity
 					onPress={this.startNewSearch}
-					style={{ width: 50, justifyContent: "center", alignItems: "center" }}>
+					style={{ width: 50, justifyContent: 'center', alignItems: 'center' }}>
 					<IconIO name={Icons.Ionicons.Search} size={24} color="#000" />
 				</TouchableOpacity>
 			);
@@ -65,7 +65,9 @@ class Search extends PureComponent {
 		};
 		const searchInput = (
 			<TextInput
-				ref="textInput"
+				ref={c => {
+					this.textInput = c;
+				}}
 				autoFocus={this.state.focus}
 				placeholder={Languages.SearchPlaceHolder}
 				placeholderTextColor={Color.blackTextSecondary}
@@ -74,7 +76,7 @@ class Search extends PureComponent {
 					I18nManager.isRTL ? { marginRight: 120 } : { marginLeft: 10 },
 				]}
 				value={this.state.text}
-				onChangeText={(text) => this.setState({ text })}
+				onChangeText={text => this.setState({ text })}
 				underlineColorAndroid="transparent"
 				onSubmitEditing={this.startNewSearch}
 			/>
@@ -84,12 +86,12 @@ class Search extends PureComponent {
 			<View
 				style={{
 					height: 50,
-					flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
+					flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
 					// marginBottom: 10,
-					marginTop: !Device.isIphoneX && Platform.OS === "ios" ? 20 : 0,
+					marginTop: !Device.isIphoneX && Platform.OS === 'ios' ? 20 : 0,
 					borderBottomWidth: 0.5,
 					borderColor: Color.DirtyBackground,
-					backgroundColor: "#fff"
+					backgroundColor: '#fff',
 				}}>
 				{closeButton()}
 				{searchInput}
@@ -99,7 +101,7 @@ class Search extends PureComponent {
 	};
 
 	onBack = () => {
-		this.setState({ text: "" });
+		this.setState({ text: '' });
 		Keyboard.dismiss();
 		this.props.onBack(null);
 	};
@@ -108,23 +110,25 @@ class Search extends PureComponent {
 		const { list } = this.props;
 
 		this.setState({ loading: true, isSubmit: true });
+
 		await this.props.fetchProductsByName(
 			this.state.text,
 			this.limit,
 			this.page
 		);
-		if (typeof list !== "undefined") {
+
+		if (typeof list !== 'undefined') {
 			this.setState({ loading: false });
 		}
 	};
 
-	onRowClickHandle = (product) => {
+	onRowClickHandle = product => {
 		BlockTimer.execute(() => {
 			this.props.onViewProductScreen({ product });
 		}, 500);
 	};
 
-	renderItem = (item) => {
+	renderItem = item => {
 		return (
 			<ProductItem
 				small
@@ -157,7 +161,7 @@ class Search extends PureComponent {
 						<View style={styles.more}>
 							<FlatButton
 								name="arrow-down"
-								text={isFetching ? "LOADING..." : "MORE"}
+								text={isFetching ? 'LOADING...' : 'MORE'}
 								load={this.nextPosts}
 							/>
 						</View>
@@ -165,12 +169,12 @@ class Search extends PureComponent {
 				}}
 			/>
 		) : (
-			isSubmit &&
-				!isFetching && (
-					<Text style={{ textAlign: "center", color: "red" }}>{Languages.NoResultError}</Text>
-				)
+			isSubmit && !isFetching && (
+				<Text style={{ textAlign: 'center', color: 'red' }}>
+					{Languages.NoResultError}
+				</Text>
+			)
 		);
-
 	};
 
 	// handleClickTab(tabIndex) {
@@ -179,10 +183,10 @@ class Search extends PureComponent {
 
 	render() {
 		return (
-			<View style={{ flex: 1, backgroundColor: "#F8F8FA" }}>
+			<View style={{ flex: 1, backgroundColor: '#F8F8FA' }}>
 				{this.renderSearchBar()}
 
-			{/* <View style={styles.tabView}>
+				{/* <View style={styles.tabView}>
 				<View
 					style={[
 						styles.tabButton,
@@ -255,12 +259,11 @@ class Search extends PureComponent {
 					</View>
 				)}
 			</View> */}
-				
+
 				{/* Search Result */}
 				<View style={{ flex: 1 }}>
 					{this.props.isFetching ? <Spinkit /> : this.renderResultList()}
 				</View>
-				
 			</View>
 		);
 	}
@@ -273,7 +276,7 @@ const mapStateToProps = ({ products }) => ({
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
-	const { actions } = require("@redux/ProductRedux");
+	const { actions } = require('@redux/ProductRedux');
 	return {
 		...ownProps,
 		...stateProps,

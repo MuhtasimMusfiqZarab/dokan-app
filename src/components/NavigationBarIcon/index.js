@@ -1,59 +1,53 @@
 /** @format */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
 	Text,
 	Platform,
 	TouchableOpacity,
 	StyleSheet,
 	Image,
-} from "react-native";
-import { Color, Styles } from "@common";
-import { CustomIcon, Icon } from "@app/Omni";
-import * as Animatable from "react-native-animatable";
+} from 'react-native';
+import { Color, Styles } from '@common';
+import { CustomIcon, Icon } from '@app/Omni';
+import * as Animatable from 'react-native-animatable';
 
 class NavigationBarIcon extends Component {
 	constructor(props) {
 		super(props);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (
-			typeof this.props.number != "undefined" &&
-			this.refs.menu &&
+			typeof this.props.number != 'undefined' &&
+			this.menu &&
 			this.props.number != nextProps.number
 		) {
-			this.refs.menu.fadeInDown(600);
+			this.menu.fadeInDown(600);
 		}
 	}
 
 	render() {
 		const { onPress, number, icon, color, size, type } = this.props;
-		const iconColor = color ? color : "#000";
-		
+		const iconColor = color ? color : '#000';
+
 		const renderItem = () => {
-			if (type === "icon") {
+			if (type === 'icon') {
 				return (
 					<CustomIcon
 						name={icon}
-						style={[
-							styles.icon,
-							{ color: iconColor },
-						]}
+						style={[styles.icon, { color: iconColor }]}
 						size={size ? size : 18}
 					/>
-				)
-			} else if (type === "materialIcon") {
+				);
+			} else if (type === 'materialIcon') {
 				return (
 					<Icon
 						name={icon}
-						style={[
-							styles.icon,
-							{ color: iconColor },
-						]}
+						style={[styles.icon, { color: iconColor }]}
 						size={size ? size : 18}
 					/>
-				)
+				);
 			} else {
 				return (
 					<Image
@@ -68,15 +62,19 @@ class NavigationBarIcon extends Component {
 						]}
 						resizeMode="contain"
 					/>
-				)
+				);
 			}
-		}
-		
+		};
+
 		return (
 			<TouchableOpacity onPress={onPress} style={styles.iconWrap}>
 				{renderItem()}
 				{!number ? null : (
-					<Animatable.View ref="menu" style={styles.numberWrap}>
+					<Animatable.View
+						ref={c => {
+							this.menu = c;
+						}}
+						style={styles.numberWrap}>
 						<Text style={styles.number}>{number}</Text>
 					</Animatable.View>
 				)}
@@ -88,22 +86,22 @@ class NavigationBarIcon extends Component {
 const styles = StyleSheet.create({
 	iconWrap: {
 		...Styles.Common.ColumnCenter,
-		width: Platform.OS === "android" ? 30 : Styles.headerHeight,
+		width: Platform.OS === 'android' ? 30 : Styles.headerHeight,
 		height: Styles.headerHeight,
 		// marginRight: 5
 	},
 	numberWrap: {
 		...Styles.Common.ColumnCenter,
-		position: "absolute",
-		top: Platform.OS === "ios" ? 1 : 8,
-		right: Platform.OS === "ios" ? 20 : 18,
+		position: 'absolute',
+		top: Platform.OS === 'ios' ? 1 : 8,
+		right: Platform.OS === 'ios' ? 20 : 18,
 		height: 20,
 		minWidth: 20,
 		backgroundColor: Color.error,
 		borderRadius: 10,
 	},
 	number: {
-		color: "white",
+		color: 'white',
 		fontSize: 12,
 		marginLeft: 3,
 		marginRight: 3,

@@ -1,7 +1,7 @@
 /** @format */
 
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
 	StyleSheet,
 	TouchableOpacity,
@@ -13,21 +13,21 @@ import {
 	Dimensions,
 	ActivityIndicator,
 	I18nManager,
-} from "react-native";
-import { Color } from "@common";
-import { CustomIcon } from "@app/Omni";
-import { LinearGradient } from "@expo";
+} from 'react-native';
+import { Color } from '@common';
+import { CustomIcon } from '@app/Omni';
+import { LinearGradient } from '@expo';
 
-const Button = (props) => {
-	if (props.type === "border") {
+const Button = props => {
+	if (props.type === 'border') {
 		return <BorderButton {...props} />;
-	} else if (props.type === "image") {
+	} else if (props.type === 'image') {
 		return <ImageButton {...props} />;
-	} else if (props.type === "text") {
+	} else if (props.type === 'text') {
 		return <TextButton {...props} />;
-	} else if (props.type === "tab") {
+	} else if (props.type === 'tab') {
 		return <TabButton {...props} />;
-	} else if (props.type === "gradientBtn") {
+	} else if (props.type === 'gradientBtn') {
 		return <GradientButton {...props} />;
 	}
 	return <StandardButton {...props} />;
@@ -37,14 +37,14 @@ Button.propTypes = {
 	type: PropTypes.string,
 };
 
-const TextButton = (props) => (
+const TextButton = props => (
 	<TouchableHighlight
 		disabled={props.disabled || props.isLoading}
 		onPress={() => props.onPress()}
 		style={[
 			styles.button,
 			props.style,
-			props.inactive && { backgroundColor: "#C6D8E4" },
+			props.inactive && { backgroundColor: '#C6D8E4' },
 		]}
 		activeOpacity={0.9}
 		underlayColor="#ccc">
@@ -52,9 +52,7 @@ const TextButton = (props) => (
 			{props.icon && (
 				<CustomIcon
 					name={props.icon}
-					style={
-						props.iconStyle ? props.iconStyle : styles.iconStyle
-					}
+					style={props.iconStyle ? props.iconStyle : styles.iconStyle}
 					size={props.iconSize ? props.iconSize : 18}
 				/>
 			)}
@@ -66,7 +64,7 @@ const TextButton = (props) => (
 						styles.imageIcon,
 						{ tintColor: props.color },
 						I18nManager.isRTL && {
-							transform: [{ rotate: "180deg" }],
+							transform: [{ rotate: '180deg' }],
 						},
 					]}
 				/>
@@ -81,14 +79,14 @@ const TextButton = (props) => (
 	</TouchableHighlight>
 );
 
-const BorderButton = (props) => (
+const BorderButton = props => (
 	<TouchableHighlight
 		disabled={props.disabled || props.isLoading}
 		onPress={() => props.onPress()}
 		style={[
 			styles.button,
 			props.style,
-			props.inactive && { backgroundColor: "#C6D8E4" },
+			props.inactive && { backgroundColor: '#C6D8E4' },
 		]}
 		activeOpacity={0.9}
 		underlayColor="#ccc">
@@ -101,7 +99,7 @@ const BorderButton = (props) => (
 						styles.imageIcon,
 						{ tintColor: props.color },
 						I18nManager.isRTL && {
-							transform: [{ rotate: "180deg" }],
+							transform: [{ rotate: '180deg' }],
 						},
 					]}
 				/>
@@ -116,14 +114,14 @@ const BorderButton = (props) => (
 	</TouchableHighlight>
 );
 
-const StandardButton = (props) => (
+const StandardButton = props => (
 	<TouchableHighlight
 		disabled={props.disabled || props.isLoading}
 		onPress={() => props.onPress()}
 		style={[
 			styles.button,
 			props.style,
-			props.inactive && { backgroundColor: "#C6D8E4" },
+			props.inactive && { backgroundColor: '#C6D8E4' },
 		]}
 		activeOpacity={0.9}
 		underlayColor="#ccc">
@@ -136,7 +134,7 @@ const StandardButton = (props) => (
 						styles.imageIcon,
 						{ tintColor: props.color },
 						I18nManager.isRTL && {
-							transform: [{ rotate: "180deg" }],
+							transform: [{ rotate: '180deg' }],
 						},
 					]}
 				/>
@@ -151,29 +149,29 @@ const StandardButton = (props) => (
 	</TouchableHighlight>
 );
 
-const ImageButton = (props) => {
-		return (
-			<TouchableHighlight
-				disabled={props.disabled}
-				onPress={() => props.onPress()}
-				activeOpacity={0.8}
-				underlayColor="#eeeeee"
-				style={props.buttonStyle}>
-				<Image
-					{...props}
-					defaultSource={props.defaultSource}
-					style={[
-						props.imageStyle,
-						props.isAddWishList && { tintColor: Color.heartActiveWishList },
-						props.isAddToCart && { tintColor: Color.TabActive },
-					]}
-					resizeMode="contain"
-				/>
-			</TouchableHighlight>
-		)
+const ImageButton = props => {
+	return (
+		<TouchableHighlight
+			disabled={props.disabled}
+			onPress={() => props.onPress()}
+			activeOpacity={0.8}
+			underlayColor="#eeeeee"
+			style={props.buttonStyle}>
+			<Image
+				{...props}
+				defaultSource={props.defaultSource}
+				style={[
+					props.imageStyle,
+					props.isAddWishList && { tintColor: Color.heartActiveWishList },
+					props.isAddToCart && { tintColor: Color.TabActive },
+				]}
+				resizeMode="contain"
+			/>
+		</TouchableHighlight>
+	);
 };
 
-const TabButton = (props) => (
+const TabButton = props => (
 	<TouchableOpacity
 		onPress={() => props.onPress()}
 		activeOpacity={0}
@@ -196,84 +194,78 @@ const TabButton = (props) => (
 	</TouchableOpacity>
 );
 
-const GradientButton = (props) => (
+const GradientButton = props => (
 	<TouchableOpacity
 		onPress={props.onPress}
-		style={
-			{
-				width:
-					props.size === "sm" ? Dimensions.get("window").width / 3.5: "auto",
-			}
-		}>
+		style={{
+			width:
+				props.size === 'sm' ? Dimensions.get('window').width / 3.5 : 'auto',
+		}}>
 		<LinearGradient
-			style={
-				[
-					styles.gradientButton,
-					{
-						width:
-							props.size === "sm" ? Dimensions.get("window").width / 3.5: "auto",
-						alignSelf: props.alignSelf ? props.alignSelf : "center",
-						marginTop: props.marginTop ? props.marginTop : 0,
-						marginBottom: props.marginBottom ? props.marginBottom : 0
-					}
-				]
-			}
-			start={ {x: 0.0, y: 0.5} }
-			end={ {x: 1.0, y: 0.5}}
+			style={[
+				styles.gradientButton,
+				{
+					width:
+						props.size === 'sm' ? Dimensions.get('window').width / 3.5 : 'auto',
+					alignSelf: props.alignSelf ? props.alignSelf : 'center',
+					marginTop: props.marginTop ? props.marginTop : 0,
+					marginBottom: props.marginBottom ? props.marginBottom : 0,
+				},
+			]}
+			start={{ x: 0.0, y: 0.5 }}
+			end={{ x: 1.0, y: 0.5 }}
 			locations={[0.0, 1.0]}
-			colors={["#FF9472", "#F2709C"]}>
-			<Text style={styles.gradientButtonText}>
-				{props.text}
-			</Text>
+			colors={['#FF9472', '#F2709C']}>
+			<Text style={styles.gradientButtonText}>{props.text}</Text>
 		</LinearGradient>
 	</TouchableOpacity>
-)
+);
 
 const styles = StyleSheet.create({
 	tabActiveText: {
-		color: "#000"
+		color: '#000',
 	},
 	tabActive: {
 		marginTop: 1,
 		borderBottomWidth: 2,
-		borderBottomColor: "#000"
+		borderBottomColor: '#000',
 	},
 	button: {
-		backgroundColor: "#0B4A7D",
-		justifyContent: "center",
-		alignItems: "center",
+		backgroundColor: '#0B4A7D',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	buttonView: {
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	imageIcon: {
-		resizeMode: "contain",
+		resizeMode: 'contain',
 		width: 20,
 		marginRight: 8,
 	},
 	text: {
-		color: "white",
+		color: 'white',
 		fontSize: 17,
 		marginTop: 3,
 	},
 	borderButton: {
 		height: 25,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderWidth: 1,
 		borderRadius: 5,
-		borderColor: "white",
+		borderColor: 'white',
 	},
 	tabButton: {
 		height: 50,
-		justifyContent: "center",
+		justifyContent: 'center',
 	},
 	tabButtonText: {
 		marginLeft: 10,
 		marginRight: 10,
-		textAlign: "center",
+		textAlign: 'center',
 		fontSize: 12,
 	},
 	loading: {
@@ -281,30 +273,30 @@ const styles = StyleSheet.create({
 	},
 	gradientButton: {
 		height: 40,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderRadius: 5,
 		padding: 10,
 		...Platform.select({
 			ios: {
-				backgroundColor: "#fff",
-				shadowColor: "#000",
+				backgroundColor: '#fff',
+				shadowColor: '#000',
 				shadowOpacity: 0.3,
-				shadowOffset: {width: 0, height: 2}
+				shadowOffset: { width: 0, height: 2 },
 			},
 			android: {
-				elevation: 3
-			}
-		})
+				elevation: 3,
+			},
+		}),
 	},
 	gradientButtonText: {
 		fontSize: 16,
-		color: "#fff"
+		color: '#fff',
 	},
 	iconStyle: {
-		color: "#000",
-		marginRight: 5
-	}
+		color: '#000',
+		marginRight: 5,
+	},
 });
 
 export default Button;

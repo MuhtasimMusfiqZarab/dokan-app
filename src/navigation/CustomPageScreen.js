@@ -1,38 +1,35 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { WebView } from "react-native";
-import { View } from "react-native";
-import { Languages, Color, Styles } from "@common";
-import { CustomPage } from "@containers";
-import { AnimatedHeader } from "@components";
-import { warn } from "@app/Omni";
+import React, { PureComponent } from 'react';
+import { WebView, View } from 'react-native';
+import { CustomPage } from '@containers';
+import { AnimatedHeader } from '@components';
 
 export default class CustomPageScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
-    header: null,
-  });
+	static navigationOptions = ({ navigation }) => ({
+		header: null,
+	});
 
-  render() {
-    const { state } = this.props.navigation;
-    if (typeof state.params == "undefined") {
-      return <View />;
-    }
+	render() {
+		const { state } = this.props.navigation;
+		if (typeof state.params == 'undefined') {
+			return <View />;
+		}
 
-    if (typeof state.params.url != "undefined") {
-      return (
-        <View style={{ flex: 1 }}>
-          <AnimatedHeader />
-          <WebView source={{ uri: state.params.url }} />
-        </View>
-      );
-    }
+		if (typeof state.params.url != 'undefined') {
+			return (
+				<View style={{ flex: 1 }}>
+					<AnimatedHeader />
+					<WebView source={{ uri: state.params.url }} />
+				</View>
+			);
+		}
 
-    return (
-      <View>
-        <AnimatedHeader />
-        <CustomPage id={state.params.id} />
-      </View>
-    );
-  }
+		return (
+			<View>
+				<AnimatedHeader />
+				<CustomPage id={state.params.id} />
+			</View>
+		);
+	}
 }

@@ -1,17 +1,11 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import {
-	Text,
-	View,
-	Image,
-	Platform,
-	Dimensions,
-} from "react-native";
-import styles from "./index_style.js";
-import { Color, Device } from "@common";
-import { LinearGradient } from "@expo";
-var widthScreen = Dimensions.get("window").width;
+import React, { PureComponent } from 'react';
+import { Text, View, Image, Platform, Dimensions } from 'react-native';
+import styles from './index_style.js';
+import { Color } from '@common';
+import { LinearGradient } from '@expo';
+var widthScreen = Dimensions.get('window').width;
 
 export default class StepIndicator extends PureComponent {
 	constructor(props) {
@@ -44,27 +38,27 @@ export default class StepIndicator extends PureComponent {
 					(widthScreen - allIndicatorWidth - this.marginContent * 2) /
 					(props.steps.length - 1));
 		}
-		
+
 		this.labelWidth =
 			this.marginContent * 2 +
 			this.customStyles.stepIndicatorSize +
 			2 * this.customStyles.borderPadding;
-		
-		if (Platform.OS == "ios") {
+
+		if (Platform.OS == 'ios') {
 			this.shadow = {
-				shadowColor: "#000",
+				shadowColor: '#000',
 				shadowOpacity: 0.3,
-				shadowOffset: {width: -1, height: 2},
-			}
+				shadowOffset: { width: -1, height: 2 },
+			};
 		} else {
 			this.shadow = {
-				elevation : 3
-			}
+				elevation: 3,
+			};
 		}
 	}
 
 	renderStepIndicator(index, item) {
-		let isCurrent = index == this.props.currentIndex;
+		// let isCurrent = index == this.props.currentIndex;
 
 		let indicatorContainerWithShadow = {
 			width:
@@ -73,15 +67,15 @@ export default class StepIndicator extends PureComponent {
 			height:
 				this.customStyles.stepIndicatorSize +
 				this.customStyles.borderPadding * 2,
-			justifyContent: "center",
-			alignItems: "center",
+			justifyContent: 'center',
+			alignItems: 'center',
 			borderRadius:
 				(this.customStyles.stepIndicatorSize +
 					this.customStyles.borderPadding * 2) /
 				2,
-			backgroundColor:"#fff",
+			backgroundColor: '#fff',
 			zIndex: 10,
-			...this.shadow
+			...this.shadow,
 		};
 
 		let indicatorContainer = {
@@ -91,28 +85,28 @@ export default class StepIndicator extends PureComponent {
 			height:
 				this.customStyles.stepIndicatorSize +
 				this.customStyles.borderPadding * 2,
-			justifyContent: "center",
-			alignItems: "center",
+			justifyContent: 'center',
+			alignItems: 'center',
 			borderRadius:
 				(this.customStyles.stepIndicatorSize +
 					this.customStyles.borderPadding * 2) /
 				2,
-			backgroundColor:"#fff",
-		}
-
-		let indicatorStyle = {
-			backgroundColor:
-				index < this.props.currentIndex ? this.customStyles.color : "#CED7DD",
-			width: this.customStyles.stepIndicatorSize,
-			height: this.customStyles.stepIndicatorSize,
-			borderRadius: this.customStyles.stepIndicatorSize / 1,
+			backgroundColor: '#fff',
 		};
 
-		let indicatorCurrent = {
-			backgroundColor: "white",
-			borderWidth: 1.5,
-			borderColor: this.customStyles.color,
-		};
+		// let indicatorStyle = {
+		// 	backgroundColor:
+		// 		index < this.props.currentIndex ? this.customStyles.color : '#CED7DD',
+		// 	width: this.customStyles.stepIndicatorSize,
+		// 	height: this.customStyles.stepIndicatorSize,
+		// 	borderRadius: this.customStyles.stepIndicatorSize / 1,
+		// };
+
+		// let indicatorCurrent = {
+		// 	backgroundColor: 'white',
+		// 	borderWidth: 1.5,
+		// 	borderColor: this.customStyles.color,
+		// };
 
 		let imageSize = 20;
 		let imageStyle = {
@@ -120,60 +114,58 @@ export default class StepIndicator extends PureComponent {
 			height: imageSize,
 		};
 		let whiteImage = {
-			tintColor : "#fff"
-		}
+			tintColor: '#fff',
+		};
 
 		return (
 			<View
 				style={
 					this.props.currentIndex > index ||
-					this.props.currentIndex === this.props.steps.length -1 ?
-					indicatorContainer :
-					indicatorContainerWithShadow
+					this.props.currentIndex === this.props.steps.length - 1
+						? indicatorContainer
+						: indicatorContainerWithShadow
 				}
-				key={"indicator-" + index}>
+				key={'indicator-' + index}>
 				<LinearGradient
-				colors={
-					this.props.currentIndex > index ||
-					this.props.currentIndex == this.props.steps.length -1 ?
-						[item.gradientColorFrom, item.gradientColorTo] :
-						["#fff", "#fff"]
-				}
-				style={
-					this.props.currentIndex > index ?
-					indicatorContainer :
-					indicatorContainerWithShadow
-				}>
+					colors={
+						this.props.currentIndex > index ||
+						this.props.currentIndex == this.props.steps.length - 1
+							? [item.gradientColorFrom, item.gradientColorTo]
+							: ['#fff', '#fff']
+					}
+					style={
+						this.props.currentIndex > index
+							? indicatorContainer
+							: indicatorContainerWithShadow
+					}>
 					<Image
 						resizeMode="contain"
 						source={item.icon}
-						style={
-							[
-								imageStyle,
-								this.props.currentIndex > index ||
-								this.props.currentIndex == this.props.steps.length -1 ?
-								whiteImage :
-								null
-							]
-						}
+						style={[
+							imageStyle,
+							this.props.currentIndex > index ||
+							this.props.currentIndex == this.props.steps.length - 1
+								? whiteImage
+								: null,
+						]}
 					/>
 				</LinearGradient>
 			</View>
 		);
 	}
 
-	renderProgressBar(index, item) {
+	renderProgressBar(index) {
 		let progressBarContainer = {
 			height: this.customStyles.borderPadding * 2 + 2,
 			width: this.stepStrokeWidth,
-			justifyContent: "center",
+			justifyContent: 'center',
 			zIndex: 3,
 		};
 
 		let progressBarBorder = {
 			height: this.customStyles.borderPadding * 2 + 2,
 			width: this.stepStrokeWidth,
-			position: "absolute",
+			position: 'absolute',
 			top: 0,
 			// left: -1,
 			left: 0,
@@ -185,40 +177,38 @@ export default class StepIndicator extends PureComponent {
 			width: this.stepStrokeWidth - this.customStyles.borderPadding * 2,
 			height: 3,
 			// backgroundColor: this.customStyles.color,
-			backgroundColor: "#D8D8D8",
-			position: "absolute",
+			backgroundColor: '#D8D8D8',
+			position: 'absolute',
 			top: this.customStyles.borderPadding,
 			left: this.customStyles.borderPadding,
 		};
 
-		if(this.props.currentIndex === 0) {
+		if (this.props.currentIndex === 0) {
 			return (
-				<View style={progressBarContainer} key={"progress-" + index}>
+				<View style={progressBarContainer} key={'progress-' + index}>
 					<View style={progressBarBorder}>
 						<View style={progressBar} />
 					</View>
 				</View>
-			)  
+			);
 		} else {
 			return (
-				<View style={progressBarContainer} key={"progress-" + index}>
+				<View style={progressBarContainer} key={'progress-' + index}>
 					<View style={progressBarBorder}>
-						{
-							index < this.props.currentIndex ?
-								<LinearGradient
-									colors={
-										[
-											this.props.steps[index].gradientColorFrom,
-											this.props.steps[index].gradientColorTo
-										]
-									}
-									style={progressBar}
-								/> :
-								<View style={progressBar} />
-						}
+						{index < this.props.currentIndex ? (
+							<LinearGradient
+								colors={[
+									this.props.steps[index].gradientColorFrom,
+									this.props.steps[index].gradientColorTo,
+								]}
+								style={progressBar}
+							/>
+						) : (
+							<View style={progressBar} />
+						)}
 					</View>
 				</View>
-			)
+			);
 		}
 	}
 
@@ -228,9 +218,7 @@ export default class StepIndicator extends PureComponent {
 
 		for (var i = 0; i < this.props.steps.length; i++) {
 			let item = this.props.steps[i];
-			content.push(
-				this.renderStepIndicator(i, item)
-			);
+			content.push(this.renderStepIndicator(i, item));
 			label.push(
 				<Text
 					key={i}

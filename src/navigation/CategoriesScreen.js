@@ -1,15 +1,13 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { Menu, CartWishListIcons } from "./IconNav";
-
-import { Color, Styles } from "@common";
-import { TabBarIcon } from "@components";
-import { Categories } from "@containers";
+import React, { PureComponent } from 'react';
+import { Menu, CartWishListIcons } from './IconNav';
+import { Color, Styles } from '@common';
+import { Categories } from '@containers';
 
 export default class CategoriesScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
-		headerTitle: "All Categories",
+		headerTitle: 'All Categories',
 		headerLeft: Menu(),
 		headerRight: CartWishListIcons(navigation),
 
@@ -22,12 +20,12 @@ export default class CategoriesScreen extends PureComponent {
 
 	render() {
 		const { navigate } = this.props.navigation;
-		
+
 		return (
 			<Categories
-				onViewProductScreen={(item) => navigate("DetailScreen", item)}
-				onViewCategory={(item) => {
-					navigate("CategoryScreen", item);
+				onViewProductScreen={item => navigate('DetailScreen', item)}
+				onViewCategory={item => {
+					navigate('CategoryScreen', item);
 				}}
 			/>
 		);

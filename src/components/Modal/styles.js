@@ -1,44 +1,39 @@
 /** @format */
 
-import {
-	StyleSheet,
-	Dimensions,
-	I18nManager,
-	Platform
-} from "react-native";
-import { Color } from "@common";
+import { StyleSheet, Dimensions, I18nManager } from 'react-native';
+import { Color } from '@common';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
 	modalBoxWrap: {
-		position: "absolute",
+		position: 'absolute',
 		borderRadius: 6,
 		top: (height * 35) / 100,
 		width: (width * 96) / 100,
 		height: (height * 70) / 100,
 		flex: 1,
-		backgroundColor: "transparent",
+		backgroundColor: 'transparent',
 		zIndex: 10,
 		right: I18nManager.isRTL ? 0 : null,
 	},
 	modalReadlater: {
-		position: "absolute",
+		position: 'absolute',
 		borderRadius: 6,
 		width: width - 20,
 		top: (height * 2) / 100,
 		flex: 1,
-		backgroundColor: "transparent",
+		backgroundColor: 'transparent',
 		zIndex: 9999,
 		right: I18nManager.isRTL ? 0 : null,
 	},
 	wrap: {
 		flex: 1,
 		zIndex: 9999,
-		position: "relative",
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "rgba(255,255,255, 1)",
+		position: 'relative',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: 'rgba(255,255,255, 1)',
 		borderRadius: 6,
 		paddingTop: 0,
 		paddingRight: 0,
@@ -46,10 +41,10 @@ export default StyleSheet.create({
 		paddingLeft: 0,
 	},
 	iconZoom: {
-		position: "absolute",
+		position: 'absolute',
 		right: 7,
 		top: 10,
-		backgroundColor: "transparent",
+		backgroundColor: 'transparent',
 		paddingTop: 4,
 		paddingRight: 4,
 		paddingBottom: 4,
@@ -63,18 +58,18 @@ export default StyleSheet.create({
 		paddingRight: 50,
 		paddingBottom: 50,
 		paddingLeft: 50,
-		flexWrap: "wrap",
+		flexWrap: 'wrap',
 	},
 	boxTag: {
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		marginRight: 10,
 		marginBottom: 20,
 	},
 	textTag: {
-		color: "rgba(0,0,0, 0.7)",
+		color: 'rgba(0,0,0, 0.7)',
 		fontSize: 24,
-		fontWeight: "200",
+		fontWeight: '200',
 	},
 	newsIcons: {
 		marginLeft: 2,
@@ -92,16 +87,16 @@ export default StyleSheet.create({
 		paddingBottom: 2,
 		paddingLeft: 2,
 		marginBottom: 10,
-		shadowColor: "#000",
+		shadowColor: '#000',
 		width: 30,
-		resizeMode: "contain",
+		resizeMode: 'contain',
 		zIndex: 10,
 		height: 30,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	imageIconActive: {
-		color: "#fff",
+		color: '#fff',
 	},
 	textActive: {
 		color: Color.headerTintColor,
@@ -115,31 +110,31 @@ export default StyleSheet.create({
 	rowView: {
 		width: width / 2 - 40,
 		marginTop: 16,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	row: {
 		width: 100,
 		height: 80,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	rowActive: {
-		backgroundColor: "rgba(42, 181, 179, 0.8)",
+		backgroundColor: 'rgba(42, 181, 179, 0.8)',
 		borderRadius: 9,
 	},
 	text: {
 		fontSize: 12,
-		fontWeight: "200",
+		fontWeight: '200',
 		lineHeight: 12,
 		color: Color.blackTextPrimary,
 	},
 	layoutBox: {
 		flex: 1,
-		flexDirection: "row",
-		flexWrap: "wrap",
-		justifyContent: "center",
-		alignItems: "center",
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingTop: 20,
 		paddingRight: 20,
 		paddingBottom: 20,
@@ -151,13 +146,13 @@ export default StyleSheet.create({
 	},
 	// Comment
 	boxComment: {
-		position: "absolute",
+		position: 'absolute',
 		top: 20,
 		bottom: 40,
 		width,
 		height,
 		flex: 1,
-		backgroundColor: "#FFF",
+		backgroundColor: '#FFF',
 		zIndex: 999,
 		paddingTop: 20,
 		paddingRight: 20,

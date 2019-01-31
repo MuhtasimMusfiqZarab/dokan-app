@@ -1,18 +1,11 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { TouchableOpacity, Text, View, Image, Dimensions } from "react-native";
-import styles from "./styles";
-import {
-	Styles,
-	getProductImage,
-	currencyFormatter,
-	warn,
-	Languages,
-	Images,
-} from "@app/Omni";
-import ChangeQuantity from "@components/ChangeQuantity";
-import { connect } from "react-redux";
+import React, { PureComponent } from 'react';
+import { TouchableOpacity, Text, View, Image, Dimensions } from 'react-native';
+import styles from './styles';
+import { getProductImage, currencyFormatter } from '@app/Omni';
+import ChangeQuantity from '@components/ChangeQuantity';
+import { connect } from 'react-redux';
 
 class ProductItem extends PureComponent {
 	render() {
@@ -32,7 +25,7 @@ class ProductItem extends PureComponent {
 					<View
 						style={[
 							styles.infoView,
-							{ width: Dimensions.get("window").width - 180 },
+							{ width: Dimensions.get('window').width - 180 },
 						]}>
 						<TouchableOpacity onPress={() => onPress({ product })}>
 							<Text style={styles.title}>{product.name}</Text>
@@ -40,8 +33,8 @@ class ProductItem extends PureComponent {
 						<View style={styles.priceContainer}>
 							<Text style={styles.price}>{currencyFormatter(price)}</Text>
 							{variation &&
-								typeof variation.attributes !== "undefined" &&
-								variation.attributes.map((variant) => {
+								typeof variation.attributes !== 'undefined' &&
+								variation.attributes.map(variant => {
 									return (
 										<Text key={variant.name} style={styles.productVariant}>
 											{variant.option}
@@ -73,7 +66,7 @@ class ProductItem extends PureComponent {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const { actions } = require("@redux/CartRedux");
+	const { actions } = require('@redux/CartRedux');
 	return {
 		...ownProps,
 		...stateProps,

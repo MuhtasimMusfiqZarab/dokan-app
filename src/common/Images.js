@@ -31,31 +31,31 @@ const Images = {
 	IconSearch: require('@images/icons/icon-search.png'),
 
 	// Filter Icon in Category
-	IconFilter: require("@images/icons/icon-filter.png"),
-	IconList: require("@images/icons/icon-list.png"),
-	IconGrid: require("@images/icons/icon-grid.png"),
-	IconCard: require("@images/icons/icon-card.png"),
+	IconFilter: require('@images/icons/icon-filter.png'),
+	IconList: require('@images/icons/icon-list.png'),
+	IconGrid: require('@images/icons/icon-grid.png'),
+	IconCard: require('@images/icons/icon-card.png'),
 
-	IconSwitch: require("@images/icons/icon-switch.png"),
+	IconSwitch: require('@images/icons/icon-switch.png'),
 	icons: {
-		home: require("@images/icons/icon-homes.png"),
-		back: require("@images/icons/icon-back.png"),
-		arrowBack: require("@images/ic_arrow_back.png"),
-		backs: require("@images/icons/icon-backs.png"),
-		next: require("@images/icons/icon-next.png"),
+		home: require('@images/icons/icon-homes.png'),
+		back: require('@images/icons/icon-back.png'),
+		arrowBack: require('@images/ic_arrow_back.png'),
+		backs: require('@images/icons/icon-backs.png'),
+		next: require('@images/icons/icon-next.png'),
 
-		iconCard: require("@images/icon-card.png"),
-		iconColumn: require("@images/icon-column.png"),
-		iconLeft: require("@images/icon-listLeft.png"),
-		iconRight: require("@images/icon-listRight.png"),
-		iconThree: require("@images/icon-three.png"),
-		iconAdvance: require("@images/icon-advance.png"),
-		iconHorizal: require("@images/icon-horizal.png"),
+		iconCard: require('@images/icon-card.png'),
+		iconColumn: require('@images/icon-column.png'),
+		iconLeft: require('@images/icon-listLeft.png'),
+		iconRight: require('@images/icon-listRight.png'),
+		iconThree: require('@images/icon-three.png'),
+		iconAdvance: require('@images/icon-advance.png'),
+		iconHorizal: require('@images/icon-horizal.png'),
 	},
 	Banner: {
-		Banner1: require("@images/banner/banner1.png"),
-		Banner2: require("@images/banner/banner2.png"),
-		Banner3: require("@images/banner/banner3.png"),
+		Banner1: require('@images/banner/banner1.png'),
+		Banner2: require('@images/banner/banner2.png'),
+		Banner3: require('@images/banner/banner3.png'),
 	},
 	IconUkFlag: require('@images/ic_uk_country_flag.jpg'),
 	IconOmanFlag: require('@images/ic_oman_country_flag.jpg'),
@@ -75,7 +75,7 @@ const Images = {
 		Furnitures: require('@images/categories/furnitures.png'),
 		Movies: require('@images/categories/movies.png'),
 		Music: require('@images/categories/music.png'),
-		Poster: require('@images/categories/poster.png')
+		Poster: require('@images/categories/poster.png'),
 	},
 	IconCartGradient: require('@images/icons/icon-cart-gradient.png'),
 	IconDeliveryGradient: require('@images/icons/icon-delivery-gradient.png'),
@@ -88,7 +88,7 @@ const Images = {
 	LoginScreenBackground: require('@images/login_screen.png'),
 	CategoryColorIcon: require('@images/category_color.png'),
 	VendorColorIcon: require('@images/vendor_color.png'),
-	ProductColorIcon: require('@images/product_color.png')
+	ProductColorIcon: require('@images/product_color.png'),
 };
 
 export default Images;

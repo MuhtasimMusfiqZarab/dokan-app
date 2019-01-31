@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component, PureComponent } from "react";
+import React, { Component } from 'react';
 import {
 	FlatList,
 	Image,
@@ -8,15 +8,11 @@ import {
 	RefreshControl,
 	Animated,
 	View,
-} from "react-native";
-import {
-	PostLayout,
-	Spinkit,
-	WdVendorListToolBar,
-} from "@components";
-import { Constants, Languages } from "@common";
-import { connect } from "react-redux";
-import styles from "./styles";
+} from 'react-native';
+import { PostLayout, Spinkit, WdVendorListToolBar } from '@components';
+import { Constants } from '@common';
+import { connect } from 'react-redux';
+import styles from './styles';
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
@@ -33,8 +29,8 @@ class VendorList extends Component {
 		this.isVendorList = props.type === undefined;
 	}
 
-	componentWillMount() {
-		this.props.navigation.setParams({ title: "Store List" });
+	UNSAFE_componentWillMount() {
+		this.props.navigation.setParams({ title: 'Store List' });
 	}
 
 	componentDidMount() {
@@ -42,10 +38,10 @@ class VendorList extends Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return(
+		return (
 			nextProps.layoutVendorScreen !== this.props.layoutVendorScreen ||
 			nextProps.list !== this.props.list
-		)
+		);
 	}
 
 	fetchData = (reload = false) => {
@@ -62,9 +58,9 @@ class VendorList extends Component {
 		}
 	};
 
-	onRowClickHandle = (item) => {
+	onRowClickHandle = item => {
 		this.props.fetchVendorProducts(item.id);
-		this.props.onViewVendorScreen(item)
+		this.props.onViewVendorScreen(item);
 	};
 
 	renderItem = ({ item, index }) => {
@@ -73,7 +69,7 @@ class VendorList extends Component {
 		return (
 			<PostLayout
 				post={item}
-				type={"Vendor"}
+				type={'Vendor'}
 				key={`key-${index}`}
 				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
 				layout={this.props.layoutVendorScreen}
@@ -94,9 +90,9 @@ class VendorList extends Component {
 	};
 
 	render() {
-		const { list, config, isFetching, showToolBar, navigation } = this.props;
+		const { list, isFetching, showToolBar } = this.props;
 		const renderFooter = () => isFetching && <Spinkit />;
-		
+
 		return (
 			<View style={styles.listView}>
 				{showToolBar && <WdVendorListToolBar />}
@@ -115,13 +111,13 @@ class VendorList extends Component {
 						/>
 					}
 					onEndReachedThreshold={100}
-					onEndReached={(distance) =>
+					onEndReached={distance =>
 						distance.distanceFromEnd > 100 && this.handleLoadMore()
 					}
 					scrollEventThrottle={1}
 					onScroll={Animated.event(
 						[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-						{ useNativeDriver: Platform.OS !== "android" }
+						{ useNativeDriver: Platform.OS !== 'android' }
 					)}
 				/>
 			</View>
@@ -130,10 +126,10 @@ class VendorList extends Component {
 }
 
 const mapStateToProps = ({ vendors }, ownProp) => {
-	const list = 
-		ownProp.vendorListType === "featured" ?
-		vendors.featuredVendorList :
-		vendors.vendorList;
+	const list =
+		ownProp.vendorListType === 'featured'
+			? vendors.featuredVendorList
+			: vendors.vendorList;
 	const isFetching = vendors.isFetching;
 	const layoutVendorScreen = vendors.layoutVendorScreen;
 	const finish = true;
@@ -143,7 +139,7 @@ const mapStateToProps = ({ vendors }, ownProp) => {
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
-	const { actions: VendorActions } = require("@redux/VendorRedux");
+	const { actions: VendorActions } = require('@redux/VendorRedux');
 	return {
 		...ownProps,
 		...stateProps,
@@ -153,9 +149,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		fetchFeaturedVendors: () => {
 			VendorActions.fetchFeaturedVendors(dispatch);
 		},
-		fetchVendorProducts: (vendorID) => {
-			VendorActions.fetchVendorProducts( dispatch, vendorID );
-		}
+		fetchVendorProducts: vendorID => {
+			VendorActions.fetchVendorProducts(dispatch, vendorID);
+		},
 	};
 };
 

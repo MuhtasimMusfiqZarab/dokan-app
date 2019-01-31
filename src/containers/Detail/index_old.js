@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Text,
 	TouchableOpacity,
@@ -10,9 +10,9 @@ import {
 	Animated,
 	Image,
 	Share,
-} from "react-native";
-import { connect } from "react-redux";
-import { Timer, getProductImage, currencyFormatter, warn } from "@app/Omni";
+} from 'react-native';
+import { connect } from 'react-redux';
+import { Timer, getProductImage, currencyFormatter, warn } from '@app/Omni';
 import {
 	Button,
 	AdMob,
@@ -21,15 +21,15 @@ import {
 	ProductColor,
 	ProductRelated,
 	Rating,
-} from "@components";
-import Swiper from "react-native-swiper";
-import { Styles, Languages, Color, Config, Constants, Events } from "@common";
-import Modal from "react-native-modalbox";
-import { find, filter } from "lodash";
-import * as Animatable from "react-native-animatable";
-import AttributesView from "./AttributesView";
-import ReviewTab from "./ReviewTab.js";
-import styles from "./ProductDetail_Style";
+} from '@components';
+import Swiper from 'react-native-swiper';
+import { Styles, Languages, Color, Config, Constants, Events } from '@common';
+import Modal from 'react-native-modalbox';
+import { find, filter } from 'lodash';
+import * as Animatable from 'react-native-animatable';
+import AttributesView from './AttributesView';
+import ReviewTab from './ReviewTab.js';
+import styles from './ProductDetail_Style';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
@@ -71,7 +71,7 @@ class Detail extends PureComponent {
 		this.getProductAttribute(this.props.product);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.getCartTotal(nextProps, true);
 		this.getWishList(nextProps, true);
 
@@ -88,19 +88,19 @@ class Detail extends PureComponent {
 		}
 	}
 
-	getProductAttribute = (product) => {
+	getProductAttribute = product => {
 		this.productAttributes = product.attributes;
 		const defaultAttribute = product.default_attributes;
 		console.log(product);
-		if (typeof this.productAttributes !== "undefined") {
-			this.productAttributes.map((attribute) => {
+		if (typeof this.productAttributes !== 'undefined') {
+			this.productAttributes.map(attribute => {
 				const selectedAttribute = defaultAttribute.find(
-					(item) => item.name === attribute.name
+					item => item.name === attribute.name
 				);
 				attribute.selectedOption =
-					typeof selectedAttribute !== "undefined"
+					typeof selectedAttribute !== 'undefined'
 						? selectedAttribute.option.toLowerCase()
-						: "";
+						: '';
 			});
 		}
 	};
@@ -118,17 +118,17 @@ class Detail extends PureComponent {
 		Timer.setTimeout(() => this.state.scrollY.setValue(0), 50);
 	}
 
-	getColor = (value) => {
+	getColor = value => {
 		const color = value.toLowerCase();
-		if (typeof Color.attributes[color] !== "undefined") {
+		if (typeof Color.attributes[color] !== 'undefined') {
 			return Color.attributes[color];
 		}
-		return "#333";
+		return '#333';
 	};
 
 	share = () => {
 		Share.share({
-			message: this.props.product.description.replace(/(<([^>]+)>)/gi, ""),
+			message: this.props.product.description.replace(/(<([^>]+)>)/gi, ''),
 			url: this.props.product.permalink,
 			title: this.props.product.name,
 		});
@@ -145,7 +145,7 @@ class Detail extends PureComponent {
 		if (go) onViewCart();
 	};
 
-	addToWishList = (isAddWishList) => {
+	addToWishList = isAddWishList => {
 		if (isAddWishList) {
 			this.props.removeWishListItem(this.props.product);
 		} else this.props.addWishListItem(this.props.product);
@@ -179,13 +179,13 @@ class Detail extends PureComponent {
 	getWishList = (props, check = false) => {
 		const { product, navigation, wishListItems } = props;
 
-		if (props.hasOwnProperty("wishListItems")) {
+		if (props.hasOwnProperty('wishListItems')) {
 			if (check == true && props.wishListItems == this.props.wishListItems) {
 				return;
 			}
 			this.isInWishList =
-				find(props.wishListItems, (item) => item.product.id == product.id) !=
-				"undefined";
+				find(props.wishListItems, item => item.product.id == product.id) !=
+				'undefined';
 
 			const sum = wishListItems.length;
 			const params = navigation.state.params;
@@ -196,27 +196,27 @@ class Detail extends PureComponent {
 
 	onSelectAttribute = (attributeName, option) => {
 		const selectedAttribute = this.productAttributes.find(
-			(item) => item.name === attributeName
+			item => item.name === attributeName
 		);
 		selectedAttribute.selectedOption = option.toLowerCase();
 
 		this.updateSelectedVariant(this.props.productVariations);
 	};
 
-	updateSelectedVariant = (productVariations) => {
+	updateSelectedVariant = productVariations => {
 		const selectedAttribute = filter(
 			this.productAttributes,
-			(item) => typeof item.selectedOption !== "undefined"
+			item => typeof item.selectedOption !== 'undefined'
 		);
 
 		// if (productVariations) {
 		productVariations &&
-			productVariations.map((variant) => {
+			productVariations.map(variant => {
 				let matchCount = 0;
-				selectedAttribute.map((selectAttribute) => {
+				selectedAttribute.map(selectAttribute => {
 					const isMatch = find(
 						variant.attributes,
-						(item) =>
+						item =>
 							item.name === selectAttribute.name &&
 							item.option.toLowerCase() ===
 								selectAttribute.selectedOption.toLowerCase()
@@ -240,7 +240,7 @@ class Detail extends PureComponent {
 		const imageScale = this.state.scrollY.interpolate({
 			inputRange: [-300, 0, NAVI_HEIGHT, this.productInfoHeight / 2],
 			outputRange: [2, 1, 1, 0.7],
-			extrapolate: "clamp",
+			extrapolate: 'clamp',
 		});
 		return (
 			<ScrollView
@@ -276,7 +276,7 @@ class Detail extends PureComponent {
 				<View
 					style={[
 						styles.tabButton,
-						Constants.RTL && { flexDirection: "row-reverse" },
+						Constants.RTL && { flexDirection: 'row-reverse' },
 					]}>
 					<View style={styles.tabItem}>
 						<Button
@@ -341,10 +341,10 @@ class Detail extends PureComponent {
 
 		const isAddToCart = !!(
 			cartItems &&
-			cartItems.filter((item) => item.product.id === product.id).length > 0
+			cartItems.filter(item => item.product.id === product.id).length > 0
 		);
 		const isAddWishList =
-			wishListItems.filter((item) => item.product.id === product.id).length > 0;
+			wishListItems.filter(item => item.product.id === product.id).length > 0;
 		const productPrice = currencyFormatter(
 			selectVariation ? selectVariation.price : product.price
 		);
@@ -362,12 +362,12 @@ class Detail extends PureComponent {
 			<View
 				style={[
 					styles.bottomView,
-					Constants.RTL && { flexDirection: "row-reverse" },
+					Constants.RTL && { flexDirection: 'row-reverse' },
 				]}>
 				<View style={styles.buttonContainer}>
 					<Button
 						type="image"
-						source={require("@images/icons/icon-share.png")}
+						source={require('@images/icons/icon-share.png')}
 						imageStyle={styles.imageButton}
 						buttonStyle={styles.buttonStyle}
 						onPress={this.share}
@@ -375,7 +375,7 @@ class Detail extends PureComponent {
 					<Button
 						type="image"
 						isAddWishList={isAddWishList}
-						source={require("@images/icons/icon-love.png")}
+						source={require('@images/icons/icon-love.png')}
 						imageStyle={styles.imageButton}
 						buttonStyle={styles.buttonStyle}
 						onPress={() => this.addToWishList(isAddWishList)}
@@ -383,7 +383,7 @@ class Detail extends PureComponent {
 					<Button
 						type="image"
 						isAddToCart={isAddToCart}
-						source={require("@images/icons/icon-cart.png")}
+						source={require('@images/icons/icon-cart.png')}
 						imageStyle={styles.imageButton}
 						disabled={!product.in_stock}
 						buttonStyle={styles.buttonStyle}
@@ -421,12 +421,12 @@ class Detail extends PureComponent {
 		};
 
 		const renderTitle = () => (
-			<View style={{ justifyContent: "center", marginTop: 6, marginBottom: 8 }}>
+			<View style={{ justifyContent: 'center', marginTop: 6, marginBottom: 8 }}>
 				<Text style={styles.productName}>{product.name}</Text>
 				<View
 					style={{
-						flexDirection: "row",
-						justifyContent: "center",
+						flexDirection: 'row',
+						justifyContent: 'center',
 						marginTop: 2,
 						marginBottom: 4,
 					}}>
@@ -446,13 +446,13 @@ class Detail extends PureComponent {
 			console.log(this.productAttributes);
 			return (
 				<View>
-					{typeof this.productAttributes !== "undefined" &&
+					{typeof this.productAttributes !== 'undefined' &&
 						this.productAttributes.map((attribute, attrIndex) => (
 							<View
 								key={`attr${attrIndex}`}
 								style={[
 									styles.productSizeContainer,
-									Constants.RTL && { flexDirection: "row-reverse" },
+									Constants.RTL && { flexDirection: 'row-reverse' },
 								]}>
 								{attribute.name !== Constants.productAttributeColor &&
 									attribute.options.map((option, index) => (
@@ -476,18 +476,18 @@ class Detail extends PureComponent {
 		};
 
 		const renderProductColor = () => {
-			if (typeof this.productAttributes === "undefined") {
+			if (typeof this.productAttributes === 'undefined') {
 				return;
 			}
 
 			const productColor = this.productAttributes.find(
-				(item) => item.name === Constants.productAttributeColor
+				item => item.name === Constants.productAttributeColor
 			);
 			if (productColor) {
 				const translateY = this.state.scrollY.interpolate({
 					inputRange: [0, PRODUCT_IMAGE_HEIGHT / 2, PRODUCT_IMAGE_HEIGHT],
 					outputRange: [0, -PRODUCT_IMAGE_HEIGHT / 3, -PRODUCT_IMAGE_HEIGHT],
-					extrapolate: "clamp",
+					extrapolate: 'clamp',
 				});
 
 				return (
@@ -529,12 +529,12 @@ class Detail extends PureComponent {
 				<Animated.ScrollView
 					style={styles.listContainer}
 					scrollEventThrottle={1}
-					onScroll={(event) => {
+					onScroll={event => {
 						this.state.scrollY.setValue(event.nativeEvent.contentOffset.y);
 					}}>
 					<View
 						style={[styles.productInfo]}
-						onLayout={(event) =>
+						onLayout={event =>
 							(this.productInfoHeight = event.nativeEvent.layout.height)
 						}>
 						{this._renderImages()}
@@ -550,7 +550,7 @@ class Detail extends PureComponent {
 				{renderButtons()}
 
 				<Modal
-					ref={(com) => (this._modalPhoto = com)}
+					ref={com => (this._modalPhoto = com)}
 					swipeToClose={false}
 					animationDuration={200}
 					style={styles.modalBoxWrap}>
@@ -580,7 +580,7 @@ class Detail extends PureComponent {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		cartItems: state.carts.cartItems,
 		wishListItems: state.wishList.wishListItems,
@@ -591,22 +591,22 @@ const mapStateToProps = (state) => {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const CartRedux = require("@redux/CartRedux");
-	const WishListRedux = require("@redux/WishListRedux");
-	const ProductRedux = require("@redux/ProductRedux");
+	const CartRedux = require('@redux/CartRedux');
+	const WishListRedux = require('@redux/WishListRedux');
+	const ProductRedux = require('@redux/ProductRedux');
 	return {
 		...ownProps,
 		...stateProps,
 		addCartItem: (product, variation) => {
 			CartRedux.actions.addCartItem(dispatch, product, variation);
 		},
-		addWishListItem: (product) => {
+		addWishListItem: product => {
 			WishListRedux.actions.addWishListItem(dispatch, product);
 		},
-		removeWishListItem: (product) => {
+		removeWishListItem: product => {
 			WishListRedux.actions.removeWishListItem(dispatch, product);
 		},
-		getProductVariations: (product) => {
+		getProductVariations: product => {
 			ProductRedux.actions.getProductVariations(dispatch, product);
 		},
 	};

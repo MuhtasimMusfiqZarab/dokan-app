@@ -1,21 +1,21 @@
 /** @format */
 
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 import {
 	Animated,
 	ScrollView,
 	View,
 	ListView,
 	TouchableOpacity,
-	Text
-} from "react-native";
-import { connect } from "react-redux";
-import { Button, ProductItem, AnimatedHeader } from "@components";
-import { SwipeRow } from "react-native-swipe-list-view";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Constants, Languages } from "@common";
-import WishListEmpty from "./Empty";
-import styles from "./styles";
+	Text,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { Button, ProductItem } from '@components';
+import { SwipeRow } from 'react-native-swipe-list-view';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Constants, Languages } from '@common';
+import WishListEmpty from './Empty';
+import styles from './styles';
 
 class WishList extends PureComponent {
 	constructor(props) {
@@ -38,7 +38,7 @@ class WishList extends PureComponent {
 		this.setState({ currentIndex: this.state.currentIndex + 1 });
 	};
 
-	renderHiddenRow(rowData, index) {
+	renderHiddenRow(rowData) {
 		return (
 			<TouchableOpacity
 				style={styles.hiddenRow}
@@ -55,7 +55,7 @@ class WishList extends PureComponent {
 	moveAllToCart = () => {
 		if (this.props.wishListItems.length === 0) alert(Languages.EmptyAddToCart);
 		else {
-			this.props.wishListItems.forEach((item) => {
+			this.props.wishListItems.forEach(item => {
 				const inCartTotal = this.props.cartItems.reduce(
 					(accumulator, currentValue) => {
 						if (currentValue.product.id == item.product.id) {
@@ -75,7 +75,7 @@ class WishList extends PureComponent {
 
 	cleanAll = () => {
 		const self = this;
-		this.props.wishListItems.forEach((currentValue, index, array) => {
+		this.props.wishListItems.forEach(currentValue => {
 			self.props.removeWishListItem(
 				currentValue.product,
 				currentValue.variation
@@ -85,11 +85,11 @@ class WishList extends PureComponent {
 
 	render() {
 		const { wishListItems, onViewProduct } = this.props;
-		const titleTransformY = this.state.scrollY.interpolate({
-			inputRange: [0, 50],
-			outputRange: [0, -43],
-			extrapolate: "clamp",
-		});
+		// const titleTransformY = this.state.scrollY.interpolate({
+		// 	inputRange: [0, 50],
+		// 	outputRange: [0, -43],
+		// 	extrapolate: 'clamp',
+		// });
 
 		if (wishListItems.length == 0) {
 			return <WishListEmpty onViewHome={this.props.onViewHome} />;
@@ -110,7 +110,7 @@ class WishList extends PureComponent {
 					{wishListItems.length > 1 ? Languages.Items : Languages.Item}
 				</Animated.Text> */}
 				<Text style={styles.value}>
-					{wishListItems.length}{" "}
+					{wishListItems.length}{' '}
 					{wishListItems.length > 1 ? Languages.Items : Languages.Item}
 				</Text>
 
@@ -160,7 +160,7 @@ class WishList extends PureComponent {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		wishListItems: state.wishList.wishListItems,
 		cartItems: state.carts.cartItems,
@@ -169,8 +169,8 @@ const mapStateToProps = (state) => {
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const CartRedux = require("./../../redux/CartRedux");
-	const WishListRedux = require("./../../redux/WishListRedux");
+	const CartRedux = require('./../../redux/CartRedux');
+	const WishListRedux = require('./../../redux/WishListRedux');
 	return {
 		...ownProps,
 		...stateProps,

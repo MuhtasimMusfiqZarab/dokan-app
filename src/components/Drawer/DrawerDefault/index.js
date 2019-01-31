@@ -1,87 +1,91 @@
 /**
- * Modified by weDevs on 06/08/2018
- *
  * @format
  */
 
-import React, { PureComponent } from 'react'
-import { View, ScrollView, Image, I18nManager } from 'react-native'
-import { connect } from 'react-redux'
-import { Styles, Config, Tools } from '@common'
-import { Text } from '@components'
-import { DrawerButton } from '../DrawerButton'
-import styles from './wdstyles'
+import React, { PureComponent } from 'react';
+import { View, ScrollView, Image, I18nManager } from 'react-native';
+import { connect } from 'react-redux';
+import { Styles, Config, Tools } from '@common';
+import { Text } from '@components';
+import { DrawerButton } from '../DrawerButton';
+import styles from './styles';
 
 class DrawerDefault extends PureComponent {
 	constructor(props) {
-		super(props)
+		super(props);
 
-		const { user } = props.userProfile
+		const { user } = props.userProfile;
 
 		// Config Menu
 		if (user) {
-			this.buttonList = [...Config.menu.listMenu, ...Config.menu.listMenuLogged]
+			this.buttonList = [
+				...Config.menu.listMenu,
+				...Config.menu.listMenuLogged,
+			];
 		} else {
 			this.buttonList = [
 				...Config.menu.listMenu,
 				...Config.menu.listMenuUnlogged,
-			]
+			];
 		}
 
 		this.state = {
 			reload: false,
-		}
+		};
 
 		/**
 		 * Keep track of active screen
 		 */
 		this.buttonList.map((item, index) => {
-			if(item.params.isActive === true) {
+			if (item.params.isActive === true) {
 				this.state = {
 					...this.state,
-					activeScreenIndex: index
-				}
+					activeScreenIndex: index,
+				};
 			}
-		})
-
+		});
 	}
 
 	/**
 	 * Update when logged in
 	 */
-	componentWillReceiveProps(props) {
-		const { userProfile } = props
+	UNSAFE_componentWillReceiveProps(props) {
+		const { userProfile } = props;
 
 		if (userProfile && userProfile.user) {
-			this.buttonList = [...Config.menu.listMenu, ...Config.menu.listMenuLogged]
+			this.buttonList = [
+				...Config.menu.listMenu,
+				...Config.menu.listMenuLogged,
+			];
 		} else {
-			this.buttonList = [...Config.menu.listMenu, ...Config.menu.listMenuUnlogged]
+			this.buttonList = [
+				...Config.menu.listMenu,
+				...Config.menu.listMenuUnlogged,
+			];
 		}
 	}
 
-	_handlePress = (item) => {
-		const { goToScreen } = this.props
+	_handlePress = item => {
+		const { goToScreen } = this.props;
 
 		// To show active inactive menu
-		if(item.params.isActive === false) {
-			item.params.isActive = true,
-			this.setState({
-				activeScreenIndex: item.index
-			})
+		if (item.params.isActive === false) {
+			item.params.isActive = true;
+			this.setState({ activeScreenIndex: item.index });
 		} else {
 			this.setState({
-				activeScreenIndex: item.index
-			})
+				activeScreenIndex: item.index,
+			});
 		}
 
-		goToScreen(item.routeName, item.params, item.isReset)
-	}
+		goToScreen(item.routeName, item.params, item.isReset);
+	};
 
 	render() {
-		const { userProfile } = this.props
-		const user = userProfile.user
-		const avatar = Tools.getAvatar(user)
-		const name = Tools.getName(user)
+		const { userProfile } = this.props;
+		const user = userProfile.user;
+		const avatar = Tools.getAvatar(user);
+		const name = Tools.getName(user);
 
 		return (
 			<View style={styles.container}>
@@ -90,34 +94,31 @@ class DrawerDefault extends PureComponent {
 						source={avatar}
 						style={[styles.avatar, I18nManager.isRTL && { left: -20 }]}
 					/>
-
 					<View style={styles.textContainer}>
 						<Text style={styles.fullName}>{name}</Text>
 						<Text style={styles.email}>{user ? user.email : ''}</Text>
 					</View>
 				</View>
 				<ScrollView>
-					{
-						this.buttonList.map((item, index) => {
-							return (
-								<DrawerButton
-									onPress={() => this._handlePress(item)}
-									key={index}
-									isActive={this.state.activeScreenIndex === index}
-									{...item}
-								/>
-							)
-						})
-					}
+					{this.buttonList.map((item, index) => {
+						return (
+							<DrawerButton
+								onPress={() => this._handlePress(item)}
+								key={index}
+								isActive={this.state.activeScreenIndex === index}
+								{...item}
+							/>
+						);
+					})}
 				</ScrollView>
 			</View>
-		)
+		);
 	}
 }
 
 const mapStateToProps = ({ user, netInfo }) => ({
 	userProfile: user,
 	netInfo, // auto reload when netInfo change, also fix reload menu to change language
-})
+});
 
-export default connect(mapStateToProps)(DrawerDefault)
+export default connect(mapStateToProps)(DrawerDefault);

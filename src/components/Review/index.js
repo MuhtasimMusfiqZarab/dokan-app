@@ -1,26 +1,25 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { View, TouchableOpacity, TextInput, Text } from "react-native";
-import { Languages, Color, Events } from "@common";
-import { Button, Spinkit } from "@components";
-import Rating from "react-native-star-rating";
-import CustomAPI from "@services/CustomAPI";
-import Icon from "@expo/vector-icons/SimpleLineIcons";
-import { toast } from "@app/Omni";
-import { connect } from "react-redux";
-import css from "./styles";
-import WooWorker from "@services/WooCommerce/WooWorker";
+import React, { PureComponent } from 'react';
+import { View, TouchableOpacity, TextInput, Text } from 'react-native';
+import { Languages, Color } from '@common';
+import { Spinkit } from '@components';
+import Rating from 'react-native-star-rating';
+import Icon from '@expo/vector-icons/SimpleLineIcons';
+import { toast } from '@app/Omni';
+import { connect } from 'react-redux';
+import css from './styles';
+import WooWorker from '@services/WooCommerce/WooWorker';
 
 class Review extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			txtComment: "",
+			txtComment: '',
 			//   addComment: false,
 			starCount: 0,
 			//   statusRate: "Very Good",
-			isLoading: false
+			isLoading: false,
 		};
 	}
 
@@ -31,41 +30,40 @@ class Review extends PureComponent {
 	}
 
 	submitComment = async () => {
-		if(this.props.vendorReview) {
-			toast("API Needed");
+		if (this.props.vendorReview) {
+			toast('API Needed');
 		} else {
 			this.setState({
-				isLoading: true
-			})
-			const { cookie, userData, post } = this.props;
-			const self = this;
-			if (this.state.txtComment == "") {
+				isLoading: true,
+			});
+			const { userData, post } = this.props;
+			// const self = this;
+			if (this.state.txtComment == '') {
 				return toast(Languages.errInputComment);
 			}
 			if (this.state.starCount == 0) {
 				return toast(Languages.errRatingComment);
 			}
-	
-			const reviewer = `${userData.user.first_name} ${userData.user.last_name}`
-			const reviewer_email = userData.user.email
+
+			const reviewer = `${userData.user.first_name} ${userData.user.last_name}`;
+			const reviewer_email = userData.user.email;
 			const commentData = {
 				product_id: post.id,
 				review: this.state.txtComment,
 				reviewer: reviewer,
 				reviewer_email: reviewer_email,
-				rating: this.state.starCount
+				rating: this.state.starCount,
 			};
-	
+
 			const response = await WooWorker.createProductReview(commentData);
-	
+
 			if (response.id) {
 				this.setState({
-					isLoading: false
-				})
+					isLoading: false,
+				});
 				this.props.onNewReview(response);
 			}
 		}
-		
 	};
 
 	renderCommentInput = () => {
@@ -81,7 +79,7 @@ class Review extends PureComponent {
 						autoCorrect={false}
 						multiline
 						value={this.state.txtComment}
-						onChangeText={(text) => this.setState({ txtComment: text })}
+						onChangeText={text => this.setState({ txtComment: text })}
 						placeholder={Languages.placeComment}
 						onSubmitEditing={this.submitComment}
 					/>
@@ -104,72 +102,67 @@ class Review extends PureComponent {
 		);
 	};
 
-	renderStatusRate = (value) => {
+	renderStatusRate = value => {
 		switch (value) {
 			case 1:
-				return "Terrible";
+				return 'Terrible';
 			case 2:
-				return "Poor";
+				return 'Poor';
 			case 3:
-				return "Average";
+				return 'Average';
 			case 4:
-				return "Very Good";
+				return 'Very Good';
 			case 5:
-				return "Exceptional";
+				return 'Exceptional';
 			default:
-				return "Average";
+				return 'Average';
 		}
 	};
 
 	render() {
 		return (
-			<View style={[
-				css.wrapComment,
-				this.state.isLoading && {
-					justifyContent: "center",
-					alignItems: "center"
-				}
-			]}>
-				{
-					!this.state.isLoading && <Text style={css.headCommentText}>{Languages.comment}</Text>
-				}
-				{
-					!this.state.isLoading && (
-						<View style={css.fullWidth}>
-							<View style={css.wrapRating}>
-								<Rating
-									disabled={false}
-									maxStars={5}
-									starSize={26}
-									emptyStar="star-o"
-									fullStar="star"
-									// halfStar={'star-half-o'}
-									// halfStarEnabled
-									rating={this.state.starCount}
-									starColor={Color.starRating}
-									fullStarColor={Color.starRating}
-									halfStarColor={Color.starRating}
-									emptyStarColor="#ccc"
-									selectedStar={(rating) => this.onStarRatingPress(rating)}
-								/>
-							</View>
-							<View style={css.besideStar}>
-								<View style={css.statusRate}>
-									<Text style={css.textStatusRate}>
-										{this.renderStatusRate(this.state.starCount)}
-									</Text>
-								</View>
+			<View
+				style={[
+					css.wrapComment,
+					this.state.isLoading && {
+						justifyContent: 'center',
+						alignItems: 'center',
+					},
+				]}>
+				{!this.state.isLoading && (
+					<Text style={css.headCommentText}>{Languages.comment}</Text>
+				)}
+				{!this.state.isLoading && (
+					<View style={css.fullWidth}>
+						<View style={css.wrapRating}>
+							<Rating
+								disabled={false}
+								maxStars={5}
+								starSize={26}
+								emptyStar="star-o"
+								fullStar="star"
+								// halfStar={'star-half-o'}
+								// halfStarEnabled
+								rating={this.state.starCount}
+								starColor={Color.starRating}
+								fullStarColor={Color.starRating}
+								halfStarColor={Color.starRating}
+								emptyStarColor="#ccc"
+								selectedStar={rating => this.onStarRatingPress(rating)}
+							/>
+						</View>
+						<View style={css.besideStar}>
+							<View style={css.statusRate}>
+								<Text style={css.textStatusRate}>
+									{this.renderStatusRate(this.state.starCount)}
+								</Text>
 							</View>
 						</View>
-					)
-				}
-				{
-					!this.state.isLoading && this.renderCommentInput()
-				}
-				{
-					this.state.isLoading && <Spinkit size="large" />
-				}
-				
+					</View>
+				)}
+				{!this.state.isLoading && this.renderCommentInput()}
+				{this.state.isLoading && <Spinkit size="large" />}
+
 				{/* {this.renderCommentInput()} */}
 				{/* <DropdownAlert ref={ref => (this.dropdown = ref)} /> */}
 			</View>

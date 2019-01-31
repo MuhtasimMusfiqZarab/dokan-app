@@ -2,17 +2,15 @@
  * @format
  */
 
-import React, { PureComponent } from "react";
+import React, { PureComponent } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { Back, HeaderRight } from "./IconNav";
-import { LinearGradient } from "@expo";
-
-import { Images, Config, Constants, Color, Styles, Languages } from "@common";
-import { WishList } from "@containers";
+import { Back, HeaderRight } from './IconNav';
+import { LinearGradient } from '@expo';
+import { Images, Color, Styles } from '@common';
 
 export default class AboutUsScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
-		title: "About Us",
+		title: 'About Us',
 		headerLeft: Back(navigation, Images.icons.arrowBack),
 		headerRight: HeaderRight(navigation),
 
@@ -21,32 +19,30 @@ export default class AboutUsScreen extends PureComponent {
 		headerLeftContainerStyle: Styles.Common.toolbarLeft,
 		headerRightContainerStyle: Styles.Common.toolbarRight,
 		headerTitleStyle: Styles.Common.headerTitleStyle,
-
 	});
 
 	render() {
-		const { navigate } = this.props.navigation;
+		// const { navigate } = this.props.navigation;
 		// const rootNavigation = this.props.screenProps.rootNavigation;
 
 		return (
-			<View style={{flex: 1, alignItems: "center"}}>
+			<View style={{ flex: 1, alignItems: 'center' }}>
 				<View style={styles.slimTabContainer}>
-
 					<View style={styles.slimTabCotainer}>
 						<LinearGradient
 							style={styles.slimTabCircle}
-							colors={["#F9769D", "#BB6DF7"]}>
+							colors={['#F9769D', '#BB6DF7']}>
 							<Image
 								source={Images.IcVision}
-								style={{width: 25, height: 25}}
-								resizeMode="contain" />
+								style={{ width: 25, height: 25 }}
+								resizeMode="contain"
+							/>
 						</LinearGradient>
 						<View style={styles.vendorInfo}>
-							<Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
+							<Text style={{ fontSize: 18, marginLeft: 5, color: '#000' }}>
 								Vision
 							</Text>
-							<Text
-								style={{color:"#818995", marginLeft: 5, marginTop: 10}}>
+							<Text style={{ color: '#818995', marginLeft: 5, marginTop: 10 }}>
 								Short Description
 							</Text>
 						</View>
@@ -55,18 +51,18 @@ export default class AboutUsScreen extends PureComponent {
 					<View style={styles.slimTabCotainer}>
 						<LinearGradient
 							style={styles.slimTabCircle}
-							colors={["#32D1DC", "#6F9BF5"]}>
+							colors={['#32D1DC', '#6F9BF5']}>
 							<Image
 								source={Images.IcLicense}
-								style={{width: 25, height: 25}}
-								resizeMode="contain" />
+								style={{ width: 25, height: 25 }}
+								resizeMode="contain"
+							/>
 						</LinearGradient>
 						<View style={styles.vendorInfo}>
-							<Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
+							<Text style={{ fontSize: 18, marginLeft: 5, color: '#000' }}>
 								License
 							</Text>
-							<Text
-								style={{color:"#818995", marginLeft: 5, marginTop: 10}}>
+							<Text style={{ color: '#818995', marginLeft: 5, marginTop: 10 }}>
 								Short Description
 							</Text>
 						</View>
@@ -75,23 +71,22 @@ export default class AboutUsScreen extends PureComponent {
 					<View style={styles.slimTabCotainer}>
 						<LinearGradient
 							style={styles.slimTabCircle}
-							colors={["#FAD961", "#F76B1C"]}>
+							colors={['#FAD961', '#F76B1C']}>
 							<Image
 								source={Images.IcPrivacy}
-								style={{width: 25, height: 25}}
-								resizeMode="contain" />
+								style={{ width: 25, height: 25 }}
+								resizeMode="contain"
+							/>
 						</LinearGradient>
 						<View style={styles.vendorInfo}>
-							<Text style={{fontSize: 18, marginLeft: 5, color: "#000"}}>
+							<Text style={{ fontSize: 18, marginLeft: 5, color: '#000' }}>
 								Privacy Policy
 							</Text>
-							<Text
-								style={{color:"#818995", marginLeft: 5, marginTop: 10}}>
+							<Text style={{ color: '#818995', marginLeft: 5, marginTop: 10 }}>
 								Short Description
 							</Text>
 						</View>
 					</View>
-
 				</View>
 			</View>
 		);
@@ -100,12 +95,12 @@ export default class AboutUsScreen extends PureComponent {
 
 const styles = StyleSheet.create({
 	slimTabContainer: {
-		width: "90%",
+		width: '90%',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginTop: 15
+		marginTop: 15,
 	},
-	
+
 	slimTabCotainer: {
 		width: '100%',
 		height: 95,
@@ -127,5 +122,5 @@ const styles = StyleSheet.create({
 		marginRight: 15,
 		alignItems: 'center',
 		justifyContent: 'center',
-	}
-})
+	},
+});

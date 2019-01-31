@@ -1,11 +1,11 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { Text, View, TouchableOpacity } from "react-native";
-import { WishListIcon, ImageCache, ProductPrice, Rating } from "@components";
-import { Tools, Constants } from "@common";
-import css from "./style";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { WishListIcon, ImageCache, ProductPrice, Rating } from '@components';
+import { Tools, Constants } from '@common';
+import css from './style';
 
 export default class TwoColumn extends PureComponent {
 	static propTypes = {
@@ -17,7 +17,7 @@ export default class TwoColumn extends PureComponent {
 	render() {
 		const { post, type, viewPost } = this.props;
 		const imageURL = Tools.getImage(post);
-		const title = typeof post.title === "undefined" ? "" : post.title.rendered;
+		const title = typeof post.title === 'undefined' ? '' : post.title.rendered;
 
 		return (
 			<TouchableOpacity
@@ -28,20 +28,18 @@ export default class TwoColumn extends PureComponent {
 					<ImageCache style={css.smImage} uri={imageURL} />
 					<View style={css.smDescription}>
 						<Text style={css.smTitle}>{Tools.getDescription(title)}</Text>
-						{typeof type === "undefined" && (
+						{typeof type === 'undefined' && (
 							<ProductPrice product={post} hideDisCount />
 						)}
 					</View>
 				</View>
-				{typeof type === "undefined" && (
+				{typeof type === 'undefined' && (
 					<WishListIcon
 						product={post}
 						style={Constants.RTL ? { left: 10 } : { right: 25 }}
 					/>
 				)}
-				{typeof type === "undefined" && (
-					<Rating rating={post.average_rating} />
-				)}
+				{typeof type === 'undefined' && <Rating rating={post.average_rating} />}
 			</TouchableOpacity>
 		);
 	}

@@ -1,91 +1,95 @@
 /** @format */
 
 // noinspection JSUnresolvedVariable
-import React from "react";
-import PropTypes from "prop-types";
-import { View, Animated, Image, StyleSheet } from "react-native";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { View, Animated, Image, StyleSheet } from 'react-native';
 
-import { Config } from "@common";
+import { Config } from '@common';
 
 class LogoSpinner extends React.Component {
-  constructor(props) {
-    super(props);
+	static propTypes = {
+		style: PropTypes.object,
+	};
 
-    this.animateValue = new Animated.Value(0);
-    this.animatedStyle = {
-      transform: [
-        {
-          rotate: this.animateValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ["0deg", "360deg"],
-          }),
-        },
-      ],
-    };
+	constructor(props) {
+		super(props);
 
-    this.doAnimation = this.doAnimation.bind(this);
-  }
+		this.animateValue = new Animated.Value(0);
+		this.animatedStyle = {
+			transform: [
+				{
+					rotate: this.animateValue.interpolate({
+						inputRange: [0, 1],
+						outputRange: ['0deg', '360deg'],
+					}),
+				},
+			],
+		};
 
-  componentDidMount() {
-    this.doAnimation();
-  }
+		this.doAnimation = this.doAnimation.bind(this);
+	}
 
-  doAnimation() {
-    this.animateValue.setValue(0);
-    Animated.sequence([
-      Animated.timing(this.animateValue, {
-        toValue: 6,
-        duration: 3000,
-        friction: 0.5,
-      }),
-    ]).start(() => this.doAnimation());
-  }
+	componentDidMount() {
+		this.doAnimation();
+	}
 
-  render() {
-    const { fullStretch, style, logo } = this.props;
-    return (
-      <View
-        style={[
-          fullStretch ? styles.container_full_stretch : styles.container,
-          style,
-        ]}>
-        <Animated.View style={this.animatedStyle}>
-          <Image source={logo} style={styles.logo} resizeMode="contain" />
-        </Animated.View>
-      </View>
-    );
-  }
+	doAnimation() {
+		this.animateValue.setValue(0);
+		Animated.sequence([
+			Animated.timing(this.animateValue, {
+				toValue: 6,
+				duration: 3000,
+				friction: 0.5,
+			}),
+		]).start(() => this.doAnimation());
+	}
+
+	render() {
+		const { fullStretch, style, logo } = this.props;
+		return (
+			<View
+				style={[
+					fullStretch ? styles.container_full_stretch : styles.container,
+					style,
+				]}>
+				<Animated.View style={this.animatedStyle}>
+					<Image source={logo} style={styles.logo} resizeMode="contain" />
+				</Animated.View>
+			</View>
+		);
+	}
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "transparent",
-    height: null,
-    width: null,
-  },
-  container_full_stretch: {
-    height: null,
-    width: null,
-    backgroundColor: "transparent",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logo: {
-    height: 50,
-    width: 50,
-  },
+	container: {
+		backgroundColor: 'transparent',
+		height: null,
+		width: null,
+	},
+	container_full_stretch: {
+		height: null,
+		width: null,
+		backgroundColor: 'transparent',
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	logo: {
+		height: 50,
+		width: 50,
+	},
 });
 
 LogoSpinner.propTypes = {
-  logo: PropTypes.any,
-  fullStretch: PropTypes.bool,
+	logo: PropTypes.any,
+	fullStretch: PropTypes.bool,
 };
 
 // noinspection JSUnusedGlobalSymbols
 LogoSpinner.defaultProps = {
-  logo: Config.LogoLoading,
-  fullStretch: false,
+	logo: Config.LogoLoading,
+	fullStretch: false,
 };
 
 export default LogoSpinner;

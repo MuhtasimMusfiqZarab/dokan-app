@@ -3,8 +3,8 @@
  * @format
  */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
 	View,
 	ScrollView,
@@ -13,16 +13,15 @@ import {
 	ImageBackground,
 	TextInput,
 	TouchableOpacity,
-	KeyboardAvoidingView
-} from "react-native";
-import { NavigationActions } from "react-navigation";
-import { connect } from "react-redux";
-import { Icons, Color, Languages, Styles, Config, Images } from "@common";
-import { Icon, toast, warn, FacebookAPI, Validate } from "@app/Omni";
-import { Spinner, ButtonIndex, Button } from "@components";
-import WooWorker from "@services/WooCommerce/WooWorker";
-import WPUserAPI from "@services/WPUserAPI";
-import styles from "./styles";
+} from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import { Color, Languages, Styles, Config, Images } from '@common';
+import { toast, warn, FacebookAPI, Validate } from '@app/Omni';
+import { Spinner, Button } from '@components';
+import WooWorker from '@services/WooCommerce/WooWorker';
+import WPUserAPI from '@services/WPUserAPI';
+import styles from './styles';
 
 class LoginScreen extends PureComponent {
 	static propTypes = {
@@ -34,19 +33,21 @@ class LoginScreen extends PureComponent {
 		logout: PropTypes.func,
 		navigation: PropTypes.object,
 		onBack: PropTypes.func,
+		goBack: PropTypes.func,
+		onForgetPassword: PropTypes.func,
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			username: "",
-			password: "",
+			username: '',
+			password: '',
 			isLoading: false,
 			logInFB: false,
 		};
 
-		this.onUsernameEditHandle = (username) => this.setState({ username });
-		this.onPasswordEditHandle = (password) => this.setState({ password });
+		this.onUsernameEditHandle = username => this.setState({ username });
+		this.onPasswordEditHandle = password => this.setState({ password });
 
 		this.focusPassword = () => this.password && this.password.focus();
 	}
@@ -61,7 +62,7 @@ class LoginScreen extends PureComponent {
 	}
 
 	// handle the logout screen and navigate to cart page if the new user login object exist
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const { onViewCartScreen, user: oldUser, onViewHomeScreen } = this.props;
 		const { user } = nextProps.user;
 		const { params } = nextProps.navigation.state;
@@ -74,7 +75,7 @@ class LoginScreen extends PureComponent {
 				// check case after login
 				this.setState({ isLoading: false });
 
-				if (params && typeof params.onCart !== "undefined") {
+				if (params && typeof params.onCart !== 'undefined') {
 					onViewCartScreen();
 				} else {
 					onViewHomeScreen();
@@ -116,7 +117,7 @@ class LoginScreen extends PureComponent {
 			return toast(Languages.noConnection);
 		}
 
-		if(this.state.isLoading) return;
+		if (this.state.isLoading) return;
 		this.setState({ isLoading: true });
 
 		const _error = this.validateForm();
@@ -129,11 +130,11 @@ class LoginScreen extends PureComponent {
 
 		if (json === undefined) {
 			this.stopAndToast(Languages.GetDataError);
-		} else if (json.code === "[jwt_auth] incorrect_password") {
-			this.stopAndToast("Invalid Password");
-		} else if (json.code === "[jwt_auth] invalid_username") {
-			this.stopAndToast("Invalid User Name");
-		} else if(json.code) {
+		} else if (json.code === '[jwt_auth] incorrect_password') {
+			this.stopAndToast('Invalid Password');
+		} else if (json.code === '[jwt_auth] invalid_username') {
+			this.stopAndToast('Invalid User Name');
+		} else if (json.code) {
 			this.stopAndToast(json.message);
 		} else {
 			let customers = await WooWorker.getCustomerByEmail(json.user_email);
@@ -152,9 +153,9 @@ class LoginScreen extends PureComponent {
 	// 	}
 
 	// 	this.setState({ isLoading: true });
-		
+
 	// 	const { username, password } = this.state;
-		
+
 	// 	// login the customer via Wordpress API and get the access token
 	// 	const json = await WPUserAPI.login(username.trim(), password);
 
@@ -173,19 +174,11 @@ class LoginScreen extends PureComponent {
 	// };
 
 	validateForm = () => {
-		const {
-			username,
-			password,
-		} = this.state;
+		const { username, password } = this.state;
 
-		if (
-			Validate.isEmpty(
-				username,
-				password
-			)
-		) {
+		if (Validate.isEmpty(username, password)) {
 			// check empty
-			return "Please complete the form";
+			return 'Please complete the form';
 		}
 
 		return undefined;
@@ -195,10 +188,10 @@ class LoginScreen extends PureComponent {
 		const { login } = this.props;
 		this.setState({ isLoading: true });
 		FacebookAPI.login()
-			.then(async (token) => {
+			.then(async token => {
 				if (token) {
 					const json = await WPUserAPI.loginFacebook(token);
-					warn(["json", json]);
+					warn(['json', json]);
 					if (json === undefined) {
 						this.stopAndToast(Languages.GetDataError);
 					} else if (json.error) {
@@ -211,7 +204,7 @@ class LoginScreen extends PureComponent {
 					}
 				}
 			})
-			.catch((err) => {
+			.catch(err => {
 				console.log(err);
 				this.setState({ isLoading: false });
 			});
@@ -223,7 +216,7 @@ class LoginScreen extends PureComponent {
 
 	onForgetPassHandle = () => {
 		this.props.onForgetPassword();
-	}
+	};
 
 	checkConnection = () => {
 		const { netInfo } = this.props;
@@ -231,25 +224,22 @@ class LoginScreen extends PureComponent {
 		return netInfo.isConnected;
 	};
 
-	stopAndToast = (msg) => {
+	stopAndToast = msg => {
 		toast(msg);
 		this.setState({ isLoading: false });
 	};
 
 	render() {
 		const { username, password, isLoading } = this.state;
-		
+
 		return (
 			<ImageBackground
 				source={Images.LoginScreenBackground}
-				style={
-					styles.backgroundImage
-				}
+				style={styles.backgroundImage}
 				resizeMode="cover">
 				<ScrollView
 					keyboardDismissMode="on-drag"
-					keyboardShouldPersistTaps="always"
-				>
+					keyboardShouldPersistTaps="always">
 					<View style={styles.logoWrap}>
 						<Image
 							source={Config.LogoWithText}
@@ -261,48 +251,47 @@ class LoginScreen extends PureComponent {
 						</Text>
 					</View>
 					<View style={styles.subContain}>
-						
-							<View style={styles.inputWrap}>
-								<Text style={styles.label}>Username</Text>
-								<TextInput
-									{...commonInputProps}
-									style={styles.input}
-									ref={(comp) => (this.username = comp)}
-									keyboardType="email-address"
-									onChangeText={this.onUsernameEditHandle}
-									onSubmitEditing={this.focusPassword}
-									returnKeyType="next"
-									value={username}
-								/>
-							</View>
-							<View style={styles.inputWrap}>
-								<Text style={styles.label}>Password</Text>
-								<TextInput
-									{...commonInputProps}
-									ref={(comp) => (this.password = comp)}
-									onChangeText={this.onPasswordEditHandle}
-									secureTextEntry
-									returnKeyType="go"
-									value={password}
-								/>
-							</View>
-							<TouchableOpacity
-								// style={Styles.Common.ColumnCenter}
-								onPress={this.onForgetPassHandle}>
-								<Text style={styles.highlight}>Forget Password?</Text>
-							</TouchableOpacity>
-							<Button
-								type="gradientBtn"
-								text="Login"
-								size="sm"
-								alignSelf="flex-start"
-								marginTop={15}
-								onPress={this.onLoginPressHandle}
+						<View style={styles.inputWrap}>
+							<Text style={styles.label}>Username</Text>
+							<TextInput
+								{...commonInputProps}
+								style={styles.input}
+								ref={comp => (this.username = comp)}
+								keyboardType="email-address"
+								onChangeText={this.onUsernameEditHandle}
+								onSubmitEditing={this.focusPassword}
+								returnKeyType="next"
+								value={username}
 							/>
-						
+						</View>
+						<View style={styles.inputWrap}>
+							<Text style={styles.label}>Password</Text>
+							<TextInput
+								{...commonInputProps}
+								ref={comp => (this.password = comp)}
+								onChangeText={this.onPasswordEditHandle}
+								secureTextEntry
+								returnKeyType="go"
+								value={password}
+							/>
+						</View>
+						<TouchableOpacity
+							// style={Styles.Common.ColumnCenter}
+							onPress={this.onForgetPassHandle}>
+							<Text style={styles.highlight}>Forget Password?</Text>
+						</TouchableOpacity>
+						<Button
+							type="gradientBtn"
+							text="Login"
+							size="sm"
+							alignSelf="flex-start"
+							marginTop={15}
+							onPress={this.onLoginPressHandle}
+						/>
+
 						<View style={styles.separatorWrap}>
 							<View style={styles.separator} />
-								<Text style={styles.separatorText}>{Languages.Or}</Text>
+							<Text style={styles.separatorText}>{Languages.Or}</Text>
 							<View style={styles.separator} />
 						</View>
 
@@ -316,7 +305,7 @@ class LoginScreen extends PureComponent {
 							style={Styles.Common.ColumnCenter}
 							onPress={this.onSignUpHandle}>
 							<Text style={styles.signUp}>
-								{Languages.DontHaveAccount}{" "}
+								{Languages.DontHaveAccount}{' '}
 								<Text style={styles.highlight}>{Languages.signup}</Text>
 							</Text>
 						</TouchableOpacity>
@@ -330,7 +319,7 @@ class LoginScreen extends PureComponent {
 
 const commonInputProps = {
 	style: styles.input,
-	underlineColorAndroid: "transparent",
+	underlineColorAndroid: 'transparent',
 	placeholderTextColor: Color.blackTextSecondary,
 };
 
@@ -342,8 +331,8 @@ LoginScreen.propTypes = {
 
 const mapStateToProps = ({ netInfo, user }) => ({ netInfo, user });
 
-const mapDispatchToProps = (dispatch) => {
-	const { actions } = require("@redux/UserRedux");
+const mapDispatchToProps = dispatch => {
+	const { actions } = require('@redux/UserRedux');
 	const backAction = NavigationActions.back({
 		key: null,
 	});

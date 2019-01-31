@@ -1,19 +1,19 @@
-	/** @format */
+/** @format */
 
-	import React, { PureComponent } from 'react'
-	import { View, Text, TouchableOpacity, Platform } from 'react-native'
-	import { Styles, Images } from '@common'
-	import { ProductPrice, ImageCache, WishListIcon } from '@components'
-	import { getProductImage } from '@app/Omni'
-	import css from './wdstyle'
+import React, { PureComponent } from 'react';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
+import { Styles, Images } from '@common';
+import { ProductPrice, ImageCache, WishListIcon } from '@components';
+import { getProductImage } from '@app/Omni';
+import css from './wdstyle';
 
-	export default class ThreeColumn extends PureComponent {
+export default class ThreeColumn extends PureComponent {
 	render() {
-		const { viewPost, title, product } = this.props
+		const { viewPost, title, product } = this.props;
 		const imageURI =
 			typeof product.images[0] !== 'undefined'
 				? getProductImage(product.images[0].src, Styles.width)
-				: Images.PlaceHolderURL
+				: Images.PlaceHolderURL;
 
 		return (
 			<View style={css.panelThreeView}>
@@ -29,17 +29,15 @@
 				<ProductPrice product={product} hideDisCount />
 				<WishListIcon
 					product={product}
-					style={
-						{
-							...Platform.select({
-								android: {
-									elevation: 3
-								}
-							})
-						}
-					}
+					style={{
+						...Platform.select({
+							android: {
+								elevation: 3,
+							},
+						}),
+					}}
 				/>
 			</View>
-		)
+		);
 	}
 }

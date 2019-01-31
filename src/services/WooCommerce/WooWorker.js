@@ -2,7 +2,7 @@
  * @format
  */
 
-import WooCommerceAPI from "./WooCommerceAPI";
+import WooCommerceAPI from './WooCommerceAPI';
 
 export default class WooWorker {
 	_api = null;
@@ -12,7 +12,7 @@ export default class WooWorker {
 		consumerKey,
 		consumerSecret,
 		wp_api = true,
-		version = "wc/v2",
+		version = 'wc/v2',
 		queryStringAuth = true,
 		language,
 	}) => {
@@ -32,26 +32,26 @@ export default class WooWorker {
 	};
 	static getCategories = async () => {
 		try {
-			const response = await this._api.get("products/categories", {
+			const response = await this._api.get('products/categories', {
 				hide_empty: true,
 				per_page: 100,
-				order: "desc",
-				orderby: "count",
-      });
+				order: 'desc',
+				orderby: 'count',
+			});
 			return response.json();
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	static getCustomerByEmail = async (email) => {
+	static getCustomerByEmail = async email => {
 		try {
-			const response = await this._api.get("customers", { email });
+			const response = await this._api.get('customers', { email });
 			return response.json();
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	static getCustomerById = async (id) => {
+	static getCustomerById = async id => {
 		try {
 			const response = await this._api.get(`customers/${id}`);
 			return response.json();
@@ -61,7 +61,7 @@ export default class WooWorker {
 	};
 	static productsByCategoryId = async (category, per_page, page) => {
 		try {
-			const response = await this._api.get("products", {
+			const response = await this._api.get('products', {
 				category,
 				per_page,
 				page,
@@ -75,19 +75,19 @@ export default class WooWorker {
 	static productsByCategoryTag = async (category, tag, per_page, page) => {
 		try {
 			// only show product published
-			let params = { per_page, page, purchasable: true, status: "publish" };
-			if (category != "") {
+			let params = { per_page, page, purchasable: true, status: 'publish' };
+			if (category != '') {
 				params = { ...params, category };
 			} else {
 				params = { ...params, tag };
 			}
-			const response = await this._api.get("products", params);
+			const response = await this._api.get('products', params);
 			return response.json();
 		} catch (err) {
 			console.log(err);
 		}
 	};
-	static reviewsByProductId = async (id) => {
+	static reviewsByProductId = async id => {
 		// if (this._api.version === "wc/v3") {
 		// 	let params = {
 		// 		product_id: id
@@ -107,8 +107,8 @@ export default class WooWorker {
 		// 		console.log(err);
 		// 	}
 		// }
-		if (this._api.version === "wc/v3") {
-			this._api.version = "wc/v2";
+		if (this._api.version === 'wc/v3') {
+			this._api.version = 'wc/v2';
 		}
 		try {
 			const response = await this._api.get(`products/${id}/reviews`);
@@ -117,8 +117,8 @@ export default class WooWorker {
 			console.log(err);
 		}
 	};
-	static createProductReview = async (params) => {
-		if (this._api.version === "wc/v3") {
+	static createProductReview = async params => {
+		if (this._api.version === 'wc/v3') {
 			try {
 				const response = await this._api.post(`products/reviews`, params);
 				return response.json();
@@ -132,20 +132,22 @@ export default class WooWorker {
 				name: params.reviewer,
 				email: params.reviewer_email,
 				rating: params.rating,
-			}
+			};
 
 			try {
-				const response =
-					await this._api.post(`products/${product_id}/reviews`, v2Params);
+				const response = await this._api.post(
+					`products/${product_id}/reviews`,
+					v2Params
+				);
 				return response.json();
 			} catch (err) {
 				console.log(err);
 			}
 		}
 	};
-	static createOrder = async (data) => {
+	static createOrder = async data => {
 		try {
-			const response = await this._api.post("orders", data);
+			const response = await this._api.post('orders', data);
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -153,7 +155,7 @@ export default class WooWorker {
 	};
 	static productsByTagId = async (tagId, per_page, page) => {
 		try {
-			const response = await this._api.get("products", {
+			const response = await this._api.get('products', {
 				tag: tagId,
 				per_page,
 				page,
@@ -165,7 +167,7 @@ export default class WooWorker {
 	};
 	static productsByName = async (name, per_page, page) => {
 		try {
-			const response = await this._api.get("products", {
+			const response = await this._api.get('products', {
 				search: name,
 				per_page,
 				page,
@@ -177,7 +179,7 @@ export default class WooWorker {
 	};
 	static productSticky = async (per_page, page, tagIdBanner = 273) => {
 		try {
-			const response = await this._api.get("products", {
+			const response = await this._api.get('products', {
 				tag: tagIdBanner,
 				per_page,
 				page,
@@ -190,8 +192,8 @@ export default class WooWorker {
 	static getAllProducts = async (
 		per_page,
 		page,
-		order = "desc",
-		orderby = "date"
+		order = 'desc',
+		orderby = 'date'
 	) => {
 		try {
 			const data = {
@@ -200,7 +202,7 @@ export default class WooWorker {
 				order,
 				orderby,
 			};
-			const response = await this._api.get("products", data);
+			const response = await this._api.get('products', data);
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -213,7 +215,7 @@ export default class WooWorker {
 				per_page,
 				page,
 			};
-			const response = await this._api.get("orders", data);
+			const response = await this._api.get('orders', data);
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -221,14 +223,14 @@ export default class WooWorker {
 	};
 	static createNewOrder = async (data, callback, failCallBack) => {
 		try {
-			const response = await this._api.post("orders", data);
+			const response = await this._api.post('orders', data);
 			const json = await response.json();
 			console.log(json);
 
 			if (json.code === undefined) {
 				callback(json);
 			} else {
-				typeof failCallBack === "function" && failCallBack(json);
+				typeof failCallBack === 'function' && failCallBack(json);
 			}
 			return json;
 		} catch (error) {
@@ -237,7 +239,7 @@ export default class WooWorker {
 	};
 	static getPayments = async () => {
 		try {
-			const response = await this._api.get("payment_gateways");
+			const response = await this._api.get('payment_gateways');
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -273,12 +275,12 @@ export default class WooWorker {
 			console.log(err);
 		}
 	};
-	static getProductRelated = async (product) => {
+	static getProductRelated = async product => {
 		try {
 			const data = {
 				include: [product],
 			};
-			const response = await this._api.get("products", data);
+			const response = await this._api.get('products', data);
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -286,7 +288,7 @@ export default class WooWorker {
 	};
 	static getAllCouponCode = async () => {
 		try {
-			const response = await this._api.get("coupons");
+			const response = await this._api.get('coupons');
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -294,7 +296,7 @@ export default class WooWorker {
 	};
 	static getShippingMethod = async () => {
 		try {
-			const response = await this._api.get("shipping/zones/1/methods");
+			const response = await this._api.get('shipping/zones/1/methods');
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -302,33 +304,35 @@ export default class WooWorker {
 	};
 	static getProductId = async productId => {
 		try {
-			const response = await this._api.get('products/' + productId)
-			return await response.json()
+			const response = await this._api.get('products/' + productId);
+			return await response.json();
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 		}
 	};
 	static setBookingID = (orderId, bookID, callback) => {
 		try {
-			this._api.post('orders/' + orderId, { 'Booking ID': bookID })
+			this._api
+				.post('orders/' + orderId, { 'Booking ID': bookID })
 				.then(json => {
-					if (json.code === undefined) callback(json)
+					if (json.code === undefined) callback(json);
 					else {
-						alert(JSON.stringify(json.code))
+						alert(JSON.stringify(json.code));
 					}
 				})
-				.catch(error => console.log(error))
+				.catch(error => console.log(error));
 		} catch (err) {
-			console.log(err)
+			console.log(err);
 		}
 	};
 	static getDefaultCurrency = async () => {
 		try {
-			const response = await this._api.get('settings/general/woocommerce_currency');
+			const response = await this._api.get(
+				'settings/general/woocommerce_currency'
+			);
 			return response.json();
 		} catch (error) {
 			console.log(error);
 		}
-	}
-
+	};
 }

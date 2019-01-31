@@ -1,25 +1,25 @@
 /** @format */
 
-import { Constants, warn, Languages } from "@common";
-import WooWorker from "@services/WooCommerce/WooWorker";
-import Validate from "../ultils/Validate.js";
+import { Constants, Languages } from '@common';
+import WooWorker from '@services/WooCommerce/WooWorker';
+import Validate from '../ultils/Validate.js';
 
 const types = {
-	ADD_CART_ITEM: "ADD_CART_ITEM",
-	REMOVE_CART_ITEM: "REMOVE_CART_ITEM",
-	DELETE_CART_ITEM: "DELETE_CART_ITEM",
-	EMPTY_CART: "EMPTY_CART",
-	CREATE_NEW_ORDER_PENDING: "CREATE_NEW_ORDER_PENDING",
-	CREATE_NEW_ORDER_SUCCESS: "CREATE_NEW_ORDER_SUCCESS",
-	CREATE_NEW_ORDER_ERROR: "CREATE_NEW_ORDER_ERROR",
-	VALIDATE_CUSTOMER_INFO: "VALIDATE_CUSTOMER_INFO",
-	INVALIDATE_CUSTOMER_INFO: "INVALIDATE_CUSTOMER_INFO",
-	FETCH_MY_ORDER: "FETCH_MY_ORDER",
-	FETCH_CART_PENDING: "FETCH_CART_PENDING",
-	GET_SHIPPING_METHOD_PENDING: "GET_SHIPPING_METHOD_PENDING",
-	GET_SHIPPING_METHOD_SUCCESS: "GET_SHIPPING_METHOD_SUCCESS",
-	GET_SHIPPING_METHOD_FAIL: "GET_SHIPPING_METHOD_FAIL",
-	SELECTED_SHIPPING_METHOD: "SELECTED_SHIPPING_METHOD",
+	ADD_CART_ITEM: 'ADD_CART_ITEM',
+	REMOVE_CART_ITEM: 'REMOVE_CART_ITEM',
+	DELETE_CART_ITEM: 'DELETE_CART_ITEM',
+	EMPTY_CART: 'EMPTY_CART',
+	CREATE_NEW_ORDER_PENDING: 'CREATE_NEW_ORDER_PENDING',
+	CREATE_NEW_ORDER_SUCCESS: 'CREATE_NEW_ORDER_SUCCESS',
+	CREATE_NEW_ORDER_ERROR: 'CREATE_NEW_ORDER_ERROR',
+	VALIDATE_CUSTOMER_INFO: 'VALIDATE_CUSTOMER_INFO',
+	INVALIDATE_CUSTOMER_INFO: 'INVALIDATE_CUSTOMER_INFO',
+	FETCH_MY_ORDER: 'FETCH_MY_ORDER',
+	FETCH_CART_PENDING: 'FETCH_CART_PENDING',
+	GET_SHIPPING_METHOD_PENDING: 'GET_SHIPPING_METHOD_PENDING',
+	GET_SHIPPING_METHOD_SUCCESS: 'GET_SHIPPING_METHOD_SUCCESS',
+	GET_SHIPPING_METHOD_FAIL: 'GET_SHIPPING_METHOD_FAIL',
+	SELECTED_SHIPPING_METHOD: 'SELECTED_SHIPPING_METHOD',
 };
 
 export const actions = {
@@ -35,13 +35,13 @@ export const actions = {
 		dispatch({ type: types.FETCH_CART_PENDING });
 
 		WooWorker.ordersByCustomerId(user.id, 40, 1)
-			.then((data) => {
+			.then(data => {
 				dispatch({
 					type: types.FETCH_MY_ORDER,
 					data,
 				});
 			})
-			.catch((err) => {});
+			.catch(err => {});
 	},
 
 	removeCartItem: (dispatch, product, variation) => {
@@ -61,7 +61,7 @@ export const actions = {
 		});
 	},
 
-	emptyCart: (dispatch) => {
+	emptyCart: dispatch => {
 		dispatch({
 			type: types.EMPTY_CART,
 		});
@@ -87,7 +87,7 @@ export const actions = {
 		} else {
 			dispatch({
 				type: types.VALIDATE_CUSTOMER_INFO,
-				message: "",
+				message: '',
 				customerInfo,
 			});
 		}
@@ -97,7 +97,7 @@ export const actions = {
 		const json = await WooWorker.createOrder(payload);
 
 		// console.log('json', json);
-		if (json.hasOwnProperty("id")) {
+		if (json.hasOwnProperty('id')) {
 			// dispatch({type: types.EMPTY_CART});
 			dispatch({ type: types.CREATE_NEW_ORDER_SUCCESS, orderId: json.id });
 		} else {
@@ -107,7 +107,7 @@ export const actions = {
 			});
 		}
 	},
-	getShippingMethod: async (dispatch) => {
+	getShippingMethod: async dispatch => {
 		dispatch({ type: types.GET_SHIPPING_METHOD_PENDING });
 		const json = await WooWorker.getShippingMethod();
 
@@ -126,7 +126,7 @@ export const actions = {
 		dispatch({ type: types.SELECTED_SHIPPING_METHOD, shippingMethod });
 	},
 
-	finishOrder: async (dispatch, payload) => {
+	finishOrder: async dispatch => {
 		dispatch({ type: types.CREATE_NEW_ORDER_SUCCESS });
 	},
 };
@@ -144,14 +144,14 @@ export const reducer = (state = initialState, action) => {
 
 	switch (type) {
 		case types.ADD_CART_ITEM: {
-			const isExisted = state.cartItems.some((cartItem) =>
+			const isExisted = state.cartItems.some(cartItem =>
 				compareCartItem(cartItem, action)
 			);
 			return Object.assign(
 				{},
 				state,
 				isExisted
-					? { cartItems: state.cartItems.map((item) => cartItem(item, action)) }
+					? { cartItems: state.cartItems.map(item => cartItem(item, action)) }
 					: { cartItems: [...state.cartItems, cartItem(undefined, action)] },
 				{
 					total: state.total + 1,
@@ -159,8 +159,8 @@ export const reducer = (state = initialState, action) => {
 						state.totalPrice +
 						Number(
 							action.variation === undefined ||
-							action.variation == null ||
-							action.variation.price === undefined
+								action.variation == null ||
+								action.variation.price === undefined
 								? action.product.price
 								: action.variation.price
 						),
@@ -168,7 +168,7 @@ export const reducer = (state = initialState, action) => {
 			);
 		}
 		case types.REMOVE_CART_ITEM: {
-			const index = state.cartItems.findIndex((cartItem) =>
+			const index = state.cartItems.findIndex(cartItem =>
 				compareCartItem(cartItem, action)
 			); // check if existed
 			return index == -1
@@ -179,37 +179,37 @@ export const reducer = (state = initialState, action) => {
 						state.cartItems[index].quantity == 1
 							? {
 									cartItems: state.cartItems.filter(
-										(cartItem) => !compareCartItem(cartItem, action)
+										cartItem => !compareCartItem(cartItem, action)
 									),
-								}
+							  }
 							: {
-									cartItems: state.cartItems.map((item) =>
+									cartItems: state.cartItems.map(item =>
 										cartItem(item, action)
 									),
-								},
+							  },
 						{
 							total: state.total - 1,
 							totalPrice:
 								state.totalPrice -
 								Number(
 									action.variation === undefined ||
-									action.variation == null ||
-									action.variation.price === undefined
+										action.variation == null ||
+										action.variation.price === undefined
 										? action.product.price
 										: action.variation.price
 								),
 						}
-					);
+				  );
 		}
 		case types.DELETE_CART_ITEM: {
-			const index1 = state.cartItems.findIndex((cartItem) =>
+			const index1 = state.cartItems.findIndex(cartItem =>
 				compareCartItem(cartItem, action)
 			); // check if existed
 			return index1 == -1
 				? state // This should not happen, but catch anyway
 				: Object.assign({}, state, {
 						cartItems: state.cartItems.filter(
-							(cartItem) => !compareCartItem(cartItem, action)
+							cartItem => !compareCartItem(cartItem, action)
 						),
 						total: state.total - Number(action.quantity),
 						totalPrice:
@@ -217,12 +217,12 @@ export const reducer = (state = initialState, action) => {
 							Number(action.quantity) *
 								Number(
 									action.variation === undefined ||
-									action.variation == null ||
-									action.variation.price === undefined
+										action.variation == null ||
+										action.variation.price === undefined
 										? action.product.price
 										: action.variation.price
 								),
-					});
+				  });
 		}
 		case types.EMPTY_CART:
 			return Object.assign({}, state, {
@@ -322,15 +322,15 @@ const cartItem = (
 				? Object.assign({}, state, {
 						product: action.product,
 						variation: action.variation,
-					})
+				  })
 				: !compareCartItem(state, action)
-					? state
-					: Object.assign({}, state, {
-							quantity:
-								state.quantity < Constants.LimitAddToCart
-									? state.quantity + 1
-									: state.quantity,
-						});
+				? state
+				: Object.assign({}, state, {
+						quantity:
+							state.quantity < Constants.LimitAddToCart
+								? state.quantity + 1
+								: state.quantity,
+				  });
 		case types.REMOVE_CART_ITEM:
 			return !compareCartItem(state, action)
 				? state

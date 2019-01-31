@@ -1,9 +1,9 @@
 /** @format */
 
-import { StyleSheet, Dimensions, Platform } from "react-native";
-import { Color, Constants } from "@common";
+import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { Color, Constants } from '@common';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 const vh = height / 100;
 
 export default StyleSheet.create({
@@ -11,14 +11,14 @@ export default StyleSheet.create({
 		paddingLeft: 8,
 		paddingRight: 8,
 		paddingBottom: 10,
-		backgroundColor: "#FFF",
+		backgroundColor: '#FFF',
 		// flex: 1,
-		width: "100%",
+		width: '100%',
 		height: 400,
 	},
 	fullWidth: {
 		width: width - 20,
-		flexDirection: "row",
+		flexDirection: 'row',
 	},
 	wrapRating: {
 		margin: 10,
@@ -26,15 +26,15 @@ export default StyleSheet.create({
 	},
 	besideStar: {
 		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	statusRate: {
 		borderRadius: 3,
 		borderWidth: 1,
-		borderColor: "#EEEEEE",
+		borderColor: '#EEEEEE',
 		padding: 8,
-		backgroundColor: 'transparent'
+		backgroundColor: 'transparent',
 	},
 	textStatusRate: {
 		fontSize: 13,
@@ -54,22 +54,22 @@ export default StyleSheet.create({
 		fontFamily: Constants.fontFamily,
 	},
 	headCommentText: {
-		fontWeight: "600",
+		fontWeight: '600',
 		marginTop: 12,
 		marginBottom: 8,
 		marginLeft: 12,
-		color: "rgb(69,69,83)",
+		color: 'rgb(69,69,83)',
 		fontSize: 24,
 		fontFamily: Constants.fontFamily,
 	},
 	sendView: {
 		marginTop: 8,
-		backgroundColor: "#5DCDAD",
+		backgroundColor: '#5DCDAD',
 		// width: "width - 20",
-		width: "100%",
-		alignItems: "center",
+		width: '100%',
+		alignItems: 'center',
 		borderRadius: 3,
-		overflow: "hidden",
+		overflow: 'hidden',
 	},
 	sendButton: {
 		paddingTop: 10,
@@ -77,16 +77,16 @@ export default StyleSheet.create({
 		paddingBottom: 10,
 		paddingLeft: 10,
 		marginRight: 12,
-		position: "absolute",
+		position: 'absolute',
 		marginLeft: width / 2 - 80,
 		width: 100,
 		top: 2,
 		zIndex: 999,
-		backgroundColor: "transparent",
+		backgroundColor: 'transparent',
 	},
 	sendText: {
-		color: "white",
-		fontWeight: "600",
+		color: 'white',
+		fontWeight: '600',
 		fontSize: 13,
 		paddingTop: 12,
 		paddingRight: 12,
@@ -94,11 +94,11 @@ export default StyleSheet.create({
 		paddingLeft: 12,
 	},
 	inputCommentWrap: {
-		borderColor: "#EBEBEB",
+		borderColor: '#EBEBEB',
 		borderWidth: 1,
 		borderRadius: 5,
 		minHeight: 80,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 	},
 	inputCommentText: {
 		margin: 10,
@@ -107,9 +107,9 @@ export default StyleSheet.create({
 		color: '#333',
 		...Platform.select({
 			android: {
-				textAlignVertical: "top"
-			}
-		})
+				textAlignVertical: 'top',
+			},
+		}),
 	},
 	wrapListComment: {
 		marginTop: 10,
@@ -122,14 +122,14 @@ export default StyleSheet.create({
 		flex: 1,
 	},
 	itemHeadComment: {
-		flexDirection: "row",
+		flexDirection: 'row',
 	},
 	avatarComment: {
 		width: 40,
 		height: 40,
 	},
 	authorName: {
-		fontWeight: "400",
+		fontWeight: '400',
 		fontSize: 14,
 		marginTop: 2,
 		marginLeft: 6,

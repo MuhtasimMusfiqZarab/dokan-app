@@ -1,22 +1,25 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { View, Text } from "react-native";
-import { Color } from "@common";
-import { currencyFormatter } from "@app/Omni";
-import styles from "./styles";
-import { connect } from "react-redux";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { View, Text } from 'react-native';
+import { Color } from '@common';
+import { currencyFormatter } from '@app/Omni';
+import styles from './styles';
+import { connect } from 'react-redux';
 
 class ProductPrice extends PureComponent {
 	static propTypes = {
 		product: PropTypes.object,
 		hideDisCount: PropTypes.bool,
 		style: PropTypes.any,
+		fontsize: PropTypes.string,
+		currency: PropTypes.string,
 	};
 
 	render() {
 		const { product, hideDisCount, style, fontsize, currency } = this.props;
+
 		return (
 			<View style={[styles.price_wrapper, style && style]}>
 				<Text
@@ -25,21 +28,16 @@ class ProductPrice extends PureComponent {
 						styles.price,
 						{
 							color: Color.blackTextSecondary,
-							fontWeight: "bold"
+							fontWeight: 'bold',
 						},
-						fontsize && {fontSize : fontsize}
+						fontsize && { fontSize: fontsize },
 					]}>
-					{`${currencyFormatter(
-							product.price,
-							currency.symbol
-						)}`}
+					{`${currencyFormatter(product.price, currency.symbol)}`}
 				</Text>
 				<Text style={[styles.text_list, styles.sale_price]}>
-					{product.on_sale ?
-						currencyFormatter(
-							product.regular_price,
-							currency.symbol
-						)  : ""}
+					{product.on_sale
+						? currencyFormatter(product.regular_price, currency.symbol)
+						: ''}
 				</Text>
 				{hideDisCount ? (
 					<View />
@@ -61,9 +59,7 @@ class ProductPrice extends PureComponent {
 }
 
 const mapStateToProps = ({ currency }) => ({
-	currency
+	currency,
 });
 
-export default connect(
-	mapStateToProps,
-)(ProductPrice);
+export default connect(mapStateToProps)(ProductPrice);

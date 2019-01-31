@@ -1,44 +1,44 @@
 /** @format */
 
-import React, { Component } from "react";
-import { Images, Constants, Styles, Tools } from "@common";
-import { getProductImage, warn } from "@app/Omni";
+import React, { Component } from 'react';
+import { Images, Constants, Styles, Tools } from '@common';
+import { getProductImage } from '@app/Omni';
 
-import ColumnHigh from "./OneColumn";
-import TwoColumn from "./TwoColumn";
-import ThreeColumn from "./wdThreeColumn";
-import Card from "./Card";
-import MiniBanner from "./MiniBanner";
+import ColumnHigh from './OneColumn';
+import TwoColumn from './TwoColumn';
+import ThreeColumn from './wdThreeColumn';
+import Card from './Card';
+import MiniBanner from './MiniBanner';
 
 export default class HorizonLayout extends Component {
-  render() {
-    const { onViewPost, product, navigation } = this.props;
-    const title = Tools.getDescription(product.name);
+	render() {
+		const { onViewPost, product, navigation } = this.props;
+		const title = Tools.getDescription(product.name);
 
-    const imageURL =
-      product.images.length > 0
-        ? getProductImage(product.images[0].src, Styles.width)
-        : Images.PlaceHolderURL;
+		const imageURL =
+			product.images.length > 0
+				? getProductImage(product.images[0].src, Styles.width)
+				: Images.PlaceHolderURL;
 
-    const props = {
-      imageURL,
-      title,
-      viewPost: onViewPost,
-      product,
-      navigation: navigation
-    };
+		const props = {
+			imageURL,
+			title,
+			viewPost: onViewPost,
+			product,
+			navigation: navigation,
+		};
 
-    switch (this.props.layout) {
-      case Constants.Layout.twoColumn:
-        return <TwoColumn {...props} />;
-      case Constants.Layout.threeColumn:
-        return <ThreeColumn {...props} />;
-      case Constants.Layout.miniBanner:
-        return <MiniBanner {...props} />;
-      case Constants.Layout.card:
-        return <Card {...props} />;
-      default:
-        return <ColumnHigh {...props} />;
-    }
-  }
+		switch (this.props.layout) {
+			case Constants.Layout.twoColumn:
+				return <TwoColumn {...props} />;
+			case Constants.Layout.threeColumn:
+				return <ThreeColumn {...props} />;
+			case Constants.Layout.miniBanner:
+				return <MiniBanner {...props} />;
+			case Constants.Layout.card:
+				return <Card {...props} />;
+			default:
+				return <ColumnHigh {...props} />;
+		}
+	}
 }

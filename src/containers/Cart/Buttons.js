@@ -1,12 +1,12 @@
 /** @format */
 
-import React from "react";
-import PropTypes from "prop-types";
-import { View } from "react-native";
-import { Button } from "@components";
-import { Languages, Images } from "@common";
-import * as Animatable from "react-native-animatable";
-import styles from "./styles";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { View } from 'react-native';
+import { Button } from '@components';
+import { Languages, Images } from '@common';
+import * as Animatable from 'react-native-animatable';
+import styles from './styles';
 
 const Buttons = ({ isAbsolute, onPrevious, isLoading, nextText, onNext }) => {
 	return (

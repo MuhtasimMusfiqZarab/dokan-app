@@ -1,19 +1,13 @@
 /** @format */
 
-import React, {
-	StyleSheet,
-	Platform,
-	Dimensions,
-	PixelRatio,
-	I18nManager,
-} from 'react-native'
-import { Color, Constants, Styles } from '@common'
+import { StyleSheet, Platform, Dimensions, I18nManager } from 'react-native';
+import { Color, Constants } from '@common';
 
-const { width, height, scale } = Dimensions.get('window'),
-	vw = width / 100,
-	vh = height / 100,
-	vmin = Math.min(vw, vh),
-	vmax = Math.max(vw, vh)
+const { width, height } = Dimensions.get('window');
+const vw = width / 100;
+const vh = height / 100;
+// const vmin = Math.min(vw, vh);
+// const vmax = Math.max(vw, vh);
 
 export default StyleSheet.create({
 	panelOne: {
@@ -105,10 +99,10 @@ export default StyleSheet.create({
 			ios: {
 				shadowColor: 'black',
 				shadowOpacity: 0.3,
-				shadowOffset: {width: 2, height: 2}
+				shadowOffset: { width: 2, height: 2 },
 			},
 			android: {
-				elevation: 3
+				elevation: 3,
 			},
 		}),
 	},
@@ -143,7 +137,7 @@ export default StyleSheet.create({
 	},
 	imageMini: {
 		width,
-		height: height * 60 / 100,
+		height: (height * 60) / 100,
 		// resizeMode: 'cover',
 	},
 	panelCard: {
@@ -209,7 +203,7 @@ export default StyleSheet.create({
 	blurOne: {
 		position: 'absolute',
 		height: height / 3 - 50,
-		left: width / 100 * 3,
+		left: (width / 100) * 3,
 		top: 20,
 		alignSelf: 'flex-start',
 		zIndex: 9999,
@@ -235,7 +229,7 @@ export default StyleSheet.create({
 		flexDirection: 'row',
 		position: 'absolute',
 		height: 50,
-		left: width / 100 * 3,
+		left: (width / 100) * 3,
 		bottom: 20,
 		alignSelf: 'flex-start',
 		zIndex: 9999,
@@ -562,4 +556,4 @@ export default StyleSheet.create({
 		fontSize: 14,
 		marginTop: 10,
 	},
-})
+});

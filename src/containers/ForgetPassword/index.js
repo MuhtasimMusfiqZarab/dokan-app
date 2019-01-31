@@ -1,11 +1,9 @@
 /**
- * Created by InspireUI on 19/02/2017.
- *
  * @format
  */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
 	View,
 	ScrollView,
@@ -13,16 +11,14 @@ import {
 	Image,
 	ImageBackground,
 	TextInput,
-	TouchableOpacity,
-} from "react-native";
-import { NavigationActions } from "react-navigation";
-import { connect } from "react-redux";
-import { Color, Languages, Constants, Config, Images } from "@common";
-import { Icon, toast, warn, FacebookAPI } from "@app/Omni";
-import { Spinner, ButtonIndex, Button } from "@components";
-import WooWorker from "@services/WooCommerce/WooWorker";
-import WPUserAPI from "@services/WPUserAPI";
-import styles from "../Login/styles";
+} from 'react-native';
+import { NavigationActions } from 'react-navigation';
+import { connect } from 'react-redux';
+import { Color, Languages, Constants, Config, Images } from '@common';
+import { toast } from '@app/Omni';
+import { Spinner, Button } from '@components';
+import WPUserAPI from '@services/WPUserAPI';
+import styles from '../Login/styles';
 
 class ForgetPassword extends PureComponent {
 	static propTypes = {
@@ -34,17 +30,18 @@ class ForgetPassword extends PureComponent {
 		logout: PropTypes.func,
 		navigation: PropTypes.object,
 		onBack: PropTypes.func,
+		goBack: PropTypes.func,
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			userLogin: "",
+			userLogin: '',
 			isLoading: false,
 			showResetForm: true,
 		};
 
-		this.onUserLoginEditHandle = (userLogin) => this.setState({ userLogin });
+		this.onUserLoginEditHandle = userLogin => this.setState({ userLogin });
 	}
 
 	_onBack = () => {
@@ -64,24 +61,24 @@ class ForgetPassword extends PureComponent {
 			return toast(Languages.noConnection);
 		}
 
-		if(!userLogin) {
-			return toast("Type username or email");
+		if (!userLogin) {
+			return toast('Type username or email');
 		}
 
 		this.setState({ isLoading: true });
-		
+
 		// login the customer via Wordpress API and get the access token
 		const json = await WPUserAPI.forgetPassword(userLogin);
 
 		if (json === undefined) {
 			this.stopAndToast(Languages.GetDataError);
-		} else if (json.code === "no_user_found") {
+		} else if (json.code === 'no_user_found') {
 			this.stopAndToast(json.message);
 		} else {
 			this.setState({
 				isLoading: false,
-				showResetForm: false
-			})
+				showResetForm: false,
+			});
 		}
 	};
 
@@ -91,7 +88,7 @@ class ForgetPassword extends PureComponent {
 		return netInfo.isConnected;
 	};
 
-	stopAndToast = (msg) => {
+	stopAndToast = msg => {
 		toast(msg);
 		this.setState({ isLoading: false });
 	};
@@ -101,63 +98,63 @@ class ForgetPassword extends PureComponent {
 		return (
 			<ImageBackground
 				source={Images.LoginScreenBackground}
-				style={
-					styles.backgroundImage
-				}
+				style={styles.backgroundImage}
 				resizeMode="cover">
-				{
-					showResetForm && (
-						<ScrollView contentContainerStyle={styles.container}>
-							<View style={styles.logoWrap}>
-								<Image
-									source={Config.LogoWithText}
-									style={styles.logo}
-									resizeMode="contain"
-								/>
-								<Text style={styles.logoText}>
-									Build Your Dream Multi Vendor Market Place
-								</Text>
-							</View>
-							<View style={styles.subContain}>
-								<View style={styles.loginForm}>
-									<View style={styles.inputWrap}>
-										<Text style={styles.label}>Type in Your Username or Email</Text>
-										<TextInput
-											{...commonInputProps}
-											style={styles.input}
-											ref={(comp) => (this.userLogin = comp)}
-											keyboardType="email-address"
-											onChangeText={this.onUserLoginEditHandle}
-											onSubmitEditing={this.onForgetPasswordPressHandle}
-											returnKeyType="go"
-										/>
-									</View>
-									<Button
-										type="gradientBtn"
-										text="Send"
-										size="sm"
-										alignSelf="flex-start"
-										marginTop={15}
-										onPress={this.onForgetPasswordPressHandle}
+				{showResetForm && (
+					<ScrollView contentContainerStyle={styles.container}>
+						<View style={styles.logoWrap}>
+							<Image
+								source={Config.LogoWithText}
+								style={styles.logo}
+								resizeMode="contain"
+							/>
+							<Text style={styles.logoText}>
+								Build Your Dream Multi Vendor Market Place
+							</Text>
+						</View>
+						<View style={styles.subContain}>
+							<View style={styles.loginForm}>
+								<View style={styles.inputWrap}>
+									<Text style={styles.label}>
+										Type in Your Username or Email
+									</Text>
+									<TextInput
+										{...commonInputProps}
+										style={styles.input}
+										ref={comp => (this.userLogin = comp)}
+										keyboardType="email-address"
+										onChangeText={this.onUserLoginEditHandle}
+										onSubmitEditing={this.onForgetPasswordPressHandle}
+										returnKeyType="go"
 									/>
 								</View>
-							</View>
-						</ScrollView>
-					)
-				}
-				{
-					!showResetForm && (
-						<View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-							<View style={styles.pwdResetInfo}>
-								<Text style={{
-									fontFamily: Constants.fontFamilyLato,
-									color: Color.wdred1,
-									fontSize: 18
-								}}>Reset Link Has been sent to your email</Text>
+								<Button
+									type="gradientBtn"
+									text="Send"
+									size="sm"
+									alignSelf="flex-start"
+									marginTop={15}
+									onPress={this.onForgetPasswordPressHandle}
+								/>
 							</View>
 						</View>
-					)
-				}
+					</ScrollView>
+				)}
+				{!showResetForm && (
+					<View
+						style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<View style={styles.pwdResetInfo}>
+							<Text
+								style={{
+									fontFamily: Constants.fontFamilyLato,
+									color: Color.wdred1,
+									fontSize: 18,
+								}}>
+								Reset Link Has been sent to your email
+							</Text>
+						</View>
+					</View>
+				)}
 				{isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</ImageBackground>
 		);
@@ -166,7 +163,7 @@ class ForgetPassword extends PureComponent {
 
 const commonInputProps = {
 	style: styles.input,
-	underlineColorAndroid: "transparent",
+	underlineColorAndroid: 'transparent',
 	placeholderTextColor: Color.blackTextSecondary,
 };
 
@@ -176,8 +173,8 @@ ForgetPassword.propTypes = {
 
 const mapStateToProps = ({ netInfo, user }) => ({ netInfo, user });
 
-const mapDispatchToProps = (dispatch) => {
-	const { actions } = require("@redux/UserRedux");
+const mapDispatchToProps = dispatch => {
+	const { actions } = require('@redux/UserRedux');
 	const backAction = NavigationActions.back({
 		key: null,
 	});

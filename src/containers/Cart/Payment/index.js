@@ -1,26 +1,25 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { Text,
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import {
+	Text,
 	Dimensions,
 	ScrollView,
 	View,
 	Image,
-	TouchableWithoutFeedback
-} from "react-native";
-import css from "@cart/styles";
-import { connect } from "react-redux";
-import { warn, toast, IconIO } from "@app/Omni";
-import { Button } from "@components";
-import { Languages, Config, Icons } from "@common";
-import Buttons from "@cart/Buttons";
-import WooWorker from "@services/WooCommerce/WooWorker";
-import styles from "./styles";
-import { LinearGradient } from "@expo";
-import Delivery from "../Delivery";
+	TouchableWithoutFeedback,
+} from 'react-native';
+import { connect } from 'react-redux';
+import { toast, IconIO } from '@app/Omni';
+import { Languages, Config, Icons } from '@common';
+import Buttons from '@cart/Buttons';
+import WooWorker from '@services/WooCommerce/WooWorker';
+import styles from './styles';
+import { LinearGradient } from '@expo';
+import Delivery from '../Delivery';
 
-const { width } = Dimensions.get("window");
+// const { width } = Dimensions.get('window');
 
 class PaymentOptions extends PureComponent {
 	static propTypes = {
@@ -41,6 +40,8 @@ class PaymentOptions extends PureComponent {
 		couponId: PropTypes.any,
 		couponAmount: PropTypes.any,
 		shippingMethod: PropTypes.any,
+		onChangeUserInfo: PropTypes.any,
+		onPrevious: PropTypes.any,
 	};
 
 	constructor(props) {
@@ -55,15 +56,15 @@ class PaymentOptions extends PureComponent {
 			// securityCode: '',
 			// paymentState: '',
 			// createdOrder: {},
-			userDataSaved: false
+			userDataSaved: false,
 		};
 	}
 
-	componentWillMount() {
+	UNSAFE_componentWillMount() {
 		this.props.fetchPayments();
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.message && nextProps.message.length > 0) {
 			// Alert.alert(Languages.Error, nextProps.carts.message)
 			toast(nextProps.message);
@@ -71,7 +72,7 @@ class PaymentOptions extends PureComponent {
 
 		if (
 			nextProps.type !== this.props.type &&
-			nextProps.type == "CREATE_NEW_ORDER_SUCCESS"
+			nextProps.type == 'CREATE_NEW_ORDER_SUCCESS'
 		) {
 			// warn(nextProps);
 			this.props.cleanOldCoupon();
@@ -80,7 +81,7 @@ class PaymentOptions extends PureComponent {
 	}
 
 	nextStep = () => {
-		if(this.state.userDataSaved) {
+		if (this.state.userDataSaved) {
 			const { user, token } = this.props.user;
 			const { userInfo, currency } = this.props;
 			const coupon = this.getCouponInfo();
@@ -91,17 +92,17 @@ class PaymentOptions extends PureComponent {
 			// Billing Street address is a required field.
 			// Billing Town / City is a required field.
 
-			let first_name = userInfo.first_name
-			let last_name = userInfo.last_name
-			let address_1 = userInfo.address_1
-			let city = userInfo.city
-			let state = userInfo.state
-			let country = userInfo.country
-			let postcode = userInfo.postcode
+			let first_name = userInfo.first_name;
+			let last_name = userInfo.last_name;
+			let address_1 = userInfo.address_1;
+			let city = userInfo.city;
+			let state = userInfo.state;
+			let country = userInfo.country;
+			let postcode = userInfo.postcode;
 
 			if (user && user.billing) {
 				first_name = user.billing.first_name;
-				last_name =  user.billing.last_name;
+				last_name = user.billing.last_name;
 				address_1 = user.billing.last_name;
 				city = user.billing.city;
 				state = user.billing.state;
@@ -138,7 +139,8 @@ class PaymentOptions extends PureComponent {
 					postcode: userInfo.postcode,
 				},
 				line_items: this.getItemsCart(),
-				customer_note: typeof userInfo.note !== "undefined" ? userInfo.note : "",
+				customer_note:
+					typeof userInfo.note !== 'undefined' ? userInfo.note : '',
 				currency: currency.code,
 			};
 			// check the shipping info
@@ -153,7 +155,7 @@ class PaymentOptions extends PureComponent {
 
 			this.setState({ loading: this.props.isLoading });
 
-			if (list[this.state.selectedIndex].id == "cod") {
+			if (list[this.state.selectedIndex].id == 'cod') {
 				// console.log(payload);
 				this.setState({ loading: true });
 				WooWorker.createNewOrder(
@@ -163,7 +165,7 @@ class PaymentOptions extends PureComponent {
 						this.props.emptyCart();
 						this.props.onNext();
 					},
-					(response) => {
+					response => {
 						console.log(response);
 						this.setState({ loading: false });
 					}
@@ -173,7 +175,7 @@ class PaymentOptions extends PureComponent {
 				this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);
 			}
 		} else {
-			alert("Update your delivery information");
+			alert('Update your delivery information');
 		}
 	};
 
@@ -199,8 +201,8 @@ class PaymentOptions extends PureComponent {
 	getCouponInfo = () => {
 		const { couponCode, couponAmount } = this.props;
 		if (
-			typeof couponCode !== "undefined" &&
-			typeof couponAmount !== "undefined" &&
+			typeof couponCode !== 'undefined' &&
+			typeof couponAmount !== 'undefined' &&
 			couponAmount > 0
 		) {
 			return [
@@ -215,15 +217,15 @@ class PaymentOptions extends PureComponent {
 	getShippingMethod = () => {
 		const { shippingMethod } = this.props;
 
-		if (typeof shippingMethod !== "undefined") {
+		if (typeof shippingMethod !== 'undefined') {
 			return [
 				{
 					method_id: `${shippingMethod.method_id}:${shippingMethod.id}`,
 					method_title: shippingMethod.title,
 					total:
-						shippingMethod.id == "free_shipping" ||
-						shippingMethod.method_id == "free_shipping"
-							? "0"
+						shippingMethod.id == 'free_shipping' ||
+						shippingMethod.method_id == 'free_shipping'
+							? '0'
 							: shippingMethod.settings.cost.value,
 				},
 			];
@@ -231,23 +233,24 @@ class PaymentOptions extends PureComponent {
 		// return the free class as default
 		return [
 			{
-				method_id: "free_shipping",
-				total: "0",
+				method_id: 'free_shipping',
+				total: '0',
 			},
 		];
 	};
 
-	onSaveUserData = () => { // weDevs
-		if(!this.state.userDataSaved) {
+	onSaveUserData = () => {
+		// weDevs
+		if (!this.state.userDataSaved) {
 			this.setState({
-				userDataSaved: true
-			})
+				userDataSaved: true,
+			});
 		}
-	}
+	};
 
 	render() {
 		const { list } = this.props.payments;
-		
+
 		return (
 			<View style={styles.container}>
 				<ScrollView>
@@ -257,41 +260,41 @@ class PaymentOptions extends PureComponent {
 						{list.map((item, index) => {
 							if (!item.enabled) return null;
 							const image =
-								typeof Config.Payments[item.id] !== "undefined" &&
+								typeof Config.Payments[item.id] !== 'undefined' &&
 								Config.Payments[item.id];
 							return (
 								<View style={styles.optionContainer} key={index}>
 									<TouchableWithoutFeedback
-										style={{ width: "100%", height: "100%" }}
+										style={{ width: '100%', height: '100%' }}
 										onPress={() => this.setState({ selectedIndex: index })}>
 										<LinearGradient
 											style={styles.optionGradient}
-											start={{x: 0, y: 0}} end={{x: 0.5, y: 1.0}}
-											locations={[0.1,0.75,1]}
+											start={{ x: 0, y: 0 }}
+											end={{ x: 0.5, y: 1.0 }}
+											locations={[0.1, 0.75, 1]}
 											colors={
-												this.state.selectedIndex === index ?
-												["#FF9472", "#F88287", "#F2709C"] :
-												["#fff", "#fff", "#fff"]
+												this.state.selectedIndex === index
+													? ['#FF9472', '#F88287', '#F2709C']
+													: ['#fff', '#fff', '#fff']
 											}>
 											<Image
-												style={
-													[
-														styles.imgOption,
-														// this.state.selectedIndex === index &&
-														//   {tintColor: "#fff"}
-													]
-												}
-												source={image} />
+												style={[
+													styles.imgOption,
+													// this.state.selectedIndex === index &&
+													//   {tintColor: "#fff"}
+												]}
+												source={image}
+											/>
 										</LinearGradient>
 									</TouchableWithoutFeedback>
-									{
-										this.state.selectedIndex === index &&
+									{this.state.selectedIndex === index && (
 										<View style={styles.tickMarkContainer} key={index}>
 											<LinearGradient
 												style={styles.tickMarkGradient}
-												start={{x: 0, y: 0}} end={{x: 0.5, y: 1.0}}
-												locations={[0.1,0.75,1]}
-												colors={["#7ED500", "#3CC94A", "#00BF8D"]}>
+												start={{ x: 0, y: 0 }}
+												end={{ x: 0.5, y: 1.0 }}
+												locations={[0.1, 0.75, 1]}
+												colors={['#7ED500', '#3CC94A', '#00BF8D']}>
 												<IconIO
 													name={Icons.Ionicons.CheckMark}
 													size={36}
@@ -299,7 +302,7 @@ class PaymentOptions extends PureComponent {
 												/>
 											</LinearGradient>
 										</View>
-									}
+									)}
 								</View>
 							);
 						})}
@@ -307,8 +310,8 @@ class PaymentOptions extends PureComponent {
 
 					<Delivery
 						onChangeUserInfo={this.props.onChangeUserInfo}
-						onSaveUserData={this.onSaveUserData} />
-
+						onSaveUserData={this.onSaveUserData}
+					/>
 				</ScrollView>
 
 				<Buttons
@@ -332,28 +335,25 @@ const mapStateToProps = ({ payments, carts, user, products, currency }) => {
 		totalPrice: carts.totalPrice,
 		message: carts.message,
 		customerInfo: carts.customerInfo,
-
 		couponCode: products.coupon && products.coupon.code,
 		couponAmount: products.coupon && products.coupon.amount,
 		discountType: products.coupon && products.coupon.type,
 		couponId: products.coupon && products.coupon.id,
-
 		shippingMethod: carts.shippingMethod,
-
 		currency,
 	};
 };
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const CartRedux = require("@redux/CartRedux");
-	const productActions = require("@redux/ProductRedux").actions;
-	const paymentActions = require("@redux/PaymentRedux").actions;
+	const CartRedux = require('@redux/CartRedux');
+	const productActions = require('@redux/ProductRedux').actions;
+	const paymentActions = require('@redux/PaymentRedux').actions;
 	return {
 		...ownProps,
 		...stateProps,
 		emptyCart: () => CartRedux.actions.emptyCart(dispatch),
-		createNewOrder: (payload) => {
+		createNewOrder: payload => {
 			CartRedux.actions.createNewOrder(dispatch, payload);
 		},
 		cleanOldCoupon: () => {

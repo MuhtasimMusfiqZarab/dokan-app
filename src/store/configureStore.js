@@ -1,13 +1,13 @@
 /** @format */
 
-import { Platform } from "react-native";
-import Reactotron from "reactotron-react-native";
-import { applyMiddleware, compose, createStore } from "redux";
-import thunk from "redux-thunk";
-import reducers from "@redux";
-import { Constants } from "@common";
-import {connectConsoleToReactotron} from '@app/Omni'
-import "./../../ReactotronConfig";
+import { Platform } from 'react-native';
+import Reactotron from 'reactotron-react-native';
+import { applyMiddleware, compose, createStore } from 'redux';
+import thunk from 'redux-thunk';
+import reducers from '@redux';
+import { Constants } from '@common';
+// import { connectConsoleToReactotron } from '@app/Omni';
+import './../../ReactotronConfig';
 
 const middleware = [
 	thunk,
@@ -43,7 +43,7 @@ const configureStore = () => {
 
 			// show network react-native-debugger
 			// only show on IOS, android bug
-			if (Platform.OS === "ios") {
+			if (Platform.OS === 'ios') {
 				global.XMLHttpRequest = global.originalXMLHttpRequest
 					? global.originalXMLHttpRequest
 					: global.XMLHttpRequest;

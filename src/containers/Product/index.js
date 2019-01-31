@@ -2,17 +2,16 @@
  * @format
  */
 
-import React from "react";
-import { ScrollView, View, Text, StyleSheet, Image } from "react-native";
-import Swiper from "react-native-swiper";
-
-import { Languages, Styles, Color, Constants } from "@common";
-import { getProductImage, Icon, currencyFormatter } from "@app/Omni";
-import { Rating, Button } from "@components";
-import HTML from "react-native-render-html";
-
-import ReviewTab from "./ReviewTab";
-import VariationsForm from "./VariationsForm";
+import React from 'react';
+import { ScrollView, View, Text, StyleSheet, Image } from 'react-native';
+import { Swiper } from 'react-native-swiper';
+import PropTypes from 'prop-types';
+import { Languages, Styles, Color, Constants } from '@common';
+import { getProductImage, Icon, currencyFormatter } from '@app/Omni';
+import { Rating, Button } from '@components';
+import HTML from 'react-native-render-html';
+import ReviewTab from './ReviewTab';
+import VariationsForm from './VariationsForm';
 
 class ProductScreen extends React.Component {
 	constructor(props) {
@@ -40,56 +39,56 @@ class ProductScreen extends React.Component {
 	renderTopInfo(_product) {
 		const styles = {
 			container_row: {
-				flexDirection: "row",
+				flexDirection: 'row',
 			},
 			name: {
 				color: Color.TextDark,
 				fontSize: 26,
 				margin: 5,
 				marginBottom: 0,
-				textAlign: "center",
+				textAlign: 'center',
 			},
 			price: {
 				color: Color.ProductPrice,
 				fontSize: 18,
-				fontWeight: "bold",
+				fontWeight: 'bold',
 				margin: 5,
 				marginRight: 0,
 			},
 			sale_price: {
-				textDecorationLine: "line-through",
+				textDecorationLine: 'line-through',
 				color: Color.TextLight,
-				fontWeight: "normal",
+				fontWeight: 'normal',
 			},
 			sale_off: {
 				color: Color.TextLight,
-				fontWeight: "normal",
+				fontWeight: 'normal',
 			},
 		};
 		return (
 			<View style={styles.card}>
 				<Text style={styles.name}>{_product.name}</Text>
-				<View style={{ justifyContent: "center", alignItems: "center" }}>
-					<View style={{ flexDirection: "row" }}>
+				<View style={{ justifyContent: 'center', alignItems: 'center' }}>
+					<View style={{ flexDirection: 'row' }}>
 						<Text style={styles.price}>
 							{currencyFormatter(_product.price)}
 						</Text>
 						<Text style={[styles.price, styles.sale_price]}>
 							{_product.on_sale
 								? currencyFormatter(_product.regular_price)
-								: ""}
+								: ''}
 						</Text>
 						{!_product.on_sale ? (
 							<View />
 						) : (
 							<Text style={[styles.price, styles.sale_off]}>
-								{"(" +
+								{'(' +
 									(
 										(1 -
 											Number(_product.price) / Number(_product.regular_price)) *
 										100
 									).toFixed(0) +
-									"% off)"}
+									'% off)'}
 							</Text>
 						)}
 					</View>
@@ -98,7 +97,7 @@ class ProductScreen extends React.Component {
 						<Rating rating={Number(_product.average_rating)} size={25} />
 						<Text
 							style={{ color: Color.ViewBorder, fontSize: 18, marginLeft: 5 }}>
-							{"(" + _product.rating_count + ")"}
+							{'(' + _product.rating_count + ')'}
 						</Text>
 					</View>
 				</View>
@@ -112,10 +111,12 @@ class ProductScreen extends React.Component {
 				<Text style={styles.label}>{Languages.ProductVariations}</Text>
 
 				<VariationsForm
-					ref={"form"}
+					ref={c => {
+						this.form = c;
+					}}
 					attributes={_product.attributes}
 					variations={_product.variations}
-					updateVariation={(variation) =>
+					updateVariation={variation =>
 						this.setState({ currentVariation: variation })
 					}
 					defaultVariation={
@@ -131,7 +132,7 @@ class ProductScreen extends React.Component {
 	renderDescription(_product) {
 		const styles = {
 			card: {
-				backgroundColor: "white",
+				backgroundColor: 'white',
 				marginBottom: 8,
 				padding: Constants.Dimension.ScreenWidth(0.05),
 			},
@@ -140,7 +141,7 @@ class ProductScreen extends React.Component {
 				fontSize: 14,
 			},
 			attribute_container: {
-				flexDirection: "row",
+				flexDirection: 'row',
 				borderWidth: 1,
 				borderColor: Color.ViewBorder,
 			},
@@ -148,7 +149,7 @@ class ProductScreen extends React.Component {
 				flex: 3,
 				borderRightWidth: 1,
 				borderColor: Color.ViewBorder,
-				backgroundColor: "#F8F8F8",
+				backgroundColor: '#F8F8F8',
 			},
 			attribute_right: {
 				flex: 7,
@@ -156,7 +157,7 @@ class ProductScreen extends React.Component {
 			attribute_name: {
 				color: Color.TextDark,
 				fontSize: 14,
-				fontWeight: "bold",
+				fontWeight: 'bold',
 				margin: 10,
 			},
 			attribute_options: {
@@ -169,7 +170,7 @@ class ProductScreen extends React.Component {
 				<Text style={[styles.label, { marginBottom: -10 }]}>
 					{Languages.AdditionalInformation}
 				</Text>
-				{_product.description == "" ? (
+				{_product.description == '' ? (
 					<Text style={styles.text}>{Languages.NoProductDescription}</Text>
 				) : (
 					<View style={{ margin: 10 }}>
@@ -184,7 +185,7 @@ class ProductScreen extends React.Component {
 		return (
 			<View style={styles.card}>
 				<Text style={styles.label}>
-					{Languages.ProductReviews + " (" + _product.rating_count + ")"}
+					{Languages.ProductReviews + ' (' + _product.rating_count + ')'}
 				</Text>
 				<ReviewTab product={_product} />
 			</View>
@@ -206,7 +207,7 @@ class ProductScreen extends React.Component {
 
 			// if product have variations and if current variation is not found
 			if (_product.variations.length > 0) {
-				this.refs.form.onPress();
+				this.form.onPress();
 				if (!_variation) return;
 			}
 			// this.props.addCartItem(_product, _variation)
@@ -222,7 +223,7 @@ class ProductScreen extends React.Component {
 
 			// if product have variations and if current variation is not found
 			if (_product.variations.length > 0) {
-				this.refs.form.onPress();
+				this.form.onPress();
 				if (!_variation) return;
 			}
 			if (this.isInWishList) {
@@ -230,7 +231,7 @@ class ProductScreen extends React.Component {
 			} else this.props.addWishListItem(_product, _variation);
 		};
 		return (
-			<View style={{ flexDirection: "row" }}>
+			<View style={{ flexDirection: 'row' }}>
 				<Button
 					autoWidth={false}
 					onPress={() => opAddToCart(true)}
@@ -302,12 +303,12 @@ const styles = StyleSheet.create({
 	sale_price: {
 		fontSize: Styles.FontSize.big,
 		color: Color.blackTextDisable,
-		textDecorationLine: "line-through",
+		textDecorationLine: 'line-through',
 	},
 	price: {
 		fontSize: Styles.FontSize.big,
 		color: Color.accent,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 	},
 	saleWrap: {
 		borderRadius: 5,
@@ -326,7 +327,7 @@ const styles = StyleSheet.create({
 	label: {
 		color: Color.blackTextPrimary,
 		fontSize: Styles.FontSize.big,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 	},
 	separator: {
 		height: 10,
@@ -335,7 +336,9 @@ const styles = StyleSheet.create({
 });
 
 ProductScreen.propTypes = {
-	// product: PropTypes.object.isRequired,
+	product: PropTypes.object.isRequired,
+	removeWishListItem: PropTypes.func,
+	addWishListItem: PropTypes.func,
 };
 //ProductScreen.defaultProps = {
 //    title: 'This is a title'

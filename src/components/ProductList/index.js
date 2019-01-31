@@ -1,28 +1,18 @@
 /** @format */
 
-import React, { Component } from "react";
-import {
-	FlatList,
-	Image,
-	Platform,
-	RefreshControl,
-	Animated,
-	View,
-	TouchableOpacity,
-	Text
-} from "react-native";
+import React, { Component } from 'react';
+import { FlatList, Image, RefreshControl, Animated, View } from 'react-native';
 import {
 	PostLayout,
-	AnimatedHeader,
 	Spinkit,
 	WdProductListToolBar,
 	WdModalSorting,
-	Spinner
-} from "@components";
-import { Constants, Languages } from "@common";
-import { connect } from "react-redux";
-import styles from "./styles";
-import DokanWorker from "@services/Dokan/DokanWorker";
+	Spinner,
+} from '@components';
+import { Constants } from '@common';
+import { connect } from 'react-redux';
+import styles from './styles';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 // const HEADER_MIN_HEIGHT = 40;
 // const HEADER_SCROLL_DISTANCE =
@@ -33,7 +23,7 @@ class ProductList extends Component {
 	state = {
 		scrollY: new Animated.Value(0),
 		isFooterFetching: false,
-		isSpinner: false
+		isSpinner: false,
 	};
 
 	constructor(props) {
@@ -42,18 +32,18 @@ class ProductList extends Component {
 		this.page = props.page ? props.page : 0;
 		this.limit = Constants.pagingLimit;
 		this.isProductList = props.type === undefined;
-		this.key=1;
+		this.key = 1;
 
-		if(!this.props.vendorID) {
-			if (this.props.config.name === "featuredProducts") {
-				this.props.navigation.setParams({ title: "Featured Products" });
-			} else if (this.props.config.name === "bestSellingProducts") {
-				this.props.navigation.setParams({ title: "Best Selling Producst" });
-			} else if (this.props.config.name === "topRatedProducts") {
-				this.props.navigation.setParams({ title: "Top Rated Products" });
+		if (!this.props.vendorID) {
+			if (this.props.config.name === 'featuredProducts') {
+				this.props.navigation.setParams({ title: 'Featured Products' });
+			} else if (this.props.config.name === 'bestSellingProducts') {
+				this.props.navigation.setParams({ title: 'Best Selling Producst' });
+			} else if (this.props.config.name === 'topRatedProducts') {
+				this.props.navigation.setParams({ title: 'Top Rated Products' });
 			} else {
-				this.props.navigation.setParams({ title: "Product List" });
-			}	
+				this.props.navigation.setParams({ title: 'Product List' });
+			}
 		}
 
 		// this.props.navigation.setParams({ title: "Product List" });
@@ -63,7 +53,7 @@ class ProductList extends Component {
 		if (
 			!this.props.vendorID &&
 			this.props.config.name &&
-			this.props.config.name === "allProducts"
+			this.props.config.name === 'allProducts'
 		) {
 			this.props.fetchAllProducts(20, this.page);
 		}
@@ -71,7 +61,7 @@ class ProductList extends Component {
 		if (
 			!this.props.vendorID &&
 			this.props.config.name &&
-			this.props.config.name === "newArrival"
+			this.props.config.name === 'newArrival'
 		) {
 			this.props.fetchNewArrivals(this.page);
 		}
@@ -79,23 +69,23 @@ class ProductList extends Component {
 		this.page === 0 && this.fetchData();
 	}
 
-	componentWillReceiveProps(nexprops) {
-		nexprops.layoutProductScreen !== this.props.layoutProductScreen ?
-			this.key = this.key + 1 : 1;
+	UNSAFE_componentWillReceiveProps(nexprops) {
+		nexprops.layoutProductScreen !== this.props.layoutProductScreen
+			? (this.key = this.key + 1)
+			: 1;
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
-		return(
+		return (
 			nextProps.layoutProductScreen !== this.props.layoutProductScreen ||
 			nextProps.list !== this.props.list ||
 			nextState.isFooterFetching !== this.state.isFooterFetching ||
 			nextState.isSpinner !== this.state.isSpinner
-		)
+		);
 	}
 
 	fetchData = (reload = false) => {
-		if (this.props.vendorID)
-			return;
+		if (this.props.vendorID) return;
 
 		const {
 			config,
@@ -106,33 +96,39 @@ class ProductList extends Component {
 			sortByRating,
 			sortByDate,
 			sortByPriceDesc,
-			sortByPriceAsc
+			sortByPriceAsc,
 		} = this.props;
 
 		if (reload) {
 			this.page = 1;
 		}
 
-		if(config.name === "allProducts") {
-			if(message) {
-				if(message === "sortRating") {
-					sortByRating(10, this.page, "desc", "rating")
-				} else if(message === "sortByDate") {
-					sortByDate(10, this.page, "desc", "rating");
-				} else if (message === "sortPriceDesc") {
-					sortByPriceDesc(10, this.page, "desc", "price");
-				} else if (message === "sortPriceAsc") {
-					sortByPriceAsc(10, this.page, "asc", "price");
+		if (config.name === 'allProducts') {
+			if (message) {
+				if (message === 'sortRating') {
+					sortByRating(10, this.page, 'desc', 'rating');
+				} else if (message === 'sortByDate') {
+					sortByDate(10, this.page, 'desc', 'rating');
+				} else if (message === 'sortPriceDesc') {
+					sortByPriceDesc(10, this.page, 'desc', 'price');
+				} else if (message === 'sortPriceAsc') {
+					sortByPriceAsc(10, this.page, 'asc', 'price');
 				} else {
 					return false;
 				}
 			} else {
 				fetchAllProducts(20, this.page);
 			}
-		} else if(config.name === "newArrival") {
+		} else if (config.name === 'newArrival') {
 			this.props.fetchNewArrivals(this.page);
 		} else {
-			fetchProductsByCollections(config.category, config.tag, this.page, index, config.name);
+			fetchProductsByCollections(
+				config.category,
+				config.tag,
+				this.page,
+				index,
+				config.name
+			);
 		}
 	};
 
@@ -140,19 +136,19 @@ class ProductList extends Component {
 		console.log(this.props.finish);
 		if (!this.props.finish) {
 			this.setState({
-				isFooterFetching: true
-			})
+				isFooterFetching: true,
+			});
 			this.page += 1;
 			this.fetchData();
 		} else {
 			this.setState({
-				isFooterFetching: false
-			})
+				isFooterFetching: false,
+			});
 			this.page = 1;
 		}
 	};
 
-	onRowClickHandle = (item) => {
+	onRowClickHandle = item => {
 		if (this.isProductList) {
 			this.props.onViewProductScreen({ product: item });
 		} else {
@@ -160,13 +156,13 @@ class ProductList extends Component {
 		}
 	};
 
-	viewVendorFromProductList = async (vendorID) => {
-		this.setState({ isSpinner: true })
+	viewVendorFromProductList = async vendorID => {
+		this.setState({ isSpinner: true });
 		const vendor = await DokanWorker.getSingleVendor(vendorID);
 		this.props.fetchVendorProducts(vendorID);
 		this.setState({ isSpinner: false });
 		this.props.onViewVendorScreen(vendor);
-	}
+	};
 
 	renderItem = ({ item, index }) => {
 		if (item == null) return <View />;
@@ -177,9 +173,7 @@ class ProductList extends Component {
 				type={this.props.type}
 				key={`key-${index}`}
 				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
-				layout={
-					this.props.vendorID ? 3 : this.props.layoutProductScreen
-				}
+				layout={this.props.vendorID ? 3 : this.props.layoutProductScreen}
 				isVendorProduct={this.props.vendorID ? true : false}
 				viewVendorFromProductList={this.viewVendorFromProductList}
 			/>
@@ -199,14 +193,19 @@ class ProductList extends Component {
 	};
 
 	render() {
-		const { list, config, isFetching, layoutProductScreen, navigation } = this.props;
-		const renderFooter = () => this.state.isFooterFetching ? <Spinkit /> : "";
-		const showModalSorting = 
-			config ? config.name === "allProducts" ? true : false : false;
+		const { list, config, isFetching, layoutProductScreen } = this.props;
+		const renderFooter = () => (this.state.isFooterFetching ? <Spinkit /> : '');
+		const showModalSorting = config
+			? config.name === 'allProducts'
+				? true
+				: false
+			: false;
 
 		return (
 			<View style={styles.listView}>
-				{this.props.showToolBar && <WdProductListToolBar showSorting={showModalSorting} />}
+				{this.props.showToolBar && (
+					<WdProductListToolBar showSorting={showModalSorting} />
+				)}
 				<AnimatedFlatList
 					key={this.key}
 					contentContainerStyle={styles.flatlist}
@@ -241,21 +240,21 @@ const mapStateToProps = ({ layouts, products, vendors }, ownProp) => {
 		const finish = true;
 
 		return { list, isFetching, finish };
-	} else if (ownProp.config.name === "allProducts") {
+	} else if (ownProp.config.name === 'allProducts') {
 		const list = products.listAll;
 		const isFetching = products.isFetching;
 		const finish = products.productFinish;
-		const message = products.message
+		const message = products.message;
 		const layoutProductScreen = products.layoutProductScreen;
-console.log(list);
-		return { list, isFetching, finish, layoutProductScreen, message }
-	} else if (ownProp.config.name === "newArrival") {
+		console.log(list);
+		return { list, isFetching, finish, layoutProductScreen, message };
+	} else if (ownProp.config.name === 'newArrival') {
 		const list = products.list;
 		const isFetching = products.isFetching;
 		const finish = products.productFinish;
 		const layoutProductScreen = products.layoutProductScreen;
 
-		return { list, isFetching, finish, layoutProductScreen }
+		return { list, isFetching, finish, layoutProductScreen };
 	} else {
 		const index = ownProp.index;
 		const list = layouts.layout[index].list;
@@ -269,9 +268,9 @@ console.log(list);
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
-	const { actions: LayoutActions } = require("@redux/LayoutRedux");
-	const { actions: ProductActions } = require("@redux/ProductRedux");
-	const { actions: VendorActions } = require("@redux/VendorRedux");
+	const { actions: LayoutActions } = require('@redux/LayoutRedux');
+	const { actions: ProductActions } = require('@redux/ProductRedux');
+	const { actions: VendorActions } = require('@redux/VendorRedux');
 
 	return {
 		...ownProps,
@@ -289,32 +288,48 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 				name
 			);
 		},
-		fetchVendorProducts: (vendorID) => {
-			VendorActions.fetchVendorProducts( dispatch, vendorID );
+		fetchVendorProducts: vendorID => {
+			VendorActions.fetchVendorProducts(dispatch, vendorID);
 		},
-		fetchNewArrivals: (page) => {
+		fetchNewArrivals: page => {
 			ProductActions.fetchNewArrivals(dispatch, page);
 		},
 		sortByRating: (per_page, page, order, order_by) => {
-			return (
-				ProductActions.sortByRating(dispatch, per_page, page, order, order_by)
-			)
+			return ProductActions.sortByRating(
+				dispatch,
+				per_page,
+				page,
+				order,
+				order_by
+			);
 		},
 		sortByDate: (per_page, page, order, order_by) => {
-			return (
-				ProductActions.sortByDate(dispatch, per_page, page, order, order_by)
-			)
+			return ProductActions.sortByDate(
+				dispatch,
+				per_page,
+				page,
+				order,
+				order_by
+			);
 		},
 		sortByPriceDesc: (per_page, page, order, order_by) => {
-			return (
-				ProductActions.sortByPriceDesc(dispatch, per_page, page, order, order_by)
-			)
+			return ProductActions.sortByPriceDesc(
+				dispatch,
+				per_page,
+				page,
+				order,
+				order_by
+			);
 		},
 		sortByPriceAsc: (per_page, page, order, order_by) => {
-			return (
-				ProductActions.sortByPriceAsc(dispatch, per_page, page, order, order_by)
-			)
-		}
+			return ProductActions.sortByPriceAsc(
+				dispatch,
+				per_page,
+				page,
+				order,
+				order_by
+			);
+		},
 	};
 };
 

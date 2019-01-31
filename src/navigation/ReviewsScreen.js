@@ -1,14 +1,13 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { Reviews } from "@containers";
-import { Back, EmptyView } from "./IconNav";
-import { Color, Styles, Images } from "@common";
-import { warn } from "@app/Omni";
+import React, { PureComponent } from 'react';
+import { Reviews } from '@containers';
+import { Back, EmptyView } from './IconNav';
+import { Color, Styles, Images } from '@common';
 
 export default class ReviewsScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
-		headerTitle: "All Reviews",
+		headerTitle: 'All Reviews',
 		headerLeft: Back(navigation, Images.icons.arrowBack),
 		headerRight: EmptyView(),
 
@@ -21,6 +20,6 @@ export default class ReviewsScreen extends PureComponent {
 		const { state } = this.props.navigation;
 		const productID = state.params.productID;
 
-		return ( <Reviews productID={productID} />);
+		return <Reviews productID={productID} />;
 	}
 }

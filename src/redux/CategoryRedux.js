@@ -1,30 +1,29 @@
 /**
- *
  * @format
  */
 
-import { Config } from "@common";
+import { Config } from '@common';
 // import { warn } from '@app/Omni'
-import WooWorker from "@services/WooCommerce/WooWorker";
+import WooWorker from '@services/WooCommerce/WooWorker';
 
 const types = {
-	FETCH_CATEGORIES_PENDING: "FETCH_CATEGORIES_PENDING",
-	FETCH_CATEGORIES_SUCCESS: "FETCH_CATEGORIES_SUCCESS",
-	FETCH_CATEGORIES_FAILURE: "FETCH_CATEGORIES_FAILURE",
+	FETCH_CATEGORIES_PENDING: 'FETCH_CATEGORIES_PENDING',
+	FETCH_CATEGORIES_SUCCESS: 'FETCH_CATEGORIES_SUCCESS',
+	FETCH_CATEGORIES_FAILURE: 'FETCH_CATEGORIES_FAILURE',
 
-	SWITCH_DISPLAY_MODE: "SWITCH_DISPLAY_MODE",
-	SET_SELECTED_CATEGORY: "SET_SELECTED_CATEGORY",
-	CATEGORY_SELECT_LAYOUT: "CATEGORY_SELECT_LAYOUT",
+	SWITCH_DISPLAY_MODE: 'SWITCH_DISPLAY_MODE',
+	SET_SELECTED_CATEGORY: 'SET_SELECTED_CATEGORY',
+	CATEGORY_SELECT_LAYOUT: 'CATEGORY_SELECT_LAYOUT',
 };
 
 export const DisplayMode = {
-	ListMode: "ListMode",
-	GridMode: "GridMode",
-	CardMode: "CardMode",
+	ListMode: 'ListMode',
+	GridMode: 'GridMode',
+	CardMode: 'CardMode',
 };
 
 export const actions = {
-	fetchCategories: async (dispatch) => {
+	fetchCategories: async dispatch => {
 		dispatch({ type: types.FETCH_CATEGORIES_PENDING });
 		const json = await WooWorker.getCategories();
 
@@ -36,19 +35,19 @@ export const actions = {
 			dispatch(actions.fetchCategoriesSuccess(json));
 		}
 	},
-	fetchCategoriesSuccess: (items) => {
+	fetchCategoriesSuccess: items => {
 		return { type: types.FETCH_CATEGORIES_SUCCESS, items };
 	},
-	fetchCategoriesFailure: (error) => {
+	fetchCategoriesFailure: error => {
 		return { type: types.FETCH_CATEGORIES_FAILURE, error };
 	},
-	switchDisplayMode: (mode) => {
+	switchDisplayMode: mode => {
 		return { type: types.SWITCH_DISPLAY_MODE, mode };
 	},
-	setSelectedCategory: (category) => {
+	setSelectedCategory: category => {
 		return { type: types.SET_SELECTED_CATEGORY, category };
 	},
-	setActiveLayout: (value) => {
+	setActiveLayout: value => {
 		return { type: types.CATEGORY_SELECT_LAYOUT, value };
 	},
 };

@@ -1,6 +1,6 @@
 /** @format */
 
-import EventEmitter from "EventEmitter";
+import EventEmitter from 'EventEmitter';
 
 var AppEventEmitter = new EventEmitter();
 

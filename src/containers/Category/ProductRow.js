@@ -2,22 +2,29 @@
  * @format
  */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { Styles, Color, Constants } from "@common";
-import { currencyFormatter, getProductImage } from "@app/Omni";
-import { Rating, ImageCache, Text } from "@components";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { DisplayMode } from "@redux/CategoryRedux";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { Styles, Color, Constants } from '@common';
+import { currencyFormatter, getProductImage } from '@app/Omni';
+import { Rating, ImageCache, Text } from '@components';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { DisplayMode } from '@redux/CategoryRedux';
 
 class ProductRow extends Component {
+	static propTypes = {
+		isInWishList: PropTypes.bool,
+		addToWishList: PropTypes.func,
+		removeWishListItem: PropTypes.func,
+	};
+
 	constructor(props) {
 		super(props);
 	}
 
 	shouldComponentUpdate(nextProps) {
 		const props = this.props;
+
 		return (
 			props.displayMode !== nextProps.displayMode ||
 			props.product.id !== nextProps.product.id ||
@@ -27,12 +34,10 @@ class ProductRow extends Component {
 
 	render() {
 		const { product, onPress, displayMode, isInWishList } = this.props;
-
 		const isListMode =
 			displayMode === DisplayMode.ListMode ||
 			displayMode === DisplayMode.CardMode;
 		const isCardMode = displayMode === DisplayMode.CardMode;
-
 		const textStyle = isListMode ? styles.text_list : styles.text_grid;
 		const imageStyle = isListMode ? styles.image_list : styles.image_grid;
 		const image_width = isListMode
@@ -58,12 +63,12 @@ class ProductRow extends Component {
 
 					<View
 						style={{
-							flexDirection: isCardMode ? "column" : "row",
+							flexDirection: isCardMode ? 'column' : 'row',
 							justifyContent:
 								displayMode === DisplayMode.ListMode
-									? "space-between"
-									: "center",
-							alignItems: isCardMode ? "center" : "flex-start",
+									? 'space-between'
+									: 'center',
+							alignItems: isCardMode ? 'center' : 'flex-start',
 							marginTop: 4,
 						}}>
 						<View
@@ -86,22 +91,20 @@ class ProductRow extends Component {
 								]}>
 								{product.on_sale && product.regular_price > 0
 									? currencyFormatter(product.regular_price)
-									: ""}
+									: ''}
 							</Text>
 
-							{product.on_sale &&
-								product.regular_price > 0 && (
-									<View style={styles.saleWrap}>
-										<Text style={[textStyle, styles.sale_off]}>
-											{`-${(
-												(1 -
-													Number(product.price) /
-														Number(product.regular_price)) *
-												100
-											).toFixed(0)}%`}
-										</Text>
-									</View>
-								)}
+							{product.on_sale && product.regular_price > 0 && (
+								<View style={styles.saleWrap}>
+									<Text style={[textStyle, styles.sale_off]}>
+										{`-${(
+											(1 -
+												Number(product.price) / Number(product.regular_price)) *
+											100
+										).toFixed(0)}%`}
+									</Text>
+								</View>
+							)}
 						</View>
 
 						{isListMode && (
@@ -146,7 +149,7 @@ class ProductRow extends Component {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: "white",
+		backgroundColor: 'white',
 		paddingBottom: 10,
 		marginHorizontal: Styles.width / 20,
 		marginTop: 10,
@@ -192,10 +195,10 @@ const styles = StyleSheet.create({
 		top: 0,
 	},
 	cardWraper: {
-		flexDirection: "column",
+		flexDirection: 'column',
 	},
 	sale_price: {
-		textDecorationLine: "line-through",
+		textDecorationLine: 'line-through',
 		color: Color.blackTextDisable,
 		marginLeft: 0,
 		marginRight: 0,
@@ -213,8 +216,8 @@ const styles = StyleSheet.create({
 	saleWrap: {
 		borderRadius: 5,
 		backgroundColor: Color.primary,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingHorizontal: 3,
 		marginLeft: 5,
 	},
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
 	},
 	cardText: {
 		fontSize: 20,
-		textAlign: "center",
+		textAlign: 'center',
 	},
 	cardPrice: {
 		fontSize: 18,
@@ -232,12 +235,12 @@ const styles = StyleSheet.create({
 		fontFamily: Constants.fontFamily,
 	},
 	btnWishList: {
-		position: "absolute",
+		position: 'absolute',
 		top: 5,
 		right: 5,
-		backgroundColor: "transparent",
-		justifyContent: "center",
-		alignItems: "center",
+		backgroundColor: 'transparent',
+		justifyContent: 'center',
+		alignItems: 'center',
 		width: 30,
 		height: 30,
 	},

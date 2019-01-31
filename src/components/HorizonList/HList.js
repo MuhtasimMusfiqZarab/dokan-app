@@ -1,25 +1,25 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
 	FlatList,
 	Text,
 	TouchableOpacity,
 	View,
 	I18nManager,
-} from "react-native";
-import { Constants, Images, Languages, Color } from "@common";
-import Icon from "react-native-vector-icons/Entypo";
-import { HorizonLayout } from "@components";
-import { find } from "lodash";
-import styles from "./styles";
+} from 'react-native';
+import { Constants, Images, Languages, Color } from '@common';
+import Icon from 'react-native-vector-icons/Entypo';
 import {
+	HorizonLayout,
 	WdNewArrival,
 	WdPopularCat,
 	WdFeaturedVendor,
-	WdAtAGlance
-} from "@components";
+	WdAtAGlance,
+} from '@components';
+import { find } from 'lodash';
+import styles from './styles';
 
 class HorizonList extends PureComponent {
 	static propTypes = {
@@ -32,6 +32,12 @@ class HorizonList extends PureComponent {
 		setSelectedCategory: PropTypes.func,
 		onViewProductScreen: PropTypes.func,
 		collection: PropTypes.object,
+		navigation: PropTypes.func,
+		featuredVendorList: PropTypes.array,
+		onViewVendorProfileScreen: PropTypes.func,
+		onViewCategory: PropTypes.func,
+		fetchVendorProducts: PropTypes.func,
+		categoriesList: PropTypes.array,
 	};
 
 	constructor(props) {
@@ -72,20 +78,22 @@ class HorizonList extends PureComponent {
 		} = this.props;
 		const selectedCategory = find(
 			list,
-			(category) => category.id === config.category
+			category => category.id === config.category
 		);
 
 		// setSelectedCategory(selectedCategory);
-		fetchProductsByCollections(config.category, config.tag, this.page, index, config.name);
+		fetchProductsByCollections(
+			config.category,
+			config.tag,
+			this.page,
+			index,
+			config.name
+		);
 		onShowAll(config, index);
 	};
 
 	_viewAllVendors = () => {
-		const {
-			config,
-			onShowAll,
-			index,
-		} = this.props;
+		const { config, onShowAll, index } = this.props;
 
 		onShowAll(config, index);
 	};
@@ -94,10 +102,12 @@ class HorizonList extends PureComponent {
 		this.props.onViewProductScreen({ product, type });
 	};
 
-	renderHeader = (layout) => (
+	renderHeader = layout => (
 		<View style={styles.header}>
 			<View style={styles.headerLeft}>
-				<Text style={styles.tagHeader}>{Languages[this.props.config.name]}</Text>
+				<Text style={styles.tagHeader}>
+					{Languages[this.props.config.name]}
+				</Text>
 			</View>
 			<TouchableOpacity
 				onPress={layout === 12 ? this._viewAllVendors : this._viewAll}
@@ -108,7 +118,7 @@ class HorizonList extends PureComponent {
 					color={Color.wdLightGray}
 					size={20}
 					name={
-						I18nManager.isRTL ? "chevron-small-left" : "chevron-small-right"
+						I18nManager.isRTL ? 'chevron-small-left' : 'chevron-small-right'
 					}
 				/>
 			</TouchableOpacity>
@@ -119,7 +129,7 @@ class HorizonList extends PureComponent {
 		const { layout } = this.props.config;
 
 		if (item === null) return <View key="post_" />;
-		
+
 		return (
 			<HorizonLayout
 				product={item}
@@ -143,20 +153,17 @@ class HorizonList extends PureComponent {
 			onViewVendorProfileScreen,
 			onViewCategory,
 			fetchVendorProducts,
-			categoriesList
+			categoriesList,
 		} = this.props;
 		const list =
-			typeof collection.list !== "undefined" && collection.list.length !== 0
+			typeof collection.list !== 'undefined' && collection.list.length !== 0
 				? collection.list
 				: this.defaultList;
 		const isPaging = !!config.paging;
 
 		if (config.layout === 10) {
 			return (
-				<WdNewArrival
-					config={config}
-					index={index}
-					onShowAll={onShowAll} />
+				<WdNewArrival config={config} index={index} onShowAll={onShowAll} />
 			);
 		} else if (config.layout === 11) {
 			return (
@@ -164,9 +171,10 @@ class HorizonList extends PureComponent {
 					onViewCategory={onViewCategory}
 					setSelectedCategory={setSelectedCategory}
 					categories={categoriesList}
-					navigation={navigation} />
+					navigation={navigation}
+				/>
 			);
-		} else if ( config.layout === 12 ) {
+		} else if (config.layout === 12) {
 			return (
 				<View>
 					{this.renderHeader(config.layout)}
@@ -174,17 +182,18 @@ class HorizonList extends PureComponent {
 						featuredVendorList={featuredVendorList}
 						fetchVendorProducts={fetchVendorProducts}
 						onViewVendorProfileScreen={onViewVendorProfileScreen}
-						navigation={navigation} />
+						navigation={navigation}
+					/>
 				</View>
 			);
-		} else if ( config.layout === 13 ) {
+		} else if (config.layout === 13) {
 			return (
 				<WdAtAGlance
 					navigation={navigation}
 					fetchVendorProducts={fetchVendorProducts}
 					onViewVendorProfileScreen={onViewVendorProfileScreen}
 				/>
-			)
+			);
 		} else {
 			return (
 				<View
@@ -196,7 +205,7 @@ class HorizonList extends PureComponent {
 					<FlatList
 						contentContainerStyle={styles.flatlist}
 						data={list}
-						keyExtractor={(item) => `post__${item.id}`}
+						keyExtractor={item => `post__${item.id}`}
 						renderItem={this.renderItem}
 						showsHorizontalScrollIndicator={false}
 						horizontal

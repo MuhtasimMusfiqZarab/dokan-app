@@ -1,74 +1,74 @@
 /** @format */
 
-import Images from "./Images";
-import Constants from "./Constants";
+import Images from './Images';
+import Constants from './Constants';
 
 export default {
-  /**
+	/**
      Step 1: change to your website URL and the wooCommerce API consumeKey
      */
-  WooCommerce: {
-    url: "http://mstore.local",
-    consumerKey: "ck_98f9ca71c82ec652ac27194eafef4a9cf2af300a",
-    consumerSecret: "cs_83d385c0711ace08304126f48618d7a9aa7ff663",
-  },
+	WooCommerce: {
+		url: 'http://mstore.local',
+		consumerKey: 'ck_98f9ca71c82ec652ac27194eafef4a9cf2af300a',
+		consumerSecret: 'cs_83d385c0711ace08304126f48618d7a9aa7ff663',
+	},
 
-  /**
+	/**
      Step 2: Setting Product Images
      - ProductSize: Explode the guide from: update the product display size: https://mstore.gitbooks.io/mstore-manual/content/chapter5.html
      - HorizonLayout: Change the HomePage horizontal layout - https://mstore.gitbooks.io/mstore-manual/content/chapter6.html
      */
-  ProductSize: {
-    enable: false,
-    CatalogImages: { width: 348, height: 445 },
-    SingleProductImage: { width: 568, height: 725 },
-    ProductThumbnails: { width: 78, height: 99 },
-  },
-  HorizonLayout: [
-    { tag: 67, paging: true, layout: Constants.Layout.miniBanner },
-    {
-      name: "Feature Products",
-      tag: 18,
-      image: Images.Banner.Feature,
-      layout: Constants.Layout.threeColumn,
-    },
-    {
-      name: "Bags Collections",
-      category: 57,
-      image: Images.Banner.Bag,
-      layout: Constants.Layout.twoColumn,
-    },
-    {
-      name: "Woman Best seller",
-      category: 56,
-      image: Images.Banner.Woman,
-      layout: Constants.Layout.twoColumnHigh,
-    },
-    {
-      name: "Man Collections",
-      category: 52,
-      image: Images.Banner.Man,
-      layout: Constants.Layout.card,
-    },
-  ],
+	ProductSize: {
+		enable: false,
+		CatalogImages: { width: 348, height: 445 },
+		SingleProductImage: { width: 568, height: 725 },
+		ProductThumbnails: { width: 78, height: 99 },
+	},
+	HorizonLayout: [
+		{ tag: 67, paging: true, layout: Constants.Layout.miniBanner },
+		{
+			name: 'Feature Products',
+			tag: 18,
+			image: Images.Banner.Feature,
+			layout: Constants.Layout.threeColumn,
+		},
+		{
+			name: 'Bags Collections',
+			category: 57,
+			image: Images.Banner.Bag,
+			layout: Constants.Layout.twoColumn,
+		},
+		{
+			name: 'Woman Best seller',
+			category: 56,
+			image: Images.Banner.Woman,
+			layout: Constants.Layout.twoColumnHigh,
+		},
+		{
+			name: 'Man Collections',
+			category: 52,
+			image: Images.Banner.Man,
+			layout: Constants.Layout.card,
+		},
+	],
 
-  /**
+	/**
      step 3: Config image for the Payment Gateway
      Notes:
      - Only the image list here will be shown on the app but it should match with the key id from the WooCommerce Website config
      - It's flexible way to control list of your payment as well
      Ex. if you would like to show only cod then just put one cod image in the list
      * */
-  Payments: {
-    cod: require("@images/payment_logo/cash_on_delivery.png"),
-    bacs: require("@images/payment_logo/bacs.png"),
-    paypal: require("@images/payment_logo/PayPal.png"),
-    stripe: require("@images/payment_logo/stripe.png"),
-    authorize: require("@images/payment_logo/authorize.png"),
-    gourlpayments: require("@images/payment_logo/gourl.png"),
-  },
+	Payments: {
+		cod: require('@images/payment_logo/cash_on_delivery.png'),
+		bacs: require('@images/payment_logo/bacs.png'),
+		paypal: require('@images/payment_logo/PayPal.png'),
+		stripe: require('@images/payment_logo/stripe.png'),
+		authorize: require('@images/payment_logo/authorize.png'),
+		gourlpayments: require('@images/payment_logo/gourl.png'),
+	},
 
-  /**
+	/**
      Step 4: Advance config:
      - showShipping: option to show the list of shipping method
      - showStatusBar: option to show the status bar, it always show iPhoneX
@@ -79,44 +79,44 @@ export default {
      - CustomPages: Update the custom page which can be shown from the left side bar (Components/Drawer/index.js)
      - WebPages: This could be the id of your blog post or the full URL which point to any Webpage (responsive mobile is required on the web page)
      * */
-  shipping: {
-    visible: true,
-    time: {
-      free_shipping: "4 - 7 Days",
-      flat_rate: "1 - 4 Days",
-      local_pickup: "1 - 4 Days",
-    },
-  },
-  showStatusBar: false,
-  LogoImage: require("@images/new_logo.png"),
-  LogoWithText: require("@images/logo_with_text.png"),
-  LogoLoading: require("@images/logo.png"),
-  appFacebookId: "422035778152242",
-  CustomPages: { contact_id: 10941 },
-  WebPages: { marketing: "http://mstore.io/email-marketing" },
-  intro: [
-    {
-      key: "page1",
-      title: "Lorem Ipsum Dolor Sit Ame",
-      text:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      icon: "ios-basket-outline",
-      colors: ["#0FF0B3", "#036ED9"],
-    },
-    {
-      key: "page2",
-      title: "Consectetur Adipisicing Elit Sed Do Eiusmod",
-      text:
-        "Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna",
-      icon: "ios-card-outline",
-      colors: ["#13f1fc", "#0470dc"],
-    },
-    {
-      key: "page3",
-      title: "Adipisicing Elit Sed Do",
-      text: "Usage Consectetur adipisicing elit, sed do eiusmod",
-      icon: "ios-finger-print-outline",
-      colors: ["#b1ea4d", "#459522"],
-    },
-  ],
+	shipping: {
+		visible: true,
+		time: {
+			free_shipping: '4 - 7 Days',
+			flat_rate: '1 - 4 Days',
+			local_pickup: '1 - 4 Days',
+		},
+	},
+	showStatusBar: false,
+	LogoImage: require('@images/new_logo.png'),
+	LogoWithText: require('@images/logo_with_text.png'),
+	LogoLoading: require('@images/logo.png'),
+	appFacebookId: '422035778152242',
+	CustomPages: { contact_id: 10941 },
+	WebPages: { marketing: 'http://mstore.io/email-marketing' },
+	intro: [
+		{
+			key: 'page1',
+			title: 'Lorem Ipsum Dolor Sit Ame',
+			text:
+				'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+			icon: 'ios-basket-outline',
+			colors: ['#0FF0B3', '#036ED9'],
+		},
+		{
+			key: 'page2',
+			title: 'Consectetur Adipisicing Elit Sed Do Eiusmod',
+			text:
+				'Consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna',
+			icon: 'ios-card-outline',
+			colors: ['#13f1fc', '#0470dc'],
+		},
+		{
+			key: 'page3',
+			title: 'Adipisicing Elit Sed Do',
+			text: 'Usage Consectetur adipisicing elit, sed do eiusmod',
+			icon: 'ios-finger-print-outline',
+			colors: ['#b1ea4d', '#459522'],
+		},
+	],
 };

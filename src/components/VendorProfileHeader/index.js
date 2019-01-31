@@ -1,13 +1,10 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { View, Text, Image, } from "react-native";
-import { Constants, Images } from "@common";
-import { Rating, ImageCache } from "@components";
-import styles from "./styles";
-import { LinearGradient } from "@expo";
-import DokanWorker from "@services/Dokan/DokanWorker";
+import React, { PureComponent } from 'react';
+import { View, Text, Image } from 'react-native';
+import { Constants, Images } from '@common';
+import { Rating, ImageCache } from '@components';
+import styles from './styles';
 
 export default class VendorProfileHeader extends PureComponent {
 	constructor(props) {
@@ -17,7 +14,7 @@ export default class VendorProfileHeader extends PureComponent {
 		this.state = {
 			tabIndex: 0,
 		};
-		this.vendorProducts = ""
+		this.vendorProducts = '';
 	}
 
 	render() {
@@ -25,22 +22,17 @@ export default class VendorProfileHeader extends PureComponent {
 
 		return (
 			<View style={styles.header}>
-				{
-					vendor.banner ?
-						<ImageCache
-							style={styles.store_banner}
-							uri={vendor.banner}
-						/> :
-						<Image
-							style={styles.store_banner}
-							source={Images.StoreDefaultBanner}
-						/>
-				}
-				
+				{vendor.banner ? (
+					<ImageCache style={styles.store_banner} uri={vendor.banner} />
+				) : (
+					<Image
+						style={styles.store_banner}
+						source={Images.StoreDefaultBanner}
+					/>
+				)}
+
 				<View style={styles.profilePic}>
-					<ImageCache
-						uri={vendor.gravatar}
-						style={styles.avatar}/>
+					<ImageCache uri={vendor.gravatar} style={styles.avatar} />
 				</View>
 
 				<View style={styles.textContainer}>

@@ -1,18 +1,18 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { View, ScrollView, Text, Switch, AsyncStorage } from "react-native";
-import { connect } from "react-redux";
+import React, { PureComponent } from 'react';
+import { View, ScrollView, Text, Switch, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
 import {
 	UserProfileHeader,
 	UserProfileItem,
 	DokanModal,
 	CurrencyPicker,
-} from "@components";
-import { Languages, Color, Tools, Icons } from "@common";
-import { getNotification } from "@app/Omni";
+} from '@components';
+import { Languages, Color, Tools, Icons } from '@common';
+import { getNotification } from '@app/Omni';
 
-import styles from "./styles";
+import styles from './styles';
 
 class UserProfile extends PureComponent {
 	constructor(props) {
@@ -36,18 +36,18 @@ class UserProfile extends PureComponent {
 	 * TODO: refactor to config.js file
 	 */
 	_getListItem = () => {
-		const { currency, wishListTotal, language, userProfile } = this.props;
+		const { currency, wishListTotal, userProfile } = this.props;
 
 		const listItem = [
 			{
-				label: `${Languages.WishList  } (${  wishListTotal  })`,
-				routeName: "WishListScreen",
+				label: `${Languages.WishList} (${wishListTotal})`,
+				routeName: 'WishListScreen',
 				iconLeft: Icons.MaterialCommunityIcons.Wishlist,
 			},
 			userProfile.user && {
 				label: Languages.MyOrder,
-				routeName: "MyOrders",
-				iconLeft: Icons.MaterialCommunityIcons.Order
+				routeName: 'MyOrders',
+				iconLeft: Icons.MaterialCommunityIcons.Order,
 			},
 			{
 				label: Languages.Currency,
@@ -57,7 +57,7 @@ class UserProfile extends PureComponent {
 			},
 			{
 				label: Languages.Languages,
-				routeName: "SettingScreen",
+				routeName: 'SettingScreen',
 				value: Languages.LanguageName,
 				iconLeft: Icons.MaterialCommunityIcons.Setting,
 			},
@@ -74,17 +74,17 @@ class UserProfile extends PureComponent {
 			},
 			{
 				label: Languages.contactus,
-				routeName: "ContactUs",
+				routeName: 'ContactUs',
 				iconLeft: Icons.MaterialCommunityIcons.Wechat,
 			},
 			{
 				label: Languages.Privacy,
-				routeName: "PrivacyPolicy",
+				routeName: 'PrivacyPolicy',
 				iconLeft: Icons.MaterialCommunityIcons.Lock,
 			},
 			{
 				label: Languages.About,
-				routeName: "AboutUs",
+				routeName: 'AboutUs',
 				iconLeft: Icons.MaterialCommunityIcons.About,
 			},
 		];
@@ -92,15 +92,15 @@ class UserProfile extends PureComponent {
 		return listItem;
 	};
 
-	_handleSwitch = (value) => {
-		AsyncStorage.setItem("@notification", JSON.stringify(value), () => {
+	_handleSwitch = value => {
+		AsyncStorage.setItem('@notification', JSON.stringify(value), () => {
 			this.setState({
 				pushNotification: value,
 			});
 		});
 	};
 
-	_handlePress = (item) => {
+	_handlePress = item => {
 		const { navigation } = this.props;
 		const { routeName, isActionSheet } = item;
 
@@ -114,13 +114,7 @@ class UserProfile extends PureComponent {
 	};
 
 	render() {
-		const {
-			userProfile,
-			language,
-			navigation,
-			currency,
-			changeCurrency,
-		} = this.props;
+		const { userProfile, navigation, currency, changeCurrency } = this.props;
 		const user = userProfile.user || {};
 		const name = Tools.getName(user);
 		const listItem = this._getListItem();
@@ -128,11 +122,14 @@ class UserProfile extends PureComponent {
 
 		return (
 			<View style={styles.container}>
-				<ScrollView ref="scrollView">
+				<ScrollView
+					ref={c => {
+						this.scrollView = c;
+					}}>
 					<UserProfileHeader
-						onLogin={() => navigation.navigate("LoginScreen")}
+						onLogin={() => navigation.navigate('LoginScreen')}
 						onLogout={() =>
-							navigation.navigate("LoginScreen", { isLogout: true })
+							navigation.navigate('LoginScreen', { isLogout: true })
 						}
 						user={{
 							...user,
@@ -141,7 +138,7 @@ class UserProfile extends PureComponent {
 					/>
 
 					{userProfile.user && (
-						<View style={{marginTop: 15}}>
+						<View style={{ marginTop: 15 }}>
 							<Text style={styles.headerSection}>
 								{Languages.AccountInformations.toUpperCase()}
 							</Text>
@@ -183,15 +180,16 @@ class UserProfile extends PureComponent {
 				</ScrollView>
 
 				<DokanModal
-					ref={(c) => (this.currencyPicker = c)}
+					ref={c => (this.currencyPicker = c)}
 					customStyle={{
-						width: "90%",
-						height: 300
+						width: '90%',
+						height: 300,
 					}}>
 					<CurrencyPicker
 						closeCurrencyModal={() => this.currencyPicker.closeModal()}
 						currency={currency}
-						changeCurrency={changeCurrency} />
+						changeCurrency={changeCurrency}
+					/>
 				</DokanModal>
 			</View>
 		);
@@ -207,11 +205,11 @@ const mapStateToProps = ({ user, language, currency, wishList }) => ({
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const { actions } = require("@redux/CurrencyRedux");
+	const { actions } = require('@redux/CurrencyRedux');
 	return {
 		...ownProps,
 		...stateProps,
-		changeCurrency: (currnecy) => actions.changeCurrency(dispatch, currnecy),
+		changeCurrency: currnecy => actions.changeCurrency(dispatch, currnecy),
 	};
 }
 

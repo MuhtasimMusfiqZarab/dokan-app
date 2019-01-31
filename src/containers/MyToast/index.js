@@ -2,19 +2,26 @@
  * @format
  */
 
-import React from "react";
+import React from 'react';
 import {
 	View,
 	Text,
 	StyleSheet,
 	LayoutAnimation,
 	TouchableOpacity,
-} from "react-native";
-import { connect } from "react-redux";
-import { Constants, Styles } from "@common";
-import { EventEmitter, Timer } from "@app/Omni";
+} from 'react-native';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Constants, Styles } from '@common';
+import { EventEmitter, Timer } from '@app/Omni';
 
 class MyToast extends React.Component {
+	static propTypes = {
+		addToast: PropTypes.any,
+		toast: PropTypes.any,
+		removeToast: PropTypes.any,
+	};
+
 	constructor(props) {
 		super(props);
 		this.nextToastId = 0;
@@ -64,35 +71,35 @@ class MyToast extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		position: "absolute",
+		position: 'absolute',
 		bottom: Styles.height / 10, // padding bottom
 		left: Styles.width / 20,
 		right: Styles.width / 20, // padding horizontal
-		alignItems: "center",
+		alignItems: 'center',
 	},
 	textWrap: {
-		backgroundColor: "rgba(60,60,60,0.9)",
+		backgroundColor: 'rgba(60,60,60,0.9)',
 		padding: 10,
 		paddingHorizontal: 20,
 		borderRadius: 20,
 		marginTop: 5,
 	},
 	text: {
-		color: "#FFFFFF",
+		color: '#FFFFFF',
 	},
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		toast: state.toast,
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	const { actions } = require("@redux/ToastRedux");
+const mapDispatchToProps = dispatch => {
+	const { actions } = require('@redux/ToastRedux');
 	return {
 		addToast: (msg, key) => dispatch(actions.addToast(msg, key)),
-		removeToast: (msg) => dispatch(actions.removeToast(msg)),
+		removeToast: msg => dispatch(actions.removeToast(msg)),
 	};
 };
 

@@ -1,6 +1,6 @@
 /** @format */
 
-import { Constants } from "@common";
+import { Constants } from '@common';
 
 export const actions = {
 	openSideMenu: () => {
@@ -9,7 +9,7 @@ export const actions = {
 	closeSideMenu: () => {
 		return { type: Constants.EmitCode.SideMenuClose };
 	},
-	toggleMenu: (isOpen) => {
+	toggleMenu: isOpen => {
 		return { type: Constants.EmitCode.SideMenuToggle, isOpen };
 	},
 };
@@ -34,7 +34,7 @@ export const reducer = (state = initialState, action) => {
 				isOpen: false,
 			};
 		case Constants.EmitCode.SideMenuToggle:
-			if (typeof isOpen === "undefined") {
+			if (typeof isOpen === 'undefined') {
 				return {
 					...state,
 					isOpen: !state.isOpen,
