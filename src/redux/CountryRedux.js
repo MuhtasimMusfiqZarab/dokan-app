@@ -2,18 +2,18 @@
  * @format
  */
 
-import CountryWorker from "../services/CountryWorker";
+import CountryWorker from '../services/CountryWorker';
 // import { flatten } from 'lodash'
 // import { warn } from '@app/Omni'
 
 const types = {
-	COUNTRY_FETCH_SUCCESS: "COUNTRY_FETCH_SUCCESS",
-	COUNTRY_FETCHING: "COUNTRY_FETCHING",
-	COUNTRY_FETCH_FAILURE: "COUNTRY_FETCH_FAILURE",
+	COUNTRY_FETCH_SUCCESS: 'COUNTRY_FETCH_SUCCESS',
+	COUNTRY_FETCHING: 'COUNTRY_FETCHING',
+	COUNTRY_FETCH_FAILURE: 'COUNTRY_FETCH_FAILURE',
 };
 
 export const actions = {
-	fetchAllCountries: async (dispatch) => {
+	fetchAllCountries: async dispatch => {
 		dispatch({ type: types.COUNTRY_FETCHING });
 
 		const json = await CountryWorker.getAllCountries();
@@ -37,7 +37,7 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
-	const { extra, type, payload, finish } = action;
+	const { type, payload } = action;
 
 	switch (type) {
 		case types.COUNTRY_FETCH_SUCCESS:

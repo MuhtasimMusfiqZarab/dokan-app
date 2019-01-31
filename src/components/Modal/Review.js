@@ -1,39 +1,39 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { Events } from "@common";
-import { ModalBox, Review } from "@components";
-import styles from "./styles";
+import React, { PureComponent } from 'react';
+import { Events } from '@common';
+import { ModalBox, Review } from '@components';
+import styles from './styles';
 
 class ReviewModal extends PureComponent {
-  state = { post: "" };
+	state = { post: '' };
 
-  componentDidMount() {
-    this.sub = Events.onOpenModalReview(this.open);
-    Events.onCloseModalReview(this.close);
-  }
+	componentDidMount() {
+		this.sub = Events.onOpenModalReview(this.open);
+		Events.onCloseModalReview(this.close);
+	}
 
-  componentWillUnmount() {
-    this.sub && this.sub.remove();
-  }
+	componentWillUnmount() {
+		this.sub && this.sub.remove();
+	}
 
-  open = (post) => {
-    this.setState({ post });
-    this.modal && this.modal.openModal();
-  };
+	open = post => {
+		this.setState({ post });
+		this.modal && this.modal.openModal();
+	};
 
-  close = () => this.modal.closeModalLayout();
+	close = () => this.modal.closeModalLayout();
 
-  render() {
-    return (
-      <ModalBox
-        css={styles.boxComment}
-        isComment
-        ref={(modal) => (this.modal = modal)}>
-        <Review post={this.state.post} />
-      </ModalBox>
-    );
-  }
+	render() {
+		return (
+			<ModalBox
+				css={styles.boxComment}
+				isComment
+				ref={modal => (this.modal = modal)}>
+				<Review post={this.state.post} />
+			</ModalBox>
+		);
+	}
 }
 
 export default ReviewModal;

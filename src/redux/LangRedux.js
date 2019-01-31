@@ -3,12 +3,12 @@
  * @format
  */
 
-import { Constants } from "@common";
+import { Constants } from '@common';
 // import { warn, log } from '@app/Omni'
 
 const types = {
-	SWITCH_LANGUAGE: "SWITCH_LANGUAGE",
-	SWITCH_RTL: "SWITCH_RTL",
+	SWITCH_LANGUAGE: 'SWITCH_LANGUAGE',
+	SWITCH_RTL: 'SWITCH_RTL',
 };
 
 export const actions = {

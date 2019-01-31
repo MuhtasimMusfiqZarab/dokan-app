@@ -1,16 +1,16 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { View } from "react-native";
-import { Color, Styles, Images } from "@common";
-import { SafeAreaView } from "@components";
-import { Detail } from "@containers";
-import { Back, ProductDetailsRightNav } from "./IconNav";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { View } from 'react-native';
+import { Styles, Images } from '@common';
+import { SafeAreaView } from '@components';
+import { Detail } from '@containers';
+import { Back, ProductDetailsRightNav } from './IconNav';
 
 export default class DetailScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
-		headerTitle: "Prodcut Details",
+		headerTitle: 'Prodcut Details',
 		headerLeft: Back(navigation, Images.icons.arrowBack),
 		headerRight: ProductDetailsRightNav(navigation),
 
@@ -31,15 +31,15 @@ export default class DetailScreen extends PureComponent {
 		return (
 			<SafeAreaView isSafeAreaBottom>
 				<View style={{ flex: 1 }}>
-					{typeof state.params !== "undefined" && (
+					{typeof state.params !== 'undefined' && (
 						<Detail
 							product={state.params.product}
-							onViewCart={() => navigate("CartScreen")}
-							onViewProductScreen={(product) =>
-								navigate("DetailScreenMore", product)
+							onViewCart={() => navigate('CartScreen')}
+							onViewProductScreen={product =>
+								navigate('DetailScreenMore', product)
 							}
 							navigation={this.props.navigation}
-							onLogin={() => navigate("LoginScreen")}
+							onLogin={() => navigate('LoginScreen')}
 						/>
 					)}
 				</View>

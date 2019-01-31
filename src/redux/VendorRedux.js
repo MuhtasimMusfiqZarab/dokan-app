@@ -1,75 +1,76 @@
 /**
- *
  * @format
  */
 
-import { Constants, Icons } from "@common";
-import DokanWorker from "@services/Dokan/DokanWorker";
+import { Constants, Icons } from '@common';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 const types = {
-	FETCH_VENDORS_PENDING: "FETCH_VENDORS_PENDING",
-	FETCH_VENDORS_MORE: "FETCH_VENDORS_MORE",
-	FETCH_VENDORS_SUCCESS: "FETCH_VENDORS_SUCCESS",
-	FETCH_VENDORS_FAILURE: "FETCH_VENDORS_FAILURE",
-	FETCH_FEATURED_VENDORS_PENDING: "FETCH_FEATURED_VENDORS_PENDING",
-	FETCH_FEATURED_VENDORS_SUCCESS: "FETCH_FEATURED_VENDORS_SUCCESS",
-	FETCH_FEATURED_VENDORS_FAILURE: "FETCH_FEATURED_VENDORS_FAILURE",
-	FETCH_VENDOR_PRODUCTS: "FETCH_VENDOR_PRODUCTS",
-	FETCH_VENDOR_PRODUCTS_PENDING: "FETCH_VENDOR_PRODUCTS_PENDING",
-	FETCH_VENDOR_PRODUCTS_SUCCESS: "FETCH_VENDOR_PRODUCTS_SUCCESS",
-	FETCH_VENDOR_PRODUCTS_FAILURE: "FETCH_VENDOR_PRODUCTS_FAILURE",
-	FETCH_VENDOR_REVIEW: "FETCH_VENDOR_REVIEW",
-	SWITCH_LAYOUT_VENDOR: "SWITCH_LAYOUT_VENDOR",
+	FETCH_VENDORS_PENDING: 'FETCH_VENDORS_PENDING',
+	FETCH_VENDORS_MORE: 'FETCH_VENDORS_MORE',
+	FETCH_VENDORS_SUCCESS: 'FETCH_VENDORS_SUCCESS',
+	FETCH_VENDORS_FAILURE: 'FETCH_VENDORS_FAILURE',
+	FETCH_FEATURED_VENDORS_PENDING: 'FETCH_FEATURED_VENDORS_PENDING',
+	FETCH_FEATURED_VENDORS_SUCCESS: 'FETCH_FEATURED_VENDORS_SUCCESS',
+	FETCH_FEATURED_VENDORS_FAILURE: 'FETCH_FEATURED_VENDORS_FAILURE',
+	FETCH_VENDOR_PRODUCTS: 'FETCH_VENDOR_PRODUCTS',
+	FETCH_VENDOR_PRODUCTS_PENDING: 'FETCH_VENDOR_PRODUCTS_PENDING',
+	FETCH_VENDOR_PRODUCTS_SUCCESS: 'FETCH_VENDOR_PRODUCTS_SUCCESS',
+	FETCH_VENDOR_PRODUCTS_FAILURE: 'FETCH_VENDOR_PRODUCTS_FAILURE',
+	FETCH_VENDOR_REVIEW: 'FETCH_VENDOR_REVIEW',
+	SWITCH_LAYOUT_VENDOR: 'SWITCH_LAYOUT_VENDOR',
 };
 
 export const actions = {
 	fetchVendors: async (dispatch, page = 1, per_page = 5) => {
 		dispatch({ type: types.FETCH_VENDORS_PENDING });
-		
+
 		const json = await DokanWorker.getVendors(page, per_page);
-// console.log(`content length: ${json.length}`);
+		// console.log(`content length: ${json.length}`);
 		if (json === undefined) {
 			dispatch(actions.fetchVendorsFailure("Can't get data from server"));
 		} else if (json.code) {
 			dispatch(actions.fetchVendorsFailure(json.message));
-		} else if(page > 1) {
+		} else if (page > 1) {
 			dispatch(actions.fetchVendorMore(json));
 		} else {
 			dispatch(actions.fetchVendorsSuccess(json));
 		}
 	},
-	fetchVendorsSuccess: (items) => {
+	fetchVendorsSuccess: items => {
 		return { type: types.FETCH_VENDORS_SUCCESS, items };
 	},
-	fetchVendorMore: (items) => {
-		return { type: types.FETCH_VENDORS_MORE, items }
+	fetchVendorMore: items => {
+		return { type: types.FETCH_VENDORS_MORE, items };
 	},
-	fetchVendorsFailure: (error) => {
+	fetchVendorsFailure: error => {
 		return { type: types.FETCH_VENDORS_FAILURE, error };
 	},
-	fetchFeaturedVendors: async (dispatch) => {
+	fetchFeaturedVendors: async dispatch => {
 		dispatch({ type: types.FETCH_FEATURED_VENDORS_PENDING });
-		
+
 		const json = await DokanWorker.getFeaturedVendors();
 
 		if (json === undefined) {
-			dispatch(actions.fetchFeaturedVendorsFailure("Can't get data from server"));
+			dispatch(
+				actions.fetchFeaturedVendorsFailure("Can't get data from server")
+			);
 		} else if (json.code) {
 			dispatch(actions.fetchFeaturedVendorsFailure(json.message));
 		} else {
 			dispatch(actions.fetchFeaturedVendorsSuccess(json));
 		}
 	},
-	fetchFeaturedVendorsSuccess: (items) => {
+	fetchFeaturedVendorsSuccess: items => {
 		return { type: types.FETCH_FEATURED_VENDORS_SUCCESS, items };
 	},
-	fetchFeaturedVendorsFailure: (error) => {
+	fetchFeaturedVendorsFailure: error => {
 		return { type: types.FETCH_FEATURED_VENDORS_FAILURE, error };
 	},
 	fetchVendorProducts: async (dispatch, vendorID) => {
 		dispatch({ type: types.FETCH_VENDOR_PRODUCTS_PENDING });
 
-		const json = await DokanWorker.getVendorProducts(vendorID)
+		const json = await DokanWorker.getVendorProducts(vendorID);
 
 		if (json === undefined) {
 			dispatch(actions.fetchVendorProductFailure("Can't get data from server"));
@@ -79,10 +80,10 @@ export const actions = {
 			dispatch(actions.fetchVendorProductSuccess(json));
 		}
 	},
-	fetchVendorProductSuccess: (items) => {
+	fetchVendorProductSuccess: items => {
 		return { type: types.FETCH_VENDOR_PRODUCTS_SUCCESS, items };
 	},
-	fetchVendorProductsFailure: (error) => {
+	fetchVendorProductsFailure: error => {
 		return { type: types.FETCH_VENDOR_PRODUCTS_FAILURE, error };
 	},
 	switchLayoutVendorPage: (layout, layoutChangeIcon) => {
@@ -103,7 +104,7 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
-	const { type, mode, error, items, value } = action;
+	const { type, error, items } = action;
 
 	switch (type) {
 		case types.FETCH_VENDORS_PENDING: {
@@ -189,15 +190,15 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				isFetching: false,
 				vendorProducts: [],
-				error
+				error,
 			};
 		}
 		case types.SWITCH_LAYOUT_VENDOR: {
 			return {
 				...state,
 				layoutVendorScreen: action.layout,
-				layoutChangeIcon: action.layoutChangeIcon
-			}
+				layoutChangeIcon: action.layoutChangeIcon,
+			};
 		}
 		default: {
 			return state;

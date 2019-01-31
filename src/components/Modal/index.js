@@ -1,11 +1,11 @@
 /** @format */
 
-import Icon from "@expo/vector-icons/SimpleLineIcons";
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { Platform, View, TouchableOpacity } from "react-native";
-import Modal from "react-native-modalbox";
-import styles from "./wdstyles";
+import Icon from '@expo/vector-icons/SimpleLineIcons';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Platform, View, TouchableOpacity } from 'react-native';
+import Modal from 'react-native-modalbox';
+import styles from './wdstyles';
 
 export default class modalBox extends PureComponent {
 	static propTypes = {
@@ -30,12 +30,12 @@ export default class modalBox extends PureComponent {
 		const { type, css } = this.props;
 		return (
 			<Modal
-				ref={(modal) => (this.modal = modal)}
+				ref={modal => (this.modal = modal)}
 				animationDuration={100}
-				backdropOpacity={Platform.OS === "android" ? 0.9 : 0.5}
+				backdropOpacity={Platform.OS === 'android' ? 0.9 : 0.5}
 				position="top"
 				style={[
-					typeof type !== "undefined"
+					typeof type !== 'undefined'
 						? styles.modalReadlater
 						: styles.modalBoxWrap,
 					css,

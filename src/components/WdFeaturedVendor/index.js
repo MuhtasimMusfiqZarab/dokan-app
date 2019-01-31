@@ -1,52 +1,49 @@
-import React from "react"
+import React from 'react';
 import {
 	Text,
 	View,
-	Image,
 	StyleSheet,
-	I18nManager,
 	TouchableOpacity,
 	Platform,
-	Dimensions
-} from "react-native"
-import { Constants, Color } from "@common";
-import { ImageCache, Rating } from "@components";
+	Dimensions,
+} from 'react-native';
+import { Constants, Color } from '@common';
+import { ImageCache, Rating } from '@components';
 
 const onViewVendorScreen = (props, item) => {
 	props.fetchVendorProducts(item.id);
 	props.onViewVendorProfileScreen(item);
-}
+};
 
-const WdFeaturedVendor = (props) => {
+const WdFeaturedVendor = props => {
 	return (
 		<View style={styles.container}>
-			{
-				props.featuredVendorList.map((item, index) => {
-					return(
-						<TouchableOpacity
-							key={`fd-${index}`}
-							style={styles.vendorDetails}
-							onPress={ () => onViewVendorScreen(props, item) } >
-							<View style={styles.vendorImage}>
-								<ImageCache
-									uri={item.gravatar}
-									style={{width: 60, height: 60, borderRadius: 30}}/>
-							</View>
-							<View style={styles.vendorInfo}>
-								<Text style={{fontSize: 18, color: "#000"}}>
-									{item.store_name}
-								</Text>
-								<Rating rating={item.rating.rating} />
-							</View>
-						</TouchableOpacity>
-					)
-				})
-			}
+			{props.featuredVendorList.map((item, index) => {
+				return (
+					<TouchableOpacity
+						key={`fd-${index}`}
+						style={styles.vendorDetails}
+						onPress={() => onViewVendorScreen(props, item)}>
+						<View style={styles.vendorImage}>
+							<ImageCache
+								uri={item.gravatar}
+								style={{ width: 60, height: 60, borderRadius: 30 }}
+							/>
+						</View>
+						<View style={styles.vendorInfo}>
+							<Text style={{ fontSize: 18, color: '#000' }}>
+								{item.store_name}
+							</Text>
+							<Rating rating={item.rating.rating} />
+						</View>
+					</TouchableOpacity>
+				);
+			})}
 		</View>
-	)
-}
+	);
+};
 
-export default WdFeaturedVendor
+export default WdFeaturedVendor;
 
 const styles = StyleSheet.create({
 	container: {
@@ -89,10 +86,10 @@ const styles = StyleSheet.create({
 		color: Color.wdDeepGray,
 		letterSpacing: 2,
 		fontFamily: Constants.fontFamilyLato,
-		fontWeight: "bold"
+		fontWeight: 'bold',
 	},
 	vendorDetails: {
-		width: "100%",
+		width: '100%',
 		height: 95,
 		borderRadius: 5,
 		marginBottom: 10,
@@ -104,11 +101,11 @@ const styles = StyleSheet.create({
 			ios: {
 				shadowColor: '#000',
 				shadowOpacity: 0.2,
-				shadowOffset: {width: 0, height: 1},
+				shadowOffset: { width: 0, height: 1 },
 			},
 			android: {
-				elevation: 3
-			}
+				elevation: 3,
+			},
 		}),
 	},
 	vendorImage: {
@@ -124,11 +121,11 @@ const styles = StyleSheet.create({
 			ios: {
 				shadowColor: '#000',
 				shadowOpacity: 0.2,
-				shadowOffset: {width: 0, height: 1},
+				shadowOffset: { width: 0, height: 1 },
 			},
 			android: {
-				elevation: 3
-			}
+				elevation: 3,
+			},
 		}),
-	}
-})
+	},
+});

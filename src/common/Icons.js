@@ -59,7 +59,7 @@ const Ionicons = {
 	Down: 'ios-arrow-down',
 	Add: 'ios-add-outline',
 	Remove: 'ios-remove-outline',
-	Categories:'md-options',
+	Categories: 'md-options',
 };
 
 // https://materialdesignicons.com/
@@ -90,14 +90,14 @@ const MaterialCommunityIcons = {
 	Lock: 'lock',
 	Category: 'format-list-bulleted-type',
 	CheckMark: 'check',
-	Back:'arrow-left',
+	Back: 'arrow-left',
 	Forward: 'arrow-right',
 	ForwardChevron: 'chevron-right',
 	Down: 'arrow-down',
 	DownChevron: 'chevron-down',
 	Contact: 'email',
-	Categories:'format-list-bulleted',
-	Pin:'map-marker',
+	Categories: 'format-list-bulleted',
+	Pin: 'map-marker',
 	Setting: 'settings',
 	Bell: 'bell',
 	Language: 'web',
@@ -108,7 +108,7 @@ const MaterialCommunityIcons = {
 	Mic: 'microphone',
 	DotHorizontal: 'dots-horizontal',
 	User: 'account',
-	Phone: "phone"
+	Phone: 'phone',
 };
 
-export default {MaterialCommunityIcons, Ionicons};
+export default { MaterialCommunityIcons, Ionicons };

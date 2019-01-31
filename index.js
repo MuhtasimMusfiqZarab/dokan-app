@@ -1,6 +1,5 @@
 /** @format */
 
-import React from "react";
 import { AppRegistry, YellowBox } from "react-native";
 import ReduxWrapper from "./src/ReduxWrapper";
 

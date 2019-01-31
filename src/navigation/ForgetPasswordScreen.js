@@ -1,15 +1,15 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { ForgetPassword } from "@containers";
-import { Color, Styles, Images } from "@common";
-import { Back, EmptyView, Logo } from "./IconNav";
+import React, { PureComponent } from 'react';
+import { ForgetPassword } from '@containers';
+import { Color, Styles, Images } from '@common';
+import { Back, EmptyView } from './IconNav';
 
 export default class LoginScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
 		headerLeft: Back(navigation, Images.icons.arrowBack),
 		headerRight: EmptyView(),
-		headerTitle: "Password Reset",
+		headerTitle: 'Password Reset',
 
 		headerTintColor: Color.headerTintColor,
 		headerStyle: Styles.Common.toolbar,
@@ -19,10 +19,8 @@ export default class LoginScreen extends PureComponent {
 	});
 
 	render() {
-		const { navigate, state, goBack } = this.props.navigation;
+		// const { navigate, state, goBack } = this.props.navigation;
 
-		return (
-			<ForgetPassword />
-		);
+		return <ForgetPassword />;
 	}
 }

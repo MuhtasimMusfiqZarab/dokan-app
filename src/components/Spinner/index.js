@@ -1,21 +1,21 @@
 /** @format */
 
-import React from "react";
-import { View, ActivityIndicator, Dimensions, StyleSheet } from "react-native";
+import React from 'react';
+import { View, ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
 
-import { Color } from "@common";
-const { width, height, scale } = Dimensions.get("window");
+import { Color } from '@common';
+const { width, height } = Dimensions.get('window');
 
-const SIZES = { SMALL: "small", LARGE: "large" };
+const SIZES = { SMALL: 'small', LARGE: 'large' };
 
-export const Mode = { normal: "normal", full: "full", overlay: "overlay" };
+export const Mode = { normal: 'normal', full: 'full', overlay: 'overlay' };
 
 class Spinner extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const { animating } = nextProps;
 		this.setState({ animating });
 	}
@@ -41,8 +41,8 @@ class Spinner extends React.Component {
 						styles.wrapper,
 						{
 							borderRadius: size == SIZES.SMALL ? 10 : 20,
-							zIndex: 99
-						}
+							zIndex: 99,
+						},
 					]}
 				/>
 			</View>
@@ -52,7 +52,7 @@ class Spinner extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: "transparent",
+		backgroundColor: 'transparent',
 		height: null,
 		width: null,
 	},
@@ -60,12 +60,12 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 		height: null,
 		width: null,
-		backgroundColor: "transparent",
-		alignItems: "center",
-		justifyContent: "center",
+		backgroundColor: 'transparent',
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	container_overlay: {
-		position: "absolute",
+		position: 'absolute',
 		top: 0,
 		bottom: 0,
 		left: 0,
@@ -73,20 +73,20 @@ const styles = StyleSheet.create({
 		width,
 		height,
 		// backgroundColor: "rgba(0,0,0,0.2)",
-		backgroundColor: "rgba(255, 255, 255, 0.6)",
-		alignItems: "center",
-		justifyContent: "center",
-		zIndex: 9999
+		backgroundColor: 'rgba(255, 255, 255, 0.6)',
+		alignItems: 'center',
+		justifyContent: 'center',
+		zIndex: 9999,
 	},
 	wrapper: {
-		backgroundColor: "transparent",
+		backgroundColor: 'transparent',
 		zIndex: 100,
 	},
 });
 
 Spinner.defaultProps = {
 	color: Color.theme,
-	size: "large",
+	size: 'large',
 	mode: Mode.normal,
 };
 

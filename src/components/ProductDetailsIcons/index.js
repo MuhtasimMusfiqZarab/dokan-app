@@ -1,10 +1,10 @@
 /** @format */
 
-import React, { Component } from "react";
-import { View } from "react-native";
-import { Styles, Constants, Images, Icons, Events } from "@common";
-import { connect } from "react-redux";
-import { NavigationBarIcon } from "@components";
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { Styles, Constants, Images, Icons, Events } from '@common';
+import { connect } from 'react-redux';
+import { NavigationBarIcon } from '@components';
 
 class ProductDetailsIcons extends Component {
 	constructor(props) {
@@ -13,7 +13,7 @@ class ProductDetailsIcons extends Component {
 
 	handlePopover = () => {
 		Events.togglePopover();
-	}
+	};
 
 	render() {
 		const { carts, navigation } = this.props;
@@ -30,13 +30,13 @@ class ProductDetailsIcons extends Component {
 				<NavigationBarIcon
 					icon={Images.IconSearch}
 					size={17}
-					onPress={() => navigation.navigate("Search")}
+					onPress={() => navigation.navigate('Search')}
 				/>
 				<NavigationBarIcon
 					type="icon"
 					icon="cart"
 					number={totalCart}
-					onPress={() => navigation.navigate("CartScreen")}
+					onPress={() => navigation.navigate('CartScreen')}
 				/>
 				<NavigationBarIcon
 					type="materialIcon"

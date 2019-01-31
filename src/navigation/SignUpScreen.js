@@ -1,9 +1,9 @@
 /** @format */
 
-import React, { Component } from "react";
-import { SignUp } from "@containers";
-import { Color, Languages, Styles, Images } from "@common";
-import { Back, EmptyView } from "./IconNav";
+import React, { Component } from 'react';
+import { SignUp } from '@containers';
+import { Color, Languages, Styles, Images } from '@common';
+import { Back, EmptyView } from './IconNav';
 
 export default class SignUpScreen extends Component {
 	static navigationOptions = ({ navigation }) => ({
@@ -23,8 +23,8 @@ export default class SignUpScreen extends Component {
 		return (
 			<SignUp
 				params={state.params}
-				onBackCart={() => navigate("Cart")}
-				onLoginScreen={() => navigate("LoginScreen")}
+				onBackCart={() => navigate('Cart')}
+				onLoginScreen={() => navigate('LoginScreen')}
 			/>
 		);
 	}

@@ -1,9 +1,9 @@
 /** @format */
 
 const types = {
-	ADD_WISHLIST_ITEM: "ADD_WISHLIST_ITEM",
-	REMOVE_WISHLIST_ITEM: "REMOVE_WISHLIST_ITEM",
-	EMPTY_WISHLIST: "EMPTY_WISHLIST",
+	ADD_WISHLIST_ITEM: 'ADD_WISHLIST_ITEM',
+	REMOVE_WISHLIST_ITEM: 'REMOVE_WISHLIST_ITEM',
+	EMPTY_WISHLIST: 'EMPTY_WISHLIST',
 };
 
 export const actions = {
@@ -20,7 +20,7 @@ export const actions = {
 			product,
 		});
 	},
-	emptyWishList: (dispatch) => {
+	emptyWishList: dispatch => {
 		dispatch({
 			type: types.EMPTY_WISHLIST,
 		});
@@ -38,7 +38,7 @@ export const reducer = (state = initialState, action) => {
 
 	switch (type) {
 		case types.ADD_WISHLIST_ITEM: {
-			const isExisted = state.wishListItems.some((wishListItem) =>
+			const isExisted = state.wishListItems.some(wishListItem =>
 				compareWishListItem(wishListItem, action)
 			);
 			return isExisted
@@ -49,20 +49,20 @@ export const reducer = (state = initialState, action) => {
 							wishListItem(undefined, action),
 						],
 						total: state.total + 1,
-					});
+				  });
 		}
 		case types.REMOVE_WISHLIST_ITEM: {
-			const index1 = state.wishListItems.findIndex((wishListItem) =>
+			const index1 = state.wishListItems.findIndex(wishListItem =>
 				compareWishListItem(wishListItem, action)
 			); // check if existed
 			return index1 == -1
 				? state // This should not happen, but catch anyway
 				: Object.assign({}, state, {
 						wishListItems: state.wishListItems.filter(
-							(wishListItem) => !compareWishListItem(wishListItem, action)
+							wishListItem => !compareWishListItem(wishListItem, action)
 						),
 						total: state.total - 1,
-					});
+				  });
 		}
 		case types.EMPTY_WISHLIST:
 			return Object.assign({}, state, {

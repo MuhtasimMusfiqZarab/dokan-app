@@ -4,29 +4,29 @@
  * @format
  */
 
-import _Color from "./Color";
+import _Color from './Color';
 
-import _Constants from "./Constants";
+import _Constants from './Constants';
 
-import _Config from "./Config";
+import _Config from './Config';
 
-import _Icons from "./Icons";
+import _Icons from './Icons';
 
-import _Images from "./Images";
+import _Images from './Images';
 
-import _Languages from "./Languages";
+import _Languages from './Languages';
 
-import _Styles from "./Styles";
+import _Styles from './Styles';
 
-import _Tools from "./Tools";
+import _Tools from './Tools';
 
-import _Layout from "./Layout";
+import _Layout from './Layout';
 
-import _Validator from "./Validator";
+import _Validator from './Validator';
 
-import _Events from "./Events";
+import _Events from './Events';
 
-import _Device from "./Device";
+import _Device from './Device';
 export const Color = _Color;
 export const Constants = _Constants;
 export const Config = _Config;

@@ -3,9 +3,9 @@
  */
 
 const types = {
-	LOGOUT: "LOGOUT",
-	LOGIN: "LOGIN_SUCCESS",
-	FINISH_INTRO: "FINISH_INTRO",
+	LOGOUT: 'LOGOUT',
+	LOGIN: 'LOGIN_SUCCESS',
+	FINISH_INTRO: 'FINISH_INTRO',
 };
 
 export const actions = {

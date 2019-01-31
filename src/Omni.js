@@ -1,18 +1,18 @@
 /** @format */
 
-import reactotron from "reactotron-react-native";
-import { PixelRatio, AsyncStorage } from "react-native";
-import store from "@store/configureStore";
-import _EventEmitter from "EventEmitter";
-import _ from "lodash";
-import _currencyFormatter from "currency-formatter";
-import { Images, Constants, Config } from "@common";
-import _Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import _IconIO from "react-native-vector-icons/Ionicons";
-import _Timer from "react-timer-mixin";
-import _Validate from "./ultils/Validate";
-import _BlockTimer from "./ultils/BlockTimer";
-import _FacebookAPI from "./services/FacebookAPI";
+import reactotron from 'reactotron-react-native';
+import { PixelRatio, AsyncStorage } from 'react-native';
+import store from '@store/configureStore';
+import _EventEmitter from 'EventEmitter';
+import _ from 'lodash';
+import _currencyFormatter from 'currency-formatter';
+import { Images, Constants, Config } from '@common';
+import _Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import _IconIO from 'react-native-vector-icons/Ionicons';
+import _Timer from 'react-timer-mixin';
+import _Validate from './ultils/Validate';
+import _BlockTimer from './ultils/BlockTimer';
+import _FacebookAPI from './services/FacebookAPI';
 
 // custom Icons by weDevs
 import { createIconSetFromIcoMoon } from 'react-native-vector-icons';
@@ -30,9 +30,9 @@ export const FacebookAPI = _FacebookAPI;
 export const Reactotron = reactotron;
 
 // TODO: replace those function after app go live
-export const log = (values) => __DEV__ && reactotron.log(values);
-export const warn = (values) => __DEV__ && reactotron.warn(values);
-export const error = (values) => __DEV__ && reactotron.error(values);
+export const log = values => __DEV__ && reactotron.log(values);
+export const warn = values => __DEV__ && reactotron.warn(values);
+export const error = values => __DEV__ && reactotron.error(values);
 
 // const _log = values => __DEV__ && reactotron.log(values)
 // const _warn = values => __DEV__ && reactotron.warn(values)
@@ -63,22 +63,21 @@ export const error = (values) => __DEV__ && reactotron.error(values);
 // };
 
 export const request = async (url, data = {}, method = null) => {
-	if (method === "POST") {
+	if (method === 'POST') {
 		try {
-			const response =
-				await fetch(url, {
-					method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(data),
-				});
-	
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+
 			return await response.json();
 		} catch (err) {
 			error(err);
-			return { error : err };
+			return { error: err };
 		}
 	} else {
 		try {
@@ -128,12 +127,12 @@ export const toggleFilterDrawer = () =>
 // weDevs Add || Remove spinner
 export const addSpinner = () =>
 	store.dispatch({
-		type: Constants.EmitCode.AddSpinner
-	})
+		type: Constants.EmitCode.AddSpinner,
+	});
 export const removeSpinner = () =>
 	store.dispatch({
-		type: Constants.EmitCode.RemoveSpinner
-	})
+		type: Constants.EmitCode.RemoveSpinner,
+	});
 
 /**
  * Display the message toast-like (work both with Android and iOS)
@@ -144,23 +143,18 @@ export const toast = (msg, duration = 4000) =>
 	EventEmitter.emit(Constants.EmitCode.Toast, msg, duration);
 
 // Modified currency formatter
-export const currencyFormatter = (price) => {
+export const currencyFormatter = price => {
 	const state = store.getState();
-	const symbol = state.currency.symbol
-	let formattedPrice = _.bind(
-		_currencyFormatter.format,
-		undefined,
-		_,
-		{
-			symbol: symbol,
-			decimal: ".",
-			thousand: ",",
-			precision: 2,
-			format: "%s%v", // %s is the symbol and %v is the value
-		}
-	);
+	const symbol = state.currency.symbol;
+	let formattedPrice = _.bind(_currencyFormatter.format, undefined, _, {
+		symbol: symbol,
+		decimal: '.',
+		thousand: ',',
+		precision: 2,
+		format: '%s%v', // %s is the symbol and %v is the value
+	});
 	return formattedPrice(price);
-}
+};
 
 export const getProductImage = (uri, containerWidth) => {
 	// Enhance number if you want to fetch a better quality image (may affect performance
@@ -170,12 +164,12 @@ export const getProductImage = (uri, containerWidth) => {
 		return uri;
 	}
 
-	if (typeof uri !== "string") {
+	if (typeof uri !== 'string') {
 		return Images.PlaceHolderURL;
 	}
 
 	// parse uri into parts
-	const index = uri.lastIndexOf(".");
+	const index = uri.lastIndexOf('.');
 	let editedURI = uri.slice(0, index);
 	const defaultType = uri.slice(index);
 
@@ -204,7 +198,7 @@ export const getProductImage = (uri, containerWidth) => {
 
 export const getNotification = async () => {
 	try {
-		const notification = await AsyncStorage.getItem("@notification");
+		const notification = await AsyncStorage.getItem('@notification');
 		return JSON.parse(notification);
 	} catch (error) {
 		console.log(error);
@@ -216,12 +210,12 @@ export const getNotification = async () => {
  * @param hex color code
  * @returns rgb color code
  */
-export const hexToRgb = (hex) => {
-	const hashOmitted = hex.split("#")[1];
+export const hexToRgb = hex => {
+	const hashOmitted = hex.split('#')[1];
 	const bigint = parseInt(hashOmitted, 16);
 	const r = (bigint >> 16) & 255;
 	const g = (bigint >> 8) & 255;
 	const b = bigint & 255;
 
 	return `${r}, ${g}, ${b}`;
-}
+};

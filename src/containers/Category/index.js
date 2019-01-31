@@ -2,7 +2,7 @@
  * @format
  */
 
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
 	View,
 	RefreshControl,
@@ -10,24 +10,24 @@ import {
 	ListView,
 	ScrollView,
 	Animated,
-} from "react-native";
-import { connect } from "react-redux";
-import { Color, Languages, Styles } from "@common";
-import { Timer, toast, BlockTimer } from "@app/Omni";
-import LogoSpinner from "@components/LogoSpinner";
-import Empty from "@components/Empty";
-import { DisplayMode } from "@redux/CategoryRedux";
-import SubCategoryPicker from "@containers/SubCategoryPicker";
-import ProductRow from "./ProductRow";
-import ControlBar from "./ControlBar";
+} from 'react-native';
+import { connect } from 'react-redux';
+import { Color, Languages } from '@common';
+import { Timer, toast, BlockTimer } from '@app/Omni';
+import LogoSpinner from '@components/LogoSpinner';
+import Empty from '@components/Empty';
+import { DisplayMode } from '@redux/CategoryRedux';
+import SubCategoryPicker from '@containers/SubCategoryPicker';
+import ProductRow from './ProductRow';
+import ControlBar from './ControlBar';
 
 const styles = StyleSheet.create({
 	listView: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		alignItems: "flex-start",
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		alignItems: 'flex-start',
 		// paddingBottom: Styles.navBarHeight + 10,
-		paddingBottom: 50
+		paddingBottom: 50,
 	},
 	container: {
 		flexGrow: 1,
@@ -45,8 +45,8 @@ class CategoryScreen extends Component {
 			displayControlBar: true,
 			// displayControlBar: false,
 		};
-		this.pageNumber = 1;
 
+		this.pageNumber = 1;
 		this.renderList = this.renderList.bind(this);
 		this.renderRow = this.renderRow.bind(this);
 		this.renderScrollComponent = this.renderScrollComponent.bind(this);
@@ -54,19 +54,23 @@ class CategoryScreen extends Component {
 		this.onEndReached = this.onEndReached.bind(this);
 		this.onRefreshHandle = this.onRefreshHandle.bind(this);
 		this.onListViewScroll = this.onListViewScroll.bind(this);
-
 		this.openCategoryPicker = () => this.setState({ modalVisible: true });
 		this.closeCategoryPicker = () => this.setState({ modalVisible: false });
 	}
 
-	shouldComponentUpdate(nextProps) {
+	shouldComponentUpdate() {
 		// const props = this.props;
 		// const changeProduct =
 		//   nextProps.products.list.length != props.products.list.length;
 		// const changeCategory =
 		//   props.selectedCategory.id !== nextProps.selectedCategory.id;
-
 		return true;
+
+		// return (
+		// 	nextProps.products.list.length != props.products.list.length ||
+		// 	props.selectedCategory.id !== nextProps.selectedCategory.id ||
+		// 	nextProps.displayMode !== this.props.displayMode
+		// );
 	}
 
 	componentDidMount() {
@@ -77,13 +81,15 @@ class CategoryScreen extends Component {
 			clearProducts,
 			selectedCategory,
 		} = this.props;
+
 		clearProducts();
+
 		if (selectedCategory) {
 			fetchProductsByCategoryId(selectedCategory.id, this.pageNumber++);
 		}
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		const props = this.props;
 		const { error } = nextProps.products;
 		if (error) toast(error);
@@ -112,10 +118,11 @@ class CategoryScreen extends Component {
 			return <LogoSpinner fullStretch />;
 		}
 
-		const marginControlBar = this.state.scrollY.interpolate({
-			inputRange: [-100, 0, 40, 50],
-			outputRange: [0, 0, -50, -50],
-		});
+		// const marginControlBar = this.state.scrollY.interpolate({
+		// 	inputRange: [-100, 0, 40, 50],
+		// 	outputRange: [0, 0, -50, -50],
+		// });
+
 		return (
 			<View style={styles.container}>
 				<Animated.View>
@@ -165,7 +172,7 @@ class CategoryScreen extends Component {
 		const { displayMode } = this.props;
 		const onPress = () => this.onRowClickHandle(product);
 		const isInWishList =
-			this.props.wishListItems.find((item) => item.product.id == product.id) !=
+			this.props.wishListItems.find(item => item.product.id == product.id) !=
 			undefined;
 
 		return (
@@ -182,7 +189,7 @@ class CategoryScreen extends Component {
 
 	renderScrollComponent(props) {
 		const { displayMode } = this.props;
-		const mergeOnScroll = (event) => {
+		const mergeOnScroll = event => {
 			props.onScroll(event);
 			this.onListViewScroll(event);
 		};
@@ -243,7 +250,7 @@ class CategoryScreen extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		selectedCategory: state.categories.selectedCategory,
 		netInfo: state.netInfo,
@@ -256,8 +263,8 @@ const mapStateToProps = (state) => {
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { netInfo } = stateProps;
 	const { dispatch } = dispatchProps;
-	const { actions } = require("@redux/ProductRedux");
-	const WishListRedux = require("@redux/WishListRedux");
+	const { actions } = require('@redux/ProductRedux');
+	const WishListRedux = require('@redux/WishListRedux');
 	return {
 		...ownProps,
 		...stateProps,
@@ -266,10 +273,10 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 			actions.fetchProductsByCategoryId(dispatch, categoryId, per_page, page);
 		},
 		clearProducts: () => dispatch(actions.clearProducts()),
-		addWishListItem: (product) => {
+		addWishListItem: product => {
 			WishListRedux.actions.addWishListItem(dispatch, product, null);
 		},
-		removeWishListItem: (product, variation) => {
+		removeWishListItem: product => {
 			WishListRedux.actions.removeWishListItem(dispatch, product, null);
 		},
 	};

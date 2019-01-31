@@ -1,18 +1,18 @@
 /** @format */
 
-import { StyleSheet, I18nManager } from "react-native";
-import { Constants, Color } from "@common";
+import { StyleSheet, I18nManager } from 'react-native';
+import { Constants, Color } from '@common';
 
 export default StyleSheet.create({
 	container: {
 		// flex: 1,
-		backgroundColor: "white",
+		backgroundColor: 'white',
 		borderBottomWidth: 1,
-		borderBottomColor: "#d4dce1",
-		width: "100%",
+		borderBottomColor: '#d4dce1',
+		width: '100%',
 	},
 	content: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		margin: 10,
 	},
 	image: {
@@ -31,10 +31,10 @@ export default StyleSheet.create({
 		color: Color.Text,
 	},
 	priceContainer: {
-		flexDirection: I18nManager.isRTL ? "row-reverse" : "row",
+		flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
 		marginTop: 10,
-		alignItems: "center",
-		justifyContent: "flex-start",
+		alignItems: 'center',
+		justifyContent: 'flex-start',
 	},
 	price: {
 		fontSize: 15,

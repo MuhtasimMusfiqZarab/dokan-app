@@ -1,8 +1,8 @@
 /** @format */
 
-import Images from './Images'
-import Constants from './Constants'
-import Icons from './Icons'
+import Images from './Images';
+import Constants from './Constants';
+import Icons from './Icons';
 
 export default {
 	/**
@@ -41,41 +41,41 @@ export default {
 		// { tag: 604, paging: true, layout: Constants.Layout.miniBanner },
 		{ tag: 25, paging: true, layout: Constants.Layout.miniBanner },
 		{
-			purpose: "atAglance",
+			purpose: 'atAglance',
 			layout: Constants.Layout.atAglance,
-			vendorListType: "allVendors"
+			vendorListType: 'allVendors',
 		},
 		{
-			name: "featuredProducts",
-			purpose: "featuredProducts",
+			name: 'featuredProducts',
+			purpose: 'featuredProducts',
 			// image: Images.Banner.Banner1,
 			layout: Constants.Layout.threeColumn,
 		},
 		{
-			purpose: "newArrival",
+			purpose: 'newArrival',
 			layout: Constants.Layout.newArrival,
 		},
 		{
-			name: "bestSellingProducts",
+			name: 'bestSellingProducts',
 			purpose: 'bestSellingProducts',
 			// image: Images.Banner.Banner3,
 			layout: Constants.Layout.threeColumn,
 		},
 		{
-			name: "topRatedProducts",
-			purpose: "topRatedProducts",
+			name: 'topRatedProducts',
+			purpose: 'topRatedProducts',
 			// image: Images.Banner.Banner2,
 			layout: Constants.Layout.threeColumn,
 		},
 		{
-			purpose: "popularCategory",
+			purpose: 'popularCategory',
 			layout: Constants.Layout.popularCategory,
 		},
 		{
-			name: "featuredVendor",
-			purpose: "featuredVendor",
+			name: 'featuredVendor',
+			purpose: 'featuredVendor',
 			layout: Constants.Layout.featuredVendor,
-			vendorListType: "featured"
+			vendorListType: 'featured',
 		},
 	],
 
@@ -91,7 +91,7 @@ export default {
 		cod: require('@images/payment_logo/cash_on_delivery.png'),
 		paypal: require('@images/payment_logo/PayPal.png'),
 		stripe: require('@images/payment_logo/stripe.png'),
-		ppec_paypal: require('@images/payment_logo/PayPal.png')
+		ppec_paypal: require('@images/payment_logo/PayPal.png'),
 	},
 
 	/**
@@ -195,16 +195,16 @@ export default {
 				text: 'Categories',
 				routeName: 'CategoriesScreen',
 				params: {
-					isActive: false
+					isActive: false,
 				},
-				iconLeft: Icons.MaterialCommunityIcons.GridMode
+				iconLeft: Icons.MaterialCommunityIcons.GridMode,
 			},
 			{
 				index: 1,
 				text: 'Home',
 				routeName: 'Default',
 				params: {
-					isActive: true
+					isActive: true,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.Home,
 			},
@@ -213,7 +213,7 @@ export default {
 				text: 'WishList',
 				routeName: 'WishListScreen',
 				params: {
-					isActive: false
+					isActive: false,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.Wishlist,
 			},
@@ -224,7 +224,7 @@ export default {
 				params: {
 					// id: 10941,
 					// title: 'contactus',
-					isActive: false
+					isActive: false,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.Order,
 			},
@@ -259,7 +259,7 @@ export default {
 				text: 'Contact Us',
 				routeName: 'ContactUs',
 				params: {
-					isActive: false
+					isActive: false,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.Wechat,
 			},
@@ -268,7 +268,7 @@ export default {
 				text: 'Privacy Policies',
 				routeName: 'PrivacyPolicy',
 				params: {
-					isActive: false
+					isActive: false,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.Lock,
 			},
@@ -278,7 +278,7 @@ export default {
 				routeName: 'AboutUs',
 				params: {
 					// url: 'http://ajaira.website/dokan-app',
-					isActive: false
+					isActive: false,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.About,
 			},
@@ -287,7 +287,7 @@ export default {
 				text: 'Settings',
 				routeName: 'SettingScreen',
 				params: {
-					isActive: false
+					isActive: false,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.Setting,
 			},
@@ -331,32 +331,37 @@ export default {
 	// weDevs
 	policies: [
 		{
-			heading: "Heading 01",
-			text: "Proactively e-enable best-of-breed communities before long-term high-impact niche markets. Assertively reinvent superior interfaces after global."
+			heading: 'Heading 01',
+			text:
+				'Proactively e-enable best-of-breed communities before long-term high-impact niche markets. Assertively reinvent superior interfaces after global.',
 		},
 		{
-			heading: "Heading 02",
-			text: "Intrinsicly communicate diverse expertise without enabled communities. Dramatically implement cross-unit opportunities through functionalized results. Holisticly innovate maintainable channels with exceptional."
+			heading: 'Heading 02',
+			text:
+				'Intrinsicly communicate diverse expertise without enabled communities. Dramatically implement cross-unit opportunities through functionalized results. Holisticly innovate maintainable channels with exceptional.',
 		},
 		{
-			heading: "Heading 03",
-			text: "Holisticly administrate user friendly products without sustainable architectures. Synergistically maximize parallel supply chains whereas performance based results. Dynamically expedite multimedia based leadership with superior e-commerce."
+			heading: 'Heading 03',
+			text:
+				'Holisticly administrate user friendly products without sustainable architectures. Synergistically maximize parallel supply chains whereas performance based results. Dynamically expedite multimedia based leadership with superior e-commerce.',
 		},
 		{
-			heading: "Heading 04",
-			text: "Completely myocardinate cooperative resources and fully researched systems. Monotonectally brand unique partnerships with maintainable platforms. Rapidiously embrace client-centric markets rather than innovative portals. Quickly seize interactive human capital vis-a-vis viral."
+			heading: 'Heading 04',
+			text:
+				'Completely myocardinate cooperative resources and fully researched systems. Monotonectally brand unique partnerships with maintainable platforms. Rapidiously embrace client-centric markets rather than innovative portals. Quickly seize interactive human capital vis-a-vis viral.',
 		},
 		{
-			heading: "Heading 05",
-			text: "Intrinsicly communicate diverse expertise without enabled communities. Dramatically implement cross-unit opportunities through functionalized results. Holisticly innovate maintainable channels with exceptional."
+			heading: 'Heading 05',
+			text:
+				'Intrinsicly communicate diverse expertise without enabled communities. Dramatically implement cross-unit opportunities through functionalized results. Holisticly innovate maintainable channels with exceptional.',
 		},
 	],
 	sortingTexts: [
 		// "Sort by popularity",
-		"Sort by average rating",
-		"Sort by newness",
-		"Sort by price high to low",
-		"Sort by price low to high"
+		'Sort by average rating',
+		'Sort by newness',
+		'Sort by price high to low',
+		'Sort by price low to high',
 	],
 	// listItem: [
 	// 	{
@@ -411,5 +416,4 @@ export default {
 	// 		},
 	// 	},
 	// ]
-
-}
+};

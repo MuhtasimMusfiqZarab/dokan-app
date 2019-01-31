@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { PureComponent, Component } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
 	Text,
 	TouchableOpacity,
@@ -9,38 +9,21 @@ import {
 	View,
 	Animated,
 	Image,
-	// Share,
 	Dimensions,
-} from "react-native";
-import { connect } from "react-redux";
-import Share from "react-native-share"
-import {
-	Timer,
-	getProductImage,
-	currencyFormatter,
-} from "@app/Omni";
-import {
-	Button,
-	Rating,
-	WishListIcon
-} from "@components";
-import Swiper from "react-native-swiper";
-import {
-	Styles,
-	Languages,
-	Color,
-	Constants,
-	Events,
-} from "@common";
-import Modal from "react-native-modalbox";
-import { find, filter } from "lodash";
-import PopOver from "./PopOver";
-import styles from "./ProductDetail_Style";
-
-// weDevs
+} from 'react-native';
+import { connect } from 'react-redux';
+import { Share } from 'react-native-share';
+import { Timer, getProductImage, currencyFormatter } from '@app/Omni';
+import { Button, Rating, WishListIcon } from '@components';
+import { Swiper } from 'react-native-swiper';
+import { Styles, Languages, Color, Constants, Events } from '@common';
+import Modal from 'react-native-modalbox';
+import { find, filter } from 'lodash';
+import PopOver from './PopOver';
+import styles from './ProductDetail_Style';
 import striptags from 'striptags';
-import ProductDetailsAccordion from "./ProductDetailsAccordion";
-import EventEmitter from "@services/AppEventEmitter";
+import ProductDetailsAccordion from './ProductDetailsAccordion';
+import EventEmitter from '@services/AppEventEmitter';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
@@ -56,6 +39,11 @@ class Detail extends PureComponent {
 		addWishListItem: PropTypes.func,
 		cartItems: PropTypes.any,
 		navigation: PropTypes.object,
+		getRelatedProducts: PropTypes.func,
+		onLogin: PropTypes.func,
+		userData: PropTypes.any,
+		wishListItems: PropTypes.any,
+		relatedProducts: PropTypes.any,
 	};
 
 	constructor(props) {
@@ -67,27 +55,27 @@ class Detail extends PureComponent {
 			selectedAttribute: [],
 			selectedColor: 0,
 			selectVariation: null,
-			selectedItems : [],
+			selectedItems: [],
 			activeSections: [],
-			showPopover : false
+			showPopover: false,
 		};
 
 		this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
 		this.inCartTotal = 0;
 		this.isInWishList = false;
-		this.buyNowBtnStyle = [styles.btnBuy],
-		this.disableAddCartBtn = false,
-		this.disableBuyNowBtn = false
+		(this.buyNowBtnStyle = [styles.btnBuy]),
+			(this.disableAddCartBtn = false),
+			(this.disableBuyNowBtn = false);
 
 		// set Buy Now btn color
-		if(this.props.product.stock_status) {
-			if(this.props.product.stock_status === "outofstock") {
+		if (this.props.product.stock_status) {
+			if (this.props.product.stock_status === 'outofstock') {
 				this.buyNowBtnStyle = [...this.buyNowBtnStyle, styles.outOfStock];
 				this.disableAddCartBtn = true;
 				this.disableBuyNowBtn = true;
 			}
 		} else {
-			if(!this.props.product.in_stock) {
+			if (!this.props.product.in_stock) {
 				this.buyNowBtnStyle = [...this.buyNowBtnStyle, styles.outOfStock];
 				this.disableAddCartBtn = true;
 				this.disableBuyNowBtn = true;
@@ -102,10 +90,13 @@ class Detail extends PureComponent {
 		this.props.getRelatedProducts(this.props.product.id);
 		this.getProductAttribute(this.props.product);
 
-		EventEmitter.addListener("popover.toggle", this.popoverEventHandler.bind(this));
+		EventEmitter.addListener(
+			'popover.toggle',
+			this.popoverEventHandler.bind(this)
+		);
 	}
 
-	componentWillReceiveProps(nextProps) {
+	UNSAFE_componentWillReceiveProps(nextProps) {
 		this.getCartTotal(nextProps, true);
 		this.getWishList(nextProps, true);
 		// this important to update the variations from the product as the Life cycle is not run again !!!
@@ -121,22 +112,22 @@ class Detail extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		EventEmitter.removeListener("popover.toggle");
+		EventEmitter.removeListener('popover.toggle');
 	}
 
-	getProductAttribute = (product) => {
+	getProductAttribute = product => {
 		this.productAttributes = product.attributes;
 		const defaultAttribute = product.default_attributes;
-		
-		if (typeof this.productAttributes !== "undefined") {
-			this.productAttributes.map((attribute) => {
+
+		if (typeof this.productAttributes !== 'undefined') {
+			this.productAttributes.map(attribute => {
 				const selectedAttribute = defaultAttribute.find(
-					(item) => item.name === attribute.name
+					item => item.name === attribute.name
 				);
 				attribute.selectedOption =
-					typeof selectedAttribute !== "undefined"
+					typeof selectedAttribute !== 'undefined'
 						? selectedAttribute.option.toLowerCase()
-						: "";
+						: '';
 			});
 		}
 	};
@@ -148,7 +139,7 @@ class Detail extends PureComponent {
 	openPhoto = () => {
 		if (this.state.showPopover) {
 			this.setState({
-				showPopover: !this.state.showPopover
+				showPopover: !this.state.showPopover,
 			});
 		}
 		this._modalPhoto.open();
@@ -159,18 +150,18 @@ class Detail extends PureComponent {
 		Timer.setTimeout(() => this.state.scrollY.setValue(0), 50);
 	}
 
-	getColor = (value) => {
+	getColor = value => {
 		const color = value.toLowerCase();
-		if (typeof Color.attributes[color] !== "undefined") {
+		if (typeof Color.attributes[color] !== 'undefined') {
 			return Color.attributes[color];
 		}
-		return "#333";
+		return '#333';
 	};
 
 	share = () => {
 		this.setState({
-			showPopover: !this.state.showPopover
-		})
+			showPopover: !this.state.showPopover,
+		});
 		Share.open({
 			// message: this.props.product.description.replace(/(<([^>]+)>)/gi, ""),
 			url: this.props.product.permalink,
@@ -189,7 +180,7 @@ class Detail extends PureComponent {
 		if (go) onViewCart();
 	};
 
-	addToWishList = (isAddWishList) => {
+	addToWishList = isAddWishList => {
 		if (isAddWishList) {
 			this.props.removeWishListItem(this.props.product);
 		} else this.props.addWishListItem(this.props.product);
@@ -223,13 +214,13 @@ class Detail extends PureComponent {
 	getWishList = (props, check = false) => {
 		const { product, navigation, wishListItems } = props;
 
-		if (props.hasOwnProperty("wishListItems")) {
+		if (props.hasOwnProperty('wishListItems')) {
 			if (check == true && props.wishListItems == this.props.wishListItems) {
 				return;
 			}
 			this.isInWishList =
-				find(props.wishListItems, (item) => item.product.id == product.id) !=
-				"undefined";
+				find(props.wishListItems, item => item.product.id == product.id) !=
+				'undefined';
 
 			const sum = wishListItems.length;
 			const params = navigation.state.params;
@@ -240,27 +231,27 @@ class Detail extends PureComponent {
 
 	onSelectAttribute = (attributeName, option) => {
 		const selectedAttribute = this.productAttributes.find(
-			(item) => item.name === attributeName
+			item => item.name === attributeName
 		);
 		selectedAttribute.selectedOption = option.toLowerCase();
 
 		this.updateSelectedVariant(this.props.productVariations);
 	};
 
-	updateSelectedVariant = (productVariations) => {
+	updateSelectedVariant = productVariations => {
 		const selectedAttribute = filter(
 			this.productAttributes,
-			(item) => typeof item.selectedOption !== "undefined"
+			item => typeof item.selectedOption !== 'undefined'
 		);
 
 		// if (productVariations) {
 		productVariations &&
-			productVariations.map((variant) => {
+			productVariations.map(variant => {
 				let matchCount = 0;
-				selectedAttribute.map((selectAttribute) => {
+				selectedAttribute.map(selectAttribute => {
 					const isMatch = find(
 						variant.attributes,
-						(item) =>
+						item =>
 							item.name === selectAttribute.name &&
 							item.option.toLowerCase() ===
 								selectAttribute.selectedOption.toLowerCase()
@@ -279,9 +270,9 @@ class Detail extends PureComponent {
 
 	popoverEventHandler = () => {
 		this.setState({
-			showPopover: !this.state.showPopover
-		})
-	}
+			showPopover: !this.state.showPopover,
+		});
+	};
 
 	/**
 	 * render Image top
@@ -290,22 +281,26 @@ class Detail extends PureComponent {
 		const imageScale = this.state.scrollY.interpolate({
 			inputRange: [-300, 0, NAVI_HEIGHT, this.productInfoHeight / 2],
 			outputRange: [2, 1, 1, 0.7],
-			extrapolate: "clamp",
+			extrapolate: 'clamp',
 		});
 		const { width } = Dimensions.get('window');
 		const scrollX = new Animated.Value(0);
 		let position = Animated.divide(scrollX, width);
 
 		return (
-			<View style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}>
+			<View
+				style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}>
 				<ScrollView
-					style={{ height: PRODUCT_IMAGE_HEIGHT, width: Constants.Window.width }}
+					style={{
+						height: PRODUCT_IMAGE_HEIGHT,
+						width: Constants.Window.width,
+					}}
 					pagingEnabled
 					showsHorizontalScrollIndicator={false}
 					horizontal
-					onScroll={Animated.event(
-						[{ nativeEvent: { contentOffset: { x: scrollX } } }]
-					)}
+					onScroll={Animated.event([
+						{ nativeEvent: { contentOffset: { x: scrollX } } },
+					])}
 					scrollEventThrottle={16}>
 					{this.props.product.images.map((image, index) => (
 						<TouchableOpacity
@@ -323,47 +318,43 @@ class Detail extends PureComponent {
 						</TouchableOpacity>
 					))}
 				</ScrollView>
-				<View
-					style={{ flexDirection: "row", justifyContent: "center" }} >
-					{
-						this.props.product.images.map((_, i) => {
-							let opacity = position.interpolate({
-								inputRange: [i - 1, i, i + 1],
-								outputRange: [0.3, 1, 0.3],
-								extrapolate: 'clamp'
-							});
-							let bgColor = position.interpolate({
-								inputRange: [0, 1],
-								outputRange: ["#C8CCD5", "red"]
-							})
+				<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+					{this.props.product.images.map((_, i) => {
+						let opacity = position.interpolate({
+							inputRange: [i - 1, i, i + 1],
+							outputRange: [0.3, 1, 0.3],
+							extrapolate: 'clamp',
+						});
+						let bgColor = position.interpolate({
+							inputRange: [0, 1],
+							outputRange: ['#C8CCD5', 'red'],
+						});
 
-							return (
-								<Animated.View
-									key={i}
-									style={
-										{
-											opacity,
-											height: 8,
-											width: 8,
-											backgroundColor: bgColor,
-											margin: 4,
-											borderRadius: 4
-										}
-									}
-								/>
-							);
-						})
-					}
+						return (
+							<Animated.View
+								key={i}
+								style={{
+									opacity,
+									height: 8,
+									width: 8,
+									backgroundColor: bgColor,
+									margin: 4,
+									borderRadius: 4,
+								}}
+							/>
+						);
+					})}
 				</View>
-				
+
 				<WishListIcon
 					style={{
 						top: PRODUCT_IMAGE_HEIGHT - 25,
-						right: Constants.Window.width - 40
+						right: Constants.Window.width - 40,
 					}}
 					width={25}
 					height={25}
-					product={this.props.product} />
+					product={this.props.product}
+				/>
 			</View>
 		);
 	};
@@ -378,20 +369,20 @@ class Detail extends PureComponent {
 	};
 
 	renderButtons = () => {
-		const { wishListItems, cartItems, product } = this.props;
-		const isAddWishList =
-			wishListItems.filter((item) => item.product.id === product.id).length > 0;
+		const { cartItems, product } = this.props;
+		// const isAddWishList =
+		// 	wishListItems.filter(item => item.product.id === product.id).length > 0;
 		const isAddToCart = !!(
 			cartItems &&
-			cartItems.filter((item) => item.product.id === product.id).length > 0
+			cartItems.filter(item => item.product.id === product.id).length > 0
 		);
-		
+
 		return (
 			<View
-			style={[
-				styles.bottomView,
-				Constants.RTL && { flexDirection: "row-reverse" },
-			]}>
+				style={[
+					styles.bottomView,
+					Constants.RTL && { flexDirection: 'row-reverse' },
+				]}>
 				{/* <View style={styles.buttonContainer}>
 					<Button
 						type="image"
@@ -424,86 +415,82 @@ class Detail extends PureComponent {
 					type="text"
 					text="ADD CART"
 					icon="cart"
-					iconStyle={{marginRight: 5, color: "#D2DBE0"}}
+					iconStyle={{ marginRight: 5, color: '#D2DBE0' }}
 					isAddToCart={isAddToCart}
 					textStyle={styles.butnCartText}
 					// disabled={!this.props.product.in_stock || this.props.product.stock_status === "outofstock"}
 					disabled={this.disableAddCartBtn}
 					style={styles.buttonContainer}
 					onPress={() => {
-							if(this.props.product.stock_status) {
-								if(this.props.product.stock_status == "instock") {
-									this.addToCart()
-								}
-							} else {
-								if(this.props.product.in_stock) {
-									this.addToCart()
-								}
+						if (this.props.product.stock_status) {
+							if (this.props.product.stock_status == 'instock') {
+								this.addToCart();
+							}
+						} else {
+							if (this.props.product.in_stock) {
+								this.addToCart();
 							}
 						}
-					}
+					}}
 				/>
 				<Button
 					text={
 						this.props.product.in_stock ||
-						this.props.product.stock_status === "instock" ?
-						Languages.BUYNOW : Languages.OutOfStock
+						this.props.product.stock_status === 'instock'
+							? Languages.BUYNOW
+							: Languages.OutOfStock
 					}
 					style={this.buyNowBtnStyle}
 					textStyle={styles.btnBuyText}
 					// disabled={!this.props.product.in_stock || this.props.product.stock_status === "outofstock"}
 					disabled={this.disableBuyNowBtn}
 					onPress={() => {
-						if(this.props.product.stock_status) {
-							if(this.props.product.stock_status == "instock") {
-								this.addToCart(true)
+						if (this.props.product.stock_status) {
+							if (this.props.product.stock_status == 'instock') {
+								this.addToCart(true);
 							}
 						} else {
-							if(this.props.product.in_stock) {
-								this.addToCart(true)
+							if (this.props.product.in_stock) {
+								this.addToCart(true);
 							}
 						}
 					}}
 				/>
 			</View>
-		)
+		);
 	};
 
 	//weDevs
 	renderVendorInfo = () => {
-		const storeName = this.props.product.store?
-			this.props.product.store.shop_name || this.props.product.store.name : "";
-		const storeInitial = storeName ? storeName.charAt(0).toUpperCase() : "";
+		const storeName = this.props.product.store
+			? this.props.product.store.shop_name || this.props.product.store.name
+			: '';
+		const storeInitial = storeName ? storeName.charAt(0).toUpperCase() : '';
 
 		if (storeName) {
 			return (
 				<View style={styles.topVendorInfoContainer}>
 					<View style={styles.topVendorNameInitials}>
-						<Text style={{color: "white", fontSize: 17}}>
-							{storeInitial}
-						</Text>
+						<Text style={{ color: 'white', fontSize: 17 }}>{storeInitial}</Text>
 					</View>
-					<View style={{marginLeft: 15}}>
-						<Text style={{
-							color: Color.wdDeepGray,
-							fontSize: 17
-						}}>
+					<View style={{ marginLeft: 15 }}>
+						<Text
+							style={{
+								color: Color.wdDeepGray,
+								fontSize: 17,
+							}}>
 							{storeName}
 						</Text>
 					</View>
 				</View>
-			)
+			);
 		} else {
 			return (
-				<View style={
-					[
-						styles.topVendorInfoContainer,
-						{justifyContent: "center"}
-					]
-				}>
-					<Text style={{ color: "red"}}>Store Info Not found</Text>
+				<View
+					style={[styles.topVendorInfoContainer, { justifyContent: 'center' }]}>
+					<Text style={{ color: 'red' }}>Store Info Not found</Text>
 				</View>
-			)
+			);
 		}
 	};
 
@@ -522,20 +509,16 @@ class Detail extends PureComponent {
 			selectVariation ? selectVariation.price : product.price
 		);
 
-		return(
+		return (
 			<View style={styles.productDetailContainer}>
 				<Text style={styles.productName}>{product.name}</Text>
 				<Rating rating={Number(product.average_rating)} size={15} />
 				<View style={styles.productMetaContainer}>
 					<View style={styles.productPriceContainer}>
 						{isOnSale && (
-							<Text style={styles.sale_price}>
-								{productRegularPrice}
-							</Text>
+							<Text style={styles.sale_price}>{productRegularPrice}</Text>
 						)}
-						<Text style={styles.productPrice}>
-							{productPrice}
-						</Text>
+						<Text style={styles.productPrice}>{productPrice}</Text>
 					</View>
 					{/* <View style={styles.productBadgeContainer}>
 						<View style={styles.productBadge}>
@@ -548,36 +531,34 @@ class Detail extends PureComponent {
 						</View>
 					</View> */}
 				</View>
-				<Text style={styles.productDescription}>
-					{productDescription}
-				</Text>
+				<Text style={styles.productDescription}>{productDescription}</Text>
 				<ProductDetailsAccordion
 					product={this.props.product}
 					relatedProducts={this.props.relatedProducts}
 					onLogin={this.props.onLogin}
-					navigation={this.props.navigation} />
+					navigation={this.props.navigation}
+				/>
 			</View>
-		)
+		);
 	};
 
 	render() {
 		const { product } = this.props;
-// console.log(product);
+		// console.log(product);
 		return (
 			<View style={styles.container}>
-				{
-					this.state.showPopover &&
-						<PopOver share={this.share} openPhoto={this.openPhoto.bind(this)} />
-				}
+				{this.state.showPopover && (
+					<PopOver share={this.share} openPhoto={this.openPhoto.bind(this)} />
+				)}
 				<Animated.ScrollView
 					style={styles.listContainer}
 					scrollEventThrottle={1}
-					onScroll={(event) => {
+					onScroll={event => {
 						this.state.scrollY.setValue(event.nativeEvent.contentOffset.y);
 					}}>
 					<View
 						style={[styles.productInfo]}
-						onLayout={(event) =>
+						onLayout={event =>
 							(this.productInfoHeight = event.nativeEvent.layout.height)
 						}>
 						{this.renderVendorInfo()}
@@ -590,7 +571,7 @@ class Detail extends PureComponent {
 				{this.renderButtons()}
 
 				<Modal
-					ref={(com) => (this._modalPhoto = com)}
+					ref={com => (this._modalPhoto = com)}
 					swipeToClose={false}
 					animationDuration={200}
 					style={styles.modalBoxWrap}>
@@ -620,39 +601,39 @@ class Detail extends PureComponent {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		cartItems: state.carts.cartItems,
 		wishListItems: state.wishList.wishListItems,
 		productVariations: state.products.productVariations,
 		userData: state.user.user,
-		relatedProducts: state.products.relatedProducts
+		relatedProducts: state.products.relatedProducts,
 	};
 };
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
-	const CartRedux = require("@redux/CartRedux");
-	const WishListRedux = require("@redux/WishListRedux");
-	const ProductRedux = require("@redux/ProductRedux");
+	const CartRedux = require('@redux/CartRedux');
+	const WishListRedux = require('@redux/WishListRedux');
+	const ProductRedux = require('@redux/ProductRedux');
 	return {
 		...ownProps,
 		...stateProps,
 		addCartItem: (product, variation) => {
 			CartRedux.actions.addCartItem(dispatch, product, variation);
 		},
-		addWishListItem: (product) => {
+		addWishListItem: product => {
 			WishListRedux.actions.addWishListItem(dispatch, product);
 		},
-		removeWishListItem: (product) => {
+		removeWishListItem: product => {
 			WishListRedux.actions.removeWishListItem(dispatch, product);
 		},
-		getProductVariations: (product) => {
+		getProductVariations: product => {
 			ProductRedux.actions.getProductVariations(dispatch, product);
 		},
-		getRelatedProducts: (productID) => {
+		getRelatedProducts: productID => {
 			ProductRedux.actions.fetchRelatedProducts(dispatch, productID);
-		}
+		},
 	};
 }
 

@@ -3,11 +3,11 @@
  */
 
 const types = {
-	UPDATE_CONNECTION_STATUS: "UPDATE_CONNECTION_STATUS",
+	UPDATE_CONNECTION_STATUS: 'UPDATE_CONNECTION_STATUS',
 };
 
 export const actions = {
-	updateConnectionStatus: (isConnected) => {
+	updateConnectionStatus: isConnected => {
 		return { type: types.UPDATE_CONNECTION_STATUS, isConnected };
 	},
 };

@@ -108,17 +108,16 @@ export default {
 	blue2: 'rgba(3, 207, 254, 1)',
 
 	// weDevs
-	textGray: "#7F8894",
-	textBlue: "#9B59B6",
-	reviewTextColor: "#A5B1B5",
-	wdred1: "#E74C3C",
-	wdgray: "#818995",
-	wdgray2: "#E6EAEB",
-	wdgray3: "#848688",
-	wdgray4: "#7D8693",
-	wdgray5: "#808994",
-	wdDeepGray: "#79828F",
+	textGray: '#7F8894',
+	textBlue: '#9B59B6',
+	reviewTextColor: '#A5B1B5',
+	wdred1: '#E74C3C',
+	wdgray: '#818995',
+	wdgray2: '#E6EAEB',
+	wdgray3: '#848688',
+	wdgray4: '#7D8693',
+	wdgray5: '#808994',
+	wdDeepGray: '#79828F',
 	wdLightGray: '#868D9B',
-	starRating: "#F5A623"
-
-}
+	starRating: '#F5A623',
+};

@@ -1,33 +1,32 @@
 /** @format */
 
-import { StyleSheet, Dimensions, I18nManager, Platform } from "react-native";
-import { Constants, Styles } from "@common";
-import { Color } from "@common";
+import { Dimensions, I18nManager, Platform } from 'react-native';
+import { Constants, Styles, Color } from '@common';
 
-const { width, height } = Dimensions.get("window");
+const { width, height } = Dimensions.get('window');
 
 export default {
 	container: {
 		flex: 1,
-		backgroundColor: "rgba(247, 247, 249, 1)",
+		backgroundColor: 'rgba(247, 247, 249, 1)',
 	},
 	naviBar: {
 		height: 64,
-		position: "absolute",
+		position: 'absolute',
 		top: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: "white",
+		backgroundColor: 'white',
 	},
 	naviTitle: {
 		flex: 1,
 		marginTop: 20,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	btnBack: {
 		zIndex: 2,
-		position: "absolute",
+		position: 'absolute',
 		top: 20,
 		left: 10,
 	},
@@ -39,9 +38,9 @@ export default {
 		flex: 1,
 	},
 	productInfo: {
-		alignItems: "center",
-		backgroundColor: "#E8E8E8",
-		paddingBottom: 10
+		alignItems: 'center',
+		backgroundColor: '#E8E8E8',
+		paddingBottom: 10,
 	},
 	imageSlider: {
 		flex: 1,
@@ -53,7 +52,7 @@ export default {
 		paddingRight: 40,
 		marginTop: 10,
 		marginBottom: 10,
-		resizeMode: "contain",
+		resizeMode: 'contain',
 		width: Constants.Window.width,
 		height: 300,
 	},
@@ -63,13 +62,13 @@ export default {
 		marginRight: 4,
 		marginTop: 4,
 		marginBottom: 4,
-		resizeMode: "contain",
+		resizeMode: 'contain',
 		height,
 	},
 	productSizeContainer: {
-		flexDirection: "row",
-		justifyContent: "center",
-		flexWrap: "wrap",
+		flexDirection: 'row',
+		justifyContent: 'center',
+		flexWrap: 'wrap',
 		marginTop: 15,
 	},
 	productSize: {
@@ -91,11 +90,11 @@ export default {
 		// fontSize: 18,
 		fontSize: 20,
 		// color: Color.blackTextPrimary,
-		color: "#4D4D4D",
+		color: '#4D4D4D',
 		fontFamily: Constants.fontFamilyLato,
 	},
 	sale_price: {
-		textDecorationLine: "line-through",
+		textDecorationLine: 'line-through',
 		color: Color.blackTextDisable,
 		// marginLeft: 5,
 		// marginTop: 4,
@@ -103,55 +102,55 @@ export default {
 		fontFamily: Constants.fontFamily,
 	},
 	tabButton: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		borderTopWidth: 1,
 		borderBottomWidth: 1,
-		borderTopColor: "#f5f5f5",
-		borderBottomColor: "#f5f5f5",
+		borderTopColor: '#f5f5f5',
+		borderBottomColor: '#f5f5f5',
 		paddingLeft: 10,
 		paddingRight: 10,
-		backgroundColor: "rgba(255,255,255,1)",
+		backgroundColor: 'rgba(255,255,255,1)',
 	},
 	textTab: {
 		fontFamily: Constants.fontHeader,
-		color: "rgba(183, 196, 203, 1)",
+		color: 'rgba(183, 196, 203, 1)',
 		fontSize: 16,
 	},
 	tabButtonHead: {
-		position: "absolute",
+		position: 'absolute',
 		top: 0,
 		left: 0,
 		right: 0,
-		backgroundColor: "white",
+		backgroundColor: 'white',
 		opacity: 0,
 	},
 	tabItem: {
 		flex: 0.32,
-		backgroundColor: "rgba(255,255,255,1)",
+		backgroundColor: 'rgba(255,255,255,1)',
 	},
 	bottomView: {
 		height: 50,
-		flexDirection: "row",
+		flexDirection: 'row',
 		borderTopWidth: 1,
-		borderTopColor: "#f3f7f9",
+		borderTopColor: '#f3f7f9',
 	},
 	buttonContainer: {
 		flex: 0.5,
-		backgroundColor: "white",
+		backgroundColor: 'white',
 		// backgroundColor: "#F8F8FA",
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 	},
 	imageButton: {
 		width: 20,
 		height: 20,
-		tintColor: "#ccc",
+		tintColor: '#ccc',
 		flex: 1,
 	},
 	buttonStyle: {
 		flex: 1 / 3,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	btnBuy: {
 		flex: 0.5,
@@ -161,36 +160,36 @@ export default {
 		backgroundColor: Color.OutOfStockButton,
 	},
 	btnBuyText: {
-		color: "white",
+		color: 'white',
 		fontSize: 14,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		fontFamily: Constants.fontHeader,
 	},
 	butnCartText: {
-		color: "#D2DBE0",
+		color: '#D2DBE0',
 		fontSize: 15,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		fontFamily: Constants.fontHeader,
 	},
 	description: {
 		padding: 20,
 		paddingTop: 10,
-		backgroundColor: "rgba(255,255,255,1)",
-		alignItems: I18nManager.isRTL ? "flex-end" : "flex-start",
+		backgroundColor: 'rgba(255,255,255,1)',
+		alignItems: I18nManager.isRTL ? 'flex-end' : 'flex-start',
 	},
 	productColorContainer: {
-		position: "absolute",
+		position: 'absolute',
 		top: 50,
 		left: I18nManager.isRTL ? width - 50 : 0,
-		alignItems: "center",
-		justifyContent: "center",
+		alignItems: 'center',
+		justifyContent: 'center',
 		paddingTop: 10,
 		paddingBottom: 10,
 		width: 50,
 	},
 
 	modalBoxWrap: {
-		position: "absolute",
+		position: 'absolute',
 		top: 0,
 		left: 0,
 		borderRadius: 2,
@@ -199,10 +198,10 @@ export default {
 		zIndex: 9999,
 	},
 	iconZoom: {
-		position: "absolute",
+		position: 'absolute',
 		right: 0,
 		top: 10,
-		backgroundColor: "rgba(255,255,255,.9)",
+		backgroundColor: 'rgba(255,255,255,.9)',
 		paddingTop: 4,
 		paddingRight: 4,
 		paddingBottom: 4,
@@ -210,8 +209,8 @@ export default {
 		zIndex: 9999,
 	},
 	textClose: {
-		color: "#666",
-		fontWeight: "600",
+		color: '#666',
+		fontWeight: '600',
 		fontSize: 10,
 		margin: 4,
 		zIndex: 9999,
@@ -222,7 +221,7 @@ export default {
 		zIndex: 9999,
 	},
 	dotActive: {
-		backgroundColor: "rgba(183, 196, 203, 1)",
+		backgroundColor: 'rgba(183, 196, 203, 1)',
 		width: 10,
 		height: 10,
 		borderRadius: 20,
@@ -230,177 +229,171 @@ export default {
 	dot: {
 		width: 6,
 		height: 6,
-		backgroundColor: "rgba(183, 196, 203, 1)",
-		backgroundColor: "blue",
+		backgroundColor: 'rgba(183, 196, 203, 1)',
+		backgroundColor: 'blue',
 	},
 	tabView: {
 		minHeight: height / 2,
 	},
 	price_wrapper: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		marginBottom: 8,
 	},
 	textRating: {
 		fontSize: Styles.FontSize.small,
 		marginLeft: 6,
 	},
-
 	attributeName: {
-		color: "#aaa",
+		color: '#aaa',
 		fontFamily: Constants.fontFamily,
 		fontSize: 11,
 	},
-
-	/**
-	 * weDevs
-	 */
 	productDetailContainer: {
 		// backgroundColor: "#F7F7F9",
-		padding: 15
+		padding: 15,
 	},
 	topVendorInfoContainer: {
-		width: "85%",
+		width: '85%',
 		height: 50,
 		padding: 10,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		borderRadius: 30,
-		flexDirection: "row",
-		alignItems: "center",
+		flexDirection: 'row',
+		alignItems: 'center',
 		margin: 10,
 		...Platform.select({
 			ios: {
-				shadowColor: "#000",
+				shadowColor: '#000',
 				shadowOpacity: 0.2,
-				shadowOffset: { width: 1, height: 2 }
+				shadowOffset: { width: 1, height: 2 },
 			},
 			android: {
-				elevation: 3
-			}
-		})
+				elevation: 3,
+			},
+		}),
 	},
 	topVendorNameInitials: {
 		width: 35,
 		height: 35,
 		borderRadius: 17.5,
-		backgroundColor: "red",
-		justifyContent: "center",
-		alignItems: "center"
+		backgroundColor: 'red',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	productMetaContainer: {
 		marginTop: 10,
 		marginBottom: 15,
-		flexDirection: "row",
-		alignItems: "flex-start"
+		flexDirection: 'row',
+		alignItems: 'flex-start',
 	},
 	productPriceContainer: {
 		flex: 1,
-		flexDirection: "row",
-		justifyContent: "flex-start",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
 	},
 	productBadgeContainer: {
 		flex: 1,
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		alignItems: 'center',
 	},
 	productBadge: {
 		width: 50,
 		height: 45,
 		marginLeft: 10,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		borderRadius: 5,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		...Platform.select({
 			ios: {
-				shadowColor: "#000",
+				shadowColor: '#000',
 				shadowOpacity: 0.3,
-				shadowOffset: {width: 2, height: 2},
+				shadowOffset: { width: 2, height: 2 },
 			},
 			android: {
-				elevation: 3
-			}
-		})
+				elevation: 3,
+			},
+		}),
 	},
 	productBadgeNumber: {
 		fontFamily: Constants.fontFamilyLato,
-		color: "#79828F",
-		fontWeight: "bold",
-		fontSize: 12
+		color: '#79828F',
+		fontWeight: 'bold',
+		fontSize: 12,
 	},
 	productBadgeText: {
 		fontFamily: Constants.fontFamilyLato,
-		color: "#A5B1B5",
-		fontSize: 10
+		color: '#A5B1B5',
+		fontSize: 10,
 	},
 	productDescription: {
-		color: "#A5B1B5"
+		color: '#A5B1B5',
 	},
 	accordionHeader: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		// justifyContent: "center",
-		alignItems: "center",
+		alignItems: 'center',
 		padding: 15,
 		borderRadius: 5,
 		height: 60,
 		marginTop: 15,
 	},
 	accordionHeaderInActive: {
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		...Platform.select({
 			ios: {
-				shadowColor: "#000",
+				shadowColor: '#000',
 				shadowOpacity: 0.1,
-				shadowOffset: {width: 0, height: 1}
+				shadowOffset: { width: 0, height: 1 },
 			},
 			android: {
-				elevation: 3
-			}
-		})
+				elevation: 3,
+			},
+		}),
 	},
 	accordionHeaderActive: {
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 		borderBottomWidth: 0.5,
-		borderBottomColor: "#E9EDED",
+		borderBottomColor: '#E9EDED',
 		borderBottomLeftRadius: 0,
-		borderBottomRightRadius: 0
+		borderBottomRightRadius: 0,
 	},
 	accordionHeaderText: {
-		color: "#7C8592",
+		color: '#7C8592',
 		fontSize: 18,
-		fontFamily: Constants.fontFamilyLato
+		fontFamily: Constants.fontFamilyLato,
 	},
 	accordionContent: {
 		padding: 15,
 	},
 	accordionContentInActive: {
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 	},
 	accordionContentActive: {
-		backgroundColor: "#fff",
-		shadowColor: "#000",
+		backgroundColor: '#fff',
+		shadowColor: '#000',
 		shadowOpacity: 0.5,
-		shadowOffset: {width: -5, height: 5}
+		shadowOffset: { width: -5, height: 5 },
 	},
 	accordionHeaderIcon: {
 		width: 45,
 		height: 45,
 		borderRadius: 22.5,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		backgroundColor: '#fff',
 		marginRight: 15,
 		...Platform.select({
 			ios: {
-				shadowColor: "#000",
+				shadowColor: '#000',
 				shadowOpacity: 0.3,
-				shadowOffset: {width: -1, height: 1},
+				shadowOffset: { width: -1, height: 1 },
 			},
 			android: {
-				elevation: 3
-			}
-		})
+				elevation: 3,
+			},
+		}),
 	},
-	
 };

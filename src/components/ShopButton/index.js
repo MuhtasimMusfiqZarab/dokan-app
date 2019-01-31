@@ -1,11 +1,11 @@
 /** @format */
 
-"use strict";
-import React, { Component } from "react";
-import { View } from "react-native";
-import styles from "./styles";
-import { Button } from "@components";
-import { Languages } from "@common";
+'use strict';
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import styles from './styles';
+import { Button } from '@components';
+import { Languages } from '@common';
 
 export default class ShopButton extends Component {
 	render() {

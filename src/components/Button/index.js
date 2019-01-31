@@ -2,10 +2,10 @@
  * @format
  */
 
-import React, { PureComponent } from "react";
-import { TouchableOpacity, Text, StyleSheet, View } from "react-native";
-import { Color } from "@common";
-import { Icon } from "@app/Omni";
+import React, { PureComponent } from 'react';
+import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { Color } from '@common';
+import { Icon } from '@app/Omni';
 
 class Button extends PureComponent {
 	// constructor(props) {
@@ -47,14 +47,14 @@ class Button extends PureComponent {
 
 const styles = StyleSheet.create({
 	container: {
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 		minHeight: 44,
 		padding: 10,
-		flexDirection: "row",
+		flexDirection: 'row',
 	},
 	text: {
-		fontWeight: "bold",
+		fontWeight: 'bold',
 	},
 	icon: {
 		marginRight: 10,
@@ -62,12 +62,12 @@ const styles = StyleSheet.create({
 });
 
 Button.defaultProps = {
-	text: "Button",
-	onPress: () => "Button pressed!",
+	text: 'Button',
+	onPress: () => 'Button pressed!',
 	containerStyle: {},
 	textStyle: {},
 	containerColor: Color.theme2,
-	textColor: "white",
+	textColor: 'white',
 };
 
 export default Button;

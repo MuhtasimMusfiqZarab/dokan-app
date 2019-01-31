@@ -1,60 +1,61 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { Constants, Tools, Styles } from "@common";
-import { getProductImage } from "@app/Omni";
+import React, { PureComponent } from 'react';
+import { Constants, Tools, Styles } from '@common';
+import { getProductImage } from '@app/Omni';
 
-import ReadMoreLayout from "./ReadMore";
-import ColumnLayout from "./Column";
-import ThreeColumn from "./ThreeColumn";
-import CardLayout from "./Card";
-import SimpleLayout from "./Simple";
+import ReadMoreLayout from './ReadMore';
+import ColumnLayout from './Column';
+import ThreeColumn from './ThreeColumn';
+import CardLayout from './Card';
+import SimpleLayout from './Simple';
 
 export default class PostLayout extends PureComponent {
 	viewCategoryDetail(id) {
 		Tools.viewCateDetail(id);
-		this.props.navigate("Default");
+		this.props.navigate('Default');
 	}
 
 	render() {
 		const data = this.props.post;
-		const { onViewPost, onViewVendor, type, viewVendorFromProductList } = this.props;
-		const isProduct = type == "undefined";
-
-		let image_width = 0;
-		let imageURL = "";
-
+		const { onViewPost, type, viewVendorFromProductList } = this.props;
+		const isProduct = type == 'undefined';
 		const categories = this.props.categories ? this.props.categories : 1;
 		const cate =
-			typeof data.categories !== "undefined" ? data.categories[0] : 1;
-		let postTitle =
-			data.store_name ? data.store_name :
-			typeof data.name === "undefined" ? "" : data.name;
-		
-		if (typeof type !== "undefined" && type !== "Vendor") {
+			typeof data.categories !== 'undefined' ? data.categories[0] : 1;
+
+		let image_width = 0;
+		let imageURL = '';
+		let postTitle = data.store_name
+			? data.store_name
+			: typeof data.name === 'undefined'
+			? ''
+			: data.name;
+
+		if (typeof type !== 'undefined' && type !== 'Vendor') {
 			// news type
 			imageURL = Tools.getImage(data, Constants.PostImage.large);
 			postTitle =
-				typeof data.title !== "undefined"
+				typeof data.title !== 'undefined'
 					? Tools.getDescription(data.title.rendered, 300)
-					: "";
-		} else if (typeof type !== "undefined" && type === "Vendor") {
+					: '';
+		} else if (typeof type !== 'undefined' && type === 'Vendor') {
 			// vendor type by weDevs
 			image_width = Constants.Layout.card
 				? Styles.width
 				: Styles.width * 0.45 - 2;
-			imageURL = data.banner ?
-				getProductImage(data.banner, image_width) :
-				getProductImage(data.gravatar, image_width)
+			imageURL = data.banner
+				? getProductImage(data.banner, image_width)
+				: getProductImage(data.gravatar, image_width);
 		} else {
 			// product type
 			image_width = Constants.Layout.card
 				? Styles.width
 				: Styles.width * 0.45 - 2;
 			imageURL =
-				typeof data.images !== "undefined" && data.images.length !== 0
+				typeof data.images !== 'undefined' && data.images.length !== 0
 					? getProductImage(data.images[0].src, image_width)
-					: ""
+					: '';
 		}
 
 		switch (this.props.layout) {

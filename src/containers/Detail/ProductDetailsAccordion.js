@@ -1,29 +1,25 @@
 import React, { Component } from 'react';
-import {
-	Text,
-	TouchableWithoutFeedback,
-} from 'react-native';
+import { Text, TouchableWithoutFeedback } from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
 import { LinearGradient } from '@expo';
-import * as Animatable from "react-native-animatable";
-import { Icons } from "@common";
-import { Icon, CustomIcon, BlockTimer } from "@app/Omni";
-import styles from "./ProductDetail_Style";
-import AccordionDescription from "./AccordionItem/Description";
-import AccordionShipping from "./AccordionItem/Shipping";
-import AccordionVendorInfo from "./AccordionItem/VendorInfo";
-import AccordionReview from "./AccordionItem/Review";
-import AccordionRelatedProducts from "./AccordionItem/RelatedProducts";
+import * as Animatable from 'react-native-animatable';
+import { Icons } from '@common';
+import { Icon, CustomIcon } from '@app/Omni';
+import styles from './ProductDetail_Style';
+import AccordionDescription from './AccordionItem/Description';
+import AccordionShipping from './AccordionItem/Shipping';
+import AccordionVendorInfo from './AccordionItem/VendorInfo';
+import AccordionReview from './AccordionItem/Review';
+import AccordionRelatedProducts from './AccordionItem/RelatedProducts';
 
 export default class ProductDetailsAccordion extends Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			selectedItems : [],
-			activeSections: []
+			selectedItems: [],
+			activeSections: [],
 		};
-
 	}
 
 	onSelectedItemsChange = selectedItems => {
@@ -34,36 +30,31 @@ export default class ProductDetailsAccordion extends Component {
 		return (
 			<Animatable.View
 				duration={400}
-				style={
-					[styles.accordionHeader,
-						isActive ?
-						styles.accordionHeaderActive :
-						styles.accordionHeaderInActive
-					]
-				}
-				transition={["backgroundColor", "borderRadius"]}
-			>
+				style={[
+					styles.accordionHeader,
+					isActive
+						? styles.accordionHeaderActive
+						: styles.accordionHeaderInActive,
+				]}
+				transition={['backgroundColor', 'borderRadius']}>
 				<LinearGradient
 					colors={[section.fromColor, section.toColor]}
-					start={ {x: 0.0, y: 0.5} }
-					end={ {x: 1.0, y: 0.5}}
+					start={{ x: 0.0, y: 0.5 }}
+					end={{ x: 1.0, y: 0.5 }}
 					locations={[0.0, 1.0]}
-					style={styles.accordionHeaderIcon}
-				>
+					style={styles.accordionHeaderIcon}>
 					<CustomIcon name={section.icon} size={20} color="#fff" />
 				</LinearGradient>
 				<Text style={styles.accordionHeaderText}>{section.title}</Text>
-				<Text style={{position: 'absolute', right: 15}}>
+				<Text style={{ position: 'absolute', right: 15 }}>
 					<Icon
-						style={
-							{
-								color: "#BECDD0"
-							}
-						}
+						style={{
+							color: '#BECDD0',
+						}}
 						name={
-							isActive ?
-							Icons.MaterialCommunityIcons.DownChevron :
-							Icons.MaterialCommunityIcons.ForwardChevron
+							isActive
+								? Icons.MaterialCommunityIcons.DownChevron
+								: Icons.MaterialCommunityIcons.ForwardChevron
 						}
 						size={20}
 					/>
@@ -76,13 +67,12 @@ export default class ProductDetailsAccordion extends Component {
 		return (
 			<Animatable.View
 				duration={400}
-				style={
-					[styles.accordionContent,
-						isActive ?
-						styles.accordionHeaderActive :
-						styles.accordionContentInActive
-					]
-				}
+				style={[
+					styles.accordionContent,
+					isActive
+						? styles.accordionHeaderActive
+						: styles.accordionContentInActive,
+				]}
 				// transition="backgroundColor"
 			>
 				{section.content}
@@ -90,60 +80,62 @@ export default class ProductDetailsAccordion extends Component {
 		);
 	};
 
-	updateAccordionSection = (activeSections) => {
+	updateAccordionSection = activeSections => {
 		this.setState({
-			activeSections
+			activeSections,
 		});
-	}
+	};
 
-	render () {
-
+	render() {
 		const ACCORDION_CONTENT = [
 			{
-				title: "Description",
+				title: 'Description',
 				content: <AccordionDescription product={this.props.product} />,
-				fromColor: "#00C6FB",
-				toColor: "#005BEA",
-				icon: "paragraph-left",
+				fromColor: '#00C6FB',
+				toColor: '#005BEA',
+				icon: 'paragraph-left',
 			},
 			{
-				title: "Shipping",
+				title: 'Shipping',
 				content: <AccordionShipping />,
-				fromColor: "#C444FB",
-				toColor: "#5B56D7",
-				icon: "ship"
+				fromColor: '#C444FB',
+				toColor: '#5B56D7',
+				icon: 'ship',
 			},
 			{
-				title: "Customer Review",
-				content:
+				title: 'Customer Review',
+				content: (
 					<AccordionReview
 						product={this.props.product}
 						onLogin={this.props.onLogin}
-						navigation={this.props.navigation} />,
-				fromColor: "#FF9472",
-				toColor: "#F2709C",
-				icon: "bubble2"
+						navigation={this.props.navigation}
+					/>
+				),
+				fromColor: '#FF9472',
+				toColor: '#F2709C',
+				icon: 'bubble2',
 			},
 			{
-				title: "Vendor Info",
+				title: 'Vendor Info',
 				content: <AccordionVendorInfo store={this.props.product.store} />,
-				fromColor: "#7ED500",
-				toColor: "#00BF8D",
-				icon: "library"
+				fromColor: '#7ED500',
+				toColor: '#00BF8D',
+				icon: 'library',
 			},
 			{
-				title: "Related Products",
-				content:
+				title: 'Related Products',
+				content: (
 					<AccordionRelatedProducts
 						relatedProducts={this.props.relatedProducts}
 						navigation={this.props.navigation}
-					/>,
-				fromColor: "#6EACFF",
-				toColor: "#907CFF",
-				icon: "box"
+					/>
+				),
+				fromColor: '#6EACFF',
+				toColor: '#907CFF',
+				icon: 'box',
 			},
 		];
-	
+
 		return (
 			<Accordion
 				activeSections={this.state.activeSections}
@@ -154,7 +146,6 @@ export default class ProductDetailsAccordion extends Component {
 				duration={400}
 				onChange={this.updateAccordionSection}
 			/>
-		)
+		);
 	}
-
 }

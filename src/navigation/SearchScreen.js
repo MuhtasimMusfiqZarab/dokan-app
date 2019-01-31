@@ -1,11 +1,11 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { Search } from "@components";
+import React, { PureComponent } from 'react';
+import { Search } from '@components';
 
 export default class SearchScreen extends PureComponent {
 	static navigationOptions = () => ({
-		title: "Search",
+		title: 'Search',
 		header: null,
 		tabBarVisible: false,
 
@@ -18,7 +18,7 @@ export default class SearchScreen extends PureComponent {
 		return (
 			<Search
 				onBack={goBack}
-				onViewProductScreen={(product) => navigate("DetailScreen", product)}
+				onViewProductScreen={product => navigate('DetailScreen', product)}
 				navigation={this.props.navigation}
 			/>
 		);

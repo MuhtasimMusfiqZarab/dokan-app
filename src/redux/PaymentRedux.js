@@ -2,16 +2,16 @@
  * @format
  */
 
-import WooWorker from "@services/WooCommerce/WooWorker";
+import WooWorker from '@services/WooCommerce/WooWorker';
 
 const types = {
-	PAYMENT_FETCH_SUCCESS: "PAYMENT_FETCH_SUCCESS",
-	PAYMENT_FETCHING: "PAYMENT_FETCHING",
-	PAYMENT_FETCH_FAILURE: "PAYMENT_FETCH_FAILURE",
+	PAYMENT_FETCH_SUCCESS: 'PAYMENT_FETCH_SUCCESS',
+	PAYMENT_FETCHING: 'PAYMENT_FETCHING',
+	PAYMENT_FETCH_FAILURE: 'PAYMENT_FETCH_FAILURE',
 };
 
 export const actions = {
-	fetchPayments: async (dispatch) => {
+	fetchPayments: async dispatch => {
 		dispatch({ type: types.PAYMENT_FETCHING });
 
 		const json = await WooWorker.getPayments();
@@ -36,13 +36,13 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
-	const { extra, type, payload, finish } = action;
+	const { type, payload } = action;
 
 	switch (type) {
 		case types.PAYMENT_FETCH_SUCCESS:
 			return {
 				...state,
-				list: payload.filter((payment) => payment.enabled === true),
+				list: payload.filter(payment => payment.enabled === true),
 				isFetching: false,
 			};
 

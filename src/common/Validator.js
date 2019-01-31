@@ -8,17 +8,17 @@
 // Validate source & document:
 // https://validatejs.org/#custom-validator
 
-import validate from "validate.js";
+import validate from 'validate.js';
 
 const emailConstraints = {
 	foo: {
 		presence: {
 			presence: true,
-			message: "This field is empty",
+			message: 'This field is empty',
 		},
 		email: {
 			email: true,
-			message: "Incorrect email format",
+			message: 'Incorrect email format',
 		},
 	},
 };
@@ -27,12 +27,12 @@ const phoneConstraints = {
 	foo: {
 		presence: {
 			presence: true,
-			message: "Please fill in your phone number",
+			message: 'Please fill in your phone number',
 		},
 		format: {
-			pattern: "^[0-9]{9,12}$",
-			flags: "i",
-			message: "Incorrect phone number",
+			pattern: '^[0-9]{9,12}$',
+			flags: 'i',
+			message: 'Incorrect phone number',
 		},
 	},
 };
@@ -41,18 +41,18 @@ const passwordConstraints = {
 	foo: {
 		presence: {
 			presence: true,
-			message: "This field is empty",
+			message: 'This field is empty',
 		},
 		length: {
 			minimum: 6,
-			message: "Must be at least 6 characters",
+			message: 'Must be at least 6 characters',
 		},
 	},
 };
 
 const confirmPasswordConstraints = {
 	foo2: {
-		equality: "foo",
+		equality: 'foo',
 	},
 };
 
@@ -110,6 +110,6 @@ const facade = (constraints, input, input2 = undefined) => {
  * @param {string} result
  * @returns result without headed error name
  */
-const removeFirstWord = (result) => result.substr(result.indexOf(" ") + 1);
+const removeFirstWord = result => result.substr(result.indexOf(' ') + 1);
 
 export default Validator;

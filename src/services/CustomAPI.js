@@ -3,8 +3,8 @@
  * TODO: need refactor
  */
 
-import { Config } from "@common";
-import { Platform } from "react-native";
+import { Config } from '@common';
+import { Platform } from 'react-native';
 
 /**
  * init class API
@@ -32,7 +32,7 @@ WordpressAPI.prototype._setDefaultsOptions = async function(opt) {
 WordpressAPI.prototype.createComment = async function(data, callback) {
 	let requestUrl = `${this.url}/api/user/post_comment/?insecure=cool`;
 	if (data) {
-		requestUrl += `&${this.join(data, "&")}`;
+		requestUrl += `&${this.join(data, '&')}`;
 	}
 	// console.log(requestUrl)
 	return this._request(requestUrl, data, callback);
@@ -48,29 +48,29 @@ WordpressAPI.prototype.join = function(obj, separator) {
 	return arr.join(separator);
 };
 WordpressAPI.prototype._request = function(url, callback) {
-	const self = this;
+	// const self = this;
 	return fetch(url)
-		.then((response) => response.text()) // Convert to text instead of res.json()
-		.then((text) => {
-			if (Platform.OS === "android") {
-				text = text.replace(/\r?\n/g, "").replace(/[\u0080-\uFFFF]/g, ""); // If android , I've removed unwanted chars.
+		.then(response => response.text()) // Convert to text instead of res.json()
+		.then(text => {
+			if (Platform.OS === 'android') {
+				text = text.replace(/\r?\n/g, '').replace(/[\u0080-\uFFFF]/g, ''); // If android , I've removed unwanted chars.
 			}
 			return text;
 		})
-		.then((response) => JSON.parse(response))
+		.then(response => JSON.parse(response))
 
-		.catch((error, data) => {
+		.catch(() => {
 			// console.log('1=error network -', error, data);
 		})
-		.then((responseData) => {
-			if (typeof callback === "function") {
+		.then(responseData => {
+			if (typeof callback === 'function') {
 				callback();
 			}
 			// console.log('request result from ' + url, responseData);
 
 			return responseData;
 		})
-		.catch((error) => {
+		.catch(() => {
 			// console.log('2=error network -- ', error.message);
 		});
 };

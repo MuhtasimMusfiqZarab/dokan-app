@@ -1,20 +1,11 @@
 /** @format */
 
-import React, { Component, PureComponent } from "react";
-import {
-	View,
-	ScrollView,
-} from "react-native";
-
-import {
-	VendorProfileHeader,
-	Button,
-	ProductList,
-	Review
-} from "@components";
-import { Constants } from "@common";
-import VendorContact from "./VendorContact";
-import styles from "./styles";
+import React, { Component } from 'react';
+import { View, ScrollView } from 'react-native';
+import { VendorProfileHeader, Button, ProductList, Review } from '@components';
+import { Constants } from '@common';
+import VendorContact from './VendorContact';
+import styles from './styles';
 
 class VendorProfile extends Component {
 	constructor(props) {
@@ -23,27 +14,25 @@ class VendorProfile extends Component {
 		this.state = {
 			isLoading: true,
 			tabIndex: 0,
-			enableScrollViewScroll: true
+			enableScrollViewScroll: true,
 		};
 
-		this.offsetY= 0
+		this.offsetY = 0;
 	}
 
 	// shouldComponentUpdate (nextProps) {
 	//   return nextProps.vendor.id !== this.props.vendor.id
 	// }
 
-	handleClickTab = (tabIndex) => {
+	handleClickTab = tabIndex => {
 		this.setState({ tabIndex });
-	}
+	};
 
-	parentScrollHandler = (event) => {
-		
-	}
+	parentScrollHandler = () => {};
 
 	render() {
 		const { vendor, navigation } = this.props;
-console.log(vendor);
+		console.log(vendor);
 		return (
 			<View style={styles.container}>
 				{/* <View
@@ -64,21 +53,20 @@ console.log(vendor);
 
 				<ScrollView
 					keyboardDismissMode="on-drag"
-					keyboardShouldPersistTaps="always"
-				>
+					keyboardShouldPersistTaps="always">
 					<VendorProfileHeader vendor={vendor} />
 					<View style={styles.tabView}>
 						<View
 							style={[
 								styles.tabButton,
-								Constants.RTL && { flexDirection: "row-reverse" },
+								Constants.RTL && { flexDirection: 'row-reverse' },
 							]}>
 							<View style={styles.tabItem}>
 								<Button
 									type="tab"
 									from="search"
 									textStyle={styles.textTab}
-									text={"Product"}
+									text={'Product'}
 									onPress={() => this.handleClickTab(0)}
 									selected={this.state.tabIndex == 0}
 								/>
@@ -87,7 +75,7 @@ console.log(vendor);
 								<Button
 									type="tab"
 									textStyle={styles.textTab}
-									text={"Review"}
+									text={'Review'}
 									onPress={() => this.handleClickTab(1)}
 									selected={this.state.tabIndex == 1}
 								/>
@@ -96,7 +84,7 @@ console.log(vendor);
 								<Button
 									type="tab"
 									textStyle={styles.textTab}
-									text={"Contact"}
+									text={'Contact'}
 									onPress={() => this.handleClickTab(2)}
 									selected={this.state.tabIndex == 2}
 								/>
@@ -107,17 +95,18 @@ console.log(vendor);
 								<ProductList
 									page={1}
 									navigation={navigation}
-									onViewProductScreen={
-										(item) => this.props.navigation.navigate("DetailScreen", item)
+									onViewProductScreen={item =>
+										this.props.navigation.navigate('DetailScreen', item)
 									}
 									vendorID={vendor.id}
 								/>
 							</View>
 						)}
 						{this.state.tabIndex === 1 && (
-							<View style={{
-								padding: 20
-							}}>
+							<View
+								style={{
+									padding: 20,
+								}}>
 								<Review vendorReview={true} />
 							</View>
 						)}
@@ -130,7 +119,6 @@ console.log(vendor);
 							/>
 						)}
 					</View>
-
 				</ScrollView>
 			</View>
 		);

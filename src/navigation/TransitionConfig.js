@@ -1,6 +1,6 @@
 /** @format */
 
-import { Easing, Animated } from "react-native";
+import { Easing, Animated } from 'react-native';
 
 export default {
 	transitionSpec: {
@@ -8,7 +8,7 @@ export default {
 		easing: Easing.out(Easing.poly(4)),
 		timing: Animated.timing,
 	},
-	screenInterpolator: (sceneProps) => {
+	screenInterpolator: sceneProps => {
 		const { layout, position, scene } = sceneProps;
 		const { index } = scene;
 

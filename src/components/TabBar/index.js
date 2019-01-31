@@ -1,39 +1,39 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import {
 	View,
 	Platform,
 	StyleSheet,
 	TouchableWithoutFeedback,
-} from "react-native";
-import * as Animatable from "react-native-animatable";
-import { connect } from "react-redux";
-import { Device } from "@common";
+} from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import { connect } from 'react-redux';
+import { Device } from '@common';
 
 const styles = StyleSheet.create({
 	tabbar: {
 		// height: Device.isIphoneX ? 60 : 49,
 		height: 49,
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		borderTopWidth: 1,
-		borderTopColor: "#eee",
-		backgroundColor: "#fff",
+		borderTopColor: '#eee',
+		backgroundColor: '#fff',
 	},
 	tab: {
-		alignSelf: "stretch",
+		alignSelf: 'stretch',
 		flex: 1,
-		alignItems: "center",
+		alignItems: 'center',
 		...Platform.select({
 			ios: {
-				justifyContent: Device.isIphoneX ? "flex-start" : "center",
+				justifyContent: Device.isIphoneX ? 'flex-start' : 'center',
 				paddingTop: Device.isIphoneX ? 12 : 0,
 			},
 			android: {
-				justifyContent: "center",
+				justifyContent: 'center',
 			},
 		}),
 	},
@@ -52,28 +52,28 @@ class TabBar extends PureComponent {
 			renderIcon,
 			activeTintColor,
 			inactiveTintColor,
-			activeBackgroundColor
+			activeBackgroundColor,
 		} = this.props;
 
 		const { routes } = navigation.state;
 
 		const ignoreScreen = [
-			"DetailScreen",
-			"SearchScreen",
-			"Detail",
-			"NewsScreen",
-			"LoginScreen",
-			"SignUpScreen",
-			"CustomPage",
-			"CategoryDetail",
-			"SettingScreen",
-			"WishListScreen",
-			"LoginStack",
-			"VendorsScreen",
-			"VendorProfileScreen",
-			"ContactUs",
-			"AboutUs",
-			"PrivacyPolicy"
+			'DetailScreen',
+			'SearchScreen',
+			'Detail',
+			'NewsScreen',
+			'LoginScreen',
+			'SignUpScreen',
+			'CustomPage',
+			'CategoryDetail',
+			'SettingScreen',
+			'WishListScreen',
+			'LoginStack',
+			'VendorsScreen',
+			'VendorProfileScreen',
+			'ContactUs',
+			'AboutUs',
+			'PrivacyPolicy',
 		];
 
 		return (
@@ -87,7 +87,7 @@ class TabBar extends PureComponent {
 							return <View key={route.key} />;
 						}
 
-						if (this.props.user === null && route.key === "MyOrders") {
+						if (this.props.user === null && route.key === 'MyOrders') {
 							return <View key={route.key} />;
 						}
 
@@ -98,14 +98,14 @@ class TabBar extends PureComponent {
 								onPress={() => this.onPress(index, route)}>
 								<Animatable.View
 									ref={`tabItem${index}`}
-									style={
-										[
-											styles.tab,
-											{
-												"backgroundColor" : focused ? activeBackgroundColor : "transparent"
-											}
-										]
-									}>
+									style={[
+										styles.tab,
+										{
+											backgroundColor: focused
+												? activeBackgroundColor
+												: 'transparent',
+										},
+									]}>
 									{renderIcon({
 										route,
 										index,
@@ -128,6 +128,7 @@ TabBar.propTypes = {
 	activeTintColor: PropTypes.string,
 	inactiveTintColor: PropTypes.string,
 	jumpTo: PropTypes.func,
+	activeBackgroundColor: PropTypes.string,
 };
 const mapStateToProps = ({ user }) => ({ user: user.user });
 export default connect(mapStateToProps)(TabBar);

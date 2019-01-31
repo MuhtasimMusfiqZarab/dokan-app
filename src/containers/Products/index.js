@@ -1,33 +1,25 @@
-	/** @format */
+/** @format */
 
-	import React, { Component, PureComponent } from "react";
-	import {
+import React, { Component } from 'react';
+import {
 	FlatList,
 	Image,
 	Platform,
 	RefreshControl,
 	Animated,
 	View,
-	TouchableOpacity,
-	Text
-	} from "react-native";
-	import {
-	PostLayout,
-	AnimatedHeader,
-	Spinkit,
-	WdVendorListToolBar,
-	WdModalSorting,
-	} from "@components";
-	import { Constants, Languages } from "@common";
-	import { connect } from "react-redux";
-	import styles from "./styles";
+} from 'react-native';
+import { PostLayout, Spinkit, WdVendorListToolBar } from '@components';
+import { Constants } from '@common';
+import { connect } from 'react-redux';
+import styles from './styles';
 
-	// const HEADER_MIN_HEIGHT = 40;
-	// const HEADER_SCROLL_DISTANCE =
-	//   Constants.Window.headerHeight - HEADER_MIN_HEIGHT;
-	const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+// const HEADER_MIN_HEIGHT = 40;
+// const HEADER_SCROLL_DISTANCE =
+//   Constants.Window.headerHeight - HEADER_MIN_HEIGHT;
+const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-	class Products extends Component {
+class Products extends Component {
 	state = {
 		scrollY: new Animated.Value(0),
 	};
@@ -45,10 +37,10 @@
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return(
+		return (
 			nextProps.layoutProductscreen !== this.props.layoutVendorScreen ||
 			nextProps.list !== this.props.list
-		)
+		);
 	}
 
 	fetchData = (reload = false) => {
@@ -65,8 +57,8 @@
 		}
 	};
 
-	onRowClickHandle = (item) => {
-		this.props.onViewVendorScreen(item)
+	onRowClickHandle = item => {
+		this.props.onViewVendorScreen(item);
 	};
 
 	renderItem = ({ item, index }) => {
@@ -75,7 +67,7 @@
 		return (
 			<PostLayout
 				post={item}
-				type={"Vendor"}
+				type={'Vendor'}
 				key={`key-${index}`}
 				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
 				layout={this.props.layoutVendorScreen}
@@ -96,8 +88,8 @@
 	};
 
 	render() {
-		const { list, config, isFetching, navigation } = this.props;
-		
+		const { list, isFetching } = this.props;
+
 		const renderFooter = () => isFetching && <Spinkit />;
 		return (
 			<View style={styles.listView}>
@@ -117,31 +109,31 @@
 						/>
 					}
 					onEndReachedThreshold={100}
-					onEndReached={(distance) =>
+					onEndReached={distance =>
 						distance.distanceFromEnd > 100 && this.handleLoadMore()
 					}
 					scrollEventThrottle={1}
 					onScroll={Animated.event(
 						[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-						{ useNativeDriver: Platform.OS !== "android" }
+						{ useNativeDriver: Platform.OS !== 'android' }
 					)}
 				/>
 			</View>
 		);
 	}
-	}
+}
 
-	const mapStateToProps = ({ products }, ownProp) => {
+const mapStateToProps = ({ products }) => {
 	const list = products.list;
 	const isFetching = products.isFetching;
 	const layoutVendorScreen = products.layoutProductScreen;
 
 	return { list, isFetching, finish, layoutVendorScreen };
-	};
+};
 
-	const mergeProps = (stateProps, dispatchProps, ownProps) => {
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
-	const { actions: ProductActions } = require("@redux/ProductRedux");
+	const { actions: ProductActions } = require('@redux/ProductRedux');
 	return {
 		...ownProps,
 		...stateProps,
@@ -149,10 +141,10 @@
 			ProductActions.fetchVendors(dispatch);
 		},
 	};
-	};
+};
 
-	export default connect(
+export default connect(
 	mapStateToProps,
 	null,
 	mergeProps
-	)(Products);
+)(Products);

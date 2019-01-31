@@ -1,11 +1,11 @@
 /** @format */
 
-import React, { Component } from "react";
-import { FlatList, RefreshControl, Animated, View } from "react-native";
-import { PostLayout, PostBanner } from "@components";
-import { Constants, Layout } from "@common";
-import { connect } from "react-redux";
-import styles from "./styles";
+import React, { Component } from 'react';
+import { FlatList, RefreshControl, Animated, View } from 'react-native';
+import { PostLayout, PostBanner } from '@components';
+import { Constants, Layout } from '@common';
+import { connect } from 'react-redux';
+import styles from './styles';
 
 const HEADER_MIN_HEIGHT = 40;
 const HEADER_SCROLL_DISTANCE =
@@ -49,7 +49,7 @@ class PostList extends Component {
 		this.nextPosts();
 	};
 
-	onRowClickHandle = (item) => {
+	onRowClickHandle = item => {
 		if (this.isProductList) {
 			this.props.onViewProductScreen({ product: item });
 		} else {
@@ -62,7 +62,7 @@ class PostList extends Component {
 
 		let layout = this.props.parentLayout;
 
-		if (typeof this.props.layoutHome !== "undefined") {
+		if (typeof this.props.layoutHome !== 'undefined') {
 			layout = this.props.layoutHome;
 		}
 
@@ -98,13 +98,13 @@ class PostList extends Component {
 		const animateOpacity = this.state.scrollY.interpolate({
 			inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
 			outputRange: [1, 1, 0],
-			extrapolate: "clamp",
+			extrapolate: 'clamp',
 		});
 
 		const titleTranslate = this.state.scrollY.interpolate({
 			inputRange: [0, HEADER_SCROLL_DISTANCE / 2, HEADER_SCROLL_DISTANCE],
 			outputRange: [0, -50, -150],
-			extrapolate: "clamp",
+			extrapolate: 'clamp',
 		});
 
 		return (
@@ -146,7 +146,7 @@ class PostList extends Component {
 
 const mapStateToProps = ({ products, news, page }, ownProps) => {
 	const list =
-		typeof ownProps.type === "undefined" ? products.listAll : news.list;
+		typeof ownProps.type === 'undefined' ? products.listAll : news.list;
 	const isFetching = products.isFetching || news.isFetching;
 	const layoutHome = products.layoutHome;
 	return { list, isFetching, page, layoutHome };
@@ -154,8 +154,8 @@ const mapStateToProps = ({ products, news, page }, ownProps) => {
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
-	const Product = require("@redux/ProductRedux");
-	const News = require("@redux/NewsRedux");
+	const Product = require('@redux/ProductRedux');
+	const News = require('@redux/NewsRedux');
 	return {
 		...ownProps,
 		...stateProps,

@@ -3,15 +3,15 @@
  */
 
 const types = {
-	ADD_TOAST: "ADD_TOAST",
-	REMOVE_TOAST: "REMOVE_TOAST",
+	ADD_TOAST: 'ADD_TOAST',
+	REMOVE_TOAST: 'REMOVE_TOAST',
 };
 
 export const actions = {
 	addToast: (msg, key) => {
 		return { type: types.ADD_TOAST, payload: { msg, key } };
 	},
-	removeToast: (key) => {
+	removeToast: key => {
 		return { type: types.REMOVE_TOAST, payload: { key } };
 	},
 };
@@ -28,7 +28,7 @@ export const reducer = (state = initialState, action) => {
 		case types.ADD_TOAST: {
 			return {
 				...state,
-				list: list.some((toast) => toast.msg === payload.msg)
+				list: list.some(toast => toast.msg === payload.msg)
 					? list
 					: [payload, ...list],
 			};
@@ -36,7 +36,7 @@ export const reducer = (state = initialState, action) => {
 		case types.REMOVE_TOAST: {
 			return {
 				...state,
-				list: list.filter((msg) => msg.key !== payload.key),
+				list: list.filter(msg => msg.key !== payload.key),
 			};
 		}
 		default: {

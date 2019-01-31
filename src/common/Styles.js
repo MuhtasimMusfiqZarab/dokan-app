@@ -2,13 +2,13 @@
  * @format
  */
 
-import { Dimensions, Platform } from 'react-native'
-import Constants from './Constants'
-import Device from './Device'
-import Color from './Color'
-import Config from './Config'
+import { Dimensions, Platform } from 'react-native';
+import Constants from './Constants';
+import Device from './Device';
+import Color from './Color';
+import Config from './Config';
 
-const { height, width, heightWindow } = Dimensions.get('window')
+const { height, width, heightWindow } = Dimensions.get('window');
 
 const Styles = {
 	width: Dimensions.get('window').width,
@@ -36,7 +36,7 @@ const Styles = {
 		Inline: 20,
 	},
 	FontFamily: {},
-}
+};
 
 Styles.Common = {
 	Column: {},
@@ -68,8 +68,8 @@ Styles.Common = {
 						? -20
 						: -8
 					: Device.isIphoneX
-						? -15
-						: 0,
+					? -15
+					: 0,
 			},
 			android: {
 				top: 0,
@@ -148,8 +148,8 @@ Styles.Common = {
 						? 5
 						: 40
 					: Device.isIphoneX
-						? 5
-						: 25,
+					? 5
+					: 25,
 			},
 			android: {
 				height: 46,
@@ -157,7 +157,7 @@ Styles.Common = {
 				marginTop: 0,
 				elevation: 0,
 				borderBottomWidth: 1,
-				borderBottomColor: "#D2DBE0"
+				borderBottomColor: '#D2DBE0',
 			},
 		}),
 	},
@@ -165,16 +165,16 @@ Styles.Common = {
 		paddingLeft: 8,
 	},
 	toolbarRight: {
-		paddingRight: 8
+		paddingRight: 8,
 	},
 	headerStyle: {
 		color: Color.navigationTitleColor,
 		fontSize: 16,
-		textAlign: "center",
-		alignSelf: "center",
+		textAlign: 'center',
+		alignSelf: 'center',
 		flex: 1,
 		height: 40,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 
 		fontFamily: Constants.fontFamily,
 		...Platform.select({
@@ -221,8 +221,8 @@ Styles.Common = {
 				? 40
 				: 15
 			: Device.isIphoneX
-				? 25
-				: 5,
+			? 25
+			: 5,
 	},
 	toolbarIcon: {
 		width: 16,
@@ -239,8 +239,8 @@ Styles.Common = {
 						? -20
 						: 7
 					: Device.isIphoneX
-						? -30
-						: -3,
+					? -30
+					: -3,
 			},
 			android: {
 				marginTop: 10,
@@ -267,8 +267,8 @@ Styles.Common = {
 						? -20
 						: 7
 					: Device.isIphoneX
-						? -30
-						: -3,
+					? -30
+					: -3,
 			},
 			android: {
 				height: 46,
@@ -296,8 +296,8 @@ Styles.Common = {
 	},
 
 	/* *******
-	** weDevs
-	*/
+	 ** weDevs
+	 */
 	prodDetailsHeaderTitleStyle: {
 		// color: Color.navigationTitleColor,
 		color: '#6D7684',
@@ -321,9 +321,9 @@ Styles.Common = {
 		}),
 	},
 	prodDetailsToolbar: {
-		backgroundColor: "#E8E8E8",
+		backgroundColor: '#E8E8E8',
 		borderBottomWidth: 0,
-		borderBottomColor: "transparent",
+		borderBottomColor: 'transparent',
 		zIndex: 1,
 		paddingLeft: 8,
 		paddingRight: 8,
@@ -335,8 +335,8 @@ Styles.Common = {
 						? 5
 						: 40
 					: Device.isIphoneX
-						? 5
-						: 25,
+					? 5
+					: 25,
 			},
 			android: {
 				height: 46,
@@ -344,11 +344,10 @@ Styles.Common = {
 				marginTop: 0,
 				elevation: 0,
 				borderBottomWidth: 1,
-				borderBottomColor: "#D2DBE0"
+				borderBottomColor: '#D2DBE0',
 			},
 		}),
-	}
+	},
+};
 
-}
-
-export default Styles
+export default Styles;

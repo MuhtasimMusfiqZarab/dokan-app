@@ -1,49 +1,49 @@
 /** @format */
 
-import React from "react";
-import { Color, Images } from "@common";
-import { TabBar, TabBarIcon } from "@components";
+import React from 'react';
+import { Color, Images } from '@common';
+import { TabBar, TabBarIcon } from '@components';
 import {
-  View,
-  Dimensions,
-  I18nManager,
-  StyleSheet,
+	View,
+	Dimensions,
+	I18nManager,
+	StyleSheet,
 	Animated,
-	Platform
-} from "react-native";
+	Platform,
+} from 'react-native';
 import {
-  createStackNavigator,
-  createBottomTabNavigator,
-  NavigationActions,
-} from "react-navigation";
-import { TabViewPagerPan } from "react-native-tab-view";
-import HomeScreen from "./HomeScreen";
-import NewsScreen from "./NewsScreen";
-import NewsDetailScreen from "./NewsDetailScreen";
-import CategoriesScreen from "./CategoriesScreen";
-import CategoryScreen from "./CategoryScreen";
-import DetailScreen from "./DetailScreen";
-import CartScreen from "./CartScreen";
-import MyOrdersScreen from "./MyOrdersScreen";
-import WishListScreen from "./WishListScreen";
-import SearchScreen from "./SearchScreen";
-import LoginScreen from "./LoginScreen";
-import SignUpScreen from "./SignUpScreen";
-import CustomPageScreen from "./CustomPageScreen";
-import ListAllScreen from "./ListAllScreen";
-import SettingScreen from "./SettingScreen";
-import UserProfileScreen from "./UserProfileScreen";
-import VendorsScreen from "./VendorsScreen";
-import VendorProfileScreen from "./VendorProfileScreen";
-import ContactUsScreen from "./ContactUsScreen";
-import AboutUsScreen from "./AboutUsScreen";
-import PrivacyPolicyScreen from "./PrivacyPolicyScreen";
-import ReviewsScreen from "./ReviewsScreen";
-import ForgetPasswordScreen from './ForgetPasswordScreen'
+	createStackNavigator,
+	createBottomTabNavigator,
+	NavigationActions,
+} from 'react-navigation';
+import { TabViewPagerPan } from 'react-native-tab-view';
+import HomeScreen from './HomeScreen';
+import NewsScreen from './NewsScreen';
+import NewsDetailScreen from './NewsDetailScreen';
+import CategoriesScreen from './CategoriesScreen';
+import CategoryScreen from './CategoryScreen';
+import DetailScreen from './DetailScreen';
+import CartScreen from './CartScreen';
+import MyOrdersScreen from './MyOrdersScreen';
+import WishListScreen from './WishListScreen';
+import SearchScreen from './SearchScreen';
+import LoginScreen from './LoginScreen';
+import SignUpScreen from './SignUpScreen';
+import CustomPageScreen from './CustomPageScreen';
+import ListAllScreen from './ListAllScreen';
+import SettingScreen from './SettingScreen';
+import UserProfileScreen from './UserProfileScreen';
+import VendorsScreen from './VendorsScreen';
+import VendorProfileScreen from './VendorProfileScreen';
+import ContactUsScreen from './ContactUsScreen';
+import AboutUsScreen from './AboutUsScreen';
+import PrivacyPolicyScreen from './PrivacyPolicyScreen';
+import ReviewsScreen from './ReviewsScreen';
+import ForgetPasswordScreen from './ForgetPasswordScreen';
 
-import TransitionConfig from "./TransitionConfig";
+import TransitionConfig from './TransitionConfig';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 const NewsStack = createStackNavigator(
 	{
@@ -52,7 +52,7 @@ const NewsStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -68,7 +68,7 @@ const CategoryStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -83,7 +83,7 @@ const CategoryDetailStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -95,7 +95,7 @@ const WishListStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -107,7 +107,7 @@ const SearchStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -119,13 +119,13 @@ const HomeStack = createStackNavigator(
 		DetailScreen: { screen: DetailScreen },
 		VendorProfileScreen: { screen: VendorProfileScreen },
 		CategoryScreen: { screen: CategoryScreen },
-		ReviewsScreen: { screen: ReviewsScreen }
+		ReviewsScreen: { screen: ReviewsScreen },
 	},
 	{
 		navigationOptions: {
 			gestureResponseDistance: { horizontal: width / 2 },
 			gesturesEnabled: false,
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -137,7 +137,7 @@ const CartScreenStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -148,7 +148,7 @@ const UserProfileStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -157,10 +157,10 @@ const LoginStack = createStackNavigator(
 	{
 		LoginScreen: { screen: LoginScreen },
 		SignUpScreen: { screen: SignUpScreen },
-		ForgetPasswordScreen: { screen: ForgetPasswordScreen }
+		ForgetPasswordScreen: { screen: ForgetPasswordScreen },
 	},
 	{
-		mode: "modal",
+		mode: 'modal',
 		header: null,
 		transitionConfig: () => TransitionConfig,
 	}
@@ -174,7 +174,7 @@ const VendorsStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -184,7 +184,7 @@ const MyOrdersStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -194,7 +194,7 @@ const VendorProfileStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -204,7 +204,7 @@ const ContactUsStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -214,7 +214,7 @@ const AboutUsStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -224,47 +224,43 @@ const PrivacyPolicyStack = createStackNavigator(
 	},
 	{
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
 // End
 
 // Hide bottom navigator by weDevs
-const hiddenBottomNavStack = [
-	CartScreenStack,
-	SearchStack,
-	LoginStack
-]
-hiddenBottomNavStack.map((item) => {
+const hiddenBottomNavStack = [CartScreenStack, SearchStack, LoginStack];
+hiddenBottomNavStack.map(item => {
 	item.navigationOptions = ({ navigation }) => {
 		let navigationOptions = {};
-		
+
 		navigationOptions.tabBarVisible = false;
-		
+
 		return navigationOptions;
 	};
-})
+});
 HomeStack.navigationOptions = ({ navigation }) => {
 	let { routeName } = navigation.state.routes[navigation.state.index];
 	let navigationOptions = {};
 
-	if(routeName === "DetailScreen" || routeName === "CategoryScreen") {
+	if (routeName === 'DetailScreen' || routeName === 'CategoryScreen') {
 		navigationOptions.tabBarVisible = false;
 	}
 
 	return navigationOptions;
-}
+};
 CategoryStack.navigationOptions = ({ navigation }) => {
 	let { routeName } = navigation.state.routes[navigation.state.index];
 	let navigationOptions = {};
 
-	if(routeName === "DetailScreen" || routeName === "CategoryScreen") {
+	if (routeName === 'DetailScreen' || routeName === 'CategoryScreen') {
 		navigationOptions.tabBarVisible = false;
 	}
 
 	return navigationOptions;
-}
+};
 // End
 
 const AppNavigator = createBottomTabNavigator(
@@ -340,7 +336,7 @@ const AppNavigator = createBottomTabNavigator(
 				),
 			},
 		},
-		MyOrders: { 
+		MyOrders: {
 			screen: MyOrdersStack,
 			navigationOptions: {
 				tabBarIcon: ({ tintColor }) => (
@@ -351,7 +347,7 @@ const AppNavigator = createBottomTabNavigator(
 						tintColor={tintColor}
 					/>
 				),
-			} 
+			},
 		},
 		NewsScreen: { screen: NewsStack },
 		SettingScreen: { screen: SettingScreen },
@@ -362,35 +358,35 @@ const AppNavigator = createBottomTabNavigator(
 			screen: DetailScreen,
 			navigationOptions: {
 				tabBarVisible: false,
-				gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+				gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 			},
 		},
 		CategoryDetail: { screen: CategoryDetailStack },
 		VendorsScreen: {
-			screen: VendorsStack
+			screen: VendorsStack,
 		},
 		VendorProfileScreen: {
 			screen: VendorProfileStack,
 		},
-		ContactUs: { screen: ContactUsStack }, 
+		ContactUs: { screen: ContactUsStack },
 		AboutUs: { screen: AboutUsStack },
-		PrivacyPolicy: { screen: PrivacyPolicyStack }
+		PrivacyPolicy: { screen: PrivacyPolicyStack },
 	},
 	{
 		tabBarComponent: TabBar,
-		tabBarPosition: "bottom",
+		tabBarPosition: 'bottom',
 		swipeEnabled: false,
 		animationEnabled: false,
 		tabBarOptions: {
 			showIcon: true,
 			showLabel: true,
-			activeTintColor: "#F2709C",
-			inactiveTintColor: "#A0A9BD",
-			activeBackgroundColor: "rgba(246, 98, 77, 0.1)"
+			activeTintColor: '#F2709C',
+			inactiveTintColor: '#A0A9BD',
+			activeBackgroundColor: 'rgba(246, 98, 77, 0.1)',
 		},
 		lazy: true,
 		navigationOptions: {
-			gestureDirection: I18nManager.isRTL ? "inverted" : "default",
+			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
 		},
 	}
 );
@@ -400,12 +396,12 @@ export default AppNavigator;
 /**
  * prevent duplicate screen
  */
-const navigateOnce = (getStateForAction) => (action, state) => {
+const navigateOnce = getStateForAction => (action, state) => {
 	const { type, routeName } = action;
 	return state &&
 		type === NavigationActions.NAVIGATE &&
 		routeName === state.routes[state.routes.length - 1].routeName &&
-		routeName !== "DetailScreen"
+		routeName !== 'DetailScreen'
 		? null
 		: getStateForAction(action, state);
 };
@@ -453,7 +449,7 @@ TabViewPagerPan.prototype.render = function render() {
 			{
 				inputRange: [0, maxTranslate],
 				outputRange: [0, maxTranslate],
-				extrapolate: "clamp",
+				extrapolate: 'clamp',
 			}
 		);
 		// ---------------------->
@@ -461,7 +457,7 @@ TabViewPagerPan.prototype.render = function render() {
 		translateX = Animated.add(panX, offsetX).interpolate({
 			inputRange: [-maxTranslate, 0],
 			outputRange: [-maxTranslate, 0],
-			extrapolate: "clamp",
+			extrapolate: 'clamp',
 		});
 	}
 
@@ -473,7 +469,7 @@ TabViewPagerPan.prototype.render = function render() {
 					? {
 							width: routes.length * width,
 							transform: [{ translateX }],
-						}
+					  }
 					: null,
 			]}
 			{...this._panResponder.panHandlers}>
@@ -485,8 +481,8 @@ TabViewPagerPan.prototype.render = function render() {
 						width
 							? { width }
 							: i === navigationState.index
-								? StyleSheet.absoluteFill
-								: null
+							? StyleSheet.absoluteFill
+							: null
 					}>
 					{i === navigationState.index || width ? child : null}
 				</View>
@@ -498,7 +494,7 @@ TabViewPagerPan.prototype.render = function render() {
 const styles = StyleSheet.create({
 	sheet: {
 		flex: 1,
-		flexDirection: "row",
-		alignItems: "stretch",
+		flexDirection: 'row',
+		alignItems: 'stretch',
 	},
 });

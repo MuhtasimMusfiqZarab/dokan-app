@@ -1,10 +1,10 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { StatusBar, View } from "react-native";
-import { Constants, Tools, warn, Color, Styles, Device } from "@common";
-import { SafeAreaView } from "react-navigation";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { StatusBar, View } from 'react-native';
+import { Constants, Tools, warn, Color, Styles, Device } from '@common';
+import { SafeAreaView } from 'react-navigation';
 
 /**
 |--------------------------------------------------
@@ -12,54 +12,54 @@ import { SafeAreaView } from "react-navigation";
 |--------------------------------------------------
 */
 export default class SafeArea extends PureComponent {
-  static propTypes = {
-    backgroundColor: PropTypes.string.isRequired,
-    barColor: PropTypes.string.isRequired,
-    isSafeArea: PropTypes.bool.isRequired,
-    isSafeAreaBottom: PropTypes.bool.isRequired,
-    style: PropTypes.object,
-  };
+	static propTypes = {
+		backgroundColor: PropTypes.string.isRequired,
+		barColor: PropTypes.string.isRequired,
+		isSafeArea: PropTypes.bool.isRequired,
+		isSafeAreaBottom: PropTypes.bool.isRequired,
+		style: PropTypes.object,
+	};
 
-  static defaultProps = {
-    backgroundColor: "transparent",
-    barColor: "dark-content",
-    isSafeArea: true,
-    isSafeAreaBottom: false,
-  };
+	static defaultProps = {
+		backgroundColor: 'transparent',
+		barColor: 'dark-content',
+		isSafeArea: true,
+		isSafeAreaBottom: false,
+	};
 
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      barColor:
-        props.backgroundColor !== "transparent"
-          ? "light-content"
-          : "dark-content",
-    };
-  }
+		this.state = {
+			barColor:
+				props.backgroundColor !== 'transparent'
+					? 'light-content'
+					: 'dark-content',
+		};
+	}
 
-  render() {
-    const {
-      backgroundColor,
-      isSafeArea,
-      isSafeAreaBottom,
-      children,
-      style,
-    } = this.props;
-    const { barColor } = this.state;
+	render() {
+		const {
+			backgroundColor,
+			isSafeArea,
+			isSafeAreaBottom,
+			children,
+			style,
+		} = this.props;
+		const { barColor } = this.state;
 
-    if (!isSafeArea) return children;
+		if (!isSafeArea) return children;
 
-    return (
-      <View style={{ flex: 1 }}>
-        {children}
+		return (
+			<View style={{ flex: 1 }}>
+				{children}
 
-        {/* {isSafeAreaBottom && Device.isIphoneX && (
+				{/* {isSafeAreaBottom && Device.isIphoneX && (
                     <View style={{
                         ...Styles.Common.viewCover
                     }} />
                 )} */}
-      </View>
-    );
-  }
+			</View>
+		);
+	}
 }

@@ -1,12 +1,17 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { Text, View, TouchableOpacity, I18nManager } from "react-native";
-import { WishListIcon, ImageCache, ProductPrice, Rating, Spinner } from "@components";
-import { Color } from "@common";
-import css from "./style";
-import DokanWorker from "@services/Dokan/DokanWorker";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { Text, View, TouchableOpacity, I18nManager } from 'react-native';
+import {
+	WishListIcon,
+	ImageCache,
+	ProductPrice,
+	Rating,
+	Spinner,
+} from '@components';
+import { Color } from '@common';
+import css from './style';
 
 export default class SimpleLayout extends PureComponent {
 	static propTypes = {
@@ -19,17 +24,19 @@ export default class SimpleLayout extends PureComponent {
 		imageURL: PropTypes.string,
 		viewPost: PropTypes.func,
 		viewCategory: PropTypes.func,
+		isVendorProduct: PropTypes.bool,
+		viewVendorFromProductList: PropTypes.func,
 	};
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
-			isLoading: false
-		}
+			isLoading: false,
+		};
 	}
 
-	viewVendorFromProductList = async (vendorID) => {
+	viewVendorFromProductList = async vendorID => {
 		this.props.viewVendorFromProductList(vendorID);
-	}
+	};
 
 	render() {
 		const {
@@ -42,14 +49,14 @@ export default class SimpleLayout extends PureComponent {
 			viewPost,
 			category,
 			viewCategory,
-			isVendorProduct
+			isVendorProduct,
 		} = this.props;
 		const price = {
-			alignItems: "flex-start",
+			alignItems: 'flex-start',
 			marginLeft: 5,
 		};
 		const priceRTL = {
-			alignItems: "flex-end",
+			alignItems: 'flex-end',
 			marginRight: 5,
 		};
 
@@ -57,40 +64,47 @@ export default class SimpleLayout extends PureComponent {
 			<View
 				style={[
 					css.panelList,
-					I18nManager.isRTL && { flexDirection: "row-reverse" },
-				]}
-				>
-
+					I18nManager.isRTL && { flexDirection: 'row-reverse' },
+				]}>
 				<TouchableOpacity
 					activeOpacity={0.9}
 					style={css.simpleImage}
 					onPress={viewPost}>
 					<ImageCache
 						uri={imageURL}
-						style={type === "Vendor" ? css.simpleImageVendor : css.simpleImageProduct}
-						resizemode="contain" />
-					{typeof type === "undefined" && (
+						style={
+							type === 'Vendor' ? css.simpleImageVendor : css.simpleImageProduct
+						}
+						resizemode="contain"
+					/>
+					{typeof type === 'undefined' && (
 						<WishListIcon product={post} style={{ top: 5, right: 10 }} />
 					)}
 				</TouchableOpacity>
 
 				<View style={css.simpleContent}>
 					<Text style={css.simpleTitle}>{title}</Text>
-					
-					{typeof type === "undefined" && !isVendorProduct &&
+
+					{typeof type === 'undefined' && !isVendorProduct && (
 						<View style={css.simpleVendorNameView}>
-							<Text style={{color: Color.textGray, fontSize: 12}}>by</Text>
-							<TouchableOpacity onPress={() => this.viewVendorFromProductList(post.store.id)}>
-								<Text style={{color: Color.textBlue, fontSize: 12, marginLeft: 5}}>
+							<Text style={{ color: Color.textGray, fontSize: 12 }}>by</Text>
+							<TouchableOpacity
+								onPress={() => this.viewVendorFromProductList(post.store.id)}>
+								<Text
+									style={{
+										color: Color.textBlue,
+										fontSize: 12,
+										marginLeft: 5,
+									}}>
 									{post.store.name}
 								</Text>
 							</TouchableOpacity>
 						</View>
-					}
+					)}
 
 					{description && <Text style={css.simpleDesc}>{description}</Text>}
 					<View>
-						{typeof type === "undefined" && (
+						{typeof type === 'undefined' && (
 							<ProductPrice
 								product={post}
 								style={I18nManager.isRTL ? priceRTL : price}
@@ -102,23 +116,18 @@ export default class SimpleLayout extends PureComponent {
 								<Text style={css.category}>- {category}</Text>
 							</TouchableOpacity>
 						)}
-						{
-							typeof type === "undefined" &&
+						{typeof type === 'undefined' && (
 							<Rating rating={post.average_rating} />
-						}
-						{
-							type === "Vendor" &&
-							<Rating rating={post.rating.rating} />
-						}
+						)}
+						{type === 'Vendor' && <Rating rating={post.rating.rating} />}
 
-						{type === "Vendor" && post.featured === true &&
-							<View style={css.simpleVendorNameView}>  
-								<Text style={{color: Color.textBlue, fontSize: 12}}>
+						{type === 'Vendor' && post.featured === true && (
+							<View style={css.simpleVendorNameView}>
+								<Text style={{ color: Color.textBlue, fontSize: 12 }}>
 									Featured
-								</Text> 
+								</Text>
 							</View>
-						}
-
+						)}
 					</View>
 				</View>
 				{this.state.isLoading ? <Spinner mode="overlay" color="#000" /> : null}

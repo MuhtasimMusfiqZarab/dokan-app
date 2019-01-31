@@ -2,68 +2,68 @@
  * @format
  */
 
-import { Constants, Languages, Icons } from "@common";
-import moment from "moment";
-import WooWorker from "@services/WooCommerce/WooWorker";
-import DokanWorker from "@services/Dokan/DokanWorker";
+import { Constants, Languages, Icons } from '@common';
+import moment from 'moment';
+import WooWorker from '@services/WooCommerce/WooWorker';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 const types = {
-	FETCH_PRODUCTS_PENDING: "FETCH_PRODUCTS_PENDING",
-	FETCH_PRODUCTS_SUCCESS: "FETCH_PRODUCTS_SUCCESS",
-	FETCH_ALL_PRODUCTS_SUCCESS: "FETCH_ALL_PRODUCTS_SUCCESS",
-	FETCH_ALL_PRODUCTS_MORE: "FETCH_ALL_PRODUCTS_MORE",
-	FETCH_PRODUCTS_FAILURE: "FETCH_PRODUCTS_FAILURE",
-	CLEAR_PRODUCTS: "CLEAR_PRODUCTS",
-	INIT_PRODUCTS: "INIT_PRODUCTS",
-	FETCH_REVIEWS_PENDING: "FETCH_REVIEWS_PENDING",
-	FETCH_REVIEWS_SUCCESS: "FETCH_REVIEWS_SUCCESS",
-	FETCH_REVIEWS_FAILURE: "FETCH_REVIEWS_FAILURE",
-	FETCH_PRODUCTS_BY_TAGS_PENDING: "FETCH_PRODUCTS_BY_TAGS_PENDING",
-	FETCH_PRODUCTS_BY_TAGS_SUCCESS: "FETCH_PRODUCTS_BY_TAGS_SUCCESS",
-	FETCH_PRODUCTS_BY_TAGS_FAILURE: "FETCH_PRODUCTS_BY_TAGS_FAILURE",
-	FETCH_PRODUCTS_BY_NAME_PENDING: "FETCH_PRODUCTS_BY_NAME_PENDING",
-	FETCH_PRODUCTS_BY_NAME_SUCCESS: "FETCH_PRODUCTS_BY_NAME_SUCCESS",
-	FETCH_PRODUCTS_BY_NAME_FAILURE: "FETCH_PRODUCTS_BY_NAME_FAILURE",
-	FETCH_PRODUCTS_STICKY_PENDING: "FETCH_PRODUCTS_STICKY_PENDING",
-	FETCH_PRODUCTS_STICKY_SUCCESS: "FETCH_PRODUCTS_STICKY_SUCCESS",
-	FETCH_PRODUCTS_STICKY_FAILURE: "FETCH_PRODUCTS_STICKY_FAILURE",
-	FETCH_PRODUCTS_MORE: "FETCH_PRODUCTS_MORE",
-	FETCH_PRODUCTS_VARIANT_PENDING: "FETCH_PRODUCTS_VARIANT_PENDING",
-	FETCH_PRODUCTS_VARIANT_SUCCESS: "FETCH_PRODUCTS_VARIANT_SUCCESS",
-	FETCH_PRODUCTS_VARIANT_FAIL: "FETCH_PRODUCTS_VARIANT_FAIL",
-	FETCH_PRODUCTS_RELATED_PENDING: "FETCH_PRODUCTS_RELATED_PENDING",
-	FETCH_PRODUCTS_RELATED_SUCCESS: "FETCH_PRODUCTS_RELATED_SUCCESS",
-	FETCH_PRODUCTS_RELATED_FAIL: "FETCH_PRODUCTS_RELATED_FAIL",
-	GET_COUPON_CODE_PENDING: "GET_COUPON_CODE_PENDING",
-	GET_COUPON_CODE_SUCCESS: "GET_COUPON_CODE_SUCCESS",
-	GET_COUPON_CODE_FAIL: "GET_COUPON_CODE_FAIL",
-	CLEAN_OLD_COUPON: "CLEAN_OLD_COUPON",
-	SWITCH_LAYOUT_HOME: "SWITCH_LAYOUT_HOME",
+	FETCH_PRODUCTS_PENDING: 'FETCH_PRODUCTS_PENDING',
+	FETCH_PRODUCTS_SUCCESS: 'FETCH_PRODUCTS_SUCCESS',
+	FETCH_ALL_PRODUCTS_SUCCESS: 'FETCH_ALL_PRODUCTS_SUCCESS',
+	FETCH_ALL_PRODUCTS_MORE: 'FETCH_ALL_PRODUCTS_MORE',
+	FETCH_PRODUCTS_FAILURE: 'FETCH_PRODUCTS_FAILURE',
+	CLEAR_PRODUCTS: 'CLEAR_PRODUCTS',
+	INIT_PRODUCTS: 'INIT_PRODUCTS',
+	FETCH_REVIEWS_PENDING: 'FETCH_REVIEWS_PENDING',
+	FETCH_REVIEWS_SUCCESS: 'FETCH_REVIEWS_SUCCESS',
+	FETCH_REVIEWS_FAILURE: 'FETCH_REVIEWS_FAILURE',
+	FETCH_PRODUCTS_BY_TAGS_PENDING: 'FETCH_PRODUCTS_BY_TAGS_PENDING',
+	FETCH_PRODUCTS_BY_TAGS_SUCCESS: 'FETCH_PRODUCTS_BY_TAGS_SUCCESS',
+	FETCH_PRODUCTS_BY_TAGS_FAILURE: 'FETCH_PRODUCTS_BY_TAGS_FAILURE',
+	FETCH_PRODUCTS_BY_NAME_PENDING: 'FETCH_PRODUCTS_BY_NAME_PENDING',
+	FETCH_PRODUCTS_BY_NAME_SUCCESS: 'FETCH_PRODUCTS_BY_NAME_SUCCESS',
+	FETCH_PRODUCTS_BY_NAME_FAILURE: 'FETCH_PRODUCTS_BY_NAME_FAILURE',
+	FETCH_PRODUCTS_STICKY_PENDING: 'FETCH_PRODUCTS_STICKY_PENDING',
+	FETCH_PRODUCTS_STICKY_SUCCESS: 'FETCH_PRODUCTS_STICKY_SUCCESS',
+	FETCH_PRODUCTS_STICKY_FAILURE: 'FETCH_PRODUCTS_STICKY_FAILURE',
+	FETCH_PRODUCTS_MORE: 'FETCH_PRODUCTS_MORE',
+	FETCH_PRODUCTS_VARIANT_PENDING: 'FETCH_PRODUCTS_VARIANT_PENDING',
+	FETCH_PRODUCTS_VARIANT_SUCCESS: 'FETCH_PRODUCTS_VARIANT_SUCCESS',
+	FETCH_PRODUCTS_VARIANT_FAIL: 'FETCH_PRODUCTS_VARIANT_FAIL',
+	FETCH_PRODUCTS_RELATED_PENDING: 'FETCH_PRODUCTS_RELATED_PENDING',
+	FETCH_PRODUCTS_RELATED_SUCCESS: 'FETCH_PRODUCTS_RELATED_SUCCESS',
+	FETCH_PRODUCTS_RELATED_FAIL: 'FETCH_PRODUCTS_RELATED_FAIL',
+	GET_COUPON_CODE_PENDING: 'GET_COUPON_CODE_PENDING',
+	GET_COUPON_CODE_SUCCESS: 'GET_COUPON_CODE_SUCCESS',
+	GET_COUPON_CODE_FAIL: 'GET_COUPON_CODE_FAIL',
+	CLEAN_OLD_COUPON: 'CLEAN_OLD_COUPON',
+	SWITCH_LAYOUT_HOME: 'SWITCH_LAYOUT_HOME',
 	// wedevs
-	SWITCH_LAYOUT_PRODUCT: "SWITCH_LAYOUT_PRODUCT",
-	FETCH_RELATED_PRODUCTS_PENDING: "FETCH_RELATED_PRODUCTS_PENDING",
-	FETCH_RELATED_PRODUCTS_FAIL: "FETCH_RELATED_PRODUCTS_FAIL",
-	FETCH_RELATED_PRODUCTS_SUCCESS: "FETCH_RELATED_PRODUCTS_SUCCESS",
-	FETCH_NEW_ARRIVALS_PENDING: "FETCH_NEW_ARRIVALS_PENDING",
-	FETCH_NEW_ARRIVALS_FAIL: "FETCH_NEW_ARRIVALS_FAIL",
-	FETCH_NEW_ARRIVALS_MORE: "FETCH_NEW_ARRIVALS_MORE",
-	FETCH_NEW_ARRIVALS_SUCCESS: "FETCH_NEW_ARRIVALS_SUCCESS",
-	SORT_BY_RATING_PENDING: "SORT_BY_RATING_PENDING",
-	SORT_BY_RATING_FAIL: "SORT_BY_RATING_FAIL",
-	SORT_BY_RATING_MORE: "SORT_BY_RATING_MORE",
-	SORT_BY_RATING_SUCCESS: "SORT_BY_RATING_SUCCESS",
-	SORT_BY_DATE_PENDING: "SORT_BY_DATE_PENDING",
-	SORT_BY_DATE_FAIL: "SORT_BY_DATE_FAIL",
-	SORT_BY_DATE_MORE: "SORT_BY_DATE_MORE",
-	SORT_BY_DATE_SUCCESS: "SORT_BY_DATE_SUCCESS",
-	SORT_BY_PRICE_DESC_PENDING: "SORT_BY_PRICE_DESC_PENDING",
-	SORT_BY_PRICE_DESC_FAIL: "SORT_BY_PRICE_DESC_FAIL",
-	SORT_BY_PRICE_DESC_MORE: "SORT_BY_PRICE_DESC_MORE",
-	SORT_BY_PRICE_DESC_SUCCESS: "SORT_BY_PRICE_DESC_SUCCESS",
-	SORT_BY_PRICE_ASC_PENDING: "SORT_BY_PRICE_ASC_PENDING",
-	SORT_BY_PRICE_ASC_FAIL: "SORT_BY_PRICE_ASC_FAIL",
-	SORT_BY_PRICE_ASC_MORE: "SORT_BY_PRICE_ASC_MORE",
-	SORT_BY_PRICE_ASC_SUCCESS: "SORT_BY_PRICE_ASC_SUCCESS"
+	SWITCH_LAYOUT_PRODUCT: 'SWITCH_LAYOUT_PRODUCT',
+	FETCH_RELATED_PRODUCTS_PENDING: 'FETCH_RELATED_PRODUCTS_PENDING',
+	FETCH_RELATED_PRODUCTS_FAIL: 'FETCH_RELATED_PRODUCTS_FAIL',
+	FETCH_RELATED_PRODUCTS_SUCCESS: 'FETCH_RELATED_PRODUCTS_SUCCESS',
+	FETCH_NEW_ARRIVALS_PENDING: 'FETCH_NEW_ARRIVALS_PENDING',
+	FETCH_NEW_ARRIVALS_FAIL: 'FETCH_NEW_ARRIVALS_FAIL',
+	FETCH_NEW_ARRIVALS_MORE: 'FETCH_NEW_ARRIVALS_MORE',
+	FETCH_NEW_ARRIVALS_SUCCESS: 'FETCH_NEW_ARRIVALS_SUCCESS',
+	SORT_BY_RATING_PENDING: 'SORT_BY_RATING_PENDING',
+	SORT_BY_RATING_FAIL: 'SORT_BY_RATING_FAIL',
+	SORT_BY_RATING_MORE: 'SORT_BY_RATING_MORE',
+	SORT_BY_RATING_SUCCESS: 'SORT_BY_RATING_SUCCESS',
+	SORT_BY_DATE_PENDING: 'SORT_BY_DATE_PENDING',
+	SORT_BY_DATE_FAIL: 'SORT_BY_DATE_FAIL',
+	SORT_BY_DATE_MORE: 'SORT_BY_DATE_MORE',
+	SORT_BY_DATE_SUCCESS: 'SORT_BY_DATE_SUCCESS',
+	SORT_BY_PRICE_DESC_PENDING: 'SORT_BY_PRICE_DESC_PENDING',
+	SORT_BY_PRICE_DESC_FAIL: 'SORT_BY_PRICE_DESC_FAIL',
+	SORT_BY_PRICE_DESC_MORE: 'SORT_BY_PRICE_DESC_MORE',
+	SORT_BY_PRICE_DESC_SUCCESS: 'SORT_BY_PRICE_DESC_SUCCESS',
+	SORT_BY_PRICE_ASC_PENDING: 'SORT_BY_PRICE_ASC_PENDING',
+	SORT_BY_PRICE_ASC_FAIL: 'SORT_BY_PRICE_ASC_FAIL',
+	SORT_BY_PRICE_ASC_MORE: 'SORT_BY_PRICE_ASC_MORE',
+	SORT_BY_PRICE_ASC_SUCCESS: 'SORT_BY_PRICE_ASC_SUCCESS',
 };
 
 export const actions = {
@@ -81,12 +81,12 @@ export const actions = {
 			dispatch(actions.fetchProductsSuccess(json));
 		}
 	},
-	fetchProductsSuccess: (items) => ({
+	fetchProductsSuccess: items => ({
 		type: types.FETCH_PRODUCTS_SUCCESS,
 		items,
 		finish: true,
 	}),
-	fetchProductsFailure: (error) => ({
+	fetchProductsFailure: error => ({
 		type: types.FETCH_PRODUCTS_FAILURE,
 		error,
 	}),
@@ -95,7 +95,7 @@ export const actions = {
 	fetchReviewsByProductId: async (dispatch, productId) => {
 		dispatch({ type: types.FETCH_REVIEWS_PENDING });
 		const json = await WooWorker.reviewsByProductId(productId);
-		
+
 		if (json === undefined) {
 			dispatch({
 				type: types.FETCH_REVIEWS_FAILURE,
@@ -179,7 +179,7 @@ export const actions = {
 			Constants.PostList.order,
 			Constants.PostList.orderby
 		);
-		
+
 		if (json === undefined) {
 			dispatch({
 				type: types.FETCH_PRODUCTS_FAILURE,
@@ -240,7 +240,7 @@ export const actions = {
 			});
 		}
 	},
-	cleanOldCoupon: async (dispatch) => {
+	cleanOldCoupon: async dispatch => {
 		dispatch({ type: types.CLEAN_OLD_COUPON });
 	},
 	getCouponAmount: async (dispatch, code) => {
@@ -256,11 +256,11 @@ export const actions = {
 			dispatch({ type: types.GET_COUPON_CODE_FAIL, message: json.message });
 		} else {
 			let amount = 0;
-			let message = "";
+			let message = '';
 			let id = null;
-			let discountType = "percent";
+			let discountType = 'percent';
 
-			json.forEach((item) => {
+			json.forEach(item => {
 				if (item.code === code) {
 					if (item.date_expires) {
 						const dateExpires = moment(item.date_expires);
@@ -298,19 +298,19 @@ export const actions = {
 			}
 		}
 	},
-	switchLayoutHomePage: (layout) => {
+	switchLayoutHomePage: layout => {
 		return { type: types.SWITCH_LAYOUT_HOME, layout };
 	},
 	switchLayoutProductPage: (layout, layoutChangeIcon) => {
 		return {
 			type: types.SWITCH_LAYOUT_PRODUCT,
 			layout,
-			layoutChangeIcon
+			layoutChangeIcon,
 		};
 	},
 	fetchRelatedProducts: async (dispatch, productID) => {
 		dispatch({
-			type: types.FETCH_RELATED_PRODUCTS_PENDING
+			type: types.FETCH_RELATED_PRODUCTS_PENDING,
 		});
 		const json = await DokanWorker.getRelatedProducts(productID);
 
@@ -327,13 +327,13 @@ export const actions = {
 		} else {
 			dispatch({
 				type: types.FETCH_RELATED_PRODUCTS_SUCCESS,
-				items: json
+				items: json,
 			});
 		}
 	},
 	fetchNewArrivals: async (dispatch, page) => {
 		dispatch({
-			type: types.FETCH_NEW_ARRIVALS_PENDING
+			type: types.FETCH_NEW_ARRIVALS_PENDING,
 		});
 
 		const json = await DokanWorker.getLatestProducts(page);
@@ -359,16 +359,21 @@ export const actions = {
 			dispatch({
 				type: types.FETCH_NEW_ARRIVALS_SUCCESS,
 				items: json,
-				finish: json.length === 0
+				finish: json.length === 0,
 			});
 		}
 	},
 	sortByRating: async (dispatch, per_page, page, order, order_by) => {
 		console.log(page);
 		dispatch({
-			type: types.SORT_BY_RATING_PENDING
+			type: types.SORT_BY_RATING_PENDING,
 		});
-		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+		const json = await WooWorker.getAllProducts(
+			per_page,
+			page,
+			order,
+			order_by
+		);
 
 		if (json === undefined) {
 			dispatch({
@@ -391,16 +396,21 @@ export const actions = {
 			dispatch({
 				type: types.SORT_BY_RATING_SUCCESS,
 				items: json,
-				finish: json.length === 0
+				finish: json.length === 0,
 			});
 		}
 	},
 	sortByDate: async (dispatch, per_page, page, order, order_by) => {
 		console.log(page);
 		dispatch({
-			type: types.SORT_BY_RATING_PENDING
+			type: types.SORT_BY_RATING_PENDING,
 		});
-		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+		const json = await WooWorker.getAllProducts(
+			per_page,
+			page,
+			order,
+			order_by
+		);
 
 		if (json === undefined) {
 			dispatch({
@@ -423,16 +433,21 @@ export const actions = {
 			dispatch({
 				type: types.SORT_BY_DATE_SUCCESS,
 				items: json,
-				finish: json.length === 0
+				finish: json.length === 0,
 			});
 		}
 	},
 	sortByPriceDesc: async (dispatch, per_page, page, order, order_by) => {
 		console.log(page);
 		dispatch({
-			type: types.SORT_BY_PRICE_DESC_PENDING
+			type: types.SORT_BY_PRICE_DESC_PENDING,
 		});
-		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+		const json = await WooWorker.getAllProducts(
+			per_page,
+			page,
+			order,
+			order_by
+		);
 
 		if (json === undefined) {
 			dispatch({
@@ -455,16 +470,21 @@ export const actions = {
 			dispatch({
 				type: types.SORT_BY_PRICE_DESC_SUCCESS,
 				items: json,
-				finish: json.length === 0
+				finish: json.length === 0,
 			});
 		}
 	},
 	sortByPriceAsc: async (dispatch, per_page, page, order, order_by) => {
 		console.log(page);
 		dispatch({
-			type: types.SORT_BY_PRICE_ASC_PENDING
+			type: types.SORT_BY_PRICE_ASC_PENDING,
 		});
-		const json = await WooWorker.getAllProducts(per_page, page, order, order_by);
+		const json = await WooWorker.getAllProducts(
+			per_page,
+			page,
+			order,
+			order_by
+		);
 
 		if (json === undefined) {
 			dispatch({
@@ -487,10 +507,10 @@ export const actions = {
 			dispatch({
 				type: types.SORT_BY_PRICE_ASC_SUCCESS,
 				items: json,
-				finish: json.length === 0
+				finish: json.length === 0,
 			});
 		}
-	}
+	},
 };
 
 const initialState = {
@@ -501,7 +521,7 @@ const initialState = {
 	stillFetch: true,
 	page: 1,
 	layoutHome: Constants.Layout.horizon,
-	message: "",
+	message: '',
 
 	productFinish: false,
 	productsByName: [],
@@ -533,7 +553,7 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				isFetching: true,
 				error: null,
-				message: "",
+				message: '',
 			};
 		}
 
@@ -542,7 +562,7 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				isFetching: true,
 				error: null,
-				message: "sortRating",
+				message: 'sortRating',
 			};
 		}
 
@@ -551,7 +571,7 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				isFetching: true,
 				error: null,
-				message: "sortDate",
+				message: 'sortDate',
 			};
 		}
 
@@ -560,7 +580,7 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				isFetching: true,
 				error: null,
-				message: "sortPriceDesc",
+				message: 'sortPriceDesc',
 			};
 		}
 
@@ -569,7 +589,7 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				isFetching: true,
 				error: null,
-				message: "sortPriceAsc",
+				message: 'sortPriceAsc',
 			};
 		}
 
@@ -702,7 +722,7 @@ export const reducer = (state = initialState, action) => {
 			return Object.assign({}, state, {
 				coupon: {
 					amount: 0,
-					code: "",
+					code: '',
 				},
 			});
 		}
@@ -733,7 +753,7 @@ export const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				layoutProductScreen: action.layout,
-				layoutChangeIcon: action.layoutChangeIcon
+				layoutChangeIcon: action.layoutChangeIcon,
 			};
 		}
 		case types.FETCH_RELATED_PRODUCTS_SUCCESS: {
@@ -749,7 +769,7 @@ export const reducer = (state = initialState, action) => {
 				error: null,
 				list: state.list.concat(items),
 				page,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.FETCH_NEW_ARRIVALS_SUCCESS: {
@@ -757,7 +777,7 @@ export const reducer = (state = initialState, action) => {
 				isFetching: false,
 				error: null,
 				list: items,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_RATING_MORE: {
@@ -766,7 +786,7 @@ export const reducer = (state = initialState, action) => {
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_RATING_SUCCESS: {
@@ -774,7 +794,7 @@ export const reducer = (state = initialState, action) => {
 				isFetching: false,
 				error: null,
 				listAll: items,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_DATE_MORE: {
@@ -783,7 +803,7 @@ export const reducer = (state = initialState, action) => {
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_DATE_SUCCESS: {
@@ -791,7 +811,7 @@ export const reducer = (state = initialState, action) => {
 				isFetching: false,
 				error: null,
 				listAll: items,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_PRICE_DESC_MORE: {
@@ -800,7 +820,7 @@ export const reducer = (state = initialState, action) => {
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_PRICE_DESC_SUCCESS: {
@@ -808,7 +828,7 @@ export const reducer = (state = initialState, action) => {
 				isFetching: false,
 				error: null,
 				listAll: items,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_PRICE_ASC_MORE: {
@@ -817,7 +837,7 @@ export const reducer = (state = initialState, action) => {
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		case types.SORT_BY_PRICE_ASC_SUCCESS: {
@@ -825,7 +845,7 @@ export const reducer = (state = initialState, action) => {
 				isFetching: false,
 				error: null,
 				listAll: items,
-				productFinish: finish
+				productFinish: finish,
 			});
 		}
 		default: {

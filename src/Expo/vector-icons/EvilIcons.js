@@ -1,5 +1,5 @@
 /** @format */
 
-import EvilIcons from "react-native-vector-icons/EvilIcons";
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 export default EvilIcons;

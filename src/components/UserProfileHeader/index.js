@@ -1,11 +1,11 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { Languages, Tools } from "@common";
-import styles from "./styles";
-import { LinearGradient } from "@expo";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { Languages, Tools } from '@common';
+import styles from './styles';
+import { LinearGradient } from '@expo';
 
 export default class UserProfileHeader extends PureComponent {
 	//   constructor(props) {
@@ -31,16 +31,18 @@ export default class UserProfileHeader extends PureComponent {
 		return (
 			<View style={styles.container}>
 				<View style={styles.header}>
+					<LinearGradient
+						colors={['#F76B1C', '#FAD961']}
+						style={styles.headerGradient}
+					/>
 
-					<LinearGradient colors={['#F76B1C', '#FAD961']} style={styles.headerGradient} />
-		
 					<View style={styles.profilePic}>
 						<Image source={avatar} style={styles.avatar} />
 					</View>
 
 					<View style={styles.textContainer}>
 						<Text style={styles.fullName}>{user.name}</Text>
-						<Text style={styles.address}>{user ? user.address : ""}</Text>
+						<Text style={styles.address}>{user ? user.address : ''}</Text>
 
 						<TouchableOpacity onPress={this.loginHandle}>
 							<Text style={styles.loginText}>
@@ -50,7 +52,6 @@ export default class UserProfileHeader extends PureComponent {
 							</Text>
 						</TouchableOpacity>
 					</View>
-
 				</View>
 			</View>
 		);

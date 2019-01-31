@@ -2,24 +2,26 @@
  * @format
  */
 
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import {
-	Text,
-	View,
-	FlatList,
-	RefreshControl,
-	Dimensions,
-} from 'react-native'
-import { HorizonLayouts } from '@common'
-import { connect } from 'react-redux'
-import { makeGetCollections } from '@selectors/LayoutSelector'
-import HList from './HList'
-import { WdSearchBox } from "@components";
-
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { FlatList, RefreshControl } from 'react-native';
+import { HorizonLayouts } from '@common';
+import { connect } from 'react-redux';
+import { makeGetCollections } from '@selectors/LayoutSelector';
+import HList from './HList';
+import { WdSearchBox } from '@components';
 
 class HorizonList extends PureComponent {
 	static propTypes = {
+		fetchFeaturedVendors: PropTypes.func,
+		fetchAllCategories: PropTypes.func,
+		fetchVendorProducts: PropTypes.func,
+		onViewVendorProfileScreen: PropTypes.func,
+		onViewCategory: PropTypes.func,
+		fetchAllVendors: PropTypes.func,
+		vendorList: PropTypes.array,
+		featuredVendorList: PropTypes.array,
+		categoriesList: PropTypes.array,
 		fetchAllProductsLayout: PropTypes.func.isRequired,
 		fetchProductsByCollections: PropTypes.func,
 		list: PropTypes.array,
@@ -28,29 +30,36 @@ class HorizonList extends PureComponent {
 		collections: PropTypes.array,
 		setSelectedCategory: PropTypes.func,
 		isFetching: PropTypes.bool.isRequired,
-	}
+		navigation: PropTypes.func,
+	};
 
 	componentDidMount() {
-		this._fetchAllPost()
+		this._fetchAllPost();
 	}
 
 	/**
 	 * Fetch all products based on layouts
 	 */
 	_fetchAllPost = () => {
-		this.props.fetchAllProductsLayout()
-		this.props.fetchFeaturedVendors()
-		this.props.fetchAllCategories()
-	}
+		this.props.fetchAllProductsLayout();
+		this.props.fetchFeaturedVendors();
+		this.props.fetchAllCategories();
+	};
 
 	_fetchPost = ({ config, index, page }) => {
 		const { fetchProductsByCollections } = this.props;
-		fetchProductsByCollections(config.category, config.tag, page, index, config.name);
-	}
+		fetchProductsByCollections(
+			config.category,
+			config.tag,
+			page,
+			index,
+			config.name
+		);
+	};
 
-	_fetchVendorProducts = (vendorID) => {
+	_fetchVendorProducts = vendorID => {
 		this.props.fetchVendorProducts(vendorID);
-	}
+	};
 
 	_renderItem = ({ item, index }) => {
 		const {
@@ -65,8 +74,8 @@ class HorizonList extends PureComponent {
 			vendorList,
 			featuredVendorList,
 			fetchAllVendors,
-			categoriesList
-		} = this.props
+			categoriesList,
+		} = this.props;
 
 		return (
 			<HList
@@ -90,15 +99,13 @@ class HorizonList extends PureComponent {
 				setSelectedCategory={setSelectedCategory}
 				navigation={this.props.navigation}
 			/>
-		)
-	}
+		);
+	};
 
-	beforeList = () => (
-		<WdSearchBox navigation={this.props.navigation} />
-	)
+	beforeList = () => <WdSearchBox navigation={this.props.navigation} />;
 
 	render() {
-		const { isFetching } = this.props
+		const { isFetching } = this.props;
 		return (
 			<FlatList
 				data={HorizonLayouts}
@@ -114,12 +121,12 @@ class HorizonList extends PureComponent {
 				}
 				ListHeaderComponent={this.beforeList}
 			/>
-		)
+		);
 	}
 }
 
 const makeMapStateToProps = () => {
-	const getCollections = makeGetCollections()
+	const getCollections = makeGetCollections();
 	const mapStateToProps = (state, props) => {
 		return {
 			collections: getCollections(state, props),
@@ -128,23 +135,23 @@ const makeMapStateToProps = () => {
 			list: state.categories.list,
 			vendorList: state.vendors.vendorList,
 			featuredVendorList: state.vendors.featuredVendorList,
-			categoriesList: state.categories.list
-		}
-	}
+			categoriesList: state.categories.list,
+		};
+	};
 
-	return mapStateToProps
-}
+	return mapStateToProps;
+};
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
 	const { dispatch } = dispatchProps;
 	const { actions: LayoutActions } = require('@redux/LayoutRedux');
 	const { actions: CategoryActions } = require('@redux/CategoryRedux');
 	const { actions: VendorActions } = require('@redux/VendorRedux');
-	
+
 	return {
 		...ownProps,
 		...stateProps,
-		setSelectedCategory: (category) =>
+		setSelectedCategory: category =>
 			dispatch(CategoryActions.setSelectedCategory(category)),
 
 		fetchProductsByCollections: (categoryId, tagId, page = 1, index, name) => {
@@ -155,13 +162,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 				page,
 				index,
 				name
-			)
+			);
 		},
 		fetchAllProductsLayout: () => {
-			LayoutActions.fetchAllProductsLayout(dispatch)
+			LayoutActions.fetchAllProductsLayout(dispatch);
 		},
 		fetchAllCategories: () => {
-			CategoryActions.fetchCategories(dispatch)
+			CategoryActions.fetchCategories(dispatch);
 		},
 		fetchAllVendors: () => {
 			VendorActions.fetchVendors(dispatch);
@@ -169,10 +176,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		fetchFeaturedVendors: () => {
 			VendorActions.fetchFeaturedVendors(dispatch);
 		},
-		fetchVendorProducts: (vendorID) => {
-			VendorActions.fetchVendorProducts( dispatch, vendorID );
-		}
-	}
-}
+		fetchVendorProducts: vendorID => {
+			VendorActions.fetchVendorProducts(dispatch, vendorID);
+		},
+	};
+};
 
-export default connect(makeMapStateToProps, null, mergeProps)(HorizonList)
+export default connect(
+	makeMapStateToProps,
+	null,
+	mergeProps
+)(HorizonList);

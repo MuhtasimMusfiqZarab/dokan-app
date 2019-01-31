@@ -1,5 +1,5 @@
 /** @format */
 
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default MaterialCommunityIcons;

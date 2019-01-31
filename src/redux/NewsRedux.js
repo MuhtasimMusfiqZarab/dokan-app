@@ -2,27 +2,27 @@
  * @format
  */
 
-import wp from "@services/PostAPI";
-import { Constants } from "@common";
-import { flatten } from "lodash";
+import wp from '@services/PostAPI';
+import { Constants } from '@common';
+import { flatten } from 'lodash';
 
 const types = {
-	FETCH_NEWS_PENDING: "FETCH_NEWS_PENDING",
-	FETCH_NEWS_SUCCESS: "FETCH_NEWS_SUCCESS",
-	FETCH_NEWS_FAILURE: "FETCH_NEWS_FAILURE",
+	FETCH_NEWS_PENDING: 'FETCH_NEWS_PENDING',
+	FETCH_NEWS_SUCCESS: 'FETCH_NEWS_SUCCESS',
+	FETCH_NEWS_FAILURE: 'FETCH_NEWS_FAILURE',
 
-	FETCH_NEWS_STICKY_PENDING: "FETCH_NEWS_STICKY_PENDING",
-	FETCH_NEWS_STICKY_SUCCESS: "FETCH_NEWS_STICKY_SUCCESS",
-	FETCH_NEWS_STICKY_FAILURE: "FETCH_NEWS_STICKY_FAILURE",
-	FETCH_NEWS_MORE: "FETCH_NEWS_MORE",
-	INIT_NEWS: "INIT_NEWS",
+	FETCH_NEWS_STICKY_PENDING: 'FETCH_NEWS_STICKY_PENDING',
+	FETCH_NEWS_STICKY_SUCCESS: 'FETCH_NEWS_STICKY_SUCCESS',
+	FETCH_NEWS_STICKY_FAILURE: 'FETCH_NEWS_STICKY_FAILURE',
+	FETCH_NEWS_MORE: 'FETCH_NEWS_MORE',
+	INIT_NEWS: 'INIT_NEWS',
 };
 
 export const actions = {
-	fetchProductsSuccess: (items) => {
+	fetchProductsSuccess: items => {
 		return { type: types.FETCH_NEWS_SUCCESS, items, finish: true };
 	},
-	fetchProductsFailure: (error) => {
+	fetchProductsFailure: error => {
 		return { type: types.FETCH_NEWS_FAILURE, error };
 	},
 	clearNews: () => {

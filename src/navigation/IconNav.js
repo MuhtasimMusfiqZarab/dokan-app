@@ -1,17 +1,17 @@
 /** @format */
 
-import React from "react";
+import React from 'react';
 import {
 	View,
 	Platform,
 	Image,
 	TouchableOpacity,
 	I18nManager,
-} from "react-native";
+} from 'react-native';
 
-import { Styles, Events, Images, Config } from "@common";
-import { NavigationBarIcon, CartIcons, ProductDetailsIcons } from "@components";
-import { toggleDrawer, CustomIcon } from "@app/Omni";
+import { Styles, Events, Images, Config } from '@common';
+import { NavigationBarIcon, CartIcons, ProductDetailsIcons } from '@components';
+import { toggleDrawer } from '@app/Omni';
 
 // Icons for HeaderBar
 const Logo = () => (
@@ -26,7 +26,7 @@ const Menu = () => (
 			style={[
 				Styles.Common.toolbarIcon,
 				I18nManager.isRTL && {
-					transform: [{ rotate: "180deg" }],
+					transform: [{ rotate: '180deg' }],
 				},
 			]}
 		/>
@@ -38,12 +38,12 @@ const EmptyView = () => (
 		style={[
 			Styles.Common.Row,
 			I18nManager.isRTL ? { left: -10 } : { right: -5 },
-			Platform.OS !== "ios" && { right: -12 },
+			Platform.OS !== 'ios' && { right: -12 },
 		]}
 	/>
 );
 
-const HeaderRight = (navigation) => (
+const HeaderRight = navigation => (
 	<View
 		style={[
 			Styles.Common.Row,
@@ -53,17 +53,17 @@ const HeaderRight = (navigation) => (
 		<NavigationBarIcon
 			icon={Images.IconSearch}
 			size={17}
-			onPress={() => navigation.navigate("Search")}
+			onPress={() => navigation.navigate('Search')}
 		/>
 	</View>
 );
 
-const HeaderHomeRight = (navigation, item) => (
+const HeaderHomeRight = () => (
 	<View
 		style={[
 			Styles.Common.Row,
 			// I18nManager.isRTL ? { left: -10 } : { right: 5 },
-			Platform.OS !== "ios" && { right: -12 },
+			Platform.OS !== 'ios' && { right: -12 },
 		]}>
 		<NavigationBarIcon
 			icon={Images.IconGrid}
@@ -73,9 +73,11 @@ const HeaderHomeRight = (navigation, item) => (
 	</View>
 );
 
-const CartWishListIcons = (navigation) => <CartIcons navigation={navigation} />;
+const CartWishListIcons = navigation => <CartIcons navigation={navigation} />;
 
-const ProductDetailsRightNav = (navigation) => <ProductDetailsIcons navigation={navigation} />
+const ProductDetailsRightNav = navigation => (
+	<ProductDetailsIcons navigation={navigation} />
+);
 
 const Back = (navigation, iconBack) => (
 	<TouchableOpacity
@@ -89,7 +91,7 @@ const Back = (navigation, iconBack) => (
 				Styles.Common.toolbarIcon,
 				iconBack && Styles.Common.iconBack,
 				I18nManager.isRTL && {
-					transform: [{ rotate: "180deg" }],
+					transform: [{ rotate: '180deg' }],
 				},
 			]}
 		/>
@@ -104,5 +106,5 @@ export {
 	CartWishListIcons,
 	HeaderHomeRight,
 	Back,
-	ProductDetailsRightNav
+	ProductDetailsRightNav,
 };

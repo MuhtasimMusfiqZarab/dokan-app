@@ -1,17 +1,17 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
-import { View, StyleSheet } from "react-native";
-import { Color, Icons, Styles } from "@common";
-import { Icon } from "@app/Omni";
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { View, StyleSheet } from 'react-native';
+import { Color, Icons, Styles } from '@common';
+import { Icon } from '@app/Omni';
 
 class Rating extends PureComponent {
 	render() {
 		const { rating, size, color, style } = this.props;
 		const formatRating = Number(rating);
 		const stars = [];
-		
+
 		for (let i = 1; i < 6; i++) {
 			stars[i - 1] = (
 				<Icon
@@ -29,15 +29,13 @@ class Rating extends PureComponent {
 		//   <View />
 		// );
 
-		return (
-			<View style={[styles.container, style]}>{stars}</View>
-		)
+		return <View style={[styles.container, style]}>{stars}</View>;
 	}
 }
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		// justifyContent: "center",
 	},
 });
@@ -46,6 +44,7 @@ Rating.propTypes = {
 	size: PropTypes.number,
 	color: PropTypes.string,
 	rating: PropTypes.any,
+	style: PropTypes.object,
 };
 
 // noinspection JSUnusedGlobalSymbols

@@ -1,67 +1,67 @@
 /** @format */
 
-import _SplashScreen from "./SplashScreen";
+import _SplashScreen from './SplashScreen';
 export const SplashScreen = _SplashScreen;
 
-import _Categories from "./Categories";
+import _Categories from './Categories';
 export const Categories = _Categories;
 
-import _Home from "./Home";
+import _Home from './Home';
 export const Home = _Home;
 
-import _Category from "./Category";
+import _Category from './Category';
 export const Category = _Category;
 
-import _Product from "./Product";
+import _Product from './Product';
 export const Product = _Product;
 
-import _Login from "./Login";
+import _Login from './Login';
 export const Login = _Login;
 
-import _SignUp from "./SignUp";
+import _SignUp from './SignUp';
 export const SignUp = _SignUp;
 
-import _Detail from "./Detail";
+import _Detail from './Detail';
 export const Detail = _Detail;
 
-import _PostDetail from "./Detail/PostDetail";
+import _PostDetail from './Detail/PostDetail';
 export const PostDetail = _PostDetail;
 
-import _Cart from "./Cart";
+import _Cart from './Cart';
 export const Cart = _Cart;
 
-import _WishList from "./WishList";
+import _WishList from './WishList';
 export const WishList = _WishList;
 
-import _MyToast from "./MyToast";
+import _MyToast from './MyToast';
 export const MyToast = _MyToast;
 
-import _MyNetInfo from "./MyNetInfo";
+import _MyNetInfo from './MyNetInfo';
 export const MyNetInfo = _MyNetInfo;
 
-import _MyOrders from "./MyOrders";
+import _MyOrders from './MyOrders';
 export const MyOrders = _MyOrders;
 
-import _News from "./News";
+import _News from './News';
 export const News = _News;
 
-import _CustomPage from "./CustomPage";
+import _CustomPage from './CustomPage';
 export const CustomPage = _CustomPage;
 
-import _Setting from "./Setting";
+import _Setting from './Setting';
 export const Setting = _Setting;
 
-import _UserProfile from "./UserProfile";
+import _UserProfile from './UserProfile';
 export const UserProfile = _UserProfile;
 
-import _Vendors from "./Vendors";
+import _Vendors from './Vendors';
 export const Vendors = _Vendors;
 
-import _VendorProfile from "./VendorProfile";
+import _VendorProfile from './VendorProfile';
 export const VendorProfile = _VendorProfile;
 
-import _ForgetPassword from "./ForgetPassword";
+import _ForgetPassword from './ForgetPassword';
 export const ForgetPassword = _ForgetPassword;
 
-import _Reviews from "./Reviews";
+import _Reviews from './Reviews';
 export const Reviews = _Reviews;

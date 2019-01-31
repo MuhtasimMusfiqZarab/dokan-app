@@ -1,12 +1,11 @@
 /** @format */
 
-import React, { Component } from "react";
-import { View, Image } from "react-native";
-import { Button, ProductSize, ProductColor } from "@components";
-import { Color } from "@common";
-import styles from "./styles";
+import React, { Component } from 'react';
+import { Button } from '@components';
+import { Color } from '@common';
+import styles from './styles';
 
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 class WishListIcon extends Component {
 	constructor(props) {
@@ -27,7 +26,7 @@ class WishListIcon extends Component {
 			addWishListItem,
 		} = this.props;
 		const isInWishList =
-			wishList.wishListItems.find((item) => item.product.id === product.id) !==
+			wishList.wishListItems.find(item => item.product.id === product.id) !==
 			undefined;
 
 		if (isInWishList) {
@@ -37,11 +36,11 @@ class WishListIcon extends Component {
 
 	getProductSize(product) {
 		var attribute = null;
-		if (typeof product.attributes == "undefined") return;
+		if (typeof product.attributes == 'undefined') return;
 
 		const attrLength = product.attributes.length;
 		for (let i = 0; i < attrLength; i++) {
-			if (product.attributes[i].name.toLowerCase() == "size") {
+			if (product.attributes[i].name.toLowerCase() == 'size') {
 				attribute = product.attributes[i];
 				break;
 			}
@@ -51,11 +50,11 @@ class WishListIcon extends Component {
 
 	getProductColor(product) {
 		var attribute = null;
-		if (typeof product.attributes == "undefined") return;
+		if (typeof product.attributes == 'undefined') return;
 
 		const attrLength = product.attributes.length;
 		for (var i = 0; i < attrLength; i++) {
-			if (product.attributes[i].name.toLowerCase() == "color") {
+			if (product.attributes[i].name.toLowerCase() == 'color') {
 				attribute = product.attributes[i];
 				break;
 			}
@@ -68,19 +67,18 @@ class WishListIcon extends Component {
 		// console.log("wishlist", wishList.wishListItems);
 		// console.log("productThis", this.props.product.id);
 		let clicked =
-			wishList.wishListItems.filter((item) => item.product.id == product.id) ==
-			""
+			wishList.wishListItems.filter(item => item.product.id == product.id) == ''
 				? false
 				: true;
 
 		return (
 			<Button
 				type="image"
-				source={require("@images/icons/icon-love.png")}
+				source={require('@images/icons/icon-love.png')}
 				imageStyle={[
 					{
 						width: this.props.width ? this.props.width : 15,
-						height: this.props.height ? this.props.height : 15
+						height: this.props.height ? this.props.height : 15,
 					},
 					clicked && { tintColor: Color.heartActiveWishList },
 				]}
@@ -96,14 +94,14 @@ const mapStateToProps = ({ wishList }) => ({ wishList });
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { netInfo } = stateProps;
 	const { dispatch } = dispatchProps;
-	const WishListRedux = require("@redux/WishListRedux");
+	const WishListRedux = require('@redux/WishListRedux');
 	return {
 		...ownProps,
 		...stateProps,
-		addWishListItem: (product) => {
+		addWishListItem: product => {
 			WishListRedux.actions.addWishListItem(dispatch, product);
 		},
-		removeWishListItem: (product) => {
+		removeWishListItem: product => {
 			WishListRedux.actions.removeWishListItem(dispatch, product);
 		},
 	};

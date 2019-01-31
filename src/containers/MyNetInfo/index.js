@@ -1,17 +1,20 @@
 /**
- * Created by InspireUI on 28/02/2017.
- *
  * @format
  */
 
-import React from "react";
-import { View, Text, StyleSheet, NetInfo } from "react-native";
-import { connect } from "react-redux";
-
-import { Color, Languages, Styles } from "@common";
-import { toast } from "@app/Omni";
+import React from 'react';
+import { View, Text, StyleSheet, NetInfo } from 'react-native';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { Color, Languages, Styles } from '@common';
+import { toast } from '@app/Omni';
 
 class MyNetInfo extends React.PureComponent {
+	static propTypes = {
+		updateConnectionStatus: PropTypes.func,
+		netInfo: PropTypes.any,
+	};
+
 	constructor(props) {
 		super(props);
 
@@ -20,24 +23,24 @@ class MyNetInfo extends React.PureComponent {
 
 	componentDidMount() {
 		NetInfo.isConnected.addEventListener(
-			"connectionChange",
+			'connectionChange',
 			this._handleConnectionChange
 		);
 	}
 
 	componentWillUnmount() {
 		NetInfo.isConnected.removeEventListener(
-			"connectionChange",
+			'connectionChange',
 			this._handleConnectionChange
 		);
 	}
 
-	_handleConnectionChange = (isConnected) => {
+	_handleConnectionChange = isConnected => {
 		this.props.updateConnectionStatus(isConnected);
 		if (!isConnected) return;
 
 		if (!this.skipFirstToast) {
-			toast("Regain internet connection");
+			toast('Regain internet connection');
 		} else {
 			this.skipFirstToast = false;
 		}
@@ -57,30 +60,30 @@ class MyNetInfo extends React.PureComponent {
 
 const styles = StyleSheet.create({
 	connectionStatus: {
-		position: "absolute",
+		position: 'absolute',
 		bottom: 0,
 		width: Styles.width,
 		backgroundColor: Color.error,
-		alignItems: "center",
+		alignItems: 'center',
 	},
 	connectionText: {
-		color: "white",
+		color: 'white',
 		fontSize: 8,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 	},
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		netInfo: state.netInfo,
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	const { actions } = require("@redux/NetInfoRedux");
+const mapDispatchToProps = dispatch => {
+	const { actions } = require('@redux/NetInfoRedux');
 
 	return {
-		updateConnectionStatus: (isConnected) =>
+		updateConnectionStatus: isConnected =>
 			dispatch(actions.updateConnectionStatus(isConnected)),
 	};
 };

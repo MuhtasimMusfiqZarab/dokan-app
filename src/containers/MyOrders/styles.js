@@ -1,11 +1,9 @@
 /** @format */
 
-import { StyleSheet, Platform, Dimensions } from "react-native";
-import { Color, Constants } from "@common";
-import Config from "../../common/Config";
-import Device from "../../common/Device";
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+import { Color, Constants } from '@common';
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get('window');
 
 export default StyleSheet.create({
 	container: {
@@ -14,41 +12,41 @@ export default StyleSheet.create({
 	},
 	emptyContainer: {
 		flex: 1,
-		backgroundColor: "#fff",
+		backgroundColor: '#fff',
 	},
 	content: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	icon: {
 		width: 70,
 		height: 70,
-		tintColor: "#B7C4CB",
+		tintColor: '#B7C4CB',
 	},
 
 	numberWrap: {
-		position: "absolute",
+		position: 'absolute',
 		top: -18,
 		right: -15,
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		backgroundColor: "red",
-		justifyContent: "center",
+		backgroundColor: 'red',
+		justifyContent: 'center',
 	},
 	number: {
 		fontSize: 20,
-		fontWeight: "bold",
-		color: "white",
-		textAlign: "center",
-		backgroundColor: "rgba(0,0,0,0)",
+		fontWeight: 'bold',
+		color: 'white',
+		textAlign: 'center',
+		backgroundColor: 'rgba(0,0,0,0)',
 	},
 	title: {
 		marginTop: 20,
 		fontSize: 24,
-		fontWeight: "bold",
-		textAlign: "center",
+		fontWeight: 'bold',
+		textAlign: 'center',
 		width: 230,
 		lineHeight: 40,
 		opacity: 0.8,
@@ -56,22 +54,22 @@ export default StyleSheet.create({
 	},
 	labelView: {
 		width: (90 * Constants.Window.width) / 100,
-		backgroundColor: "rgba(206, 215, 221, 1)",
+		backgroundColor: 'rgba(206, 215, 221, 1)',
 		borderRadius: 10,
 		padding: 5,
-		alignItems: "flex-start",
+		alignItems: 'flex-start',
 	},
 	orderDetailLabel: {
 		fontSize: 13,
-		textDecorationLine: "underline",
+		textDecorationLine: 'underline',
 		color: Color.TabActive,
 		marginTop: 10,
 		marginBottom: 4,
 		fontFamily: Constants.fontFamily,
 	},
 	row: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flexDirection: 'row',
+		justifyContent: 'space-between',
 		marginTop: 8,
 		paddingLeft: 6,
 	},
@@ -88,14 +86,14 @@ export default StyleSheet.create({
 	},
 	message: {
 		fontSize: 14,
-		textAlign: "center",
-		color: "#758692",
+		textAlign: 'center',
+		color: '#758692',
 		width: 230,
 		marginTop: 10,
 		lineHeight: 25,
 	},
 	buttonContainer: {
-		alignItems: "center",
+		alignItems: 'center',
 		marginBottom: 20,
 	},
 	button: {
@@ -108,23 +106,23 @@ export default StyleSheet.create({
 		fontSize: 15,
 	},
 	bottomView: {
-		flexDirection: "row",
+		flexDirection: 'row',
 		marginTop: 50,
 		borderTopWidth: 1,
-		borderTopColor: "#d4dce1",
-		justifyContent: "space-between",
+		borderTopColor: '#d4dce1',
+		justifyContent: 'space-between',
 		height: 50,
-		alignItems: "center",
+		alignItems: 'center',
 	},
 	total: {
 		fontSize: 16,
 		marginLeft: 15,
-		color: "#999",
+		color: '#999',
 	},
 	money: {
 		fontSize: 16,
 		marginRight: 15,
-		color: "#0f98ec",
+		color: '#0f98ec',
 	},
 
 	listView: {
@@ -133,13 +131,13 @@ export default StyleSheet.create({
 	},
 
 	headerLabel: {
-		color: "#333",
+		color: '#333',
 		fontSize: 28,
 		fontFamily: Constants.fontHeader,
 		marginBottom: 0,
 		marginLeft: 22,
 
-		position: "absolute",
+		position: 'absolute',
 		top: 50,
 	},
 	headerView: {

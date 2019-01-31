@@ -1,15 +1,15 @@
 /** @format */
 
-import React, { PureComponent } from "react";
-import { Login } from "@containers";
-import { Color, Styles, Images } from "@common";
-import { Back, EmptyView, Logo } from "./IconNav";
+import React, { PureComponent } from 'react';
+import { Login } from '@containers';
+import { Color, Styles, Images } from '@common';
+import { Back, EmptyView } from './IconNav';
 
 export default class LoginScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
 		headerLeft: Back(navigation, Images.icons.arrowBack),
 		headerRight: EmptyView(),
-		headerTitle: "Login",
+		headerTitle: 'Login',
 
 		headerTintColor: Color.headerTintColor,
 		headerStyle: Styles.Common.toolbar,
@@ -28,10 +28,10 @@ export default class LoginScreen extends PureComponent {
 				navigation={this.props.navigation}
 				onBack={goBack}
 				isLogout={isLogout}
-				onViewSignUp={(user) => navigate("SignUpScreen", user)}
-				onViewCartScreen={() => navigate("CartScreen")}
-				onViewHomeScreen={() => navigate("Default")}
-				onForgetPassword={() => navigate("ForgetPasswordScreen")}
+				onViewSignUp={user => navigate('SignUpScreen', user)}
+				onViewCartScreen={() => navigate('CartScreen')}
+				onViewHomeScreen={() => navigate('Default')}
+				onForgetPassword={() => navigate('ForgetPasswordScreen')}
 			/>
 		);
 	}

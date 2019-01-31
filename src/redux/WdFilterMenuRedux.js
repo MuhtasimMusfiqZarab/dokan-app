@@ -1,6 +1,6 @@
 /** @format */
 
-import { Constants } from "@common";
+import { Constants } from '@common';
 
 export const actions = {
 	openFilterMenu: () => {
@@ -9,7 +9,7 @@ export const actions = {
 	closeFilterMenu: () => {
 		return { type: Constants.EmitCode.FilterMenuClose };
 	},
-	toggleFilterMenu: (isOpen) => {
+	toggleFilterMenu: isOpen => {
 		return { type: Constants.EmitCode.FilterMenuToggle, isOpen };
 	},
 };
@@ -34,7 +34,7 @@ export const reducer = (state = initialState, action) => {
 				isOpen: false,
 			};
 		case Constants.EmitCode.FilterMenuToggle:
-			if (typeof isOpen === "undefined") {
+			if (typeof isOpen === 'undefined') {
 				return {
 					...state,
 					isOpen: !state.isOpen,

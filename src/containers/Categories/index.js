@@ -1,26 +1,12 @@
 /** @format */
 
-// @flow
-/**
- * Created by weDevs
- */
-import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import { connect } from "react-redux";
-import { Styles, Images, Config, Languages, Constants, Color } from "@common";
-import {
-	Timer,
-	toast,
-	BlockTimer,
-	CustomIcon,
-	hexToRgb } from "@app/Omni";
-import {
-	Empty,
-	LogoSpinner,
-} from "@components";
-import styles from "./styles";
-import Icon from "@expo/vector-icons/FontAwesome";
-
+import React from 'react';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { Languages, Color } from '@common';
+import { toast, BlockTimer, CustomIcon, hexToRgb } from '@app/Omni';
+import { Empty, LogoSpinner } from '@components';
+import styles from './styles';
 
 class CategoriesScreen extends React.PureComponent {
 	componentDidMount() {
@@ -28,9 +14,9 @@ class CategoriesScreen extends React.PureComponent {
 		fetchCategories();
 	}
 
-	onRowClickHandle = (category) => {
+	onRowClickHandle = category => {
 		const { setSelectedCategory, onViewCategory } = this.props;
-		
+
 		BlockTimer.execute(() => {
 			setSelectedCategory({
 				...category,
@@ -40,44 +26,37 @@ class CategoriesScreen extends React.PureComponent {
 		}, 500);
 	};
 
-	_renderItem = ({item}) => {
-		let iconName = item.icon ? item.icon.replace("icon-", "") : "";
-		let rgbColorCode = item.icon_color ? hexToRgb(item.icon_color) : "";
+	_renderItem = ({ item }) => {
+		let iconName = item.icon ? item.icon.replace('icon-', '') : '';
+		let rgbColorCode = item.icon_color ? hexToRgb(item.icon_color) : '';
 
 		const renderCategoryIcon = () => {
 			if (iconName) {
-				return (
-					<CustomIcon
-						name={iconName}
-						size={40}
-						color={item.icon_color} />
-				);
+				return <CustomIcon name={iconName} size={40} color={item.icon_color} />;
 			} else {
-				return ( <View /> );
+				return <View />;
 			}
-		}
+		};
 
 		return (
 			<TouchableOpacity
-				style={
-					[
-						styles.categoryContainer,
-						{
-							backgroundColor: rgbColorCode ?
-								`rgba(${rgbColorCode}, 0.1)` :
-								"rgba(255, 255, 255, 0.5)"
-						}
-					]
-				}
+				style={[
+					styles.categoryContainer,
+					{
+						backgroundColor: rgbColorCode
+							? `rgba(${rgbColorCode}, 0.1)`
+							: 'rgba(255, 255, 255, 0.5)',
+					},
+				]}
 				onPress={() => this.onRowClickHandle(item)}>
 				{renderCategoryIcon()}
-				<Text style={{color: Color.wdgray3, marginTop: 15}}>{item.name}</Text>
+				<Text style={{ color: Color.wdgray3, marginTop: 15 }}>{item.name}</Text>
 			</TouchableOpacity>
-		)
-	}
+		);
+	};
 
 	render() {
-		const { categories, selectedLayout } = this.props;
+		const { categories } = this.props;
 
 		if (categories.error) {
 			return <Empty text={categories.error} />;
@@ -88,23 +67,23 @@ class CategoriesScreen extends React.PureComponent {
 		}
 
 		const mainCategories = categories.list.filter(
-			(category) => category.parent === 0
+			category => category.parent === 0
 		);
-		
+
 		return (
 			<FlatList
-				style={{flexDirection: "column"}}
+				style={{ flexDirection: 'column' }}
 				numColumns={2}
-				contentContainerStyle={{alignItems: "center"}}
+				contentContainerStyle={{ alignItems: 'center' }}
 				data={mainCategories}
-				keyExtractor={(item) => `${item.id}`}
+				keyExtractor={item => `${item.id}`}
 				renderItem={this._renderItem}
 			/>
 		);
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
 	return {
 		categories: state.categories,
 		netInfo: state.netInfo,
@@ -116,7 +95,7 @@ const mapStateToProps = (state) => {
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { netInfo } = stateProps;
 	const { dispatch } = dispatchProps;
-	const { actions } = require("@redux/CategoryRedux");
+	const { actions } = require('@redux/CategoryRedux');
 
 	return {
 		...ownProps,
@@ -125,8 +104,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 			if (!netInfo.isConnected) return toast(Languages.noConnection);
 			actions.fetchCategories(dispatch);
 		},
-		setActiveLayout: (value) => dispatch(actions.setActiveLayout(value)),
-		setSelectedCategory: (category) =>
+		setActiveLayout: value => dispatch(actions.setActiveLayout(value)),
+		setSelectedCategory: category =>
 			dispatch(actions.setSelectedCategory(category)),
 	};
 }
