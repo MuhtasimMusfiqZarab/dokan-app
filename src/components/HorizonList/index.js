@@ -30,7 +30,7 @@ class HorizonList extends PureComponent {
 		collections: PropTypes.array,
 		setSelectedCategory: PropTypes.func,
 		isFetching: PropTypes.bool.isRequired,
-		navigation: PropTypes.func,
+		navigation: PropTypes.object,
 	};
 
 	componentDidMount() {

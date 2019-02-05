@@ -75,7 +75,7 @@ export default class SimpleLayout extends PureComponent {
 						style={
 							type === 'Vendor' ? css.simpleImageVendor : css.simpleImageProduct
 						}
-						resizemode="contain"
+						resizeMode="contain"
 					/>
 					{typeof type === 'undefined' && (
 						<WishListIcon product={post} style={{ top: 5, right: 10 }} />

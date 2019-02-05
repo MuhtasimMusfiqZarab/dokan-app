@@ -13,8 +13,8 @@ class ProductPrice extends PureComponent {
 		product: PropTypes.object,
 		hideDisCount: PropTypes.bool,
 		style: PropTypes.any,
-		fontsize: PropTypes.string,
-		currency: PropTypes.string,
+		fontsize: PropTypes.number,
+		currency: PropTypes.object,
 	};
 
 	render() {

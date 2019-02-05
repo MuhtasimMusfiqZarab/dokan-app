@@ -6,7 +6,7 @@ import {
 	StyleSheet,
 	Dimensions,
 } from 'react-native';
-import { Images } from '@common';
+import { Images, Constants } from '@common';
 import { LinearGradient } from '@expo';
 
 export default class WdNewArrival extends PureComponent {
@@ -45,19 +45,20 @@ const styles = StyleSheet.create({
 	gradientArea: {
 		width: Dimensions.get('window').width,
 		height: 250,
-		paddingLeft: 15,
-		paddingRight: 15,
+		paddingHorizontal: 15,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 	},
 	text: {
-		backgroundColor: 'transparent',
-		fontSize: 22,
+		// backgroundColor: 'transparent',
+		fontSize: Constants.FontSize.heading1,
 		color: '#fff',
+		fontFamily: Constants.fontFamilyLato,
+		fontWeight: 'bold',
 	},
 	newArrivalImg: {
 		width: 175,
-		height: 144,
+		height: 150,
 	},
 });

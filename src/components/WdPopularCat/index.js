@@ -8,7 +8,7 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import { ButtonIndex } from '@components';
-import { Color } from '@common';
+import { Color, Constants } from '@common';
 import { NavigationActions } from 'react-navigation';
 import { BlockTimer, CustomIcon, hexToRgb } from '@app/Omni';
 
@@ -33,7 +33,13 @@ export default class WdPopularCat extends PureComponent {
 			<View style={styles.popCatWrapper}>
 				<View style={styles.popCatContainer}>
 					<View style={{ width: '100%', padding: 5, marginBottom: 10 }}>
-						<Text style={{ color: Color.wdDeepGray, fontSize: 18 }}>
+						<Text
+							style={{
+								color: Color.wdDeepGray,
+								fontSize: Constants.FontSize.heading1,
+								fontFamily: Constants.fontFamilyLato,
+								fontWeight: 'bold',
+							}}>
 							Popular Categories
 						</Text>
 					</View>
@@ -73,15 +79,20 @@ export default class WdPopularCat extends PureComponent {
 							onPress={() => this.props.navigation.dispatch(navigateAction)}
 							type="text"
 							text="View all Categories"
-							textColor="#79828F"
+							textStyle={{
+								color: '#79828F',
+								fontWeight: 'normal',
+								fontFamily: Constants.fontFamilyLato,
+							}}
 							containerColor="#fff"
 							containerStyle={{
-								width: '70%',
+								width: '50%',
 								...Platform.select({
 									ios: {
 										shadowColor: '#000',
 										shadowOpacity: 0.1,
-										shadowOffset: { width: 1, height: 1 },
+										shadowOffset: { width: 1, height: 3 },
+										shadowRadius: 10,
 									},
 									android: {
 										elevation: 3,
@@ -113,7 +124,8 @@ const styles = StyleSheet.create({
 			ios: {
 				shadowColor: '#000',
 				shadowOpacity: 0.1,
-				shadowOffset: { width: 1, height: 1 },
+				shadowOffset: { width: 1, height: 3 },
+				shadowRadius: 10,
 			},
 			android: {
 				elevation: 3,
@@ -133,6 +145,7 @@ const styles = StyleSheet.create({
 		paddingTop: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
+		marginTop: 10,
 		marginBottom: 10,
 	},
 });

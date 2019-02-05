@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import { Share } from 'react-native-share';
 import { Timer, getProductImage, currencyFormatter } from '@app/Omni';
 import { Button, Rating, WishListIcon } from '@components';
-import { Swiper } from 'react-native-swiper';
+import Swiper from 'react-native-swiper';
 import { Styles, Languages, Color, Constants, Events } from '@common';
 import Modal from 'react-native-modalbox';
 import { find, filter } from 'lodash';
@@ -348,11 +348,12 @@ class Detail extends PureComponent {
 
 				<WishListIcon
 					style={{
-						top: PRODUCT_IMAGE_HEIGHT - 25,
+						top: PRODUCT_IMAGE_HEIGHT - 30,
 						right: Constants.Window.width - 40,
 					}}
 					width={25}
 					height={25}
+					iconSize={22}
 					product={this.props.product}
 				/>
 			</View>

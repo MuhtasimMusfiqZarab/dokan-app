@@ -1,8 +1,10 @@
 /** @format */
 
 import React, { Component } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { Button } from '@components';
 import { Color } from '@common';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import styles from './styles';
 
 import { connect } from 'react-redux';
@@ -28,7 +30,7 @@ class WishListIcon extends Component {
 		const isInWishList =
 			wishList.wishListItems.find(item => item.product.id === product.id) !==
 			undefined;
-
+		console.log('wishList');
 		if (isInWishList) {
 			removeWishListItem(product);
 		} else addWishListItem(product);
@@ -63,7 +65,7 @@ class WishListIcon extends Component {
 	}
 
 	render() {
-		const { wishList, product } = this.props;
+		const { wishList, product, iconSize } = this.props;
 		// console.log("wishlist", wishList.wishListItems);
 		// console.log("productThis", this.props.product.id);
 		let clicked =
@@ -72,19 +74,40 @@ class WishListIcon extends Component {
 				: true;
 
 		return (
-			<Button
-				type="image"
-				source={require('@images/icons/icon-love.png')}
-				imageStyle={[
-					{
-						width: this.props.width ? this.props.width : 15,
-						height: this.props.height ? this.props.height : 15,
-					},
-					clicked && { tintColor: Color.heartActiveWishList },
-				]}
-				buttonStyle={[styles.buttonStyle, this.props.style && this.props.style]}
-				onPress={this.addToWishList.bind(this)}
-			/>
+			// <Button
+			// 	type="image"
+			// 	source={require('@images/icons/icon-love.png')}
+			// 	imageStyle={[
+			// 		{
+			// 			width: this.props.width ? this.props.width : 15,
+			// 			height: this.props.height ? this.props.height : 15,
+			// 		},
+			// 		clicked && { tintColor: Color.heartActiveWishList },
+			// 	]}
+			// 	buttonStyle={[styles.buttonStyle, this.props.style && this.props.style]}
+			// 	onPress={this.addToWishList.bind(this)}
+			// />
+
+			<TouchableOpacity
+				style={[styles.buttonStyle, this.props.style && this.props.style]}
+				onPress={() => {
+					this.addToWishList();
+				}}>
+				{clicked && (
+					<FontAwesome
+						name="heart"
+						size={iconSize ? iconSize : 18}
+						color="red"
+					/>
+				)}
+				{!clicked && (
+					<FontAwesome
+						name="heart-o"
+						size={iconSize ? iconSize : 18}
+						color="#b5b8c1"
+					/>
+				)}
+			</TouchableOpacity>
 		);
 	}
 }
@@ -92,7 +115,7 @@ class WishListIcon extends Component {
 const mapStateToProps = ({ wishList }) => ({ wishList });
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-	const { netInfo } = stateProps;
+	// const { netInfo } = stateProps;
 	const { dispatch } = dispatchProps;
 	const WishListRedux = require('@redux/WishListRedux');
 	return {

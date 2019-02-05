@@ -51,7 +51,6 @@ const Constants = {
 		headerBannerAndroid: (55 * height) / 100,
 		profileHeight: (45 * height) / 100,
 	},
-
 	PostImage: {
 		small: 'small',
 		medium: 'medium',
@@ -81,9 +80,13 @@ const Constants = {
 		atAglance: 13,
 	},
 	pagingLimit: 10,
-
-	fontText: {
-		size: 16,
+	FontSize: {
+		extraSmall: 10,
+		small: 12,
+		regular: 14,
+		heading2: 16,
+		heading1: 18,
+		title: 20,
 	},
 	productAttributeColor: 'color',
 };

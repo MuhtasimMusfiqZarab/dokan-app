@@ -14,5 +14,9 @@ export default StyleSheet.create({
 		right: 10,
 		top: 5,
 		zIndex: 9999,
+		width: 40,
+		height: 40,
+		justifyContent: 'flex-start',
+		alignItems: 'flex-end',
 	},
 });

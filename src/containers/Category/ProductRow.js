@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Styles, Color, Constants } from '@common';
 import { currencyFormatter, getProductImage } from '@app/Omni';
 import { Rating, ImageCache, Text } from '@components';

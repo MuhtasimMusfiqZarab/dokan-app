@@ -316,8 +316,8 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		position: 'relative',
-		width: vw * 31,
-		height: vw * 25,
+		width: vw * 35,
+		height: vw * 30,
 		// resizeMode: 'cover',
 		borderRadius: 2,
 		backgroundColor: '#fff',
@@ -386,8 +386,8 @@ export default StyleSheet.create({
 		marginTop: 8,
 	},
 	simpleImageProduct: {
-		width: '60%',
-		height: '60%',
+		width: '90%',
+		height: '90%',
 	},
 	simpleImageVendor: {
 		width: '100%',

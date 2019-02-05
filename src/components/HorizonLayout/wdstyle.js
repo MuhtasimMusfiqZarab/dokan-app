@@ -107,9 +107,12 @@ export default StyleSheet.create({
 		}),
 	},
 	imagePanelThree: {
-		width: 80,
-		height: 90,
-		alignSelf: 'center',
+		// width: 80,
+		// height: 90,
+		// alignSelf: 'center',
+		flex: 1,
+		width: null,
+		height: null,
 	},
 	// end
 	nameThree: {

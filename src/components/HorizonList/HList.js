@@ -32,7 +32,7 @@ class HorizonList extends PureComponent {
 		setSelectedCategory: PropTypes.func,
 		onViewProductScreen: PropTypes.func,
 		collection: PropTypes.object,
-		navigation: PropTypes.func,
+		navigation: PropTypes.object,
 		featuredVendorList: PropTypes.array,
 		onViewVendorProfileScreen: PropTypes.func,
 		onViewCategory: PropTypes.func,

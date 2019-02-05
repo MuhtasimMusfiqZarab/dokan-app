@@ -223,7 +223,7 @@ export default new LocalizedStrings({
 		// filter panel
 		Loading: 'LOADING...',
 		welcomeBack: 'Welcome back! ',
-		seeAll: 'Show All',
+		seeAll: 'See All',
 
 		// Layout
 		cardView: 'Card ',

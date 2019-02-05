@@ -102,9 +102,9 @@ export default StyleSheet.create({
 		backgroundColor: 'transparent',
 	},
 	tagHeader: {
-		fontSize: 16,
+		fontSize: Constants.FontSize.heading1,
 		color: Color.wdDeepGray,
-		letterSpacing: 2,
+		// letterSpacing: 2,
 		fontFamily: Constants.fontFamilyLato,
 		fontWeight: 'bold',
 	},
