@@ -1,5 +1,6 @@
 package com.wedevs.dokan;
 
+import com.horcrux.svg.SvgPackage;
 import android.app.Application;
 import com.facebook.react.ReactApplication;
 import cl.json.RNSharePackage;
@@ -51,7 +52,8 @@ public class MainApplication extends Application implements ReactApplication {
         new VectorIconsPackage(),
         new LinearGradientPackage(),
         new FBSDKPackage(mCallbackManager),
-        new MapsPackage()
+        new MapsPackage(),
+        new SvgPackage()
       );
     }
 
