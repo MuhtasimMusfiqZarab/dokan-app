@@ -129,12 +129,17 @@ class MyCart extends PureComponent {
 	}
 
 	renderHiddenRow = (rowData, index) => {
+		console.log(rowData);
 		return (
 			<TouchableOpacity
 				key={`hiddenRow-${index}`}
 				style={styles.hiddenRow}
 				onPress={() =>
-					this.props.removeCartItem(rowData.product, rowData.variation)
+					this.props.deleteCartItem(
+						rowData.product,
+						rowData.variation,
+						rowData.quantity
+					)
 				}>
 				<View style={{ marginRight: 23 }}>
 					<FontAwesome name="trash" size={30} color="white" />
@@ -204,6 +209,9 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		...stateProps,
 		removeCartItem: (product, variation) => {
 			actions.removeCartItem(dispatch, product, variation);
+		},
+		deleteCartItem: (product, variation, quantity) => {
+			actions.deleteCartItem(dispatch, product, variation, quantity);
 		},
 		cleanOldCoupon: () => {
 			productActions.cleanOldCoupon(dispatch);
