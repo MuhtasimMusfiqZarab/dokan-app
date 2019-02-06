@@ -2,10 +2,9 @@
 
 import React from 'react';
 import { View, ActivityIndicator, Dimensions, StyleSheet } from 'react-native';
-
 import { Color } from '@common';
-const { width, height } = Dimensions.get('window');
 
+const { width, height } = Dimensions.get('window');
 const SIZES = { SMALL: 'small', LARGE: 'large' };
 
 export const Mode = { normal: 'normal', full: 'full', overlay: 'overlay' };
@@ -33,7 +32,15 @@ class Spinner extends React.Component {
 				break;
 		}
 		return (
-			<View style={containerStyle}>
+			<View
+				style={[
+					containerStyle,
+					{
+						backgroundColor: this.props.backgroundColor
+							? this.props.backgroundColor
+							: 'rgba(255, 255, 255, 0.6)',
+					},
+				]}>
 				<ActivityIndicator
 					size={size}
 					color={color}
@@ -72,8 +79,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		width,
 		height,
-		// backgroundColor: "rgba(0,0,0,0.2)",
-		backgroundColor: 'rgba(255, 255, 255, 0.6)',
+		// backgroundColor: `rgba(255, 255, 255, 0.6)`,
 		alignItems: 'center',
 		justifyContent: 'center',
 		zIndex: 9999,
