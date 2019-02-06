@@ -40,7 +40,6 @@ import AboutUsScreen from './AboutUsScreen';
 import PrivacyPolicyScreen from './PrivacyPolicyScreen';
 import ReviewsScreen from './ReviewsScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
-
 import TransitionConfig from './TransitionConfig';
 
 const { width } = Dimensions.get('window');

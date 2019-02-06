@@ -9,9 +9,15 @@ export default function VendorSummary(props) {
 		: '';
 	const storeInitial = storeName ? storeName.charAt(0).toUpperCase() : '';
 
+	const onPressVendorHandler = () => {
+		props.viewVendorFromProductDetail(props.store.id);
+	};
+
 	if (storeName) {
 		return (
-			<View style={styles.topVendorInfoContainer}>
+			<TouchableOpacity
+				style={styles.topVendorInfoContainer}
+				onPress={() => onPressVendorHandler()}>
 				<View style={styles.topVendorNameInitials}>
 					<Text style={{ color: 'white', fontSize: 17 }}>{storeInitial}</Text>
 				</View>
@@ -24,7 +30,7 @@ export default function VendorSummary(props) {
 						{storeName}
 					</Text>
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 	} else {
 		return (

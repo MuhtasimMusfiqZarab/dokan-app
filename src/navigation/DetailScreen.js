@@ -38,6 +38,9 @@ export default class DetailScreen extends PureComponent {
 							onViewProductScreen={product =>
 								navigate('DetailScreenMore', product)
 							}
+							onViewVendorProfileScreen={item => {
+								navigate('VendorProfileScreen', item);
+							}}
 							navigation={this.props.navigation}
 							onLogin={() => navigate('LoginScreen')}
 						/>

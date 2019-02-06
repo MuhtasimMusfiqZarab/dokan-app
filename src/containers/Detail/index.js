@@ -12,9 +12,9 @@ import {
 	Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Share } from 'react-native-share';
+import Share from 'react-native-share';
 import { Timer, getProductImage } from '@app/Omni';
-import { Button, WishListIcon } from '@components';
+import { Button, WishListIcon, Spinner } from '@components';
 import Swiper from 'react-native-swiper';
 import { Styles, Languages, Color, Constants, Events } from '@common';
 import Modal from 'react-native-modalbox';
@@ -24,6 +24,7 @@ import styles from './ProductDetail_Style';
 import VendorSummary from './VendorSummary';
 import ProductDetails from './ProductDetails';
 import EventEmitter from '@services/AppEventEmitter';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
@@ -44,6 +45,8 @@ class Detail extends PureComponent {
 		userData: PropTypes.any,
 		wishListItems: PropTypes.any,
 		relatedProducts: PropTypes.any,
+		onViewVendorProfileScreen: PropTypes.any,
+		fetchVendorProducts: PropTypes.any,
 	};
 
 	constructor(props) {
@@ -58,6 +61,7 @@ class Detail extends PureComponent {
 			selectedItems: [],
 			activeSections: [],
 			showPopover: false,
+			isSpinner: false,
 		};
 
 		this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
@@ -467,6 +471,14 @@ class Detail extends PureComponent {
 		}
 	};
 
+	viewVendorFromProductDetail = async vendorID => {
+		this.setState({ isSpinner: true });
+		const vendor = await DokanWorker.getSingleVendor(vendorID);
+		this.props.fetchVendorProducts(vendorID);
+		this.setState({ isSpinner: false });
+		this.props.onViewVendorProfileScreen(vendor);
+	};
+
 	render() {
 		const { product, relatedProducts, onLogin, navigation } = this.props;
 
@@ -489,7 +501,10 @@ class Detail extends PureComponent {
 						onLayout={event =>
 							(this.productInfoHeight = event.nativeEvent.layout.height)
 						}>
-						<VendorSummary store={this.props.product.store} />
+						<VendorSummary
+							store={this.props.product.store}
+							viewVendorFromProductDetail={this.viewVendorFromProductDetail}
+						/>
 						{this._renderImages()}
 					</View>
 					<ProductDetails
@@ -502,6 +517,10 @@ class Detail extends PureComponent {
 				</Animated.ScrollView>
 
 				{this.renderButtons()}
+
+				{this.state.isSpinner ? (
+					<Spinner mode="overlay" color="#000" backgroundColor="#fff" />
+				) : null}
 
 				<Modal
 					ref={com => (this._modalPhoto = com)}
@@ -549,6 +568,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 	const CartRedux = require('@redux/CartRedux');
 	const WishListRedux = require('@redux/WishListRedux');
 	const ProductRedux = require('@redux/ProductRedux');
+	const VendorRedux = require('@redux/VendorRedux');
+
 	return {
 		...ownProps,
 		...stateProps,
@@ -566,6 +587,9 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		},
 		getRelatedProducts: productID => {
 			ProductRedux.actions.fetchRelatedProducts(dispatch, productID);
+		},
+		fetchVendorProducts: vendorID => {
+			VendorRedux.actions.fetchVendorProducts(dispatch, vendorID);
 		},
 	};
 }
