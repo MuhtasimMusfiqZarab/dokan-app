@@ -13,16 +13,16 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Share } from 'react-native-share';
-import { Timer, getProductImage, currencyFormatter } from '@app/Omni';
-import { Button, Rating, WishListIcon } from '@components';
+import { Timer, getProductImage } from '@app/Omni';
+import { Button, WishListIcon } from '@components';
 import Swiper from 'react-native-swiper';
 import { Styles, Languages, Color, Constants, Events } from '@common';
 import Modal from 'react-native-modalbox';
 import { find, filter } from 'lodash';
 import PopOver from './PopOver';
 import styles from './ProductDetail_Style';
-import striptags from 'striptags';
-import ProductDetailsAccordion from './ProductDetailsAccordion';
+import VendorSummary from './VendorSummary';
+import ProductDetails from './ProductDetails';
 import EventEmitter from '@services/AppEventEmitter';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
@@ -461,93 +461,20 @@ class Detail extends PureComponent {
 		);
 	};
 
-	//weDevs
-	renderVendorInfo = () => {
-		const storeName = this.props.product.store
-			? this.props.product.store.shop_name || this.props.product.store.name
-			: '';
-		const storeInitial = storeName ? storeName.charAt(0).toUpperCase() : '';
-
-		if (storeName) {
-			return (
-				<View style={styles.topVendorInfoContainer}>
-					<View style={styles.topVendorNameInitials}>
-						<Text style={{ color: 'white', fontSize: 17 }}>{storeInitial}</Text>
-					</View>
-					<View style={{ marginLeft: 15 }}>
-						<Text
-							style={{
-								color: Color.wdDeepGray,
-								fontSize: 17,
-							}}>
-							{storeName}
-						</Text>
-					</View>
-				</View>
-			);
-		} else {
-			return (
-				<View
-					style={[styles.topVendorInfoContainer, { justifyContent: 'center' }]}>
-					<Text style={{ color: 'red' }}>Store Info Not found</Text>
-				</View>
-			);
+	onTapParentView = () => {
+		if (this.state.showPopover) {
+			this.setState({ showPopover: false });
 		}
 	};
 
-	renderProductDetails = () => {
-		const { product } = this.props;
-		const { selectVariation } = this.state;
-
-		const productDescription = striptags(product.short_description);
-		const isOnSale = selectVariation
-			? selectVariation.on_sale
-			: product.on_sale;
-		const productRegularPrice = currencyFormatter(
-			selectVariation ? selectVariation.regular_price : product.regular_price
-		);
-		const productPrice = currencyFormatter(
-			selectVariation ? selectVariation.price : product.price
-		);
-
-		return (
-			<View style={styles.productDetailContainer}>
-				<Text style={styles.productName}>{product.name}</Text>
-				<Rating rating={Number(product.average_rating)} size={15} />
-				<View style={styles.productMetaContainer}>
-					<View style={styles.productPriceContainer}>
-						{isOnSale && (
-							<Text style={styles.sale_price}>{productRegularPrice}</Text>
-						)}
-						<Text style={styles.productPrice}>{productPrice}</Text>
-					</View>
-					{/* <View style={styles.productBadgeContainer}>
-						<View style={styles.productBadge}>
-							<Text style={styles.productBadgeNumber}>86</Text>
-							<Text style={styles.productBadgeText}>Order</Text>
-						</View>
-						<View style={styles.productBadge}>
-							<Text style={styles.productBadgeNumber}>130</Text>
-							<Text style={styles.productBadgeText}>Wishlist</Text>
-						</View>
-					</View> */}
-				</View>
-				<Text style={styles.productDescription}>{productDescription}</Text>
-				<ProductDetailsAccordion
-					product={this.props.product}
-					relatedProducts={this.props.relatedProducts}
-					onLogin={this.props.onLogin}
-					navigation={this.props.navigation}
-				/>
-			</View>
-		);
-	};
-
 	render() {
-		const { product } = this.props;
-		// console.log(product);
+		const { product, relatedProducts, onLogin, navigation } = this.props;
+
 		return (
-			<View style={styles.container}>
+			<View
+				style={styles.container}
+				onStartShouldSetResponder={() => true}
+				onResponderRelease={() => this.onTapParentView()}>
 				{this.state.showPopover && (
 					<PopOver share={this.share} openPhoto={this.openPhoto.bind(this)} />
 				)}
@@ -562,11 +489,16 @@ class Detail extends PureComponent {
 						onLayout={event =>
 							(this.productInfoHeight = event.nativeEvent.layout.height)
 						}>
-						{this.renderVendorInfo()}
+						<VendorSummary store={this.props.product.store} />
 						{this._renderImages()}
 					</View>
-
-					{this.renderProductDetails()}
+					<ProductDetails
+						product={product}
+						relatedProducts={relatedProducts}
+						onLogin={onLogin}
+						navigation={navigation}
+						selectVariation={this.state.selectVariation}
+					/>
 				</Animated.ScrollView>
 
 				{this.renderButtons()}
