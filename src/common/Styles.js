@@ -325,8 +325,6 @@ Styles.Common = {
 		borderBottomWidth: 0,
 		borderBottomColor: 'transparent',
 		zIndex: 1,
-		paddingLeft: 8,
-		paddingRight: 8,
 		paddingTop: 4,
 		...Platform.select({
 			ios: {
