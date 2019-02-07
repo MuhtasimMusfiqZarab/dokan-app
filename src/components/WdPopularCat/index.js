@@ -91,7 +91,7 @@ export default class WdPopularCat extends PureComponent {
 									ios: {
 										shadowColor: '#000',
 										shadowOpacity: 0.1,
-										shadowOffset: { width: 1, height: 3 },
+										shadowOffset: { width: 0, height: 1 },
 										shadowRadius: 10,
 									},
 									android: {

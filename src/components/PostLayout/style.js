@@ -48,7 +48,7 @@ export default StyleSheet.create({
 		width: width / 2,
 		alignItems: 'center',
 		justifyContent: 'space-around',
-		marginBottom: 12,
+		marginBottom: 20,
 	},
 	imagePanelTwo: {
 		position: 'relative',
@@ -61,8 +61,9 @@ export default StyleSheet.create({
 		...Platform.select({
 			ios: {
 				shadowColor: '#000',
-				shadowOpacity: 0.3,
+				shadowOpacity: 0.1,
 				shadowOffset: { width: 0, height: 1 },
+				shadowRadius: 5,
 			},
 			android: {
 				elevation: 3,
@@ -383,7 +384,7 @@ export default StyleSheet.create({
 		width: width / 2 - 30,
 		marginLeft: 8,
 		marginRight: 8,
-		marginTop: 8,
+		// marginTop: 8,
 	},
 	simpleImageProduct: {
 		width: '90%',

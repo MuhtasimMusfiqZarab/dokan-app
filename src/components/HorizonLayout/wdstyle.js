@@ -90,16 +90,17 @@ export default StyleSheet.create({
 		marginLeft: 15,
 	},
 	panelThree: {
-		width: 120,
-		height: 100,
+		width: 130,
+		height: 110,
 		borderRadius: 5,
 		justifyContent: 'center',
 		backgroundColor: '#fff',
 		...Platform.select({
 			ios: {
-				shadowColor: 'black',
+				shadowColor: '#000',
 				shadowOpacity: 0.3,
-				shadowOffset: { width: 2, height: 2 },
+				shadowOffset: { width: 0, height: 1 },
+				shadowRadius: 5,
 			},
 			android: {
 				elevation: 3,
@@ -113,6 +114,7 @@ export default StyleSheet.create({
 		flex: 1,
 		width: null,
 		height: null,
+		borderRadius: 5,
 	},
 	// end
 	nameThree: {
