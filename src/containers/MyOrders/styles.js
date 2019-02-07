@@ -24,7 +24,14 @@ export default StyleSheet.create({
 		height: 70,
 		tintColor: '#B7C4CB',
 	},
-
+	orderContainer: {
+		borderRadius: 5,
+		marginBottom: 10,
+		padding: 15,
+		backgroundColor: '#FFF',
+		borderBottomWidth: 1,
+		borderBottomColor: '#E6EAEB',
+	},
 	numberWrap: {
 		position: 'absolute',
 		top: -18,

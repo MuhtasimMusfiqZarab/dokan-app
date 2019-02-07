@@ -225,7 +225,6 @@ export default class WooWorker {
 		try {
 			const response = await this._api.post('orders', data);
 			const json = await response.json();
-			console.log(json);
 
 			if (json.code === undefined) {
 				callback(json);
@@ -233,6 +232,22 @@ export default class WooWorker {
 				typeof failCallBack === 'function' && failCallBack(json);
 			}
 			return json;
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	static getOrderById = async orderID => {
+		try {
+			const response = await this._api.post(`orders/${orderID}`);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				// callback(json);
+				return json;
+			} else {
+				// typeof failCallBack === 'function' && failCallBack(json);
+				console.log(json);
+			}
 		} catch (error) {
 			console.log(error);
 		}

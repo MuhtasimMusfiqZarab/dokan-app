@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { Color, Images } from '@common';
+import { Images } from '@common';
 import { TabBar, TabBarIcon } from '@components';
 import {
 	View,
@@ -9,7 +9,6 @@ import {
 	I18nManager,
 	StyleSheet,
 	Animated,
-	Platform,
 } from 'react-native';
 import {
 	createStackNavigator,
@@ -40,6 +39,7 @@ import AboutUsScreen from './AboutUsScreen';
 import PrivacyPolicyScreen from './PrivacyPolicyScreen';
 import ReviewsScreen from './ReviewsScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
+import OrderDetailsScreen from './OrderDetailsScreen';
 import TransitionConfig from './TransitionConfig';
 
 const { width } = Dimensions.get('window');
@@ -179,7 +179,8 @@ const VendorsStack = createStackNavigator(
 );
 const MyOrdersStack = createStackNavigator(
 	{
-		MyOrdes: { screen: MyOrdersScreen },
+		MyOrders: { screen: MyOrdersScreen },
+		OrderDetail: { screen: OrderDetailsScreen },
 	},
 	{
 		navigationOptions: {

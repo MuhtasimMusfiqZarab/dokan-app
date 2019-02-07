@@ -8,14 +8,11 @@ import {
 	FlatList,
 	Text,
 	View,
-	TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Spinner } from '@components';
 import { Constants, Languages, Color } from '@common';
 import styles from './styles';
 import OrderEmpty from './Empty';
-import WooWorker from '@services/WooCommerce/WooWorker';
 
 const cardMargin = Constants.Dimension.ScreenWidth(0.05);
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
@@ -24,7 +21,6 @@ class MyOrders extends Component {
 	state = {
 		scrollY: new Animated.Value(0),
 		activeSections: [],
-		isSpinner: false,
 	};
 
 	componentDidMount() {
@@ -37,11 +33,10 @@ class MyOrders extends Component {
 		}
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
 		return (
-			(typeof nextProps.carts.myOrders !== 'undefined' &&
-				nextProps.carts.myOrders.length != this.props.carts.myOrders.length) ||
-			nextState.isSpinner !== this.state.isSpinner
+			typeof nextProps.carts.myOrders !== 'undefined' &&
+			nextProps.carts.myOrders.length != this.props.carts.myOrders.length
 		);
 	}
 
@@ -127,36 +122,35 @@ class MyOrders extends Component {
 			return `${day}/${month}/${year}`;
 		};
 
-		const onPressOrderDetail = async () => {
-			this.setState({ isSpinner: true });
-			const response = await WooWorker.getOrderById(order.id);
-			this.setState({ isSpinner: false });
-			this.props.navigate('OrderDetail', { orderDetail: response });
-		};
-
 		return (
-			<TouchableOpacity
-				style={[styles.orderContainer, { marginHorizontal: cardMargin }]}
-				onPress={() => onPressOrderDetail()}>
-				{renderOrderDetails(products)}
-				{renderAttribute('Order Code', `#${order.number}`, {
-					color: '#E9485E',
-				})}
-				{renderAttribute(Languages.OrderDate, dateFormat(order.date_created))}
-				{renderAttribute(Languages.OrderStatus, order.status.toUpperCase(), {
-					color: '#1ABC9C',
-				})}
-				{renderAttribute(Languages.OrderPayment, order.payment_method_title, {
-					color: '#1A9ED4',
-				})}
-			</TouchableOpacity>
+			<View>
+				<View
+					style={{
+						padding: 15,
+						backgroundColor: '#FFF',
+						borderBottomWidth: 1,
+						borderBottomColor: '#E6EAEB',
+					}}>
+					{renderOrderDetails(products)}
+					{renderAttribute('Order Code', `#${order.number}`, {
+						color: '#E9485E',
+					})}
+					{renderAttribute(Languages.OrderDate, dateFormat(order.date_created))}
+					{renderAttribute(Languages.OrderStatus, order.status.toUpperCase(), {
+						color: '#1ABC9C',
+					})}
+					{renderAttribute(Languages.OrderPayment, order.payment_method_title, {
+						color: '#1A9ED4',
+					})}
+				</View>
+			</View>
 		);
 	};
 
 	render() {
 		const data = this.props.carts.myOrders;
 		const orderCount = data.length;
-		console.log(this.state.isSpinner);
+
 		if (typeof data === 'undefined' || data.length == 0) {
 			return (
 				<OrderEmpty
@@ -194,9 +188,6 @@ class MyOrders extends Component {
 						/>
 					}
 				/>
-				{this.state.isSpinner ? (
-					<Spinner mode="overlay" color="#000" backgroundColor="#fff" />
-				) : null}
 			</View>
 		);
 	}

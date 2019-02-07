@@ -65,3 +65,6 @@ export const ForgetPassword = _ForgetPassword;
 
 import _Reviews from './Reviews';
 export const Reviews = _Reviews;
+
+import _OrderDetail from './OrderDetail';
+export const OrderDetail = _OrderDetail;
