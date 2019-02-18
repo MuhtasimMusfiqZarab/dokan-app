@@ -87,7 +87,7 @@ export default class WooWorker {
 			console.log(err);
 		}
 	};
-	static reviewsByProductId = async id => {
+	static reviewsByProductId = async prodID => {
 		// if (this._api.version === "wc/v3") {
 		// 	let params = {
 		// 		product_id: id
@@ -111,7 +111,7 @@ export default class WooWorker {
 			this._api.version = 'wc/v2';
 		}
 		try {
-			const response = await this._api.get(`products/${id}/reviews`);
+			const response = await this._api.get(`products/${prodID}/reviews`);
 			return response.json();
 		} catch (err) {
 			console.log(err);
@@ -345,6 +345,14 @@ export default class WooWorker {
 			const response = await this._api.get(
 				'settings/general/woocommerce_currency'
 			);
+			return response.json();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	static getSingleCategory = async catID => {
+		try {
+			const response = await this._api.get(`products/categories/${catID}`);
 			return response.json();
 		} catch (error) {
 			console.log(error);

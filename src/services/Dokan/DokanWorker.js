@@ -106,11 +106,50 @@ const DokanWorker = {
 		)
 			.then(response => response.json())
 			.then(json => {
+				return json;
+			})
+			.catch(error => warn(error));
+	},
+	getAppBanner: async () => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/dokan-app/slides/`
+		)
+			.then(response => response.json())
+			.then(json => {
 				if (json.length != 0) {
 					return json;
 				}
 			})
 			.catch(error => warn(error));
+	},
+	getAppSettings: async () => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/dokan-app/settings/`
+		)
+			.then(response => response.json())
+			.then(json => {
+				return json;
+			})
+			.catch(error => warn(error));
+	},
+	getPluginModuleStatus: async () => {
+		return await fetch(`${Config.WooCommerce.url}/wp-json/dokan/v1/modules`)
+			.then(response => response.json())
+			.then(json => {
+				return json;
+			})
+			.catch(error => warn(error));
+	},
+	getWooCommerceApiVersion: async () => {
+		return await fetch(`${Config.WooCommerce.url}/wp-json`)
+			.then(response => response.json())
+			.then(json => {
+				const namespaces = json.namespaces;
+				const wooApiVersion = namespaces.includes('wc/v3') ? 'wc/v3' : 'wc/v2';
+
+				return wooApiVersion;
+			})
+			.catch(err => warn(err));
 	},
 };
 
