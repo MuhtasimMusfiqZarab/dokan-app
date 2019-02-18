@@ -13,6 +13,7 @@ export default StyleSheet.create({
 	},
 	container: {
 		// flex: 1,
+		flexGrow: 1,
 	},
 	logoWrap: {
 		// ...Styles.Common.ColumnCenter,

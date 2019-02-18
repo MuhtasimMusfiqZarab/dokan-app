@@ -161,6 +161,29 @@ Styles.Common = {
 			},
 		}),
 	},
+	toolbarTransparent: {
+		backgroundColor: 'transparent',
+		zIndex: 1,
+		paddingTop: 4,
+		borderBottomWidth: 0,
+		...Platform.select({
+			ios: {
+				height: Config.showStatusBar
+					? Device.isIphoneX
+						? 5
+						: 40
+					: Device.isIphoneX
+					? 5
+					: 25,
+			},
+			android: {
+				height: 46,
+				paddingTop: 0,
+				marginTop: 0,
+				elevation: 0,
+			},
+		}),
+	},
 	toolbarLeft: {
 		paddingLeft: 8,
 	},

@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import { Styles, Languages, Color, Images, Config, Constants } from '@common';
 import { toast, error, Validate } from '@app/Omni';
-import { Button } from '@components';
+import { Button, ImageCache } from '@components';
 import Spinner from '@components/Spinner';
 import WPUserAPI from '@services/WPUserAPI';
 
@@ -188,13 +188,23 @@ class SignUpScreen extends Component {
 							this._scrollView = c;
 						}}>
 						<View style={styles.logoWrap}>
-							<Image
-								source={Config.LogoWithText}
-								style={styles.logo}
-								resizeMode="contain"
-							/>
+							{Config.appSettings.app_logo ? (
+								<ImageCache
+									uri={Config.appSettings.app_logo}
+									style={styles.logo}
+									resizeMode="contain"
+								/>
+							) : (
+								<Image
+									source={Config.LogoWithText}
+									style={styles.logo}
+									resizeMode="contain"
+								/>
+							)}
 							<Text style={styles.logoText}>
-								Build Your Dream Multi Vendor Market Place
+								{Config.appSettings.tagLine
+									? Config.appSettings.tagLine
+									: 'Build Your Dream Multi Vendor Market Place'}
 							</Text>
 						</View>
 						<View style={styles.formContainer}>

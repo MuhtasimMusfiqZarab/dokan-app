@@ -14,7 +14,7 @@ import {
 	ActivityIndicator,
 	I18nManager,
 } from 'react-native';
-import { Color } from '@common';
+import { Color, Config } from '@common';
 import { CustomIcon } from '@app/Omni';
 import { LinearGradient } from '@expo';
 
@@ -215,7 +215,10 @@ const GradientButton = props => (
 			start={{ x: 0.0, y: 0.5 }}
 			end={{ x: 1.0, y: 0.5 }}
 			locations={[0.0, 1.0]}
-			colors={['#FF9472', '#F2709C']}>
+			colors={[
+				Config.appSettings.primary_button_color_1,
+				Config.appSettings.primary_button_color_2,
+			]}>
 			<Text style={styles.gradientButtonText}>{props.text}</Text>
 		</LinearGradient>
 	</TouchableOpacity>

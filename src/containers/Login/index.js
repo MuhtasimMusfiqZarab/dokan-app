@@ -1,5 +1,4 @@
 /**
- *
  * @format
  */
 
@@ -18,7 +17,7 @@ import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { Color, Languages, Styles, Config, Images } from '@common';
 import { toast, warn, FacebookAPI, Validate } from '@app/Omni';
-import { Spinner, Button } from '@components';
+import { Spinner, Button, ImageCache } from '@components';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import WPUserAPI from '@services/WPUserAPI';
 import styles from './styles';
@@ -238,16 +237,27 @@ class LoginScreen extends PureComponent {
 				style={styles.backgroundImage}
 				resizeMode="cover">
 				<ScrollView
+					style={styles.container}
 					keyboardDismissMode="on-drag"
 					keyboardShouldPersistTaps="always">
 					<View style={styles.logoWrap}>
-						<Image
-							source={Config.LogoWithText}
-							style={styles.logo}
-							resizeMode="contain"
-						/>
+						{Config.appSettings.app_logo ? (
+							<ImageCache
+								uri={Config.appSettings.app_logo}
+								style={styles.logo}
+								resizeMode="contain"
+							/>
+						) : (
+							<Image
+								source={Config.LogoWithText}
+								style={styles.logo}
+								resizeMode="contain"
+							/>
+						)}
 						<Text style={styles.logoText}>
-							Build Your Dream Multi Vendor Market Place
+							{Config.appSettings.tagLine
+								? Config.appSettings.tagLine
+								: 'Build Your Dream Multi Vendor Market'}
 						</Text>
 					</View>
 					<View style={styles.subContain}>

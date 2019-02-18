@@ -6,8 +6,9 @@ import {
 	StyleSheet,
 	Dimensions,
 } from 'react-native';
-import { Images, Constants } from '@common';
+import { Images, Constants, Config } from '@common';
 import { LinearGradient } from '@expo';
+import { ImageCache } from '@components';
 
 export default class WdNewArrival extends PureComponent {
 	constructor(props) {
@@ -35,7 +36,14 @@ export default class WdNewArrival extends PureComponent {
 				<TouchableOpacity onPress={() => this.onPressNewArrival()}>
 					<Text style={styles.text}> New Arrivals </Text>
 				</TouchableOpacity>
-				<Image source={Images.NewArrival} style={styles.newArrivalImg} />
+				{Config.appSettings.new_arrival_image ? (
+					<ImageCache
+						uri={Config.appSettings.new_arrival_image}
+						style={styles.newArrivalImg}
+					/>
+				) : (
+					<Image source={Images.NewArrival} style={styles.newArrivalImg} />
+				)}
 			</LinearGradient>
 		);
 	}
@@ -49,6 +57,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		marginBottom: 20,
 	},
 	text: {
 		// backgroundColor: 'transparent',
