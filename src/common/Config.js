@@ -39,7 +39,8 @@ export default {
 	HorizonLayout: [
 		// { tag: 355, paging: true, layout: Constants.Layout.miniBanner },
 		// { tag: 604, paging: true, layout: Constants.Layout.miniBanner },
-		{ tag: 25, paging: true, layout: Constants.Layout.miniBanner },
+		// { tag: 25, paging: true, layout: Constants.Layout.miniBanner },
+		{ tag: 25, puprpose: 'appBanner', layout: Constants.Layout.miniBanner },
 		{
 			purpose: 'atAglance',
 			layout: Constants.Layout.atAglance,
