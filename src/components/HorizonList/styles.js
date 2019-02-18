@@ -74,7 +74,7 @@ export default StyleSheet.create({
 	header: {
 		flexDirection: 'row',
 		marginBottom: 12,
-		marginTop: 18,
+		// marginTop: 18,
 	},
 	headerLeft: {
 		flex: 1,

@@ -14,12 +14,10 @@ export default class HorizonLayout extends Component {
 	render() {
 		const { onViewPost, product, navigation } = this.props;
 		const title = Tools.getDescription(product.name);
-
 		const imageURL =
 			product.images.length > 0
 				? getProductImage(product.images[0].src, Styles.width)
 				: Images.PlaceHolderURL;
-
 		const props = {
 			imageURL,
 			title,

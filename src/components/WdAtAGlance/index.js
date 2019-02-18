@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
 	container: {
 		paddingLeft: 15,
 		paddingRight: 15,
-		marginTop: 15,
-		marginBottom: 15,
+		// marginTop: 15,
+		marginBottom: 20,
 		width: Dimensions.get('window').width,
 		flexDirection: 'row',
 		justifyContent: 'space-between',

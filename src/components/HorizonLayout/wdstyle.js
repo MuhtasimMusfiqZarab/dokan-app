@@ -91,14 +91,14 @@ export default StyleSheet.create({
 	},
 	panelThree: {
 		width: 130,
-		height: 110,
+		height: 120,
 		borderRadius: 5,
 		justifyContent: 'center',
 		backgroundColor: '#fff',
 		...Platform.select({
 			ios: {
 				shadowColor: '#000',
-				shadowOpacity: 0.3,
+				shadowOpacity: 0.1,
 				shadowOffset: { width: 0, height: 1 },
 				shadowRadius: 5,
 			},
