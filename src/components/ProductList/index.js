@@ -66,6 +66,14 @@ class ProductList extends Component {
 			this.props.fetchNewArrivals(this.page);
 		}
 
+		if (
+			!this.props.vendorID &&
+			this.props.config.puprpose &&
+			this.props.config.puprpose === 'appBanner'
+		) {
+			this.fetchData();
+		}
+
 		this.page === 0 && this.fetchData();
 	}
 
@@ -85,6 +93,8 @@ class ProductList extends Component {
 	}
 
 	fetchData = (reload = false) => {
+		console.log('fetch');
+
 		if (this.props.vendorID) return;
 
 		const {
