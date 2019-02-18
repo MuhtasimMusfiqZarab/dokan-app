@@ -195,7 +195,7 @@ class MyOrders extends Component {
 					}
 				/>
 				{this.state.isSpinner ? (
-					<Spinner mode="overlay" color="#000" backgroundColor="#fff" />
+					<Spinner mode="overlay" color="#000" backgroundColor="#E9E9EF" />
 				) : null}
 			</View>
 		);

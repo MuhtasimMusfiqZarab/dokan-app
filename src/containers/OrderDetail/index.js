@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { Button } from '@components';
 import OrderQuantity from './OrderQuantity';
 import ShippingAddress from './ShippingAddress';
@@ -10,16 +10,24 @@ export class OrderDetail extends Component {
 		const { orderDetail } = this.props;
 		console.log(orderDetail);
 		return (
-			<ScrollView contentContainerStyle={styles.container}>
-				<OrderQuantity
-					items={orderDetail.line_items}
-					discount={orderDetail.discount_total}
-					total={orderDetail.total}
-				/>
-				<ShippingAddress shippingAddress={orderDetail.shipping} />
-				{/* <BillingAddress />
-				<Button /> */}
-			</ScrollView>
+			<View style={styles.container}>
+				<ScrollView>
+					<OrderQuantity
+						items={orderDetail.line_items}
+						discount={orderDetail.discount_total}
+						total={orderDetail.total}
+					/>
+					<ShippingAddress shippingAddress={orderDetail.shipping} />
+					<BillingAddress billingAddress={orderDetail.billing} />
+					<Button
+						type="gradientBtn"
+						text="Order Again"
+						alignSelf="center"
+						marginTop={15}
+						onPress={() => alert('To be implemented')}
+					/>
+				</ScrollView>
+			</View>
 		);
 	}
 }
