@@ -20,6 +20,7 @@ import {
 } from '@components';
 import { find } from 'lodash';
 import styles from './styles';
+import AppBanner from '../AppBanner';
 
 class HorizonList extends PureComponent {
 	static propTypes = {
@@ -192,6 +193,16 @@ class HorizonList extends PureComponent {
 					navigation={navigation}
 					fetchVendorProducts={fetchVendorProducts}
 					onViewVendorProfileScreen={onViewVendorProfileScreen}
+				/>
+			);
+		} else if (config.layout === 9) {
+			return (
+				<AppBanner
+					config={config}
+					index={index}
+					onViewCategory={onViewCategory}
+					setSelectedCategory={setSelectedCategory}
+					onShowAll={onShowAll}
 				/>
 			);
 		} else {
