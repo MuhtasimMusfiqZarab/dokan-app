@@ -1808,6 +1808,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wedevs.dokan;
 				PRODUCT_NAME = Dokan;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1850,6 +1851,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wedevs.dokan;
 				PRODUCT_NAME = Dokan;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
