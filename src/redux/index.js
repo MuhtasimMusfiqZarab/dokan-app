@@ -21,6 +21,7 @@ import { reducer as SideMenuRedux } from './SideMenuRedux';
 import { reducer as FilterMenuRedux } from './WdFilterMenuRedux';
 import { reducer as VendorReducer } from './VendorRedux';
 import { reducer as SpinnerReducer } from './SpinnerRedux';
+import { reducer as BannerRedux } from './BannerRedux';
 
 const config = {
 	key: 'root',
@@ -34,7 +35,7 @@ const config = {
 		'sideMenu',
 		'filterMenu',
 		'spinner',
-		'vendors',
+		'banners',
 	],
 };
 
@@ -56,4 +57,5 @@ export default persistCombineReducers(config, {
 	filterMenu: FilterMenuRedux,
 	vendors: VendorReducer,
 	spinner: SpinnerReducer,
+	banners: BannerRedux,
 });
