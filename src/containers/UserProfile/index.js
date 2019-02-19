@@ -1,7 +1,14 @@
 /** @format */
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView, Text, Switch, AsyncStorage } from 'react-native';
+import {
+	View,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	Switch,
+	AsyncStorage,
+} from 'react-native';
 import { connect } from 'react-redux';
 import {
 	UserProfileHeader,
@@ -67,7 +74,9 @@ class UserProfile extends PureComponent {
 					<Switch
 						onValueChange={this._handleSwitch}
 						value={this.state.pushNotification}
-						tintColor={Color.blackDivide}
+						// tintColor={Color.blackDivide}
+						// trackColor={{ true: Color.blackDivide, false: null }}
+						trackColor={{ true: 'blue', false: 'red' }}
 					/>
 				),
 				iconLeft: Icons.MaterialCommunityIcons.Bell,
@@ -116,6 +125,7 @@ class UserProfile extends PureComponent {
 	render() {
 		const { userProfile, navigation, currency, changeCurrency } = this.props;
 		const user = userProfile.user || {};
+		const bearerToken = userProfile.token || {};
 		const name = Tools.getName(user);
 		const listItem = this._getListItem();
 		const address = Tools.getAddress(user);
@@ -134,14 +144,25 @@ class UserProfile extends PureComponent {
 						user={{
 							...user,
 							name,
+							bearerToken,
 						}}
 					/>
 
 					{userProfile.user && (
 						<View style={{ marginTop: 15 }}>
-							<Text style={styles.headerSection}>
-								{Languages.AccountInformations.toUpperCase()}
-							</Text>
+							<View
+								style={{
+									flrx: 1,
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+								}}>
+								<Text style={styles.headerSection}>
+									{Languages.AccountInformations.toUpperCase()}
+								</Text>
+								<TouchableOpacity onPress={() => this.props.onProfileEdit()}>
+									<Text style={styles.editText}>Edit</Text>
+								</TouchableOpacity>
+							</View>
 							<UserProfileItem
 								label={Languages.Name}
 								value={name}

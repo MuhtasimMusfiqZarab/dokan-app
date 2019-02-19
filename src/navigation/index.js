@@ -32,6 +32,7 @@ import CustomPageScreen from './CustomPageScreen';
 import ListAllScreen from './ListAllScreen';
 import SettingScreen from './SettingScreen';
 import UserProfileScreen from './UserProfileScreen';
+import UserProfileEditScreen from './UserProfileEditScreen';
 import VendorsScreen from './VendorsScreen';
 import VendorProfileScreen from './VendorProfileScreen';
 import ContactUsScreen from './ContactUsScreen';
@@ -144,6 +145,7 @@ const CartScreenStack = createStackNavigator(
 const UserProfileStack = createStackNavigator(
 	{
 		UserProfile: { screen: UserProfileScreen },
+		UserProfileEdit: { screen: UserProfileEditScreen },
 	},
 	{
 		navigationOptions: {

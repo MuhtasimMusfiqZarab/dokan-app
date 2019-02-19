@@ -1,0 +1,25 @@
+/** @format */
+
+import React, { Component } from 'react';
+import { UserProfileEdit } from '@containers';
+import { Color, Languages, Styles, Images } from '@common';
+import { Back, EmptyView } from './IconNav';
+
+export default class SignUpScreen extends Component {
+	static navigationOptions = ({ navigation }) => ({
+		title: 'Edit Profile',
+		headerLeft: Back(navigation, Images.icons.arrowBack),
+		headerRight: EmptyView(),
+
+		headerTintColor: Color.headerTintColor,
+		headerStyle: Styles.Common.toolbar,
+		headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		headerRightContainerStyle: Styles.Common.toolbarRight,
+		headerTitleStyle: Styles.Common.headerTitleStyle,
+	});
+
+	render() {
+		const { state, navigate } = this.props.navigation;
+		return <UserProfileEdit />;
+	}
+}

@@ -54,6 +54,9 @@ export const Setting = _Setting;
 import _UserProfile from './UserProfile';
 export const UserProfile = _UserProfile;
 
+import _UserProfileEdit from './UserProfileEdit';
+export const UserProfileEdit = _UserProfileEdit;
+
 import _Vendors from './Vendors';
 export const Vendors = _Vendors;
 

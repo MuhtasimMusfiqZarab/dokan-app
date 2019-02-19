@@ -17,8 +17,13 @@ export default class UserProfileScreen extends PureComponent {
 	});
 
 	render() {
-		const { navigation } = this.props;
+		const { navigate } = this.props.navigation;
 
-		return <UserProfile navigation={navigation} />;
+		return (
+			<UserProfile
+				navigation={this.props.navigation}
+				onProfileEdit={item => navigate('UserProfileEdit', item)}
+			/>
+		);
 	}
 }
