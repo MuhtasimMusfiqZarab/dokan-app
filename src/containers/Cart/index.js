@@ -31,6 +31,7 @@ class Cart extends PureComponent {
 		onViewHome: PropTypes.func,
 		emptyCart: PropTypes.any,
 		isProcessing: PropTypes.bool,
+		isCartFetching: PropTypes.bool,
 	};
 
 	static defaultProps = {
@@ -216,12 +217,24 @@ class Cart extends PureComponent {
 	};
 
 	render() {
-		const { onViewProduct, navigation, cartItems, onViewHome } = this.props;
+		const {
+			onViewProduct,
+			navigation,
+			cartItems,
+			onViewHome,
+			isCartFetching,
+		} = this.props;
 		const { currentIndex } = this.state;
 
-		if (currentIndex === 0 && cartItems && cartItems.length === 0) {
+		if (
+			currentIndex === 0 &&
+			cartItems &&
+			cartItems.length === 0 &&
+			!isCartFetching
+		) {
 			return <PaymentEmpty onViewHome={onViewHome} />;
 		}
+
 		const steps = [
 			{
 				label: Languages.MyCart,
@@ -302,6 +315,7 @@ const mapStateToProps = ({ carts, user, spinner }) => ({
 	cartItems: carts.cartItems,
 	user,
 	isProcessing: spinner.isOpen,
+	isCartFetching: carts.isFetching,
 });
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;

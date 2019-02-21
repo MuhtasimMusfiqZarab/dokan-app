@@ -27,7 +27,6 @@ class MyCart extends PureComponent {
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
-		// console.log(nextProps);
 		if (
 			nextProps.hasOwnProperty('type') &&
 			nextProps.type == 'GET_COUPON_CODE_FAIL' &&
@@ -40,6 +39,7 @@ class MyCart extends PureComponent {
 
 	render() {
 		const { cartItems, totalPrice, isFetching, discountType } = this.props;
+		console.log(totalPrice);
 		let couponBtn = Languages.ApplyCoupon;
 		// let colors = [Color.darkOrange, Color.darkYellow, Color.yellow];
 		const finalPrice =
@@ -59,7 +59,7 @@ class MyCart extends PureComponent {
 				<ScrollView>
 					<View style={css.row}>
 						<Text style={css.label}>{Languages.TotalPrice}</Text>
-						<Text style={css.value}>{currencyFormatter(finalPrice)}</Text>
+						<Text style={css.value}>{currencyFormatter(totalPrice)}</Text>
 					</View>
 					<View style={styles.list}>
 						{cartItems &&
@@ -73,12 +73,15 @@ class MyCart extends PureComponent {
 									<ProductItem
 										key={index}
 										viewQuantity
-										product={item.product}
+										product={item.product ? item.product : item}
 										onPress={() =>
-											this.props.onViewProduct({ product: item.product })
+											this.props.onViewProduct({
+												product: item.product ? item.product : item,
+											})
 										}
 										variation={item.variation}
 										quantity={item.quantity}
+										isCartProduct
 									/>
 								</SwipeRow>
 							))}
@@ -129,7 +132,6 @@ class MyCart extends PureComponent {
 	}
 
 	renderHiddenRow = (rowData, index) => {
-		console.log(rowData);
 		return (
 			<TouchableOpacity
 				key={`hiddenRow-${index}`}
@@ -193,6 +195,7 @@ const mapStateToProps = ({ carts, products }) => {
 		couponCode: products.coupon && products.coupon.code,
 		couponAmount: products.coupon && products.coupon.amount,
 		discountType: products.coupon && products.coupon.type,
+		isCartFetching: carts.isFetching,
 
 		isFetching: products.isFetching,
 		type: products.type,

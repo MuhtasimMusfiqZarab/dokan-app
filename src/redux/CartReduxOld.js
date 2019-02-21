@@ -1,9 +1,7 @@
 /** @format */
 
-import { toast } from '@app/Omni';
 import { Constants, Languages } from '@common';
 import WooWorker from '@services/WooCommerce/WooWorker';
-import DokanWorker from '@services/Dokan/DokanWorker';
 import Validate from '../ultils/Validate.js';
 
 const types = {
@@ -25,24 +23,12 @@ const types = {
 };
 
 export const actions = {
-	addCartItem: (dispatch, product, variation, token) => {
-		dispatch({ type: types.FETCH_CART_PENDING });
-		DokanWorker.addCartItem(product.id, 1, token)
-			.then(data => {
-				// console.log(data);
-				// console.log(product);
-				dispatch({
-					type: types.ADD_CART_ITEM,
-					product: data.cartProduct,
-					totalPrice: data.cartTotalPrice,
-					total: data.cartTotalItems,
-					variation,
-				});
-			})
-			.catch(error => {
-				console.log(error);
-				toast('Something Went Wrong');
-			});
+	addCartItem: (dispatch, product, variation) => {
+		dispatch({
+			type: types.ADD_CART_ITEM,
+			product,
+			variation,
+		});
 	},
 
 	fetchMyOrder: (dispatch, user) => {
@@ -154,15 +140,13 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
-	const { type, product, totalPrice, totalItems } = action;
-	console.log(product);
-	console.log(typeof totalPrice);
+	const { type } = action;
+
 	switch (type) {
 		case types.ADD_CART_ITEM: {
 			const isExisted = state.cartItems.some(cartItem =>
 				compareCartItem(cartItem, action)
 			);
-
 			return Object.assign(
 				{},
 				state,
@@ -171,25 +155,18 @@ export const reducer = (state = initialState, action) => {
 					: { cartItems: [...state.cartItems, cartItem(undefined, action)] },
 				{
 					total: state.total + 1,
-					totalPrice: state.totalPrice + Number(action.totalPrice),
-					// Number(
-					// 	action.variation === undefined ||
-					// 		action.variation == null ||
-					// 		action.variation.price === undefined
-					// 		? action.product.price
-					// 		: action.variation.price
-					// ),
+					totalPrice:
+						state.totalPrice +
+						Number(
+							action.variation === undefined ||
+								action.variation == null ||
+								action.variation.price === undefined
+								? action.product.price
+								: action.variation.price
+						),
 				}
 			);
 		}
-		// case types.ADD_CART_ITEM: {
-		// 	return {
-		// 		...state,
-		// 		cartItems: state.cartItems.concat(cartProduct),
-		// 		totalPrice: totalPrice,
-		// 		total: totalItems,
-		// 	};
-		// }
 		case types.REMOVE_CART_ITEM: {
 			const index = state.cartItems.findIndex(cartItem =>
 				compareCartItem(cartItem, action)
@@ -322,7 +299,6 @@ export const reducer = (state = initialState, action) => {
 };
 
 const compareCartItem = (cartItem, action) => {
-	console.log(cartItem);
 	if (
 		cartItem.variation !== undefined &&
 		action.variation !== undefined &&
@@ -330,10 +306,10 @@ const compareCartItem = (cartItem, action) => {
 		action.variation != null
 	)
 		return (
-			cartItem.product.product_id === action.product.product_id &&
-			cartItem.variation.variation_id === action.variation.variation_id
+			cartItem.product.id === action.product.id &&
+			cartItem.variation.id === action.variation.id
 		);
-	return cartItem.product.product_id === action.product.product_id;
+	return cartItem.product.id === action.product.id;
 };
 
 const cartItem = (

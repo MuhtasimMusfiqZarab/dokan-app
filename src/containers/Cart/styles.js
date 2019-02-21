@@ -39,7 +39,7 @@ export default StyleSheet.create({
 	},
 
 	bottomView: {
-		height: 40,
+		height: 50,
 		flexDirection: 'row',
 		borderTopWidth: 1,
 		borderTopColor: '#f3f7f9',

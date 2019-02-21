@@ -1,7 +1,7 @@
 /** @format */
 
 import { Config } from '@common';
-import { warn } from '@app/Omni';
+import { warn, toast } from '@app/Omni';
 
 const DokanWorker = {
 	getFeaturedProducts: async (page = 1, per_page = 10) => {
@@ -150,6 +150,43 @@ const DokanWorker = {
 				return wooApiVersion;
 			})
 			.catch(err => warn(err));
+	},
+	addCartItem: async (productID, qty = 1, token) => {
+		const data = {
+			product_id: productID,
+			quantity: qty,
+		};
+
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
+				{
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				}
+			);
+			const totalPriceHeader = JSON.parse(
+				response.headers.get('x-dokan-cart-totals')
+			);
+			const cartTotalPrice = totalPriceHeader.total;
+			const cartTotalItems = JSON.parse(
+				response.headers.get('X-Dokan-Cart-TotalItems')
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return { cartProduct: json, cartTotalPrice, cartTotalItems };
+			} else {
+				toast(json.message);
+			}
+		} catch (error) {
+			return error;
+		}
 	},
 };
 

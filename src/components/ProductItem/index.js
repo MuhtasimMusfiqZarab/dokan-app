@@ -9,7 +9,14 @@ import { connect } from 'react-redux';
 
 class ProductItem extends PureComponent {
 	render() {
-		const { product, quantity, viewQuantity, variation, onPress } = this.props;
+		const {
+			product,
+			quantity,
+			viewQuantity,
+			variation,
+			onPress,
+			isCartProduct,
+		} = this.props;
 		const price =
 			variation === null || variation === undefined
 				? product.price
@@ -18,20 +25,35 @@ class ProductItem extends PureComponent {
 		return (
 			<View style={styles.container}>
 				<View style={styles.content}>
-					<Image
-						source={{ uri: getProductImage(product.images[0].src, 100) }}
-						style={styles.image}
-					/>
+					{isCartProduct ? (
+						<Image
+							source={{
+								uri: getProductImage(product.product_images[0].src, 100),
+							}}
+							style={styles.image}
+						/>
+					) : (
+						<Image
+							source={{ uri: getProductImage(product.images[0].src, 100) }}
+							style={styles.image}
+						/>
+					)}
 					<View
 						style={[
 							styles.infoView,
 							{ width: Dimensions.get('window').width - 180 },
 						]}>
 						<TouchableOpacity onPress={() => onPress({ product })}>
-							<Text style={styles.title}>{product.name}</Text>
+							<Text style={styles.title}>
+								{isCartProduct ? product.product_name : product.name}
+							</Text>
 						</TouchableOpacity>
 						<View style={styles.priceContainer}>
-							<Text style={styles.price}>{currencyFormatter(price)}</Text>
+							<Text style={styles.price}>
+								{isCartProduct
+									? currencyFormatter(product.line_total)
+									: currencyFormatter(price)}
+							</Text>
 							{variation &&
 								typeof variation.attributes !== 'undefined' &&
 								variation.attributes.map(variant => {

@@ -24,7 +24,6 @@ import styles from './ProductDetail_Style';
 import VendorSummary from './VendorSummary';
 import ProductDetails from './ProductDetails';
 import EventEmitter from '@services/AppEventEmitter';
-import DokanWorker from '@services/Dokan/DokanWorker';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
@@ -47,6 +46,7 @@ class Detail extends PureComponent {
 		relatedProducts: PropTypes.any,
 		onViewVendorProfileScreen: PropTypes.any,
 		fetchVendorProducts: PropTypes.any,
+		bearerToken: PropTypes.string,
 	};
 
 	constructor(props) {
@@ -88,7 +88,7 @@ class Detail extends PureComponent {
 	}
 
 	componentDidMount() {
-		this.getCartTotal(this.props);
+		// this.getCartTotal(this.props);
 		this.getWishList(this.props);
 		this.props.getProductVariations(this.props.product);
 		this.props.getRelatedProducts(this.props.product.id);
@@ -101,7 +101,7 @@ class Detail extends PureComponent {
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
-		this.getCartTotal(nextProps, true);
+		// this.getCartTotal(nextProps, true);
 		this.getWishList(nextProps, true);
 		// this important to update the variations from the product as the Life cycle is not run again !!!
 		if (this.props.product.id != nextProps.product.id) {
@@ -173,15 +173,26 @@ class Detail extends PureComponent {
 		});
 	};
 
-	addToCart = (go = false) => {
-		const { addCartItem, product, onViewCart } = this.props;
+	addToCart = async (go = false) => {
+		const {
+			addCartItem,
+			product,
+			onViewCart,
+			userData,
+			bearerToken,
+			onLogin,
+		} = this.props;
 
-		if (this.inCartTotal < Constants.LimitAddToCart) {
-			addCartItem(product, this.state.selectVariation);
+		if (userData) {
+			if (this.inCartTotal < Constants.LimitAddToCart) {
+				addCartItem(product, this.state.selectVariation, bearerToken);
+			} else {
+				alert(Languages.ProductLimitWaring);
+			}
+			if (go) onViewCart();
 		} else {
-			alert(Languages.ProductLimitWaring);
+			onLogin();
 		}
-		if (go) onViewCart();
 	};
 
 	addToWishList = isAddWishList => {
@@ -190,30 +201,30 @@ class Detail extends PureComponent {
 		} else this.props.addWishListItem(this.props.product);
 	};
 
-	getCartTotal = (props, check = false) => {
-		const { cartItems } = props;
+	// getCartTotal = (props, check = false) => {
+	// 	const { cartItems } = props;
 
-		if (cartItems != null) {
-			if (check === true && props.cartItems === this.props.cartItems) {
-				return;
-			}
+	// 	if (cartItems != null) {
+	// 		if (check === true && props.cartItems === this.props.cartItems) {
+	// 			return;
+	// 		}
 
-			this.inCartTotal = cartItems.reduce((accumulator, currentValue) => {
-				if (currentValue.product.id == this.props.product.id) {
-					return accumulator + currentValue.quantity;
-				}
-				return 0;
-			}, 0);
+	// 		this.inCartTotal = cartItems.reduce((accumulator, currentValue) => {
+	// 			if (currentValue.product.id == this.props.product.id) {
+	// 				return accumulator + currentValue.quantity;
+	// 			}
+	// 			return 0;
+	// 		}, 0);
 
-			const sum = cartItems.reduce(
-				(accumulator, currentValue) => accumulator + currentValue.quantity,
-				0
-			);
-			const params = this.props.navigation.state.params;
-			params.cartTotal = sum;
-			this.props.navigation.setParams(params);
-		}
-	};
+	// 		const sum = cartItems.reduce(
+	// 			(accumulator, currentValue) => accumulator + currentValue.quantity,
+	// 			0
+	// 		);
+	// 		const params = this.props.navigation.state.params;
+	// 		params.cartTotal = sum;
+	// 		this.props.navigation.setParams(params);
+	// 	}
+	// };
 
 	getWishList = (props, check = false) => {
 		const { product, navigation, wishListItems } = props;
@@ -377,10 +388,10 @@ class Detail extends PureComponent {
 		const { cartItems, product } = this.props;
 		// const isAddWishList =
 		// 	wishListItems.filter(item => item.product.id === product.id).length > 0;
-		const isAddToCart = !!(
-			cartItems &&
-			cartItems.filter(item => item.product.id === product.id).length > 0
-		);
+		// const isAddToCart = !!(
+		// 	cartItems &&
+		// 	cartItems.filter(item => item.product.id === product.id).length > 0
+		// );
 
 		return (
 			<View
@@ -421,7 +432,7 @@ class Detail extends PureComponent {
 					text="ADD CART"
 					icon="cart"
 					iconStyle={{ marginRight: 5, color: '#D2DBE0' }}
-					isAddToCart={isAddToCart}
+					// isAddToCart={isAddToCart}
 					textStyle={styles.butnCartText}
 					// disabled={!this.props.product.in_stock || this.props.product.stock_status === "outofstock"}
 					disabled={this.disableAddCartBtn}
@@ -559,6 +570,7 @@ const mapStateToProps = state => {
 		wishListItems: state.wishList.wishListItems,
 		productVariations: state.products.productVariations,
 		userData: state.user.user,
+		bearerToken: state.user.token,
 		relatedProducts: state.products.relatedProducts,
 	};
 };
@@ -573,8 +585,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 	return {
 		...ownProps,
 		...stateProps,
-		addCartItem: (product, variation) => {
-			CartRedux.actions.addCartItem(dispatch, product, variation);
+		addCartItem: (product, variation, token) => {
+			CartRedux.actions.addCartItem(dispatch, product, variation, token);
 		},
 		addWishListItem: product => {
 			WishListRedux.actions.addWishListItem(dispatch, product);

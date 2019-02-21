@@ -15,7 +15,6 @@ const dateFormat = date => {
 };
 
 const ReviewComment = props => {
-	console.log(props);
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
