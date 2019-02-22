@@ -15,6 +15,7 @@ import { Spinner } from '@components';
 import { Constants, Languages, Color } from '@common';
 import styles from './styles';
 import OrderEmpty from './Empty';
+import FilterButtons from './FilterButtons';
 import WooWorker from '@services/WooCommerce/WooWorker';
 
 const cardMargin = Constants.Dimension.ScreenWidth(0.05);
@@ -25,6 +26,7 @@ class MyOrders extends Component {
 		scrollY: new Animated.Value(0),
 		activeSections: [],
 		isSpinner: false,
+		orderFilter: 'All',
 	};
 
 	componentDidMount() {
@@ -41,7 +43,8 @@ class MyOrders extends Component {
 		return (
 			(typeof nextProps.carts.myOrders !== 'undefined' &&
 				nextProps.carts.myOrders.length != this.props.carts.myOrders.length) ||
-			nextState.isSpinner !== this.state.isSpinner
+			nextState.isSpinner !== this.state.isSpinner ||
+			nextState.orderFilter !== this.state.orderFilter
 		);
 	}
 
@@ -153,10 +156,26 @@ class MyOrders extends Component {
 		);
 	};
 
+	onSelectAll = () => {
+		this.setState({ orderFilter: 'All' });
+	};
+
+	onSelectComplete = () => {
+		this.setState({ orderFilter: 'Complete' });
+	};
+
 	render() {
-		const data = this.props.carts.myOrders;
+		const { orderFilter } = this.state;
+		let data = [];
+		if (orderFilter === 'All') {
+			data = this.props.carts.myOrders;
+		} else {
+			data = this.props.carts.myOrders.filter(
+				order => order.status !== 'pending'
+			);
+		}
 		const orderCount = data.length;
-		console.log(this.state.isSpinner);
+
 		if (typeof data === 'undefined' || data.length == 0) {
 			return (
 				<OrderEmpty
@@ -169,13 +188,17 @@ class MyOrders extends Component {
 
 		return (
 			<View style={styles.listView}>
+				<FilterButtons
+					onSelectAll={this.onSelectAll}
+					onSelectComplete={this.onSelectComplete}
+				/>
 				<Text
 					style={{
 						margin: cardMargin,
 						color: Color.wdDeepGray,
 						fontSize: 20,
 					}}>
-					{orderCount} Items
+					{orderCount > 1 ? `${orderCount} Items` : `${orderCount} Item`}
 				</Text>
 				<AnimatedFlatList
 					data={data}
