@@ -5,8 +5,6 @@ import { View, StyleSheet } from 'react-native';
 import { Button } from '@components';
 import { Constants, Color } from '@common';
 
-const cardMargin = Constants.Dimension.ScreenWidth(0.05);
-
 export default class FilterButtons extends PureComponent {
 	state = {
 		selectedIndex: 0,
@@ -71,13 +69,13 @@ export default class FilterButtons extends PureComponent {
 const styles = StyleSheet.create({
 	bottomView: {
 		width: '50%',
-		height: 40,
+		height: Constants.Dimension.ScreenHeight(0.05),
 		flexDirection: 'row',
 		borderWidth: 1,
 		borderColor: Color.BuyNowButton,
 		borderRadius: 3,
 		alignSelf: 'center',
-		marginTop: cardMargin,
+		marginTop: Constants.Dimension.ScreenWidth(0.05),
 	},
 	floatView: {
 		// width: Constants.Window.width,
