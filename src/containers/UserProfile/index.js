@@ -162,9 +162,10 @@ class UserProfile extends PureComponent {
 					}}>
 					<UserProfileHeader
 						onLogin={() => navigation.navigate('LoginScreen')}
-						onLogout={() =>
-							navigation.navigate('LoginScreen', { isLogout: true })
-						}
+						onLogout={() => {
+							this.props.emptyCart();
+							navigation.navigate('LoginScreen', { isLogout: true });
+						}}
 						user={{
 							...user,
 							name,
@@ -268,6 +269,7 @@ const mapStateToProps = ({ user, language, currency, wishList }) => ({
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
 	const { actions } = require('@redux/CurrencyRedux');
+	const CartRedux = require('@redux/CartRedux');
 	const UserRedux = require('@redux/UserRedux');
 
 	return {
@@ -275,6 +277,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		...stateProps,
 		changeCurrency: currnecy => actions.changeCurrency(dispatch, currnecy),
 		updateUser: user => dispatch(UserRedux.actions.updateUserInfo(user)),
+		emptyCart: () => CartRedux.actions.emptyCart(dispatch),
 	};
 }
 

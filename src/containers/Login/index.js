@@ -35,6 +35,7 @@ class LoginScreen extends PureComponent {
 		onBack: PropTypes.func,
 		goBack: PropTypes.func,
 		onForgetPassword: PropTypes.func,
+		fetchAllCartItems: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -138,9 +139,17 @@ class LoginScreen extends PureComponent {
 			this.stopAndToast(json.message);
 		} else {
 			let customers = await DokanWorker.getCustomerProfile(json.token);
-			customers = { ...customers, username, password };
-			this._onBack();
-			login(customers, json.token);
+			console.log(customers);
+
+			if (customers.id !== undefined) {
+				// Fetch customer's cart
+				this.props.fetchAllCartItems(json.token);
+
+				// Update and store customer's info
+				customers = { ...customers, username, password };
+				login(customers, json.token);
+				this._onBack();
+			}
 		}
 	};
 
@@ -315,6 +324,7 @@ const mapStateToProps = ({ netInfo, user }) => ({ netInfo, user });
 
 const mapDispatchToProps = dispatch => {
 	const { actions } = require('@redux/UserRedux');
+	const CartActions = require('@redux/CartRedux').actions;
 	const backAction = NavigationActions.back({
 		key: null,
 	});
@@ -323,6 +333,7 @@ const mapDispatchToProps = dispatch => {
 		login: (user, token) => dispatch(actions.login(user, token)),
 		logout: () => dispatch(actions.logout()),
 		goBack: () => dispatch(backAction),
+		fetchAllCartItems: token => CartActions.fetchAllCartItems(dispatch, token),
 	};
 };
 

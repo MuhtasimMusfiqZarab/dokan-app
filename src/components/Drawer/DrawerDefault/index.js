@@ -31,17 +31,19 @@ class DrawerDefault extends PureComponent {
 
 		this.state = {
 			reload: false,
+			activeScreenIndex: 0,
 		};
+	}
 
+	componentDidMount() {
 		/**
 		 * Keep track of active screen
 		 */
 		this.buttonList.map((item, index) => {
 			if (item.params.isActive === true) {
-				this.state = {
-					...this.state,
+				this.setState({
 					activeScreenIndex: index,
-				};
+				});
 			}
 		});
 	}
@@ -67,6 +69,10 @@ class DrawerDefault extends PureComponent {
 
 	_handlePress = item => {
 		const { goToScreen } = this.props;
+
+		if (item.text === 'Logout') {
+			this.props.emptyCart();
+		}
 
 		// To show active inactive menu
 		if (item.params.isActive === false) {
@@ -121,4 +127,15 @@ const mapStateToProps = ({ user, netInfo }) => ({
 	netInfo, // auto reload when netInfo change, also fix reload menu to change language
 });
 
-export default connect(mapStateToProps)(DrawerDefault);
+const mapDispatchToProps = dispatch => {
+	const CartActions = require('@redux/CartRedux').actions;
+
+	return {
+		emptyCart: () => CartActions.emptyCart(dispatch),
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(DrawerDefault);
