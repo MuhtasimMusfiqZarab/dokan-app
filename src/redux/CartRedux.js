@@ -40,7 +40,7 @@ export const actions = {
 				});
 			})
 			.catch(error => {
-				console.log(error);
+				// console.log(error);
 				toast('Something Went Wrong');
 			});
 	},
@@ -155,8 +155,8 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
 	const { type, product, totalPrice, totalItems } = action;
-	console.log(product);
-	console.log(typeof totalPrice);
+	// console.log(product);
+	// console.log(typeof totalPrice);
 	switch (type) {
 		case types.ADD_CART_ITEM: {
 			const isExisted = state.cartItems.some(cartItem =>
@@ -322,7 +322,7 @@ export const reducer = (state = initialState, action) => {
 };
 
 const compareCartItem = (cartItem, action) => {
-	console.log(cartItem);
+	// console.log(cartItem);
 	if (
 		cartItem.variation !== undefined &&
 		action.variation !== undefined &&

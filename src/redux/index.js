@@ -22,6 +22,7 @@ import { reducer as FilterMenuRedux } from './WdFilterMenuRedux';
 import { reducer as VendorReducer } from './VendorRedux';
 import { reducer as SpinnerReducer } from './SpinnerRedux';
 import { reducer as BannerRedux } from './BannerRedux';
+import { reducer as AddressRedux } from './AddressRedux';
 
 const config = {
 	key: 'root',
@@ -58,4 +59,5 @@ export default persistCombineReducers(config, {
 	vendors: VendorReducer,
 	spinner: SpinnerReducer,
 	banners: BannerRedux,
+	addresses: AddressRedux,
 });

@@ -21,6 +21,7 @@ import { Spinner, Button, ImageCache } from '@components';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import WPUserAPI from '@services/WPUserAPI';
 import styles from './styles';
+import DokanWorker from '../../services/Dokan/DokanWorker';
 
 class LoginScreen extends PureComponent {
 	static propTypes = {
@@ -60,7 +61,7 @@ class LoginScreen extends PureComponent {
 		}
 	}
 
-	// handle the logout screen and navigate to cart page if the new user login object exist
+	// handle the logout screen and navigate to cart page if the new user login object exists
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		const { onViewCartScreen, user: oldUser, onViewHomeScreen } = this.props;
 		const { user } = nextProps.user;
@@ -136,41 +137,12 @@ class LoginScreen extends PureComponent {
 		} else if (json.code) {
 			this.stopAndToast(json.message);
 		} else {
-			let customers = await WooWorker.getCustomerByEmail(json.user_email);
-			customers = { ...customers[0], username, password };
-
+			let customers = await DokanWorker.getCustomerProfile(json.token);
+			customers = { ...customers, username, password };
 			this._onBack();
 			login(customers, json.token);
 		}
 	};
-
-	// onLoginPressHandle = async () => {
-	// 	const { login, netInfo } = this.props;
-
-	// 	if (!netInfo.isConnected) {
-	// 		return toast(Languages.noConnection);
-	// 	}
-
-	// 	this.setState({ isLoading: true });
-
-	// 	const { username, password } = this.state;
-
-	// 	// login the customer via Wordpress API and get the access token
-	// 	const json = await WPUserAPI.login(username.trim(), password);
-
-	// 	if (json === undefined) {
-	// 		this.stopAndToast(Languages.GetDataError);
-	// 	} else if (json.error) {
-	// 		this.stopAndToast(json.error);
-	// 	} else {
-	// 		let customers = await WooWorker.getCustomerById(json.user.id);
-	// 		console.log(customers);
-	// 		customers = { ...customers, username, password };
-
-	// 		this._onBack();
-	// 		login(customers, json.cookie);
-	// 	}
-	// };
 
 	validateForm = () => {
 		const { username, password } = this.state;

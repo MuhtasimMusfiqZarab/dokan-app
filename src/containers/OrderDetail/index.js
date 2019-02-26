@@ -14,6 +14,7 @@ export class OrderDetail extends Component {
 				<ScrollView>
 					<OrderQuantity
 						items={orderDetail.line_items}
+						store={orderDetail.store.shop_name}
 						discount={orderDetail.discount_total}
 						total={orderDetail.total}
 					/>

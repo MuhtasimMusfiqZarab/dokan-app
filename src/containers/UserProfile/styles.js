@@ -28,4 +28,11 @@ export default StyleSheet.create({
 		fontSize: 13,
 		color: 'red',
 	},
+	editTextInputStyle: {
+		width: '90%',
+		marginBottom: 15,
+		backgroundColor: '#fff',
+		borderRadius: 5,
+		padding: 5,
+	},
 });

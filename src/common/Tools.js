@@ -142,16 +142,21 @@ export default class Tools {
 	 */
 	static getAvatar = user => {
 		if (user) {
-			if (user.avatar_url) {
-				return {
-					uri: user.avatar_url,
-				};
-			} else if (user.picture) {
-				return {
-					uri: user.picture.data.url,
-				};
+			if (!_.isEmpty(user.profile_picture)) {
+				const avatarSizes = user.profile_picture.media_details.sizes;
+				return { uri: avatarSizes.thumbnail.source_url };
 			} else {
-				return Images.defaultAvatar;
+				if (user.avatar_url) {
+					return {
+						uri: user.avatar_url,
+					};
+				} else if (user.picture) {
+					return {
+						uri: user.picture.data.url,
+					};
+				} else {
+					return Images.defaultAvatar;
+				}
 			}
 		}
 

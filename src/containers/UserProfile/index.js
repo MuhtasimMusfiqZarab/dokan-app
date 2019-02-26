@@ -15,10 +15,12 @@ import {
 	UserProfileItem,
 	DokanModal,
 	CurrencyPicker,
+	Spinner,
+	ModalBox,
 } from '@components';
 import { Languages, Color, Tools, Icons } from '@common';
 import { getNotification } from '@app/Omni';
-
+import NameEditModal from './NameEditModal';
 import styles from './styles';
 
 class UserProfile extends PureComponent {
@@ -27,7 +29,7 @@ class UserProfile extends PureComponent {
 
 		this.state = {
 			pushNotification: false,
-			isLoading: true,
+			isLoading: false,
 		};
 	}
 
@@ -74,9 +76,8 @@ class UserProfile extends PureComponent {
 					<Switch
 						onValueChange={this._handleSwitch}
 						value={this.state.pushNotification}
-						// tintColor={Color.blackDivide}
-						// trackColor={{ true: Color.blackDivide, false: null }}
-						trackColor={{ true: 'blue', false: 'red' }}
+						tintColor={Color.blackDivide}
+						// trackColor={{ true: 'blue', false: 'red' }}
 					/>
 				),
 				iconLeft: Icons.MaterialCommunityIcons.Bell,
@@ -111,19 +112,42 @@ class UserProfile extends PureComponent {
 
 	_handlePress = item => {
 		const { navigation } = this.props;
-		const { routeName, isActionSheet } = item;
+		const { routeName, isActionSheet, label } = item;
 
 		if (routeName && !isActionSheet) {
 			navigation.navigate(routeName, item.params);
 		}
 
 		if (isActionSheet) {
-			this.currencyPicker.openModal();
+			switch (label) {
+				case 'Currency':
+					this.currencyPicker.openModal();
+				case 'Name':
+					this.editNameModal.openModal();
+				default:
+					break;
+			}
 		}
 	};
 
+	changeLoadingState = booleanValue => {
+		this.setState({
+			isLoading: booleanValue,
+		});
+	};
+
+	closeEditModal = () => {
+		this.editNameModal.closeModal();
+	};
+
 	render() {
-		const { userProfile, navigation, currency, changeCurrency } = this.props;
+		const {
+			userProfile,
+			navigation,
+			currency,
+			changeCurrency,
+			updateUser,
+		} = this.props;
 		const user = userProfile.user || {};
 		const bearerToken = userProfile.token || {};
 		const name = Tools.getName(user);
@@ -146,24 +170,29 @@ class UserProfile extends PureComponent {
 							name,
 							bearerToken,
 						}}
+						updateUser={updateUser}
+						changeLoadingState={this.changeLoadingState}
 					/>
 
 					{userProfile.user && (
 						<View style={{ marginTop: 15 }}>
 							<View
 								style={{
-									flrx: 1,
+									flex: 1,
 									flexDirection: 'row',
 									justifyContent: 'space-between',
 								}}>
 								<Text style={styles.headerSection}>
 									{Languages.AccountInformations.toUpperCase()}
 								</Text>
-								<TouchableOpacity onPress={() => this.props.onProfileEdit()}>
+								<TouchableOpacity
+									onPress={() => this.editNameModal.openModal()}>
 									<Text style={styles.editText}>Edit</Text>
 								</TouchableOpacity>
 							</View>
 							<UserProfileItem
+								icon
+								isActionSheet={true}
 								label={Languages.Name}
 								value={name}
 								iconLeft={Icons.MaterialCommunityIcons.User}
@@ -176,6 +205,8 @@ class UserProfile extends PureComponent {
 								valueBlack
 							/>
 							<UserProfileItem
+								icon
+								routeName="UserProfileEdit"
 								label={Languages.Address}
 								value={address}
 								iconLeft={Icons.MaterialCommunityIcons.Pin}
@@ -212,6 +243,16 @@ class UserProfile extends PureComponent {
 						changeCurrency={changeCurrency}
 					/>
 				</DokanModal>
+
+				<NameEditModal
+					refs={c => (this.editNameModal = c)}
+					closeEditModal={this.closeEditModal}
+					user={user}
+					token={bearerToken}
+					updateUser={updateUser}
+				/>
+
+				{this.state.isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</View>
 		);
 	}
@@ -227,10 +268,13 @@ const mapStateToProps = ({ user, language, currency, wishList }) => ({
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
 	const { actions } = require('@redux/CurrencyRedux');
+	const UserRedux = require('@redux/UserRedux');
+
 	return {
 		...ownProps,
 		...stateProps,
 		changeCurrency: currnecy => actions.changeCurrency(dispatch, currnecy),
+		updateUser: user => dispatch(UserRedux.actions.updateUserInfo(user)),
 	};
 }
 

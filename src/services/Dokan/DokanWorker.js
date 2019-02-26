@@ -110,6 +110,43 @@ const DokanWorker = {
 			})
 			.catch(error => warn(error));
 	},
+	getCustomerProfile: async token => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/customers/me/`,
+			{
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+			}
+		)
+			.then(response => response.json())
+			.then(json => {
+				return json;
+			})
+			.catch(error => warn(error));
+	},
+	updateCustomerProfile: async (data = {}, token) => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/customers/me/`,
+			{
+				method: 'PUT',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			}
+		)
+			.then(response => response.json())
+			.then(json => {
+				return json;
+			})
+			.catch(error => warn(error));
+	},
 	getAppBanner: async () => {
 		return await fetch(
 			`${Config.WooCommerce.url}/wp-json/dokan/v1/dokan-app/slides/`

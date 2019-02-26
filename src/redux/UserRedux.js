@@ -6,6 +6,8 @@ const types = {
 	LOGOUT: 'LOGOUT',
 	LOGIN: 'LOGIN_SUCCESS',
 	FINISH_INTRO: 'FINISH_INTRO',
+	CHANGE_USER_INFO: 'CHANGE_USER_INFO',
+	UPDATE_USER_INFO: 'UPDATE_USER_INFO',
 };
 
 export const actions = {
@@ -17,6 +19,12 @@ export const actions = {
 	},
 	finishIntro() {
 		return { type: types.FINISH_INTRO };
+	},
+	editUser() {
+		return { types: types.CHANGE_USER_INFO };
+	},
+	updateUserInfo: (user, token) => {
+		return { type: types.UPDATE_USER_INFO, user };
 	},
 };
 
@@ -36,6 +44,9 @@ export const reducer = (state = initialState, action) => {
 			return { ...state, user, token };
 		case types.FINISH_INTRO:
 			return { ...state, finishIntro: true };
+		case types.UPDATE_USER_INFO:
+			console.log(user);
+			return { ...state, user };
 		default:
 			return state;
 	}
