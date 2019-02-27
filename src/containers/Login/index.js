@@ -21,7 +21,7 @@ import { Spinner, Button, ImageCache } from '@components';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import WPUserAPI from '@services/WPUserAPI';
 import styles from './styles';
-import DokanWorker from '../../services/Dokan/DokanWorker';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 class LoginScreen extends PureComponent {
 	static propTypes = {
@@ -49,7 +49,6 @@ class LoginScreen extends PureComponent {
 
 		this.onUsernameEditHandle = username => this.setState({ username });
 		this.onPasswordEditHandle = password => this.setState({ password });
-
 		this.focusPassword = () => this.password && this.password.focus();
 	}
 
@@ -62,7 +61,7 @@ class LoginScreen extends PureComponent {
 		}
 	}
 
-	// handle the logout screen and navigate to cart page if the new user login object exists
+	// handle logout screen and navigate to cart page if the new user login object exists
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		const { onViewCartScreen, user: oldUser, onViewHomeScreen } = this.props;
 		const { user } = nextProps.user;
@@ -139,7 +138,6 @@ class LoginScreen extends PureComponent {
 			this.stopAndToast(json.message);
 		} else {
 			let customers = await DokanWorker.getCustomerProfile(json.token);
-			console.log(customers);
 
 			if (customers.id !== undefined) {
 				// Fetch customer's cart

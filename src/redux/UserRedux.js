@@ -23,7 +23,7 @@ export const actions = {
 	editUser() {
 		return { types: types.CHANGE_USER_INFO };
 	},
-	updateUserInfo: (user, token) => {
+	updateUserInfo: user => {
 		return { type: types.UPDATE_USER_INFO, user };
 	},
 };

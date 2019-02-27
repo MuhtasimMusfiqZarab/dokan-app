@@ -164,7 +164,8 @@ class UserProfile extends PureComponent {
 						onLogin={() => navigation.navigate('LoginScreen')}
 						onLogout={() => {
 							this.props.emptyCart();
-							navigation.navigate('LoginScreen', { isLogout: true });
+							this.props.logOut();
+							// navigation.navigate('LoginScreen', { isLogout: true });
 						}}
 						user={{
 							...user,
@@ -278,6 +279,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		changeCurrency: currnecy => actions.changeCurrency(dispatch, currnecy),
 		updateUser: user => dispatch(UserRedux.actions.updateUserInfo(user)),
 		emptyCart: () => CartRedux.actions.emptyCart(dispatch),
+		logOut: () => dispatch(UserRedux.actions.logout()),
 	};
 }
 
