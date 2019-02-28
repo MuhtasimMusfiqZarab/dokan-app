@@ -3,7 +3,13 @@
  */
 
 import React, { PureComponent } from 'react';
-import { View, ScrollView, Image, I18nManager } from 'react-native';
+import {
+	View,
+	ScrollView,
+	Image,
+	I18nManager,
+	TouchableOpacity,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { Styles, Config, Tools } from '@common';
 import { Text } from '@components';
@@ -87,6 +93,11 @@ class DrawerDefault extends PureComponent {
 		goToScreen(item.routeName, item.params, item.isReset);
 	};
 
+	handleUserProfilePress = () => {
+		const { goToScreen } = this.props;
+		goToScreen('UserProfileScreen');
+	};
+
 	render() {
 		const { userProfile } = this.props;
 		const user = userProfile.user;
@@ -95,7 +106,9 @@ class DrawerDefault extends PureComponent {
 
 		return (
 			<View style={styles.container}>
-				<View style={[styles.avatarBackground, Styles.Common.ColumnCenter]}>
+				<TouchableOpacity
+					onPress={() => this.handleUserProfilePress()}
+					style={[styles.avatarBackground, Styles.Common.ColumnCenter]}>
 					<Image
 						source={avatar}
 						style={[styles.avatar, I18nManager.isRTL && { left: -20 }]}
@@ -104,7 +117,7 @@ class DrawerDefault extends PureComponent {
 						<Text style={styles.fullName}>{name}</Text>
 						<Text style={styles.email}>{user ? user.email : ''}</Text>
 					</View>
-				</View>
+				</TouchableOpacity>
 				<ScrollView>
 					{this.buttonList.map((item, index) => {
 						return (

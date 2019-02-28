@@ -50,6 +50,8 @@ export default StyleSheet.create({
 		backgroundColor: '#FFF',
 		marginBottom: 10,
 		flexWrap: 'wrap',
+		// borderBottomWidth: 1,
+		// borderBottomColor: '#ddd',
 	},
 	avatar: {
 		height: Styles.width / 5,
