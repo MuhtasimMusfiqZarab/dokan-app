@@ -7,9 +7,12 @@ import DokanWorker from '@services/Dokan/DokanWorker';
 import Validate from '../ultils/Validate.js';
 
 const types = {
+	FETCH_ALL_CART_ITEM: 'FETCH_ALL_CART_ITEM',
 	ADD_CART_ITEM: 'ADD_CART_ITEM',
 	REMOVE_CART_ITEM: 'REMOVE_CART_ITEM',
 	DELETE_CART_ITEM: 'DELETE_CART_ITEM',
+	UPDATE_CART_ITEM: 'UPDATE_CART_ITEM',
+	UPDATE_CART_ITEM_PENDING: 'UPDATE_CART_ITEM_PENDING',
 	EMPTY_CART: 'EMPTY_CART',
 	CREATE_NEW_ORDER_PENDING: 'CREATE_NEW_ORDER_PENDING',
 	CREATE_NEW_ORDER_SUCCESS: 'CREATE_NEW_ORDER_SUCCESS',
@@ -25,26 +28,41 @@ const types = {
 };
 
 export const actions = {
-	addCartItem: (dispatch, product, variation, token) => {
+	fetchAllCartItems: (dispatch, token) => {
 		dispatch({ type: types.FETCH_CART_PENDING });
-		DokanWorker.addCartItem(product.id, 1, token)
+
+		DokanWorker.fetchAllCartItems(token)
 			.then(data => {
-				// console.log(data);
-				// console.log(product);
 				dispatch({
-					type: types.ADD_CART_ITEM,
+					type: types.FETCH_ALL_CART_ITEM,
 					product: data.cartProduct,
 					totalPrice: data.cartTotalPrice,
-					total: data.cartTotalItems,
-					variation,
+					totalItems: data.cartTotalItems,
 				});
 			})
 			.catch(error => {
-				// console.log(error);
-				toast('Something Went Wrong');
+				console.log(error);
 			});
 	},
-
+	addCartItem: (dispatch, product, variation, token) => {
+		dispatch({ type: types.FETCH_CART_PENDING });
+		DokanWorker.addCartItem(product.id, 1, token)
+			.then(() => {
+				DokanWorker.fetchAllCartItems(token).then(data => {
+					console.log(data);
+					dispatch({
+						type: types.ADD_CART_ITEM,
+						product: data.cartProduct,
+						totalPrice: data.cartTotalPrice,
+						totalItems: data.cartTotalItems,
+					});
+				});
+			})
+			.catch(error => {
+				console.log(error);
+				// toast('Something Went Wrong');
+			});
+	},
 	fetchMyOrder: (dispatch, user) => {
 		dispatch({ type: types.FETCH_CART_PENDING });
 
@@ -57,7 +75,6 @@ export const actions = {
 			})
 			.catch(err => {});
 	},
-
 	removeCartItem: (dispatch, product, variation) => {
 		dispatch({
 			type: types.REMOVE_CART_ITEM,
@@ -65,16 +82,43 @@ export const actions = {
 			variation,
 		});
 	},
+	deleteCartItem: (dispatch, productKey, token) => {
+		dispatch({ type: types.FETCH_CART_PENDING });
 
-	deleteCartItem: (dispatch, product, variation, quantity) => {
-		dispatch({
-			type: types.DELETE_CART_ITEM,
-			product,
-			variation,
-			quantity,
-		});
+		DokanWorker.deleteCartItem(productKey, token)
+			.then(() => {
+				DokanWorker.fetchAllCartItems(token).then(data => {
+					dispatch({
+						type: types.DELETE_CART_ITEM,
+						product: data.cartProduct,
+						totalPrice: data.cartTotalPrice,
+						totalItems: data.cartTotalItems,
+					});
+				});
+			})
+			.catch(error => {
+				console.log(error);
+			});
 	},
+	updateCartItem: (dispatch, productKey, quantity, token) => {
+		dispatch({ type: types.UPDATE_CART_ITEM_PENDING });
 
+		DokanWorker.updateCartItem(productKey, quantity, token)
+			.then(() => {
+				DokanWorker.fetchAllCartItems(token).then(data => {
+					console.log(data);
+					dispatch({
+						type: types.UPDATE_CART_ITEM,
+						product: data.cartProduct,
+						totalPrice: data.cartTotalPrice,
+						totalItems: data.cartTotalItems,
+					});
+				});
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	},
 	emptyCart: dispatch => {
 		dispatch({
 			type: types.EMPTY_CART,
@@ -139,7 +183,6 @@ export const actions = {
 	selectShippingMethod: (dispatch, shippingMethod) => {
 		dispatch({ type: types.SELECTED_SHIPPING_METHOD, shippingMethod });
 	},
-
 	finishOrder: async dispatch => {
 		dispatch({ type: types.CREATE_NEW_ORDER_SUCCESS });
 	},
@@ -151,45 +194,51 @@ const initialState = {
 	totalPrice: 0,
 	myOrders: [],
 	isFetching: false,
+	isUpdating: false,
 };
 
 export const reducer = (state = initialState, action) => {
 	const { type, product, totalPrice, totalItems } = action;
-	// console.log(product);
-	// console.log(typeof totalPrice);
-	switch (type) {
-		case types.ADD_CART_ITEM: {
-			const isExisted = state.cartItems.some(cartItem =>
-				compareCartItem(cartItem, action)
-			);
 
-			return Object.assign(
-				{},
-				state,
-				isExisted
-					? { cartItems: state.cartItems.map(item => cartItem(item, action)) }
-					: { cartItems: [...state.cartItems, cartItem(undefined, action)] },
-				{
-					total: state.total + 1,
-					totalPrice: state.totalPrice + Number(action.totalPrice),
-					// Number(
-					// 	action.variation === undefined ||
-					// 		action.variation == null ||
-					// 		action.variation.price === undefined
-					// 		? action.product.price
-					// 		: action.variation.price
-					// ),
-				}
-			);
+	switch (type) {
+		case types.FETCH_ALL_CART_ITEM: {
+			return Object.assign({}, state, {
+				cartItems: product,
+				total: totalItems,
+				totalPrice: Number(totalPrice),
+			});
 		}
-		// case types.ADD_CART_ITEM: {
-		// 	return {
-		// 		...state,
-		// 		cartItems: state.cartItems.concat(cartProduct),
-		// 		totalPrice: totalPrice,
-		// 		total: totalItems,
-		// 	};
-		// }
+		case types.ADD_CART_ITEM: {
+			return Object.assign({}, state, {
+				cartItems: product,
+				total: totalItems,
+				totalPrice: Number(totalPrice),
+				isFetching: false,
+			});
+		}
+		case types.DELETE_CART_ITEM: {
+			return Object.assign({}, state, {
+				cartItems: product,
+				total: totalItems,
+				totalPrice: Number(totalPrice),
+				isFetching: false,
+			});
+		}
+		case types.UPDATE_CART_ITEM: {
+			return Object.assign({}, state, {
+				cartItems: product,
+				total: totalItems,
+				totalPrice: Number(totalPrice),
+				isUpdating: false,
+			});
+		}
+		case types.EMPTY_CART:
+			return Object.assign({}, state, {
+				type: types.EMPTY_CART,
+				cartItems: [],
+				total: 0,
+				totalPrice: 0,
+			});
 		case types.REMOVE_CART_ITEM: {
 			const index = state.cartItems.findIndex(cartItem =>
 				compareCartItem(cartItem, action)
@@ -224,36 +273,6 @@ export const reducer = (state = initialState, action) => {
 						}
 				  );
 		}
-		case types.DELETE_CART_ITEM: {
-			const index1 = state.cartItems.findIndex(cartItem =>
-				compareCartItem(cartItem, action)
-			); // check if existed
-			return index1 == -1
-				? state // This should not happen, but catch anyway
-				: Object.assign({}, state, {
-						cartItems: state.cartItems.filter(
-							cartItem => !compareCartItem(cartItem, action)
-						),
-						total: state.total - Number(action.quantity),
-						totalPrice:
-							state.totalPrice -
-							Number(action.quantity) *
-								Number(
-									action.variation === undefined ||
-										action.variation == null ||
-										action.variation.price === undefined
-										? action.product.price
-										: action.variation.price
-								),
-				  });
-		}
-		case types.EMPTY_CART:
-			return Object.assign({}, state, {
-				type: types.EMPTY_CART,
-				cartItems: [],
-				total: 0,
-				totalPrice: 0,
-			});
 		case types.INVALIDATE_CUSTOMER_INFO:
 			return Object.assign({}, state, {
 				message: action.message,
@@ -289,6 +308,12 @@ export const reducer = (state = initialState, action) => {
 				isFetching: true,
 			};
 		}
+		case types.UPDATE_CART_ITEM_PENDING: {
+			return {
+				...state,
+				isUpdating: true,
+			};
+		}
 		case types.GET_SHIPPING_METHOD_PENDING: {
 			return Object.assign({}, state, {
 				...state,
@@ -322,7 +347,8 @@ export const reducer = (state = initialState, action) => {
 };
 
 const compareCartItem = (cartItem, action) => {
-	// console.log(cartItem);
+	console.log(cartItem);
+	console.log(action);
 	if (
 		cartItem.variation !== undefined &&
 		action.variation !== undefined &&

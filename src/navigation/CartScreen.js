@@ -19,7 +19,7 @@ export default class CartScreen extends PureComponent {
 	});
 
 	render() {
-		const { navigate } = this.props.navigation;
+		const { navigate, state } = this.props.navigation;
 
 		return (
 			<Cart

@@ -71,7 +71,7 @@ export default StyleSheet.create({
 	btnBuyText: {
 		color: 'white',
 		fontSize: 14,
-		fontFamily: Constants.fontHeader,
+		fontFamily: Constants.fontFamilyLato,
 	},
 	btnBack: {
 		flex: 0.5,
@@ -81,7 +81,7 @@ export default StyleSheet.create({
 		color: '#999',
 		fontSize: 14,
 		fontWeight: 'bold',
-		fontFamily: Constants.fontHeader,
+		fontFamily: Constants.fontFamilyLato,
 	},
 
 	row: {
@@ -107,12 +107,12 @@ export default StyleSheet.create({
 	label: {
 		fontSize: 18,
 		color: Color.Text,
-		fontFamily: Constants.fontHeader,
+		fontFamily: Constants.fontFamilyLato,
 	},
 	value: {
 		fontSize: 16,
 		color: Color.headerTintColor,
-		fontFamily: Constants.fontHeader,
+		fontFamily: Constants.fontFamilyLato,
 	},
 
 	contentEmpty: {

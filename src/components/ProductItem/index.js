@@ -16,6 +16,9 @@ class ProductItem extends PureComponent {
 			variation,
 			onPress,
 			isCartProduct,
+			token,
+			isCartUpdating,
+			updateCartItem,
 		} = this.props;
 		const price =
 			variation === null || variation === undefined
@@ -69,7 +72,11 @@ class ProductItem extends PureComponent {
 						<ChangeQuantity
 							style={styles.quantity}
 							quantity={quantity}
-							onChangeQuantity={this.onChangeQuantity.bind(this)}
+							// onChangeQuantity={this.onChangeQuantity.bind(this)}
+							productKey={product.key}
+							token={token}
+							isCartUpdating={isCartUpdating}
+							updateCartItem={updateCartItem}
 						/>
 					)}
 				</View>
@@ -77,14 +84,22 @@ class ProductItem extends PureComponent {
 		);
 	}
 
-	onChangeQuantity(quantity) {
-		if (this.props.quantity < quantity) {
-			this.props.addCartItem(this.props.product, this.props.variation);
-		} else {
-			this.props.removeCartItem(this.props.product, this.props.variation);
-		}
-	}
+	// onChangeQuantity(quantity) {
+	// 	if (this.props.quantity < quantity) {
+	// 		this.props.addCartItem(
+	// 			this.props.product,
+	// 			this.props.variation,
+	// 			this.props.token
+	// 		);
+	// 	} else {
+	// 		this.props.removeCartItem(this.props.product, this.props.variation);
+	// 	}
+	// }
 }
+
+const mapStateToProps = ({ user, carts }) => {
+	return { token: user.token, isCartUpdating: carts.isUpdating };
+};
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
@@ -92,17 +107,20 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 	return {
 		...ownProps,
 		...stateProps,
-		addCartItem: (product, variation) => {
-			actions.addCartItem(dispatch, product, variation);
+		addCartItem: (product, variation, token) => {
+			actions.addCartItem(dispatch, product, variation, token);
 		},
 		removeCartItem: (product, variation) => {
 			actions.removeCartItem(dispatch, product, variation);
+		},
+		updateCartItem: (productKey, quantity, token) => {
+			actions.updateCartItem(dispatch, productKey, quantity, token);
 		},
 	};
 }
 
 export default connect(
-	null,
+	mapStateToProps,
 	undefined,
 	mergeProps
 )(ProductItem);

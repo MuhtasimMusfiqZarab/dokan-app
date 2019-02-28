@@ -67,9 +67,9 @@ class Detail extends PureComponent {
 		this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
 		this.inCartTotal = 0;
 		this.isInWishList = false;
-		(this.buyNowBtnStyle = [styles.btnBuy]),
-			(this.disableAddCartBtn = false),
-			(this.disableBuyNowBtn = false);
+		this.buyNowBtnStyle = [styles.btnBuy];
+		this.disableAddCartBtn = false;
+		this.disableBuyNowBtn = false;
 
 		// set Buy Now btn color
 		if (this.props.product.stock_status) {
@@ -200,31 +200,6 @@ class Detail extends PureComponent {
 			this.props.removeWishListItem(this.props.product);
 		} else this.props.addWishListItem(this.props.product);
 	};
-
-	// getCartTotal = (props, check = false) => {
-	// 	const { cartItems } = props;
-
-	// 	if (cartItems != null) {
-	// 		if (check === true && props.cartItems === this.props.cartItems) {
-	// 			return;
-	// 		}
-
-	// 		this.inCartTotal = cartItems.reduce((accumulator, currentValue) => {
-	// 			if (currentValue.product.id == this.props.product.id) {
-	// 				return accumulator + currentValue.quantity;
-	// 			}
-	// 			return 0;
-	// 		}, 0);
-
-	// 		const sum = cartItems.reduce(
-	// 			(accumulator, currentValue) => accumulator + currentValue.quantity,
-	// 			0
-	// 		);
-	// 		const params = this.props.navigation.state.params;
-	// 		params.cartTotal = sum;
-	// 		this.props.navigation.setParams(params);
-	// 	}
-	// };
 
 	getWishList = (props, check = false) => {
 		const { product, navigation, wishListItems } = props;
@@ -386,6 +361,7 @@ class Detail extends PureComponent {
 
 	renderButtons = () => {
 		const { cartItems, product } = this.props;
+
 		// const isAddWishList =
 		// 	wishListItems.filter(item => item.product.id === product.id).length > 0;
 		// const isAddToCart = !!(
@@ -399,34 +375,6 @@ class Detail extends PureComponent {
 					styles.bottomView,
 					Constants.RTL && { flexDirection: 'row-reverse' },
 				]}>
-				{/* <View style={styles.buttonContainer}>
-					<Button
-						type="image"
-						source={require("@images/icons/icon-share.png")}
-						imageStyle={styles.imageButton}
-						buttonStyle={styles.buttonStyle}
-						onPress={this.share}
-					/>
-					<Button
-						type="image"
-						isAddWishList={isAddWishList}
-						source={require("@images/icons/icon-love.png")}
-						imageStyle={styles.imageButton}
-						buttonStyle={styles.buttonStyle}
-						onPress={() => this.addToWishList(isAddWishList)}
-					/>
-					<Button
-						text="Add to Cart"
-						isAddToCart={isAddToCart}
-						textStyle={styles.btnBuyText}
-						disabled={!this.props.product.in_stock && this.props.product.stock_status === "outofstock"}
-						buttonStyle={styles.btnBuy}
-						onPress={
-							() => this.props.product.in_stock || this.props.product.stock_status == "instock" && this.addToCart()
-						}
-					/>
-				</View> */}
-
 				<Button
 					type="text"
 					text="ADD CART"
@@ -492,7 +440,7 @@ class Detail extends PureComponent {
 
 	render() {
 		const { product, relatedProducts, onLogin, navigation } = this.props;
-
+		console.log(product);
 		return (
 			<View
 				style={styles.container}

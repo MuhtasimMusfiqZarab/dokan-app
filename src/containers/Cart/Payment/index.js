@@ -186,7 +186,9 @@ class PaymentOptions extends PureComponent {
 			const cartItem = cartItems[i];
 
 			const item = {
-				product_id: cartItem.product.id,
+				product_id: cartItem.product
+					? cartItem.product.id
+					: cartItem.product_id,
 				quantity: cartItem.quantity,
 			};
 

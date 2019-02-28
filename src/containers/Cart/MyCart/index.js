@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 import css from '@cart/styles';
 import { currencyFormatter, toast } from '@app/Omni';
-import { ProductItem, Button } from '@components';
+import { ProductItem, Button, Spinkit, Spinner } from '@components';
 import { connect } from 'react-redux';
 import { SwipeRow } from 'react-native-swipe-list-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Languages, Color } from '@common';
 import styles from './styles';
+import WooWorker from '@services/WooCommerce/WooWorker';
 
 class MyCart extends PureComponent {
 	constructor(props) {
@@ -23,6 +25,7 @@ class MyCart extends PureComponent {
 
 		this.state = {
 			coupon: props.couponCode,
+			isLoading: true,
 		};
 	}
 
@@ -37,9 +40,21 @@ class MyCart extends PureComponent {
 		}
 	}
 
+	onProductClickHandler = async data => {
+		const response = await WooWorker.getProductId(data.product.product_id);
+
+		this.props.onViewProduct({ product: response });
+	};
+
 	render() {
-		const { cartItems, totalPrice, isFetching, discountType } = this.props;
-		console.log(totalPrice);
+		const {
+			cartItems,
+			totalPrice,
+			totalItems,
+			isFetching,
+			discountType,
+		} = this.props;
+
 		let couponBtn = Languages.ApplyCoupon;
 		// let colors = [Color.darkOrange, Color.darkYellow, Color.yellow];
 		const finalPrice =
@@ -56,12 +71,17 @@ class MyCart extends PureComponent {
 
 		return (
 			<View style={styles.container}>
-				<ScrollView>
+				<KeyboardAwareScrollView>
 					<View style={css.row}>
 						<Text style={css.label}>{Languages.TotalPrice}</Text>
-						<Text style={css.value}>{currencyFormatter(totalPrice)}</Text>
+						{this.props.isCartFetching ? (
+							<Spinkit />
+						) : (
+							<Text style={css.value}>{currencyFormatter(totalPrice)}</Text>
+						)}
 					</View>
 					<View style={styles.list}>
+						{this.props.isCartFetching ? <Spinkit /> : null}
 						{cartItems &&
 							cartItems.map((item, index) => (
 								<SwipeRow
@@ -75,7 +95,7 @@ class MyCart extends PureComponent {
 										viewQuantity
 										product={item.product ? item.product : item}
 										onPress={() =>
-											this.props.onViewProduct({
+											this.onProductClickHandler({
 												product: item.product ? item.product : item,
 											})
 										}
@@ -105,14 +125,6 @@ class MyCart extends PureComponent {
 								editable={this.getExistCoupon() == 0}
 							/>
 
-							{/* <TouchableOpacity
-								activeOpacity={0.6}
-								onPress={() => this.checkCouponCode()}
-								disabled={this.state.coupon.length === 0}>
-								<LinearGradient colors={colors} style={styles.btnApply}>
-									<Text style={styles.btnApplyText}>{couponBtn}</Text>
-								</LinearGradient>
-							</TouchableOpacity> */}
 							<Button
 								type="gradientBtn"
 								size="sm"
@@ -126,7 +138,7 @@ class MyCart extends PureComponent {
 							</Text>
 						)}
 					</View>
-				</ScrollView>
+				</KeyboardAwareScrollView>
 			</View>
 		);
 	}
@@ -137,11 +149,7 @@ class MyCart extends PureComponent {
 				key={`hiddenRow-${index}`}
 				style={styles.hiddenRow}
 				onPress={() =>
-					this.props.deleteCartItem(
-						rowData.product,
-						rowData.variation,
-						rowData.quantity
-					)
+					this.props.deleteCartItem(rowData.key, this.props.token)
 				}>
 				<View style={{ marginRight: 23 }}>
 					<FontAwesome name="trash" size={30} color="white" />
@@ -188,18 +196,19 @@ MyCart.defaultProps = {
 	couponAmount: 0,
 };
 
-const mapStateToProps = ({ carts, products }) => {
+const mapStateToProps = ({ carts, products, user }) => {
 	return {
 		cartItems: carts.cartItems,
 		totalPrice: carts.totalPrice,
+		totalItems: carts.total,
 		couponCode: products.coupon && products.coupon.code,
 		couponAmount: products.coupon && products.coupon.amount,
 		discountType: products.coupon && products.coupon.type,
 		isCartFetching: carts.isFetching,
-
 		isFetching: products.isFetching,
 		type: products.type,
 		message: products.message,
+		token: user.token,
 	};
 };
 
@@ -207,14 +216,18 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
 	const { actions } = require('@redux/CartRedux');
 	const productActions = require('@redux/ProductRedux').actions;
+
 	return {
 		...ownProps,
 		...stateProps,
+		fetchAllCartItems: token => {
+			actions.fetchAllCartItems(dispatch, token);
+		},
 		removeCartItem: (product, variation) => {
 			actions.removeCartItem(dispatch, product, variation);
 		},
-		deleteCartItem: (product, variation, quantity) => {
-			actions.deleteCartItem(dispatch, product, variation, quantity);
+		deleteCartItem: (productKey, token) => {
+			actions.deleteCartItem(dispatch, productKey, token);
 		},
 		cleanOldCoupon: () => {
 			productActions.cleanOldCoupon(dispatch);

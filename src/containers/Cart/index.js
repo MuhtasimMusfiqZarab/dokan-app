@@ -50,9 +50,7 @@ class Cart extends PureComponent {
 			orderId: null,
 			paymentState: false,
 		};
-	}
 
-	UNSAFE_componentWillMount() {
 		this.props.navigation.setParams({ title: Languages.ShoppingCart });
 	}
 
@@ -226,13 +224,10 @@ class Cart extends PureComponent {
 		} = this.props;
 		const { currentIndex } = this.state;
 
-		if (
-			currentIndex === 0 &&
-			cartItems &&
-			cartItems.length === 0 &&
-			!isCartFetching
-		) {
-			return <PaymentEmpty onViewHome={onViewHome} />;
+		if (!isCartFetching) {
+			if (currentIndex === 0 && cartItems && cartItems.length === 0) {
+				return <PaymentEmpty onViewHome={onViewHome} />;
+			}
 		}
 
 		const steps = [

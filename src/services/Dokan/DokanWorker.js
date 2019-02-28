@@ -188,6 +188,37 @@ const DokanWorker = {
 			})
 			.catch(err => warn(err));
 	},
+	fetchAllCartItems: async token => {
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
+				{
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				}
+			);
+			const totalPriceHeader = JSON.parse(
+				response.headers.get('X-Dokan-Cart-Totals')
+			);
+			const cartTotalPrice = totalPriceHeader.total;
+			const cartTotalItems = JSON.parse(
+				response.headers.get('X-Dokan-Cart-TotalItems')
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return { cartProduct: json, cartTotalPrice, cartTotalItems };
+			} else {
+				console.log(json.message);
+			}
+		} catch (error) {
+			return error;
+		}
+	},
 	addCartItem: async (productID, qty = 1, token) => {
 		const data = {
 			product_id: productID,
@@ -219,10 +250,75 @@ const DokanWorker = {
 			if (json.code === undefined) {
 				return { cartProduct: json, cartTotalPrice, cartTotalItems };
 			} else {
-				toast(json.message);
+				console.log(json.message);
 			}
 		} catch (error) {
 			return error;
+		}
+	},
+	deleteCartItem: async (productKey, token) => {
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items/${productKey}`,
+				{
+					method: 'DELETE',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			const totalPriceHeader = JSON.parse(
+				response.headers.get('x-dokan-cart-totals')
+			);
+			const cartTotalPrice = totalPriceHeader.total;
+			const cartTotalItems = JSON.parse(
+				response.headers.get('X-Dokan-Cart-TotalItems')
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return { cartProduct: json, cartTotalPrice, cartTotalItems };
+			} else {
+				toast(json.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	updateCartItem: async (productKey, quantity, token) => {
+		const data = {
+			quantity: quantity,
+		};
+
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items/${productKey}`,
+				{
+					method: 'PUT',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				}
+			);
+			const totalPriceHeader = JSON.parse(
+				response.headers.get('X-Dokan-Cart-Totals')
+			);
+			const cartTotalPrice = totalPriceHeader.total;
+			const cartTotalItems = JSON.parse(
+				response.headers.get('X-Dokan-Cart-TotalItems')
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return { cartProduct: json, cartTotalPrice, cartTotalItems };
+			} else {
+				toast(json.message);
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	},
 };
