@@ -30,8 +30,9 @@ class ChangeQuantity extends PureComponent {
 
 		if (this.state.isDisabled) return;
 
-		this.setState({ isCartUpdating: true, isDisabled: true });
 		if (this.state.quantity < Constants.LimitAddToCart) {
+			this.setState({ isCartUpdating: true, isDisabled: true });
+
 			updateCartItem(productKey, this.state.quantity + 1, token);
 			setTimeout(() => {
 				this.setState({
@@ -52,8 +53,11 @@ class ChangeQuantity extends PureComponent {
 	reduced = () => {
 		const { updateCartItem, productKey, token } = this.props;
 
-		this.setState({ isCartUpdating: true, isDisabled: true });
+		if (this.state.isDisabled) return;
+
 		if (this.state.quantity > 1) {
+			this.setState({ isCartUpdating: true, isDisabled: true });
+
 			updateCartItem(productKey, this.state.quantity - 1, token);
 			setTimeout(() => {
 				this.setState({
