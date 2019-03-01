@@ -1,7 +1,7 @@
 /** @format */
 
 import { Dimensions, StyleSheet, I18nManager, Platform } from 'react-native';
-import { Color, Styles } from '@common';
+import { Color, Styles, Constants } from '@common';
 
 const { width, height } = Dimensions.get('window');
 
@@ -14,6 +14,10 @@ export default StyleSheet.create({
 	container: {
 		// flex: 1,
 		flexGrow: 1,
+	},
+	backButton: {
+		paddingHorizontal: Styles.width * 0.1,
+		marginTop: Styles.width * 0.1,
 	},
 	logoWrap: {
 		// ...Styles.Common.ColumnCenter,
@@ -30,6 +34,14 @@ export default StyleSheet.create({
 	logoText: {
 		width: width / 2,
 		color: Color.wdgray5,
+	},
+	loginText: {
+		paddingHorizontal: Styles.width * 0.1,
+		fontSize: 30,
+		fontFamily: Constants.fontFamilyLato,
+		fontWeight: 'bold',
+		color: '#000',
+		marginBottom: 20,
 	},
 	subContain: {
 		paddingHorizontal: Styles.width * 0.1,

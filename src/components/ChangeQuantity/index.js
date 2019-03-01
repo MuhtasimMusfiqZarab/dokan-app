@@ -5,7 +5,6 @@ import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Constants, Color } from '@common';
 import { Spinkit } from '@components';
-import { BlockTimer } from '@app/Omni';
 
 class ChangeQuantity extends PureComponent {
 	constructor(props) {

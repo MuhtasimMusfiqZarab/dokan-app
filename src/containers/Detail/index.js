@@ -24,6 +24,7 @@ import styles from './ProductDetail_Style';
 import VendorSummary from './VendorSummary';
 import ProductDetails from './ProductDetails';
 import EventEmitter from '@services/AppEventEmitter';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
@@ -433,6 +434,7 @@ class Detail extends PureComponent {
 	viewVendorFromProductDetail = async vendorID => {
 		this.setState({ isSpinner: true });
 		const vendor = await DokanWorker.getSingleVendor(vendorID);
+		console.log(vendor);
 		this.props.fetchVendorProducts(vendorID);
 		this.setState({ isSpinner: false });
 		this.props.onViewVendorProfileScreen(vendor);
@@ -461,7 +463,11 @@ class Detail extends PureComponent {
 							(this.productInfoHeight = event.nativeEvent.layout.height)
 						}>
 						<VendorSummary
-							store={this.props.product.store}
+							store={
+								this.props.product.store
+									? this.props.product.store
+									: this.props.product.vendor
+							}
 							viewVendorFromProductDetail={this.viewVendorFromProductDetail}
 						/>
 						{this._renderImages()}

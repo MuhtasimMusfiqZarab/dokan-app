@@ -12,6 +12,7 @@ import {
 	ImageBackground,
 	TextInput,
 	TouchableOpacity,
+	I18nManager,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -22,6 +23,7 @@ import WooWorker from '@services/WooCommerce/WooWorker';
 import WPUserAPI from '@services/WPUserAPI';
 import styles from './styles';
 import DokanWorker from '@services/Dokan/DokanWorker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class LoginScreen extends PureComponent {
 	static propTypes = {
@@ -215,10 +217,25 @@ class LoginScreen extends PureComponent {
 				source={Images.LoginScreenBackground}
 				style={styles.backgroundImage}
 				resizeMode="cover">
-				<ScrollView
-					style={styles.container}
-					keyboardDismissMode="on-drag"
-					keyboardShouldPersistTaps="always">
+				<KeyboardAwareScrollView>
+					<TouchableOpacity
+						style={styles.backButton}
+						onPress={() => this.props.onViewHomeScreen()}>
+						<Image
+							source={Images.icons.back}
+							style={[
+								{
+									width: 16,
+									height: 16,
+									resizeMode: 'contain',
+								},
+								// Styles.Common.toolbarIcon,
+								I18nManager.isRTL && {
+									transform: [{ rotate: '180deg' }],
+								},
+							]}
+						/>
+					</TouchableOpacity>
 					<View style={styles.logoWrap}>
 						{Config.appSettings.app_logo ? (
 							<ImageCache
@@ -239,6 +256,7 @@ class LoginScreen extends PureComponent {
 								: 'Build Your Dream Multi Vendor Market'}
 						</Text>
 					</View>
+					<Text style={styles.loginText}>Login</Text>
 					<View style={styles.subContain}>
 						<View style={styles.inputWrap}>
 							<Text style={styles.label}>Username</Text>
@@ -299,7 +317,7 @@ class LoginScreen extends PureComponent {
 							</Text>
 						</TouchableOpacity>
 					</View>
-				</ScrollView>
+				</KeyboardAwareScrollView>
 				{isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</ImageBackground>
 		);

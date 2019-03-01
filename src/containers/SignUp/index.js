@@ -16,14 +16,15 @@ import {
 	I18nManager,
 	Dimensions,
 	Platform,
+	TouchableOpacity,
 } from 'react-native';
 import { Styles, Languages, Color, Images, Config, Constants } from '@common';
 import { toast, error, Validate } from '@app/Omni';
 import { Button, ImageCache } from '@components';
 import Spinner from '@components/Spinner';
 import WPUserAPI from '@services/WPUserAPI';
-
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class SignUpScreen extends Component {
 	constructor(props) {
@@ -180,13 +181,28 @@ class SignUpScreen extends Component {
 				style={styles.backgroundImage}
 				resizeMode="cover">
 				{showSignupForm && (
-					<ScrollView
-						keyboardDismissMode="on-drag"
-						keyboardShouldPersistTaps="always"
-						style={styles.container}
-						ref={c => {
-							this._scrollView = c;
+					<KeyboardAwareScrollView
+						innerRef={ref => {
+							this._scrollView = ref;
 						}}>
+						<TouchableOpacity
+							style={styles.backButton}
+							onPress={() => this.props.goBack(null)}>
+							<Image
+								source={Images.icons.back}
+								style={[
+									{
+										width: 16,
+										height: 16,
+										resizeMode: 'contain',
+									},
+									// Styles.Common.toolbarIcon,
+									I18nManager.isRTL && {
+										transform: [{ rotate: '180deg' }],
+									},
+								]}
+							/>
+						</TouchableOpacity>
 						<View style={styles.logoWrap}>
 							{Config.appSettings.app_logo ? (
 								<ImageCache
@@ -207,8 +223,9 @@ class SignUpScreen extends Component {
 									: 'Build Your Dream Multi Vendor Market Place'}
 							</Text>
 						</View>
+						<Text style={styles.signUpText}>Signup</Text>
 						<View style={styles.formContainer}>
-							<Text style={styles.label}>{Languages.profileDetail}</Text>
+							{/* <Text style={styles.label}>{Languages.profileDetail}</Text> */}
 							<View style={styles.inputWrap}>
 								<Text style={styles.label2}>First Name</Text>
 								<TextInput
@@ -234,7 +251,7 @@ class SignUpScreen extends Component {
 								/>
 							</View>
 
-							<Text style={styles.label}>{Languages.accountDetails}</Text>
+							{/* <Text style={styles.label}>{Languages.accountDetails}</Text> */}
 							<View style={styles.inputWrap}>
 								<Text style={styles.label2}>Username</Text>
 								<TextInput
@@ -315,7 +332,7 @@ class SignUpScreen extends Component {
 								onPress={this.onSignUpHandle}
 							/>
 						</View>
-					</ScrollView>
+					</KeyboardAwareScrollView>
 				)}
 				{!showSignupForm && (
 					<View
@@ -354,7 +371,19 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 	},
 	formContainer: {
-		padding: Styles.width * 0.1,
+		paddingHorizontal: Styles.width * 0.1,
+	},
+	backButton: {
+		paddingHorizontal: Styles.width * 0.1,
+		marginTop: Styles.width * 0.1,
+	},
+	signUpText: {
+		paddingHorizontal: Styles.width * 0.1,
+		fontSize: 30,
+		fontFamily: Constants.fontFamilyLato,
+		fontWeight: 'bold',
+		color: '#000',
+		marginBottom: 20,
 	},
 	label: {
 		fontWeight: 'bold',
@@ -410,6 +439,7 @@ const styles = StyleSheet.create({
 	logoWrap: {
 		flexGrow: 0.3,
 		paddingHorizontal: Styles.width * 0.1,
+		marginBottom: 50,
 	},
 	logo: {
 		width: 120,

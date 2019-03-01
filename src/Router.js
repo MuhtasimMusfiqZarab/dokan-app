@@ -33,6 +33,8 @@ class Router extends React.PureComponent {
 		const settings = await DokanWorker.getAppSettings();
 		const modules = await DokanWorker.getPluginModuleStatus();
 
+		console.log(settings);
+
 		// Set globalSettings and Dokan Moudules' status
 		Config.appSettings = settings;
 		Config.dokanModules = modules;

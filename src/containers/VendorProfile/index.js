@@ -28,8 +28,6 @@ class VendorProfile extends Component {
 		this.setState({ tabIndex });
 	};
 
-	parentScrollHandler = () => {};
-
 	render() {
 		const { vendor, navigation } = this.props;
 		console.log(vendor);

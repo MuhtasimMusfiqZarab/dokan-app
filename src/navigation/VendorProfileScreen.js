@@ -19,7 +19,7 @@ export default class VendorProfileScreen extends PureComponent {
 
 	render() {
 		const { state } = this.props.navigation;
-
+		console.log(state.params);
 		return (
 			<VendorProfile vendor={state.params} navigation={this.props.navigation} />
 		);
