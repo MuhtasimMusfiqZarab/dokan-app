@@ -88,6 +88,9 @@ const Constants = {
 		heading1: 18,
 		title: 20,
 	},
+	fontText: {
+		size: 16,
+	},
 	productAttributeColor: 'color',
 };
 

@@ -6,7 +6,8 @@ import React, { PureComponent } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { Back, HeaderRight } from './IconNav';
 import { LinearGradient } from '@expo';
-import { Images, Color, Styles } from '@common';
+import { Images, Color, Styles, Config } from '@common';
+import { CustomPage } from '@containers';
 
 export default class AboutUsScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
@@ -27,7 +28,7 @@ export default class AboutUsScreen extends PureComponent {
 
 		return (
 			<View style={{ flex: 1, alignItems: 'center' }}>
-				<View style={styles.slimTabContainer}>
+				{/* <View style={styles.slimTabContainer}>
 					<View style={styles.slimTabCotainer}>
 						<LinearGradient
 							style={styles.slimTabCircle}
@@ -87,7 +88,8 @@ export default class AboutUsScreen extends PureComponent {
 							</Text>
 						</View>
 					</View>
-				</View>
+        </View> */}
+				<CustomPage id={Config.appSettings.about_us_page_id} />
 			</View>
 		);
 	}

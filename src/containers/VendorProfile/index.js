@@ -30,7 +30,7 @@ class VendorProfile extends Component {
 
 	render() {
 		const { vendor, navigation } = this.props;
-		console.log(vendor);
+
 		return (
 			<View style={styles.container}>
 				{/* <View

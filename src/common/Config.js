@@ -133,6 +133,7 @@ export default {
 	CustomPages: { contact_id: 10941 },
 	WebPages: { marketing: 'http://wedevs.com' },
 	CategoryListView: true,
+	dokanModules: {},
 	intro: [
 		{
 			key: 'page1',

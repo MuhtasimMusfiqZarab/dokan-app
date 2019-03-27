@@ -21,7 +21,13 @@ export default class Index extends PureComponent {
 	render() {
 		const htmlContent = this.props.html;
 		const tagsStyles = {
-			p: { margin: 0, padding: 0 },
+			h1: { color: '#000' },
+			h2: { color: '#000' },
+			h3: { color: '#000' },
+			h4: { color: '#000' },
+			h5: { color: '#000' },
+			h6: { color: '#000' },
+			p: { margin: 0, padding: 0, color: '#000' },
 			li: { color: '#333' },
 		};
 

@@ -251,9 +251,9 @@ class LoginScreen extends PureComponent {
 							/>
 						)}
 						<Text style={styles.logoText}>
-							{Config.appSettings.tagLine
-								? Config.appSettings.tagLine
-								: 'Build Your Dream Multi Vendor Market'}
+							{Config.appSettings.tag_line
+								? Config.appSettings.tag_line
+								: 'Build Your Dream Multi Vendor Market Place'}
 						</Text>
 					</View>
 					<Text style={styles.loginText}>Login</Text>

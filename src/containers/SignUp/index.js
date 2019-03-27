@@ -218,8 +218,8 @@ class SignUpScreen extends Component {
 								/>
 							)}
 							<Text style={styles.logoText}>
-								{Config.appSettings.tagLine
-									? Config.appSettings.tagLine
+								{Config.appSettings.tag_line
+									? Config.appSettings.tag_line
 									: 'Build Your Dream Multi Vendor Market Place'}
 							</Text>
 						</View>

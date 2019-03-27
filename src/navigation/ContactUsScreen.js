@@ -5,7 +5,8 @@
 import React, { PureComponent } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Back, HeaderRight } from './IconNav';
-import { Images, Constants, Color, Styles } from '@common';
+import { Images, Constants, Color, Styles, Config } from '@common';
+import { CustomPage } from '@containers';
 
 export default class ContactUsScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
@@ -37,7 +38,7 @@ export default class ContactUsScreen extends PureComponent {
 						paddingTop: 35,
 						paddingBottom: 35,
 					}}>
-					<Image
+					{/* <Image
 						source={Images.ContactUs}
 						style={{ width: 100, height: 90, marginBottom: 15 }}
 						resizeMode="contain"
@@ -94,7 +95,8 @@ export default class ContactUsScreen extends PureComponent {
 							marginBottom: 15,
 						}}>
 						help@domain.com
-					</Text>
+					</Text> */}
+					<CustomPage id={Config.appSettings.contact_us_page_id} />
 				</View>
 			</View>
 		);

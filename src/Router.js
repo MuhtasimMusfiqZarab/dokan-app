@@ -33,12 +33,15 @@ class Router extends React.PureComponent {
 		const settings = await DokanWorker.getAppSettings();
 		const modules = await DokanWorker.getPluginModuleStatus();
 
-		console.log(settings);
-
-		// Set globalSettings and Dokan Moudules' status
+		// Set Global App Settings
 		Config.appSettings = settings;
-		Config.dokanModules = modules;
-		Config.appSettings.tagLine = 'Build Your Dream Multi Vendor Market Place';
+		// Set Dokan Moudules' status
+		modules.map(
+			module => (Config.dokanModules[module.title] = module.is_active)
+		);
+
+		console.log(Config.appSettings);
+		console.log(Config.dokanModules);
 
 		WooWorker.init({
 			url: Config.WooCommerce.url,
