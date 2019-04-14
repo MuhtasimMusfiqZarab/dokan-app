@@ -28,29 +28,35 @@ export default class modalBox extends PureComponent {
 
 	render() {
 		const { type, css } = this.props;
+
 		return (
 			<Modal
 				ref={modal => (this.modal = modal)}
 				animationDuration={100}
 				backdropOpacity={Platform.OS === 'android' ? 0.9 : 0.5}
-				position="top"
+				position={type === 'cartModal' ? 'bottom' : 'top'}
 				style={[
-					typeof type !== 'undefined'
+					type === 'cartModal'
+						? styles.cartModal
+						: typeof type !== 'undefined'
 						? styles.modalReadlater
 						: styles.modalBoxWrap,
 					css,
 				]}>
-				<View style={styles.wrap}>{this.props.children}</View>
-
-				<TouchableOpacity style={styles.iconZoom} onPress={this.closeModal}>
-					<Icon
-						style={styles.textClose}
-						name="close"
-						size={22}
-						color="rgba(0,0,0, 0.4)"
-						backgroundColor="transparent"
-					/>
-				</TouchableOpacity>
+				<View style={type === 'cartModal' ? styles.cartWrap : styles.wrap}>
+					{this.props.children}
+				</View>
+				{type !== 'cartModal' && (
+					<TouchableOpacity style={styles.iconZoom} onPress={this.closeModal}>
+						<Icon
+							style={styles.textClose}
+							name="close"
+							size={22}
+							color="rgba(0,0,0, 0.4)"
+							backgroundColor="transparent"
+						/>
+					</TouchableOpacity>
+				)}
 			</Modal>
 		);
 	}

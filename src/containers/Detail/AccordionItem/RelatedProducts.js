@@ -13,6 +13,8 @@ export default class AccordionRelatedProducts extends PureComponent {
 			key: `DetailScreen-step-${product.id}`,
 		});
 		this.props.navigation.dispatch(navigateAction);
+
+		// this.props.navigation.push('DetailScreen', { product: product });
 	};
 
 	_renderRelatedProducts = data => {

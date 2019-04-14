@@ -3,27 +3,28 @@
 import React, { PureComponent } from 'react';
 import { HeaderRight, Back } from './IconNav';
 import { Color, Styles, Images } from '@common';
-import { Cart } from '@containers';
+import { Address } from '@containers';
 
-export default class CartScreen extends PureComponent {
+export default class AddressScreen extends PureComponent {
 	static navigationOptions = ({ navigation }) => ({
-		headerTitle: navigation.getParam('title'),
 		// headerTitle: 'My Shopping',
-		headerLeft: Back(navigation, Images.icons.arrowBack),
-		headerRight: HeaderRight(navigation),
+		// headerLeft: Back(navigation, Images.icons.arrowBack),
+		// headerRight: HeaderRight(navigation),
 
-		headerTintColor: Color.headerTintColor,
-		headerStyle: Styles.Common.toolbar,
-		headerLeftContainerStyle: Styles.Common.toolbarLeft,
-		headerRightContainerStyle: Styles.Common.toolbarRight,
-		headerTitleStyle: Styles.Common.headerTitleStyle,
+		// headerTintColor: Color.headerTintColor,
+		// headerStyle: Styles.Common.toolbar,
+		// headerLeftContainerStyle: Styles.Common.toolbarLeft,
+		// headerRightContainerStyle: Styles.Common.toolbarRight,
+		// headerTitleStyle: Styles.Common.headerTitleStyle,
+		header: null,
 	});
 
 	render() {
 		const { navigate, state } = this.props.navigation;
+		const fromScreen = state.params.from;
 
 		return (
-			<Cart
+			<Address
 				onMustLogin={() => {
 					navigate('LoginScreen', { onCart: true });
 				}}
@@ -32,6 +33,7 @@ export default class CartScreen extends PureComponent {
 				onViewHome={() => navigate('Default')}
 				onViewProduct={product => navigate('Detail', product)}
 				navigation={this.props.navigation}
+				fromScreen={fromScreen}
 			/>
 		);
 	}

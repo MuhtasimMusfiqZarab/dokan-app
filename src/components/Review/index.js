@@ -33,9 +33,6 @@ class Review extends PureComponent {
 		if (this.props.vendorReview) {
 			toast('API Needed');
 		} else {
-			this.setState({
-				isLoading: true,
-			});
 			const { userData, post } = this.props;
 			// const self = this;
 			if (this.state.txtComment == '') {
@@ -44,6 +41,10 @@ class Review extends PureComponent {
 			if (this.state.starCount == 0) {
 				return toast(Languages.errRatingComment);
 			}
+
+			this.setState({
+				isLoading: true,
+			});
 
 			const reviewer = `${userData.user.first_name} ${userData.user.last_name}`;
 			const reviewer_email = userData.user.email;

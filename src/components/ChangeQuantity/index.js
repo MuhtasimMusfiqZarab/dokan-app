@@ -39,14 +39,14 @@ class ChangeQuantity extends PureComponent {
 					isDisabled: false,
 					quantity: this.state.quantity + 1,
 				});
-			}, 1000);
+			}, 2000);
 		}
 
 		setTimeout(() => {
 			this.setState({
 				isCartUpdating: false,
 			});
-		}, 1000);
+		}, 2000);
 	};
 
 	reduced = () => {
@@ -87,7 +87,7 @@ class ChangeQuantity extends PureComponent {
 					<FontAwesome name="plus" size={16} color="#E94F44" />
 				</TouchableOpacity>
 				{this.state.isCartUpdating ? (
-					<Spinkit css={{ marginTop: 1, marginBottom: 1 }} />
+					<Spinkit css={{ height: 30 }} />
 				) : (
 					<Text style={styles.text}>{this.state.quantity}</Text>
 				)}

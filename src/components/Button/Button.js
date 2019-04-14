@@ -139,11 +139,16 @@ const StandardButton = props => (
 					]}
 				/>
 			)}
-			<Text {...props} style={[styles.text, props.textStyle]}>
-				{props.text}
-			</Text>
+			{!props.isLoading && (
+				<Text {...props} style={[styles.text, props.textStyle]}>
+					{props.text}
+				</Text>
+			)}
 			{props.isLoading && (
-				<ActivityIndicator style={styles.loading} color="#FFF" />
+				<ActivityIndicator
+					style={styles.loading}
+					color={props.loaderColor ? props.loaderColor : '#000'}
+				/>
 			)}
 		</View>
 	</TouchableHighlight>

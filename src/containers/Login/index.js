@@ -217,7 +217,7 @@ class LoginScreen extends PureComponent {
 				source={Images.LoginScreenBackground}
 				style={styles.backgroundImage}
 				resizeMode="cover">
-				<KeyboardAwareScrollView>
+				<KeyboardAwareScrollView enableOnAndroid={true}>
 					<TouchableOpacity
 						style={styles.backButton}
 						onPress={() => this.props.onViewHomeScreen()}>

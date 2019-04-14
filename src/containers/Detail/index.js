@@ -65,6 +65,7 @@ class Detail extends PureComponent {
 			isSpinner: false,
 		};
 
+		this.popOverOpenSub = '';
 		this.productInfoHeight = PRODUCT_IMAGE_HEIGHT;
 		this.inCartTotal = 0;
 		this.isInWishList = false;
@@ -95,16 +96,16 @@ class Detail extends PureComponent {
 		this.props.getRelatedProducts(this.props.product.id);
 		this.getProductAttribute(this.props.product);
 
-		EventEmitter.addListener(
-			'popover.toggle',
-			this.popoverEventHandler.bind(this)
+		this.popOverOpenSub = EventEmitter.addListener('popover.toggle', () =>
+			this.popoverEventHandler()
 		);
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		// this.getCartTotal(nextProps, true);
 		this.getWishList(nextProps, true);
-		// this important to update the variations from the product as the Life cycle is not run again !!!
+
+		// its important to update the variations from the product as the Life cycle won't run again !!!
 		if (this.props.product.id != nextProps.product.id) {
 			this.props.getProductVariations(nextProps.product);
 			this.getProductAttribute(nextProps.product);
@@ -117,7 +118,7 @@ class Detail extends PureComponent {
 	}
 
 	componentWillUnmount() {
-		EventEmitter.removeListener('popover.toggle');
+		this.popOverOpenSub && this.popOverOpenSub.remove();
 	}
 
 	getProductAttribute = product => {
@@ -259,6 +260,27 @@ class Detail extends PureComponent {
 		this.forceUpdate();
 	};
 
+	updateSelectedVariation = selectedOptions => {
+		this.props.productVariations.map(variant => {
+			let matchCount = 0;
+			selectedOptions.map(selectedOption => {
+				const isMatch = find(
+					variant.attributes,
+					item =>
+						// item.name === selectAttribute.name &&
+						item.option.toLowerCase() === selectedOption.toLowerCase()
+				);
+				if (isMatch !== undefined) {
+					matchCount += 1;
+				}
+			});
+			if (matchCount === this.productAttributes.length) {
+				console.log(variant);
+				this.setState({ selectVariation: variant });
+			}
+		});
+	};
+
 	popoverEventHandler = () => {
 		this.setState({
 			showPopover: !this.state.showPopover,
@@ -351,15 +373,6 @@ class Detail extends PureComponent {
 		);
 	};
 
-	_writeReview = () => {
-		const { product, userData, onLogin } = this.props;
-		if (userData) {
-			Events.openModalReview(product);
-		} else {
-			onLogin();
-		}
-	};
-
 	renderButtons = () => {
 		const { cartItems, product } = this.props;
 
@@ -428,6 +441,8 @@ class Detail extends PureComponent {
 	onTapParentView = () => {
 		if (this.state.showPopover) {
 			this.setState({ showPopover: false });
+		} else {
+			return true;
 		}
 	};
 
@@ -441,13 +456,16 @@ class Detail extends PureComponent {
 	};
 
 	render() {
-		const { product, relatedProducts, onLogin, navigation } = this.props;
-		console.log(product);
+		const {
+			product,
+			relatedProducts,
+			onLogin,
+			navigation,
+			productVariations,
+		} = this.props;
+
 		return (
-			<View
-				style={styles.container}
-				onStartShouldSetResponder={() => true}
-				onResponderRelease={() => this.onTapParentView()}>
+			<View style={styles.container}>
 				{this.state.showPopover && (
 					<PopOver share={this.share} openPhoto={this.openPhoto.bind(this)} />
 				)}
@@ -478,6 +496,9 @@ class Detail extends PureComponent {
 						onLogin={onLogin}
 						navigation={navigation}
 						selectVariation={this.state.selectVariation}
+						attributes={this.productAttributes}
+						productVariations={productVariations}
+						updateSelectedVariation={this.updateSelectedVariation}
 					/>
 				</Animated.ScrollView>
 

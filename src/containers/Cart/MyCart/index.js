@@ -15,9 +15,10 @@ import { connect } from 'react-redux';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Languages, Color } from '@common';
+import { Languages, Color, Constants, Events } from '@common';
 import styles from './styles';
 import WooWorker from '@services/WooCommerce/WooWorker';
+import { uniqBy, find } from 'lodash';
 
 class MyCart extends PureComponent {
 	constructor(props) {
@@ -27,6 +28,7 @@ class MyCart extends PureComponent {
 			coupon: props.couponCode,
 			isLoading: true,
 		};
+		// this.uniqueVendors = [];
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
@@ -46,6 +48,82 @@ class MyCart extends PureComponent {
 		this.props.onViewProduct({ product: response });
 	};
 
+	// renderCartItems = storeName => {
+	// 	const isCompleted = find(this.completed, item => item === storeName);
+	// 	console.log(isCompleted);
+	// 	this.completed.push(storeName);
+	// 	console.log(this.completed);
+	// };
+
+	getUniqueVendors = cartItems => uniqBy(cartItems, item => item.vendor.id);
+
+	renderShippingOptions = storeName => {
+		const { shippingMethods, userCountry } = this.props;
+
+		if (userCountry === '') {
+			return (
+				<TouchableOpacity
+					onPress={() => this.onPressShippingCalculation(storeName)}>
+					<Text style={{ color: '#B888CB' }}>Calculate Shipping</Text>
+				</TouchableOpacity>
+			);
+		} else {
+			const currentVendor = find(
+				shippingMethods,
+				item => item.store_name === storeName
+			);
+
+			if (currentVendor.chosen_method) {
+				let chosenMethod = find(
+					currentVendor.available_methods,
+					item => item.id === currentVendor.chosen_method
+				);
+
+				return (
+					<TouchableOpacity
+						onPress={() => this.onPressShippingCalculation(storeName)}>
+						<Text style={{ color: '#B888CB' }}>
+							{`${chosenMethod.label} ${currencyFormatter(chosenMethod.cost)}`}
+						</Text>
+					</TouchableOpacity>
+				);
+			} else {
+				return (
+					<Text style={{ color: 'red' }}>No shipping for this location</Text>
+				);
+			}
+			// let newItem = [];
+			// return shippingMethods.map(item => {
+			// 	if (item.chosen_method) {
+			// 		newItem = item.available_methods.filter(s => {
+			// 			return item.chosen_method === s.id;
+			// 		});
+			// 	}
+			// 	if (newItem.length === 0) {
+			// 		console.log('mal nai');
+			// 		return (
+			// 			<TouchableOpacity
+			// 				onPress={() => this.onPressShippingCalculation(storeName)}>
+			// 				<Text style={{ color: '#B888CB' }}>No Shipping found</Text>
+			// 			</TouchableOpacity>
+			// 		);
+			// 	} else {
+			// 		console.log('mal ase');
+			// 		return (
+			// 			<TouchableOpacity
+			// 				onPress={() => this.onPressShippingCalculation(storeName)}>
+			// 				<Text style={{ color: '#B888CB' }}>Coming Soon</Text>
+			// 			</TouchableOpacity>
+			// 		);
+			// 	}
+			// });
+		}
+	};
+
+	onPressShippingCalculation = storeName => {
+		Events.openCartModal('modalShippingMethods', storeName);
+	};
+
 	render() {
 		const {
 			cartItems,
@@ -54,7 +132,8 @@ class MyCart extends PureComponent {
 			isFetching,
 			discountType,
 		} = this.props;
-
+		// console.log(shippingMethods);
+		// console.log(user.user.shipping.country);
 		let couponBtn = Languages.ApplyCoupon;
 		// let colors = [Color.darkOrange, Color.darkYellow, Color.yellow];
 		const finalPrice =
@@ -69,42 +148,66 @@ class MyCart extends PureComponent {
 			couponBtn = Languages.remove;
 		}
 
+		let uniqueVendors = this.getUniqueVendors(this.props.cartItems);
+
 		return (
 			<View style={styles.container}>
-				<KeyboardAwareScrollView>
-					<View style={css.row}>
-						<Text style={css.label}>{Languages.TotalPrice}</Text>
-						{this.props.isCartFetching ? (
-							<Spinkit />
-						) : (
-							<Text style={css.value}>{currencyFormatter(totalPrice)}</Text>
-						)}
-					</View>
+				<KeyboardAwareScrollView enableOnAndroid={true}>
 					<View style={styles.list}>
-						{this.props.isCartFetching ? <Spinkit /> : null}
+						{this.props.isCartFetching && (
+							<View
+								style={{
+									width: '100%',
+									height: '100%',
+									position: 'absolute',
+									justifyContent: 'center',
+									alignItems: 'center',
+									backgroundColor: 'rgba(0, 0, 0, 0.5)',
+									zIndex: 10,
+								}}>
+								<Spinkit color="#fff" />
+							</View>
+						)}
+						{/* {this.props.isCartFetching ? <Spinkit /> : null} */}
 						{cartItems &&
-							cartItems.map((item, index) => (
-								<SwipeRow
-									key={`cart${index}`}
-									disableRightSwipe
-									leftOpenValue={75}
-									rightOpenValue={-75}>
-									{this.renderHiddenRow(item, index)}
-									<ProductItem
-										key={index}
-										viewQuantity
-										product={item.product ? item.product : item}
-										onPress={() =>
-											this.onProductClickHandler({
-												product: item.product ? item.product : item,
-											})
-										}
-										variation={item.variation}
-										quantity={item.quantity}
-										isCartProduct
-									/>
-								</SwipeRow>
-							))}
+							uniqueVendors.map((item, index) => {
+								let vendorIDtoMatch = item.vendor.id;
+								return (
+									<View style={{ marginVertical: 10 }} key={`cart${index}`}>
+										<View style={css.row}>
+											<Text style={[css.label, { fontWeight: 'bold' }]}>
+												{item.vendor.store_name}
+											</Text>
+											{this.renderShippingOptions(item.vendor.store_name)}
+										</View>
+										{cartItems.map(
+											(item, index) =>
+												vendorIDtoMatch === item.vendor.id && (
+													<SwipeRow
+														key={index}
+														disableRightSwipe
+														leftOpenValue={75}
+														rightOpenValue={-75}>
+														{this.renderHiddenRow(item, index)}
+														<ProductItem
+															key={index}
+															viewQuantity
+															product={item.product ? item.product : item}
+															onPress={() =>
+																this.onProductClickHandler({
+																	product: item.product ? item.product : item,
+																})
+															}
+															variation={item.variation}
+															quantity={item.quantity}
+															isCartProduct
+														/>
+													</SwipeRow>
+												)
+										)}
+									</View>
+								);
+							})}
 					</View>
 					<View style={styles.couponView}>
 						<Text style={styles.couponLabel}>
@@ -209,6 +312,7 @@ const mapStateToProps = ({ carts, products, user }) => {
 		type: products.type,
 		message: products.message,
 		token: user.token,
+		user,
 	};
 };
 

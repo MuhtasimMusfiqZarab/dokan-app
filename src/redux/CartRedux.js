@@ -5,6 +5,7 @@ import { Constants, Languages } from '@common';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import DokanWorker from '@services/Dokan/DokanWorker';
 import Validate from '../ultils/Validate.js';
+import { find, filter } from 'lodash';
 
 const types = {
 	FETCH_ALL_CART_ITEM: 'FETCH_ALL_CART_ITEM',
@@ -25,6 +26,9 @@ const types = {
 	GET_SHIPPING_METHOD_SUCCESS: 'GET_SHIPPING_METHOD_SUCCESS',
 	GET_SHIPPING_METHOD_FAIL: 'GET_SHIPPING_METHOD_FAIL',
 	SELECTED_SHIPPING_METHOD: 'SELECTED_SHIPPING_METHOD',
+	CALCULATE_SHIPPING_PENDING: 'CALCULATE_SHIPPING_PENDING',
+	CALCULATE_SHIPPING_FAILED: 'CALCULATE_SHIPPING_FAILED',
+	CALCULATE_SHIPPING_SUCCESS: 'CALCULATE_SHIPPING_SUCCESS',
 };
 
 export const actions = {
@@ -32,12 +36,16 @@ export const actions = {
 		dispatch({ type: types.FETCH_CART_PENDING });
 
 		DokanWorker.fetchAllCartItems(token)
-			.then(data => {
-				dispatch({
-					type: types.FETCH_ALL_CART_ITEM,
-					product: data.cartProduct,
-					totalPrice: data.cartTotalPrice,
-					totalItems: data.cartTotalItems,
+			.then(data => data)
+			.then(cartData => {
+				DokanWorker.getShippingMethods(token).then(shippingData => {
+					dispatch({
+						type: types.FETCH_ALL_CART_ITEM,
+						product: cartData.cartProduct,
+						totalPrice: cartData.cartTotalPrice,
+						totalItems: cartData.cartTotalItems,
+						shippingMethods: shippingData,
+					});
 				});
 			})
 			.catch(error => {
@@ -46,17 +54,10 @@ export const actions = {
 	},
 	addCartItem: (dispatch, product, variation, token) => {
 		dispatch({ type: types.FETCH_CART_PENDING });
+
 		DokanWorker.addCartItem(product.id, 1, token)
 			.then(() => {
-				DokanWorker.fetchAllCartItems(token).then(data => {
-					console.log(data);
-					dispatch({
-						type: types.ADD_CART_ITEM,
-						product: data.cartProduct,
-						totalPrice: data.cartTotalPrice,
-						totalItems: data.cartTotalItems,
-					});
-				});
+				actions.fetchAllCartItems(dispatch, token);
 			})
 			.catch(error => {
 				console.log(error);
@@ -87,14 +88,7 @@ export const actions = {
 
 		DokanWorker.deleteCartItem(productKey, token)
 			.then(() => {
-				DokanWorker.fetchAllCartItems(token).then(data => {
-					dispatch({
-						type: types.DELETE_CART_ITEM,
-						product: data.cartProduct,
-						totalPrice: data.cartTotalPrice,
-						totalItems: data.cartTotalItems,
-					});
-				});
+				actions.fetchAllCartItems(dispatch, token);
 			})
 			.catch(error => {
 				console.log(error);
@@ -105,15 +99,36 @@ export const actions = {
 
 		DokanWorker.updateCartItem(productKey, quantity, token)
 			.then(() => {
-				DokanWorker.fetchAllCartItems(token).then(data => {
-					console.log(data);
-					dispatch({
-						type: types.UPDATE_CART_ITEM,
-						product: data.cartProduct,
-						totalPrice: data.cartTotalPrice,
-						totalItems: data.cartTotalItems,
-					});
-				});
+				actions.fetchAllCartItems(dispatch, token);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	},
+	calculateShipping: (
+		dispatch,
+		token,
+		countryCode = '',
+		state = '',
+		postCode = '',
+		city = ''
+	) => {
+		dispatch({ type: types.CALCULATE_SHIPPING_PENDING });
+
+		DokanWorker.calculateShipping(token, countryCode, state, postCode, city)
+			.then(() => {
+				actions.fetchAllCartItems(dispatch, token);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	},
+	updateShippingMethods: (dispatch, shippingMethodsObj, token) => {
+		dispatch({ type: types.CALCULATE_SHIPPING_PENDING });
+
+		DokanWorker.updateShippingMethod(shippingMethodsObj, token)
+			.then(() => {
+				actions.fetchAllCartItems(dispatch, token);
 			})
 			.catch(error => {
 				console.log(error);
@@ -129,7 +144,7 @@ export const actions = {
 		if (
 			first_name.length == 0 ||
 			last_name.length == 0 ||
-			address_1.length == 0 ||
+			// address_1.length == 0 ||
 			email.length == 0 ||
 			phone.length == 0
 		) {
@@ -192,20 +207,24 @@ const initialState = {
 	cartItems: [],
 	total: 0,
 	totalPrice: 0,
+	shippingMethods: [],
 	myOrders: [],
 	isFetching: false,
 	isUpdating: false,
 };
 
 export const reducer = (state = initialState, action) => {
-	const { type, product, totalPrice, totalItems } = action;
+	const { type, product, totalPrice, totalItems, shippingMethods } = action;
 
 	switch (type) {
 		case types.FETCH_ALL_CART_ITEM: {
+			console.log('fetch cart');
 			return Object.assign({}, state, {
 				cartItems: product,
 				total: totalItems,
 				totalPrice: Number(totalPrice),
+				shippingMethods: shippingMethods,
+				isFetching: false,
 			});
 		}
 		case types.ADD_CART_ITEM: {
@@ -213,6 +232,7 @@ export const reducer = (state = initialState, action) => {
 				cartItems: product,
 				total: totalItems,
 				totalPrice: Number(totalPrice),
+				shippingMethods: shippingMethods,
 				isFetching: false,
 			});
 		}
@@ -221,6 +241,7 @@ export const reducer = (state = initialState, action) => {
 				cartItems: product,
 				total: totalItems,
 				totalPrice: Number(totalPrice),
+				shippingMethods: shippingMethods,
 				isFetching: false,
 			});
 		}
@@ -229,7 +250,8 @@ export const reducer = (state = initialState, action) => {
 				cartItems: product,
 				total: totalItems,
 				totalPrice: Number(totalPrice),
-				isUpdating: false,
+				shippingMethods: shippingMethods,
+				isFetching: false,
 			});
 		}
 		case types.EMPTY_CART:
@@ -311,7 +333,7 @@ export const reducer = (state = initialState, action) => {
 		case types.UPDATE_CART_ITEM_PENDING: {
 			return {
 				...state,
-				isUpdating: true,
+				isFetching: true,
 			};
 		}
 		case types.GET_SHIPPING_METHOD_PENDING: {
@@ -340,6 +362,19 @@ export const reducer = (state = initialState, action) => {
 				shippingMethod: action.shippingMethod,
 			});
 		}
+		case types.CALCULATE_SHIPPING_PENDING: {
+			return Object.assign({}, state, {
+				...state,
+				isFetching: true,
+			});
+		}
+		case types.CALCULATE_SHIPPING_SUCCESS: {
+			return Object.assign({}, state, {
+				...state,
+				shippingMethods: shippingMethods,
+				isFetching: false,
+			});
+		}
 		default: {
 			return state;
 		}
@@ -347,8 +382,6 @@ export const reducer = (state = initialState, action) => {
 };
 
 const compareCartItem = (cartItem, action) => {
-	console.log(cartItem);
-	console.log(action);
 	if (
 		cartItem.variation !== undefined &&
 		action.variation !== undefined &&

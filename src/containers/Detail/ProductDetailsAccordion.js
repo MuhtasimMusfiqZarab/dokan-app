@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 import { Icons } from '@common';
 import { Icon, CustomIcon } from '@app/Omni';
 import styles from './ProductDetail_Style';
+import AccordionProductVariation from './AccordionItem/ProductVariation';
 import AccordionDescription from './AccordionItem/Description';
 import AccordionShipping from './AccordionItem/Shipping';
 import AccordionVendorInfo from './AccordionItem/VendorInfo';
@@ -86,6 +87,21 @@ export default class ProductDetailsAccordion extends Component {
 		});
 	};
 
+	renderVariationHeader = () => {
+		return (
+			<Text>
+				Select{' '}
+				{this.props.attributes.map((attribute, index) => {
+					if (index === this.props.attributes.length - 1) {
+						return <Text key={index}>{attribute.name}</Text>;
+					} else {
+						return <Text key={index}>{attribute.name}, </Text>;
+					}
+				})}
+			</Text>
+		);
+	};
+
 	render() {
 		const ACCORDION_CONTENT = [
 			{
@@ -135,6 +151,25 @@ export default class ProductDetailsAccordion extends Component {
 				icon: 'box',
 			},
 		];
+
+		if (
+			this.props.attributes !== undefined &&
+			this.props.attributes.length !== 0
+		) {
+			ACCORDION_CONTENT.unshift({
+				title: this.renderVariationHeader(),
+				content: (
+					<AccordionProductVariation
+						attributes={this.props.attributes}
+						selectVariation={this.props.selectVariation}
+						updateSelectedVariation={this.props.updateSelectedVariation}
+					/>
+				),
+				fromColor: '#D43FC8',
+				toColor: '#E541C1',
+				icon: 'eyedropper',
+			});
+		}
 
 		return (
 			<Accordion

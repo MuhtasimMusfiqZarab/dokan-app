@@ -71,3 +71,6 @@ export const Reviews = _Reviews;
 
 import _OrderDetail from './OrderDetail';
 export const OrderDetail = _OrderDetail;
+
+import _Address from './Address';
+export const Address = _Address;

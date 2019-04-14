@@ -2,10 +2,17 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, WebView, Text, TouchableOpacity } from 'react-native';
+import {
+	View,
+	WebView,
+	Text,
+	TouchableOpacity,
+	ScrollView,
+	Dimensions,
+} from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { connect } from 'react-redux';
-import { Languages, Images, Config, Constants } from '@common';
+import { Languages, Images, Config, Constants, Events } from '@common';
 import { BlockTimer } from '@app/Omni';
 import Modal from 'react-native-modalbox';
 import { StepIndicator, StripePanel, ModalBox, Spinner } from '@components';
@@ -16,7 +23,9 @@ import Payment from './Payment';
 import FinishOrder from './FinishOrder';
 import PaymentEmpty from './Empty';
 import Buttons from './Buttons';
+import CancelSaveButtons from './CancelSaveButtons';
 import styles from './styles';
+import CartModal from './CartModal';
 
 class Cart extends PureComponent {
 	static propTypes = {
@@ -32,6 +41,10 @@ class Cart extends PureComponent {
 		emptyCart: PropTypes.any,
 		isProcessing: PropTypes.bool,
 		isCartFetching: PropTypes.bool,
+		totalPrice: PropTypes.number,
+		totalItems: PropTypes.number,
+		shippingMethods: PropTypes.array,
+		updateShippingMethod: PropTypes.func,
 	};
 
 	static defaultProps = {
@@ -49,12 +62,30 @@ class Cart extends PureComponent {
 			isLoading: false,
 			orderId: null,
 			paymentState: false,
+			shouldOpenCartModal: false,
+			bottomButtons: 'prevNext',
 		};
+		this.chosenShippingObj = {};
 
-		this.props.navigation.setParams({ title: Languages.ShoppingCart });
+		this.props.navigation.setParams({
+			title: `${Languages.ShoppingCart} (${this.props.totalItems})`,
+		});
+	}
+
+	componentDidMount() {
+		this.props.shippingMethods.map(item => {
+			this.chosenShippingObj[item.store_name] = item.chosen_method;
+		});
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
+		// Update toal items number in Cart Header
+		if (nextProps.totalItems !== this.props.totalItems) {
+			this.props.navigation.setParams({
+				title: `${Languages.ShoppingCart} (${nextProps.totalItems})`,
+			});
+		}
+
 		// reset current index when update cart item
 		if (this.props.cartItems && nextProps.cartItems) {
 			if (nextProps.cartItems.length !== 0) {
@@ -76,6 +107,9 @@ class Cart extends PureComponent {
 	};
 
 	onNext = () => {
+		// close if cart modal is open
+		Events.closeCartModal();
+
 		// check validate before moving next
 		let valid = true;
 		switch (this.state.currentIndex) {
@@ -214,6 +248,36 @@ class Cart extends PureComponent {
 		);
 	};
 
+	openCartModal = () => {
+		Events.openCartModal('modalCartTotal');
+	};
+
+	setBottomButtons = btnType => {
+		btnType === 'cancelSave'
+			? this.setState({ bottomButtons: 'cancelSave' })
+			: this.setState({ bottomButtons: 'prevNext' });
+	};
+
+	onSelectNewShippingMethod = (storeName, shippingID) => {
+		this.chosenShippingObj[storeName] = shippingID;
+	};
+
+	onCancelCartModal = () => {
+		Events.closeCartModal();
+	};
+	onSaveCartModal = async () => {
+		let shippingMethodsObj = {
+			shipping_method: Object.values(this.chosenShippingObj),
+		};
+
+		await this.props.updateShippingMethod(
+			shippingMethodsObj,
+			this.props.user.token
+		);
+
+		Events.closeCartModal();
+	};
+
 	render() {
 		const {
 			onViewProduct,
@@ -221,9 +285,11 @@ class Cart extends PureComponent {
 			cartItems,
 			onViewHome,
 			isCartFetching,
+			shippingMethods,
+			user,
 		} = this.props;
-		const { currentIndex } = this.state;
-
+		const { currentIndex, bottomButtons } = this.state;
+		// console.log(user);
 		if (!isCartFetching) {
 			if (currentIndex === 0 && cartItems && cartItems.length === 0) {
 				return <PaymentEmpty onViewHome={onViewHome} />;
@@ -282,6 +348,8 @@ class Cart extends PureComponent {
 							onPrevious={this.onPrevious}
 							navigation={navigation}
 							onViewProduct={onViewProduct}
+							shippingMethods={shippingMethods}
+							userCountry={user.user.billing.country}
 						/>
 						<Payment
 							key="payment"
@@ -296,11 +364,32 @@ class Cart extends PureComponent {
 					</ScrollableTabView>
 
 					{this.renderStripeLayout()}
-
-					{currentIndex === 0 && (
-						<Buttons onPrevious={this.onPrevious} onNext={this.onNext} />
-					)}
+					<CartModal
+						shippingMethods={shippingMethods}
+						onSelectNewShippingMethod={this.onSelectNewShippingMethod}
+						setBottomButtons={this.setBottomButtons}
+						navigation={this.props.navigation}
+						userCountry={user.user.billing.country}
+					/>
 				</View>
+				{currentIndex === 0 && bottomButtons === 'prevNext' && (
+					<Buttons
+						isAbsolute
+						onPrevious={this.onPrevious}
+						onNext={this.onNext}
+						totalPrice={this.props.totalPrice}
+						isCartFetching={this.props.isCartFetching}
+						openCartModal={this.openCartModal}
+					/>
+				)}
+				{currentIndex === 0 && bottomButtons === 'cancelSave' && (
+					<CancelSaveButtons
+						isAbsolute
+						onCancelCartModal={this.onCancelCartModal}
+						onSaveCartModal={this.onSaveCartModal}
+						isCartFetching={this.props.isCartFetching}
+					/>
+				)}
 			</View>
 		);
 	}
@@ -308,6 +397,9 @@ class Cart extends PureComponent {
 
 const mapStateToProps = ({ carts, user, spinner }) => ({
 	cartItems: carts.cartItems,
+	totalItems: carts.total,
+	totalPrice: carts.totalPrice,
+	shippingMethods: carts.shippingMethods,
 	user,
 	isProcessing: spinner.isOpen,
 	isCartFetching: carts.isFetching,
@@ -321,6 +413,12 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		...stateProps,
 		emptyCart: () => CartRedux.actions.emptyCart(dispatch),
 		finishOrder: () => CartRedux.actions.finishOrder(dispatch),
+		updateShippingMethod: (shippingMethodsObj, token) =>
+			CartRedux.actions.updateShippingMethods(
+				dispatch,
+				shippingMethodsObj,
+				token
+			),
 	};
 }
 

@@ -17,6 +17,10 @@ export default {
 		consumerKey: 'ck_058d37798c6d4fde333cce1e24864340d6a78017',
 		consumerSecret: 'cs_6c3776e01ec312fcc2de6517edc76c139731469c',
 
+		// url: 'http://dokan-mobile.test/',
+		// consumerKey: 'ck_058d37798c6d4fde333cce1e24864340d6a78017',
+		// consumerSecret: 'cs_6c3776e01ec312fcc2de6517edc76c139731469c',
+
 		// url: 'https://tedhut.com/',
 		// consumerKey: 'ck_288d122af9ac2a56977970fa404352a0ed32b6e6',
 		// consumerSecret: 'cs_ef48540035466d888768e10cc3571214b20e2af3',

@@ -21,6 +21,11 @@ const showPopover = () => EventEmitter.emit('popover.open');
 const closePopover = () => EventEmitter.emit('popover.close');
 const togglePopover = () => EventEmitter.emit('popover.toggle');
 
+// Product details popover
+const openCartModal = (modalType, storeName) =>
+	EventEmitter.emit('cartModal.open', modalType, storeName);
+const closeCartModal = () => EventEmitter.emit('cartModal.close');
+
 export default {
 	openModalLayout,
 	closeModalLayout,
@@ -33,4 +38,6 @@ export default {
 	showPopover,
 	closePopover,
 	togglePopover,
+	openCartModal,
+	closeCartModal,
 };

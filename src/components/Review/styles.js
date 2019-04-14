@@ -8,8 +8,8 @@ const vh = height / 100;
 
 export default StyleSheet.create({
 	wrapComment: {
-		paddingLeft: 8,
-		paddingRight: 8,
+		// paddingLeft: 8,
+		// paddingRight: 8,
 		paddingBottom: 10,
 		backgroundColor: '#FFF',
 		// flex: 1,
@@ -17,17 +17,17 @@ export default StyleSheet.create({
 		height: 400,
 	},
 	fullWidth: {
-		width: width - 20,
+		// width: width - 20,
 		flexDirection: 'row',
 	},
 	wrapRating: {
-		margin: 10,
+		// margin: 10,
 		flex: 1,
 	},
 	besideStar: {
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'center',
+		// justifyContent: 'center',
 	},
 	statusRate: {
 		borderRadius: 3,
@@ -50,14 +50,14 @@ export default StyleSheet.create({
 		marginTop: 12,
 		color: '#333',
 		marginBottom: 8,
-		marginLeft: 12,
+		// marginLeft: 12,
 		fontFamily: Constants.fontFamily,
 	},
 	headCommentText: {
 		fontWeight: '600',
 		marginTop: 12,
 		marginBottom: 8,
-		marginLeft: 12,
+		// marginLeft: 12,
 		color: 'rgb(69,69,83)',
 		fontSize: 24,
 		fontFamily: Constants.fontFamily,

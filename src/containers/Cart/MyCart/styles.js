@@ -8,7 +8,6 @@ export default StyleSheet.create({
 		flex: 1,
 		backgroundColor: 'white',
 	},
-
 	list: {
 		flex: 1,
 	},

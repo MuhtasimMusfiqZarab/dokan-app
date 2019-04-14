@@ -42,6 +42,7 @@ import ReviewsScreen from './ReviewsScreen';
 import ForgetPasswordScreen from './ForgetPasswordScreen';
 import OrderDetailsScreen from './OrderDetailsScreen';
 import TransitionConfig from './TransitionConfig';
+import AddressScreen from './AddressScreen';
 
 const { width } = Dimensions.get('window');
 
@@ -134,6 +135,7 @@ const CartScreenStack = createStackNavigator(
 	{
 		Cart: { screen: CartScreen },
 		Detail: { screen: DetailScreen },
+		Address: { screen: AddressScreen },
 	},
 	{
 		navigationOptions: {

@@ -100,6 +100,20 @@ const DokanWorker = {
 			})
 			.catch(error => warn(error));
 	},
+	getVendorReviews: async vendorID => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/stores/${vendorID}/reviews`
+		)
+			.then(response => response.json())
+			.then(json => {
+				// if (json.length != 0) {
+				// 	return json;
+				// }
+				console.log(json);
+				return json;
+			})
+			.catch(error => warn(error));
+	},
 	getSingleVendor: async vendorID => {
 		return await fetch(
 			`${Config.WooCommerce.url}/wp-json/dokan/v1/stores/${vendorID}/`
@@ -316,6 +330,119 @@ const DokanWorker = {
 				return { cartProduct: json, cartTotalPrice, cartTotalItems };
 			} else {
 				toast(json.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	getShippingMethods: async token => {
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/shipping`,
+				{
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				}
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return json;
+			} else {
+				console.log(json.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	calculateShipping: async (
+		token,
+		countryCode = '',
+		state = '',
+		postCode = '',
+		city = ''
+	) => {
+		const data = {
+			calc_shipping_country: countryCode,
+			calc_shipping_state: state,
+			calc_shipping_postcode: postCode,
+			calc_shipping_city: city,
+		};
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/shipping/calculate`,
+				{
+					method: 'PUT',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				}
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return json;
+			} else {
+				console.log(json.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	updateShippingMethod: async (shippingMethodsObj, token) => {
+		console.log(shippingMethodsObj);
+		console.log(JSON.stringify(shippingMethodsObj));
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/shipping`,
+				{
+					method: 'PUT',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(shippingMethodsObj),
+				}
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				console.log(json);
+				return json;
+			} else {
+				console.log(json.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	getCoupons: async token => {
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/getCoupons`,
+				{
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+				}
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return json;
+			} else {
+				console.log(json.message);
 			}
 		} catch (error) {
 			console.log(error);

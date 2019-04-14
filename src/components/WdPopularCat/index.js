@@ -79,14 +79,14 @@ export default class WdPopularCat extends PureComponent {
 							onPress={() => this.props.navigation.dispatch(navigateAction)}
 							type="text"
 							text="View all Categories"
+							textColor="#79828F"
 							textStyle={{
-								color: '#79828F',
 								fontWeight: 'normal',
 								fontFamily: Constants.fontFamilyLato,
 							}}
 							containerColor="#fff"
 							containerStyle={{
-								width: '50%',
+								width: '60%',
 								...Platform.select({
 									ios: {
 										shadowColor: '#000',

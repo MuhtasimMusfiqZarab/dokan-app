@@ -37,7 +37,14 @@ class Button extends PureComponent {
 				) : (
 					<View />
 				)}
-				<Text style={[styles.text, textStyle]}>{text}</Text>
+				<Text
+					style={[
+						styles.text,
+						textStyle,
+						textColor ? { color: textColor } : '',
+					]}>
+					{text}
+				</Text>
 			</TouchableOpacity>
 		);
 	}

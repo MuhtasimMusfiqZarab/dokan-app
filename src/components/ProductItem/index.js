@@ -98,7 +98,7 @@ class ProductItem extends PureComponent {
 }
 
 const mapStateToProps = ({ user, carts }) => {
-	return { token: user.token, isCartUpdating: carts.isUpdating };
+	return { token: user.token, isCartUpdating: carts.isFetching };
 };
 
 function mergeProps(stateProps, dispatchProps, ownProps) {

@@ -67,6 +67,7 @@ import ReviewComment from './ReviewComment';
 import DokanModal from './Modal/DokanModal';
 import WdVendorListToolBar from './WdVendorListToolBar';
 import ProductDetailsIcons from './ProductDetailsIcons';
+import RadioButton from './RadioButton';
 
 export {
 	ProductList,
@@ -135,4 +136,5 @@ export {
 	DokanModal,
 	WdVendorListToolBar,
 	ProductDetailsIcons,
+	RadioButton,
 };

@@ -66,8 +66,9 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	atAglanceBtn: {
-		width: 100,
-		height: 80,
+		width: Dimensions.get('window').width / 4,
+		height: Dimensions.get('window').width / 4,
+		// height: 80,
 		backgroundColor: '#fff',
 		borderRadius: 5,
 		justifyContent: 'center',

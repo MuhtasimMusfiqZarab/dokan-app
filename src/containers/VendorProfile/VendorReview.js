@@ -5,15 +5,26 @@ import { NavigationActions } from 'react-navigation';
 import { Review, ReviewComment, Button, ButtonIndex } from '@components';
 import { toast } from '@app/Omni';
 
-class AccordionReview extends PureComponent {
+class VendorReview extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			showReviews: true,
 		};
 
-		this.props.fetchReviews(this.props.product.id);
+		// this.props.fetchReviews(this.props.vendorID);
+		// this.reviewCount = this.props.reviews.length;
+	}
+
+	// shouldComponentUpdate(nextProps) {
+	// 	return this.props.vendorID !== nextProps.vendorID;
+	// }
+
+	componentDidMount() {
+		console.log(this.props.vendorID);
+		this.props.fetchReviews(this.props.vendorID);
 		this.reviewCount = this.props.reviews.length;
+		console.log(this.reviewCount);
 	}
 
 	toggleReviewContentHandler = () => {
@@ -99,14 +110,18 @@ class AccordionReview extends PureComponent {
 									shadowOffset: { width: 1, height: 1 },
 								},
 								android: {
-									elevation: 3,
+									elevation: 1,
 								},
 							}),
 						}}
 					/>
 				)}
 				{!this.state.showReviews && (
-					<Review post={this.props.product} onNewReview={this.onNewReview} />
+					<Review
+						post={this.props.product}
+						onNewReview={this.onNewReview}
+						vendorReview={true}
+					/>
 				)}
 				{/* {
 					this.state.showNewReview && (
@@ -145,9 +160,10 @@ class AccordionReview extends PureComponent {
 const mapStateToProps = state => {
 	return {
 		netInfo: state.netInfo,
-		reviews: state.products.reviews,
-		isFetching: state.products.isFetching,
-		message: state.products.message,
+		reviews: state.vendors.vendorReviews,
+		isFetching: state.vendors.isFetching,
+		// message: state.products.message,
+		// reviews: state.products.reviews,
 		userData: state.user.user,
 	};
 };
@@ -155,14 +171,14 @@ const mapStateToProps = state => {
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { netInfo } = stateProps;
 	const { dispatch } = dispatchProps;
-	const { actions } = require('@redux/ProductRedux');
+	const { actions } = require('@redux/VendorRedux');
 
 	return {
 		...ownProps,
 		...stateProps,
-		fetchReviews: productId => {
+		fetchReviews: vendorId => {
 			if (!netInfo.isConnected) return toast(Languages.NoConnection);
-			actions.fetchReviewsByProductId(dispatch, productId);
+			actions.fetchReviewsByVendorId(dispatch, vendorId);
 		},
 	};
 }
@@ -171,4 +187,4 @@ export default connect(
 	mapStateToProps,
 	undefined,
 	mergeProps
-)(AccordionReview);
+)(VendorReview);

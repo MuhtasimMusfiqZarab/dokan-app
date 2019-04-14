@@ -191,11 +191,13 @@ class Delivery extends PureComponent {
 		const { user: customer } = props.user;
 		const userString = await AsyncStorage.getItem('@userInfo');
 		let userInfo = null;
+
 		if (userString !== null) {
 			try {
 				userInfo = JSON.parse(userString);
 			} catch (error) {}
 		}
+
 		if (userInfo !== null) {
 			this.setState({
 				value: {

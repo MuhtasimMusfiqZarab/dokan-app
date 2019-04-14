@@ -93,8 +93,6 @@ class ProductList extends Component {
 	}
 
 	fetchData = (reload = false) => {
-		console.log('fetch');
-
 		if (this.props.vendorID) return;
 
 		const {
@@ -143,7 +141,6 @@ class ProductList extends Component {
 	};
 
 	handleLoadMore = () => {
-		console.log(this.props.finish);
 		if (!this.props.finish) {
 			this.setState({
 				isFooterFetching: true,
@@ -256,7 +253,7 @@ const mapStateToProps = ({ layouts, products, vendors }, ownProp) => {
 		const finish = products.productFinish;
 		const message = products.message;
 		const layoutProductScreen = products.layoutProductScreen;
-		console.log(list);
+
 		return { list, isFetching, finish, layoutProductScreen, message };
 	} else if (ownProp.config.name === 'newArrival') {
 		const list = products.list;

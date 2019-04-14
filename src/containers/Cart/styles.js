@@ -45,7 +45,7 @@ export default StyleSheet.create({
 		borderTopColor: '#f3f7f9',
 	},
 	floatView: {
-		width: Constants.Window.width,
+		width: '100%',
 		position: 'absolute',
 		bottom: 0,
 	},
@@ -87,7 +87,7 @@ export default StyleSheet.create({
 	row: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginTop: 20,
+		// marginTop: 20,
 		paddingLeft: 10,
 		paddingRight: 10,
 		paddingBottom: 10,

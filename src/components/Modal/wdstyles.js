@@ -14,7 +14,7 @@ export default StyleSheet.create({
 		// width: (width * 96) / 100,
 		// height: (height * 70) / 100,
 		flex: 1,
-		backgroundColor: 'transparent',
+		backgroundColor: 'red',
 		zIndex: 10,
 		right: I18nManager.isRTL ? 0 : null,
 	},
@@ -40,6 +40,17 @@ export default StyleSheet.create({
 		paddingRight: 0,
 		paddingBottom: 0,
 		paddingLeft: 0,
+	},
+	cartModal: {
+		maxHeight: height / 2,
+		backgroundColor: 'transparent',
+		zIndex: 9999,
+		right: I18nManager.isRTL ? 0 : null,
+	},
+	cartWrap: {
+		flex: 1,
+		padding: 10,
+		backgroundColor: 'rgba(255,255,255, 1)',
 	},
 	iconZoom: {
 		position: 'absolute',

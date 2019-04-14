@@ -17,7 +17,9 @@ const types = {
 	FETCH_VENDOR_PRODUCTS_PENDING: 'FETCH_VENDOR_PRODUCTS_PENDING',
 	FETCH_VENDOR_PRODUCTS_SUCCESS: 'FETCH_VENDOR_PRODUCTS_SUCCESS',
 	FETCH_VENDOR_PRODUCTS_FAILURE: 'FETCH_VENDOR_PRODUCTS_FAILURE',
-	FETCH_VENDOR_REVIEW: 'FETCH_VENDOR_REVIEW',
+	FETCH_VENDOR_REVIEWS_PENDING: 'FETCH_VENDOR_REVIEWS_PENDING',
+	FETCH_VENDOR_REVIEWS_FAILURE: 'FETCH_VENDOR_REVIEWS_FAILURE',
+	FETCH_VENDOR_REVIEWS_SUCCESS: 'FETCH_VENDOR_REVIEWS_SUCCESS',
 	SWITCH_LAYOUT_VENDOR: 'SWITCH_LAYOUT_VENDOR',
 };
 
@@ -86,18 +88,37 @@ export const actions = {
 	fetchVendorProductsFailure: error => {
 		return { type: types.FETCH_VENDOR_PRODUCTS_FAILURE, error };
 	},
+	fetchReviewsByVendorId: async (dispatch, vendorId) => {
+		dispatch({ type: types.FETCH_VENDOR_REVIEWS_PENDING });
+		const json = await DokanWorker.getVendorReviews(vendorId);
+
+		if (json === undefined) {
+			dispatch({
+				type: types.FETCH_VENDOR_REVIEWS_FAILURE,
+				message: Languages.ErrorMessageRequest,
+			});
+		} else if (json.code) {
+			dispatch({
+				type: types.FETCH_VENDOR_REVIEWS_FAILURE,
+				message: json.message,
+			});
+		} else {
+			dispatch({ type: types.FETCH_VENDOR_REVIEWS_SUCCESS, reviews: json });
+		}
+	},
 	switchLayoutVendorPage: (layout, layoutChangeIcon) => {
 		return { type: types.SWITCH_LAYOUT_VENDOR, layout, layoutChangeIcon };
 	},
 };
 
 const initialState = {
-	isFetching: true,
+	isFetching: false,
 	finish: false,
 	error: null,
 	vendorList: [],
 	featuredVendorList: [],
 	vendorProducts: [],
+	vendorReviews: [],
 	selectedVendor: null,
 	layoutVendorScreen: Constants.Layout.twoColumn,
 	layoutChangeIcon: Icons.MaterialCommunityIcons.Categories,
@@ -163,6 +184,24 @@ export const reducer = (state = initialState, action) => {
 				featuredVendorList: [],
 				error,
 			};
+		}
+		case types.FETCH_VENDOR_REVIEWS_PENDING: {
+			return Object.assign({}, state, {
+				isFetching: true,
+				error: null,
+			});
+		}
+		case types.FETCH_VENDOR_REVIEWS_FAILURE: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				error,
+			});
+		}
+		case types.FETCH_VENDOR_REVIEWS_SUCCESS: {
+			return Object.assign({}, state, {
+				isFetching: false,
+				vendorReviews: action.reviews,
+			});
 		}
 		case types.SET_SELECTED_VENDOR: {
 			return {

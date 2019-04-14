@@ -45,7 +45,6 @@ export const reducer = (state = initialState, action) => {
 		case types.FINISH_INTRO:
 			return { ...state, finishIntro: true };
 		case types.UPDATE_USER_INFO:
-			console.log(user);
 			return { ...state, user };
 		default:
 			return state;

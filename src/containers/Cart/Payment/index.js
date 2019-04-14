@@ -310,10 +310,10 @@ class PaymentOptions extends PureComponent {
 						})}
 					</View>
 
-					<Delivery
+					{/* <Delivery
 						onChangeUserInfo={this.props.onChangeUserInfo}
 						onSaveUserData={this.onSaveUserData}
-					/>
+					/> */}
 				</ScrollView>
 
 				<Buttons

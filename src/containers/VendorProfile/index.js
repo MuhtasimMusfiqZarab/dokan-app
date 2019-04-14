@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { VendorProfileHeader, Button, ProductList, Review } from '@components';
 import { Constants } from '@common';
+import VendorReview from './VendorReview';
 import VendorContact from './VendorContact';
 import styles from './styles';
 
@@ -30,7 +31,7 @@ class VendorProfile extends Component {
 
 	render() {
 		const { vendor, navigation } = this.props;
-
+		console.log(vendor.id);
 		return (
 			<View style={styles.container}>
 				{/* <View
@@ -103,9 +104,15 @@ class VendorProfile extends Component {
 						{this.state.tabIndex === 1 && (
 							<View
 								style={{
-									padding: 20,
+									margin: 20,
+									padding: 15,
+									backgroundColor: '#fff',
 								}}>
-								<Review vendorReview={true} />
+								{/* <Review vendorReview={true} /> */}
+								<VendorReview
+									vendorID={vendor.id}
+									onLogin={this.props.onLogin}
+								/>
 							</View>
 						)}
 						{this.state.tabIndex === 2 && (

@@ -119,6 +119,7 @@ class UserProfile extends PureComponent {
 		}
 
 		if (isActionSheet) {
+			console.log(label);
 			switch (label) {
 				case 'Currency':
 					this.currencyPicker.openModal();
