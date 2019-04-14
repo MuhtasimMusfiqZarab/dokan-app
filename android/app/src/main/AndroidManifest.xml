@@ -24,7 +24,7 @@
 		android:theme="@style/SplashTheme"
 		android:supportsRtl="true">
 
-		<activity android:name=".SplashActivity"
+		<!-- <activity android:name=".SplashActivity"
 			android:label="@string/app_name"
 			android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
 			android:windowSoftInputMode="adjustResize"
@@ -33,13 +33,18 @@
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
-		</activity>
+		</activity> -->
 
 		<activity
 			android:name=".MainActivity"
 			android:launchMode="singleTop"
 			android:screenOrientation="portrait"
-      android:windowSoftInputMode="adjustPan" />
+			android:windowSoftInputMode="adjustPan">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 
 		<activity
 			android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
