@@ -10,7 +10,6 @@ export default StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#F8F8FA',
 		flexWrap: 'wrap',
-		padding: 15,
 	},
 	paymentOption: {
 		// marginTop: 10,
@@ -124,5 +123,4 @@ export default StyleSheet.create({
 	descriptionView: {
 		marginTop: 20,
 	},
-	deliveryInfoContainer: {},
 });

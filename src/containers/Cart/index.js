@@ -374,7 +374,7 @@ class Cart extends PureComponent {
 				</View>
 				{currentIndex === 0 && bottomButtons === 'prevNext' && (
 					<Buttons
-						isAbsolute
+						// isAbsolute
 						onPrevious={this.onPrevious}
 						onNext={this.onNext}
 						totalPrice={this.props.totalPrice}
@@ -384,7 +384,7 @@ class Cart extends PureComponent {
 				)}
 				{currentIndex === 0 && bottomButtons === 'cancelSave' && (
 					<CancelSaveButtons
-						isAbsolute
+						// isAbsolute
 						onCancelCartModal={this.onCancelCartModal}
 						onSaveCartModal={this.onSaveCartModal}
 						isCartFetching={this.props.isCartFetching}

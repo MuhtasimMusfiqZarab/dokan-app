@@ -218,7 +218,6 @@ export const reducer = (state = initialState, action) => {
 
 	switch (type) {
 		case types.FETCH_ALL_CART_ITEM: {
-			console.log('fetch cart');
 			return Object.assign({}, state, {
 				cartItems: product,
 				total: totalItems,

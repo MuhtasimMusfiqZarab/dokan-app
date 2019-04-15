@@ -397,8 +397,6 @@ const DokanWorker = {
 		}
 	},
 	updateShippingMethod: async (shippingMethodsObj, token) => {
-		console.log(shippingMethodsObj);
-		console.log(JSON.stringify(shippingMethodsObj));
 		try {
 			const response = await fetch(
 				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/shipping`,
@@ -415,7 +413,6 @@ const DokanWorker = {
 			const json = await response.json();
 
 			if (json.code === undefined) {
-				console.log(json);
 				return json;
 			} else {
 				console.log(json.message);

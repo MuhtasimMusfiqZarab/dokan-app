@@ -255,7 +255,7 @@ class PaymentOptions extends PureComponent {
 
 		return (
 			<View style={styles.container}>
-				<ScrollView>
+				<ScrollView style={{ padding: 15 }}>
 					<Text style={styles.label}>{Languages.SelectPayment}:</Text>
 
 					<View style={styles.paymentOption}>
@@ -309,13 +309,7 @@ class PaymentOptions extends PureComponent {
 							);
 						})}
 					</View>
-
-					{/* <Delivery
-						onChangeUserInfo={this.props.onChangeUserInfo}
-						onSaveUserData={this.onSaveUserData}
-					/> */}
 				</ScrollView>
-
 				<Buttons
 					isAbsolute
 					onPrevious={this.props.onPrevious}
