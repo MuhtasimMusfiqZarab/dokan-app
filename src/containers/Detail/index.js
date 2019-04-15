@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
-import { Timer, getProductImage } from '@app/Omni';
+import { Timer, getProductImage, toast } from '@app/Omni';
 import { Button, WishListIcon, Spinner } from '@components';
 import Swiper from 'react-native-swiper';
 import { Styles, Languages, Color, Constants, Events } from '@common';
@@ -48,6 +48,7 @@ class Detail extends PureComponent {
 		onViewVendorProfileScreen: PropTypes.any,
 		fetchVendorProducts: PropTypes.any,
 		bearerToken: PropTypes.string,
+		isCartFetching: PropTypes.bool,
 	};
 
 	constructor(props) {
@@ -185,15 +186,29 @@ class Detail extends PureComponent {
 			onLogin,
 		} = this.props;
 
-		if (userData) {
-			if (this.inCartTotal < Constants.LimitAddToCart) {
-				addCartItem(product, this.state.selectVariation, bearerToken);
-			} else {
-				alert(Languages.ProductLimitWaring);
-			}
-			if (go) onViewCart();
+		if (product.type === 'variable' && this.state.selectVariation === null) {
+			const text = `Please select ${product.attributes.map(
+				(attribute, index) => {
+					if (index === product.attributes.length - 1) {
+						return `${attribute.name}`;
+					} else {
+						return `${attribute.name}, `;
+					}
+				}
+			)}`;
+
+			toast(text);
 		} else {
-			onLogin();
+			if (userData) {
+				if (this.inCartTotal < Constants.LimitAddToCart) {
+					addCartItem(product, this.state.selectVariation, bearerToken);
+				} else {
+					alert(Languages.ProductLimitWaring);
+				}
+				if (go) onViewCart();
+			} else {
+				onLogin();
+			}
 		}
 	};
 
@@ -378,10 +393,16 @@ class Detail extends PureComponent {
 
 		// const isAddWishList =
 		// 	wishListItems.filter(item => item.product.id === product.id).length > 0;
-		// const isAddToCart = !!(
-		// 	cartItems &&
-		// 	cartItems.filter(item => item.product.id === product.id).length > 0
-		// );
+		const isAddedToCart = !!(
+			cartItems &&
+			cartItems.filter(item => item.product_id === product.id).length > 0
+		);
+		let numberOfItemsInCart;
+		if (isAddedToCart) {
+			numberOfItemsInCart = cartItems.filter(
+				item => item.product_id === product.id
+			)[0].quantity;
+		}
 
 		return (
 			<View
@@ -391,11 +412,29 @@ class Detail extends PureComponent {
 				]}>
 				<Button
 					type="text"
-					text="ADD CART"
+					text={
+						isAddedToCart ? `ADDED (${numberOfItemsInCart})` : 'ADD TO CART'
+					}
 					icon="cart"
-					iconStyle={{ marginRight: 5, color: '#D2DBE0' }}
-					// isAddToCart={isAddToCart}
-					textStyle={styles.butnCartText}
+					iconStyle={{
+						marginRight: 5,
+						color: this.disableAddCartBtn
+							? '#D2DBE0'
+							: isAddedToCart
+							? '#B888CB'
+							: '#999',
+					}}
+					iconSize={15}
+					isAddedToCart={isAddedToCart}
+					isLoading={this.props.isCartFetching}
+					loaderColor="#999"
+					textStyle={
+						this.disableAddCartBtn
+							? styles.butnCartDisabledText
+							: isAddedToCart
+							? styles.butnCartAddedText
+							: styles.butnCartText
+					}
 					// disabled={!this.props.product.in_stock || this.props.product.stock_status === "outofstock"}
 					disabled={this.disableAddCartBtn}
 					style={styles.buttonContainer}
@@ -547,6 +586,7 @@ const mapStateToProps = state => {
 		userData: state.user.user,
 		bearerToken: state.user.token,
 		relatedProducts: state.products.relatedProducts,
+		isCartFetching: state.carts.isFetching,
 	};
 };
 

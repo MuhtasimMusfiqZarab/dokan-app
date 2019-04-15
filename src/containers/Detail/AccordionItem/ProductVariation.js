@@ -26,9 +26,9 @@ export default class AccordionProductVariation extends PureComponent {
 		if (this.selectedOptions.length === this.props.attributes.length) {
 			this.props.updateSelectedVariation(this.selectedOptions);
 			this.selectedOptions = [];
-			this.setState({
-				clearVariation: true,
-			});
+			// this.setState({
+			// 	clearVariation: true,
+			// });
 		}
 	};
 
@@ -53,7 +53,7 @@ export default class AccordionProductVariation extends PureComponent {
 				})}
 				{this.state.clearVariation && (
 					<TouchableRipple
-						onPress={() => alert('Pressed!')}
+						onPress={() => this.setState({ clearVariation: false })}
 						rippleColor="rgba(0, 0, 0, .32)">
 						<Text style={{ color: 'red', marginTop: 20 }}>Clear</Text>
 					</TouchableRipple>

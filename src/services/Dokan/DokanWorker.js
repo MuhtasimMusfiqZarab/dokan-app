@@ -233,11 +233,19 @@ const DokanWorker = {
 			return error;
 		}
 	},
-	addCartItem: async (productID, qty = 1, token) => {
-		const data = {
-			product_id: productID,
-			quantity: qty,
-		};
+	addCartItem: async (productID, variationID, qty = 1, token) => {
+		let data;
+		if (productID !== null) {
+			data = {
+				product_id: productID,
+				quantity: qty,
+			};
+		} else {
+			data = {
+				variation_id: variationID,
+				quantity: qty,
+			};
+		}
 
 		try {
 			const response = await fetch(

@@ -92,31 +92,6 @@ class MyCart extends PureComponent {
 					<Text style={{ color: 'red' }}>No shipping for this location</Text>
 				);
 			}
-			// let newItem = [];
-			// return shippingMethods.map(item => {
-			// 	if (item.chosen_method) {
-			// 		newItem = item.available_methods.filter(s => {
-			// 			return item.chosen_method === s.id;
-			// 		});
-			// 	}
-			// 	if (newItem.length === 0) {
-			// 		console.log('mal nai');
-			// 		return (
-			// 			<TouchableOpacity
-			// 				onPress={() => this.onPressShippingCalculation(storeName)}>
-			// 				<Text style={{ color: '#B888CB' }}>No Shipping found</Text>
-			// 			</TouchableOpacity>
-			// 		);
-			// 	} else {
-			// 		console.log('mal ase');
-			// 		return (
-			// 			<TouchableOpacity
-			// 				onPress={() => this.onPressShippingCalculation(storeName)}>
-			// 				<Text style={{ color: '#B888CB' }}>Coming Soon</Text>
-			// 			</TouchableOpacity>
-			// 		);
-			// 	}
-			// });
 		}
 	};
 

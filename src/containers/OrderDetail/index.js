@@ -20,13 +20,15 @@ export class OrderDetail extends Component {
 					/>
 					<ShippingAddress shippingAddress={orderDetail.shipping} />
 					<BillingAddress billingAddress={orderDetail.billing} />
-					<Button
-						type="gradientBtn"
-						text="Order Again"
-						alignSelf="center"
-						marginTop={15}
-						onPress={() => alert('To be implemented')}
-					/>
+					{orderDetail.status === 'completed' && (
+						<Button
+							type="gradientBtn"
+							text="Order Again"
+							alignSelf="center"
+							marginTop={15}
+							onPress={() => alert('To be implemented')}
+						/>
+					)}
 				</ScrollView>
 			</View>
 		);

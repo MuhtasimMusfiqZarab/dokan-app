@@ -55,14 +55,25 @@ export const actions = {
 	addCartItem: (dispatch, product, variation, token) => {
 		dispatch({ type: types.FETCH_CART_PENDING });
 
-		DokanWorker.addCartItem(product.id, 1, token)
-			.then(() => {
-				actions.fetchAllCartItems(dispatch, token);
-			})
-			.catch(error => {
-				console.log(error);
-				// toast('Something Went Wrong');
-			});
+		if (variation === null) {
+			DokanWorker.addCartItem(product.id, null, 1, token)
+				.then(() => {
+					actions.fetchAllCartItems(dispatch, token);
+				})
+				.catch(error => {
+					console.log(error);
+					// toast('Something Went Wrong');
+				});
+		} else {
+			DokanWorker.addCartItem(null, variation.id, 1, token)
+				.then(() => {
+					actions.fetchAllCartItems(dispatch, token);
+				})
+				.catch(error => {
+					console.log(error);
+					// toast('Something Went Wrong');
+				});
+		}
 	},
 	fetchMyOrder: (dispatch, user) => {
 		dispatch({ type: types.FETCH_CART_PENDING });
@@ -74,7 +85,9 @@ export const actions = {
 					data,
 				});
 			})
-			.catch(err => {});
+			.catch(error => {
+				console.log(error);
+			});
 	},
 	removeCartItem: (dispatch, product, variation) => {
 		dispatch({

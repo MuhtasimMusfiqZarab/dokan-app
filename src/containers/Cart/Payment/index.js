@@ -143,6 +143,7 @@ class PaymentOptions extends PureComponent {
 					typeof userInfo.note !== 'undefined' ? userInfo.note : '',
 				currency: currency.code,
 			};
+
 			// check the shipping info
 			if (Config.shipping.visible) {
 				payload.shipping_lines = this.getShippingMethod();

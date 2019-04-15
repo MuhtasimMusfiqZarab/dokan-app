@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import {
 	Animated,
 	Platform,
@@ -21,7 +21,7 @@ import WooWorker from '@services/WooCommerce/WooWorker';
 const cardMargin = Constants.Dimension.ScreenWidth(0.05);
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
-class MyOrders extends Component {
+class MyOrders extends PureComponent {
 	state = {
 		scrollY: new Animated.Value(0),
 		activeSections: [],
@@ -39,14 +39,14 @@ class MyOrders extends Component {
 		}
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		return (
-			(typeof nextProps.carts.myOrders !== 'undefined' &&
-				nextProps.carts.myOrders.length != this.props.carts.myOrders.length) ||
-			nextState.isSpinner !== this.state.isSpinner ||
-			nextState.orderFilter !== this.state.orderFilter
-		);
-	}
+	// shouldComponentUpdate(nextProps, nextState) {
+	// 	return (
+	// 		(typeof nextProps.carts.myOrders !== 'undefined' &&
+	// 			nextProps.carts.myOrders.length != this.props.carts.myOrders.length) ||
+	// 		nextState.isSpinner !== this.state.isSpinner ||
+	// 		nextState.orderFilter !== this.state.orderFilter
+	// 	);
+	// }
 
 	fetchProductsData = () => {
 		const { user } = this.props.user;
@@ -171,12 +171,15 @@ class MyOrders extends Component {
 			data = this.props.carts.myOrders;
 		} else {
 			data = this.props.carts.myOrders.filter(
-				order => order.status !== 'pending'
+				order => order.status == 'completed'
 			);
 		}
 		const orderCount = data.length;
 
-		if (typeof data === 'undefined' || data.length == 0) {
+		if (
+			typeof data === 'undefined' ||
+			(data.length === 0 && orderFilter !== 'Complete')
+		) {
 			return (
 				<OrderEmpty
 					text={Languages.NoOrder}
@@ -192,31 +195,48 @@ class MyOrders extends Component {
 					onSelectAll={this.onSelectAll}
 					onSelectComplete={this.onSelectComplete}
 				/>
-				<Text
-					style={{
-						margin: cardMargin,
-						color: Color.wdDeepGray,
-						fontSize: 20,
-					}}>
-					{orderCount > 1 ? `${orderCount} Items` : `${orderCount} Item`}
-				</Text>
-				<AnimatedFlatList
-					data={data}
-					onScroll={Animated.event(
-						[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
-						{ useNativeDriver: Platform.OS !== 'android' }
-					)}
-					scrollEventThrottle={1}
-					keyExtractor={(item, index) => `${item.id} || ${index}`}
-					contentContainerStyle={styles.flatlist}
-					renderItem={this.renderRow}
-					refreshControl={
-						<RefreshControl
-							refreshing={this.props.carts.isFetching}
-							onRefresh={this.fetchProductsData}
+				{orderCount >= 1 && (
+					<View style={{ flex: 1, paddingBottom: 15 }}>
+						<Text
+							style={{
+								margin: cardMargin,
+								color: Color.wdDeepGray,
+								fontSize: 20,
+							}}>
+							{orderCount > 1 ? `${orderCount} Items` : `${orderCount} Item`}
+						</Text>
+						<AnimatedFlatList
+							data={data}
+							onScroll={Animated.event(
+								[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
+								{ useNativeDriver: Platform.OS !== 'android' }
+							)}
+							scrollEventThrottle={1}
+							keyExtractor={(item, index) => `${item.id} || ${index}`}
+							// contentContainerStyle={styles.flatlist}
+							renderItem={this.renderRow}
+							refreshControl={
+								<RefreshControl
+									refreshing={this.props.carts.isFetching}
+									onRefresh={this.fetchProductsData}
+								/>
+							}
 						/>
-					}
-				/>
+					</View>
+				)}
+
+				{orderCount === 0 && (
+					<View
+						style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+						<Text
+							style={{
+								color: Color.wdDeepGray,
+							}}>
+							No completed order found
+						</Text>
+					</View>
+				)}
+
 				{this.state.isSpinner ? (
 					<Spinner mode="overlay" color="#000" backgroundColor="#E9E9EF" />
 				) : null}

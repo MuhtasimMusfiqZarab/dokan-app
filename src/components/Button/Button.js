@@ -49,14 +49,14 @@ const TextButton = props => (
 		activeOpacity={0.9}
 		underlayColor="#ccc">
 		<View style={styles.buttonView}>
-			{props.icon && (
+			{props.icon && !props.isLoading && (
 				<CustomIcon
 					name={props.icon}
 					style={props.iconStyle ? props.iconStyle : styles.iconStyle}
 					size={props.iconSize ? props.iconSize : 18}
 				/>
 			)}
-			{props.image && (
+			{props.image && !props.isLoading && (
 				<Image
 					source={props.icon}
 					defaultSource={props.defaultSource}
@@ -69,11 +69,16 @@ const TextButton = props => (
 					]}
 				/>
 			)}
-			<Text {...props} style={[styles.text, props.textStyle]}>
-				{props.text}
-			</Text>
+			{!props.isLoading && (
+				<Text {...props} style={[styles.text, props.textStyle]}>
+					{props.text}
+				</Text>
+			)}
 			{props.isLoading && (
-				<ActivityIndicator style={styles.loading} color="#FFF" />
+				<ActivityIndicator
+					style={styles.loading}
+					color={props.loaderColor ? props.loaderColor : '#FFF'}
+				/>
 			)}
 		</View>
 	</TouchableHighlight>
