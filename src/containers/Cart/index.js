@@ -289,11 +289,13 @@ class Cart extends PureComponent {
 			user,
 		} = this.props;
 		const { currentIndex, bottomButtons } = this.state;
+
 		// console.log(user);
-		if (!isCartFetching) {
-			if (currentIndex === 0 && cartItems && cartItems.length === 0) {
-				return <PaymentEmpty onViewHome={onViewHome} />;
-			}
+
+		if (currentIndex === 0 && cartItems && cartItems.length === 0) {
+			return (
+				<PaymentEmpty onViewHome={onViewHome} isCartFetching={isCartFetching} />
+			);
 		}
 
 		const steps = [
