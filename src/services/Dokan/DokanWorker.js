@@ -218,6 +218,9 @@ const DokanWorker = {
 			const totalPriceHeader = JSON.parse(
 				response.headers.get('X-Dokan-Cart-Totals')
 			);
+			const cartSubTotal = totalPriceHeader.subtotal;
+			const shippingTotal = totalPriceHeader.shipping_total;
+			const discount = totalPriceHeader.discount_total;
 			const cartTotalPrice = totalPriceHeader.total;
 			const cartTotalItems = JSON.parse(
 				response.headers.get('X-Dokan-Cart-TotalItems')
@@ -225,7 +228,14 @@ const DokanWorker = {
 			const json = await response.json();
 
 			if (json.code === undefined) {
-				return { cartProduct: json, cartTotalPrice, cartTotalItems };
+				return {
+					cartProduct: json,
+					cartSubTotal,
+					cartTotalPrice,
+					shippingTotal,
+					discount,
+					cartTotalItems,
+				};
 			} else {
 				console.log(json.message);
 			}
@@ -432,7 +442,7 @@ const DokanWorker = {
 	getCoupons: async token => {
 		try {
 			const response = await fetch(
-				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/getCoupons`,
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/coupons`,
 				{
 					method: 'GET',
 					headers: {
@@ -448,6 +458,34 @@ const DokanWorker = {
 				return json;
 			} else {
 				console.log(json.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	postCoupon: async (code, token) => {
+		const data = {
+			code: code,
+		};
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/coupons`,
+				{
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				}
+			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return json;
+			} else {
+				console.log(json);
 			}
 		} catch (error) {
 			console.log(error);

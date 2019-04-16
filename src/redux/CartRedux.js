@@ -29,6 +29,9 @@ const types = {
 	CALCULATE_SHIPPING_PENDING: 'CALCULATE_SHIPPING_PENDING',
 	CALCULATE_SHIPPING_FAILED: 'CALCULATE_SHIPPING_FAILED',
 	CALCULATE_SHIPPING_SUCCESS: 'CALCULATE_SHIPPING_SUCCESS',
+	// POST_COUPON_PENDING: 'POST_COUPON_PENDING',
+	// POST_COUPON_FAILED: 'POST_COUPON_FAILED',
+	GET_COUPON_SUCCESS: 'GET_COUPON_SUCCESS',
 };
 
 export const actions = {
@@ -44,6 +47,9 @@ export const actions = {
 						product: cartData.cartProduct,
 						totalPrice: cartData.cartTotalPrice,
 						totalItems: cartData.cartTotalItems,
+						subTotal: cartData.cartSubTotal,
+						discount: cartData.discount,
+						shippingTotal: cartData.shippingTotal,
 						shippingMethods: shippingData,
 					});
 				});
@@ -152,6 +158,25 @@ export const actions = {
 			type: types.EMPTY_CART,
 		});
 	},
+	applyCoupon: (dispatch, code, token) => {
+		DokanWorker.postCoupon(code, token)
+			.then(() => {
+				DokanWorker.getCoupons(token)
+					.then(data => {
+						dispatch({
+							type: types.GET_COUPON_SUCCESS,
+							coupons: data,
+						});
+						actions.fetchAllCartItems(dispatch, token);
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	},
 	validateCustomerInfo: (dispatch, customerInfo) => {
 		const { first_name, last_name, address_1, email, phone } = customerInfo;
 		if (
@@ -220,19 +245,36 @@ const initialState = {
 	cartItems: [],
 	total: 0,
 	totalPrice: 0,
+	subTotal: 0,
+	discount: 0,
+	shippingTotal: 0,
 	shippingMethods: [],
+	coupons: [],
 	myOrders: [],
 	isFetching: false,
-	isUpdating: false,
+	isCouponFetching: false,
 };
 
 export const reducer = (state = initialState, action) => {
-	const { type, product, totalPrice, totalItems, shippingMethods } = action;
+	const {
+		type,
+		product,
+		subTotal,
+		discount,
+		shippingTotal,
+		totalPrice,
+		totalItems,
+		shippingMethods,
+		coupons,
+	} = action;
 
 	switch (type) {
 		case types.FETCH_ALL_CART_ITEM: {
 			return Object.assign({}, state, {
 				cartItems: product,
+				subTotal: subTotal,
+				discount: discount,
+				shippingTotal: shippingTotal,
 				total: totalItems,
 				totalPrice: Number(totalPrice),
 				shippingMethods: shippingMethods,
@@ -272,6 +314,8 @@ export const reducer = (state = initialState, action) => {
 				cartItems: [],
 				total: 0,
 				totalPrice: 0,
+				shippingMethods: [],
+				coupons: [],
 			});
 		case types.REMOVE_CART_ITEM: {
 			const index = state.cartItems.findIndex(cartItem =>
@@ -385,6 +429,12 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				shippingMethods: shippingMethods,
 				isFetching: false,
+			});
+		}
+		case types.GET_COUPON_SUCCESS: {
+			return Object.assign({}, state, {
+				...state,
+				coupons: coupons,
 			});
 		}
 		default: {

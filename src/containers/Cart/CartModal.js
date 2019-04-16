@@ -79,7 +79,14 @@ export default class CartModal extends PureComponent {
 				position="bottom"
 				style={[styles.cartModal]}>
 				<View style={styles.cartWrap}>
-					{modalType === 'modalCartTotal' && <CartTotal />}
+					{modalType === 'modalCartTotal' && (
+						<CartTotal
+							subTotal={this.props.subTotal}
+							shippingTotal={this.props.shippingTotal}
+							discount={this.props.discount}
+							totalPrice={this.props.totalPrice}
+						/>
+					)}
 					{modalType === 'modalShippingMethods' && (
 						<ShippingMethods
 							navigation={this.props.navigation}
