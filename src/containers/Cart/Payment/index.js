@@ -81,103 +81,102 @@ class PaymentOptions extends PureComponent {
 	}
 
 	nextStep = () => {
-		if (this.state.userDataSaved) {
-			const { user, token } = this.props.user;
-			const { userInfo, currency } = this.props;
-			const coupon = this.getCouponInfo();
+		// if (this.state.userDataSaved) {
+		const { user, token } = this.props.user;
+		const { userInfo, currency } = this.props;
+		// const coupon = this.getCouponInfo();
 
-			// Billing First name is a required field.
-			// Billing Last name is a required field.
-			// Billing Country is a required field.
-			// Billing Street address is a required field.
-			// Billing Town / City is a required field.
+		// Billing First name is a required field.
+		// Billing Last name is a required field.
+		// Billing Country is a required field.
+		// Billing Street address is a required field.
+		// Billing Town / City is a required field.
 
-			let first_name = userInfo.first_name;
-			let last_name = userInfo.last_name;
-			let address_1 = userInfo.address_1;
-			let city = userInfo.city;
-			let state = userInfo.state;
-			let country = userInfo.country;
-			let postcode = userInfo.postcode;
+		let first_name = userInfo.first_name;
+		let last_name = userInfo.last_name;
+		let address_1 = userInfo.address_1;
+		let city = userInfo.city;
+		let state = userInfo.state;
+		let country = userInfo.country;
+		let postcode = userInfo.postcode;
 
-			if (user && user.billing) {
-				first_name = user.billing.first_name;
-				last_name = user.billing.last_name;
-				address_1 = user.billing.last_name;
-				city = user.billing.city;
-				state = user.billing.state;
-				country = user.billing.country;
-				postcode = user.billing.postcode;
-			}
-
-			const { list } = this.props.payments;
-			const payload = {
-				token,
-				customer_id: user.id,
-				set_paid: false,
-				payment_method: list[this.state.selectedIndex].id,
-				payment_method_title: list[this.state.selectedIndex].title,
-				billing: {
-					...user.billing,
-					email: userInfo.email,
-					phone: userInfo.phone,
-					first_name: first_name,
-					last_name: last_name,
-					address_1: address_1,
-					city: city,
-					state: state,
-					country: country,
-					postcode: postcode,
-				},
-				shipping: {
-					first_name: userInfo.first_name,
-					last_name: userInfo.last_name,
-					address_1: userInfo.address_1,
-					city: userInfo.city,
-					state: userInfo.state,
-					country: userInfo.country,
-					postcode: userInfo.postcode,
-				},
-				line_items: this.getItemsCart(),
-				customer_note:
-					typeof userInfo.note !== 'undefined' ? userInfo.note : '',
-				currency: currency.code,
-			};
-
-			// check the shipping info
-			if (Config.shipping.visible) {
-				payload.shipping_lines = this.getShippingMethod();
-			}
-
-			// check the coupon
-			if (coupon.length != 0) {
-				payload.coupon_lines = this.getCouponInfo();
-			}
-
-			this.setState({ loading: this.props.isLoading });
-
-			if (list[this.state.selectedIndex].id == 'cod') {
-				// console.log(payload);
-				this.setState({ loading: true });
-				WooWorker.createNewOrder(
-					payload,
-					() => {
-						this.setState({ loading: false });
-						this.props.emptyCart();
-						this.props.onNext();
-					},
-					response => {
-						console.log(response);
-						this.setState({ loading: false });
-					}
-				);
-			} else {
-				// other kind of payment
-				this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);
-			}
-		} else {
-			alert('Update your delivery information');
+		if (user && user.billing) {
+			first_name = user.billing.first_name;
+			last_name = user.billing.last_name;
+			address_1 = user.billing.last_name;
+			city = user.billing.city;
+			state = user.billing.state;
+			country = user.billing.country;
+			postcode = user.billing.postcode;
 		}
+
+		const { list } = this.props.payments;
+		const payload = {
+			token,
+			customer_id: user.id,
+			set_paid: false,
+			payment_method: list[this.state.selectedIndex].id,
+			payment_method_title: list[this.state.selectedIndex].title,
+			billing: {
+				...user.billing,
+				email: userInfo.email,
+				phone: userInfo.phone,
+				first_name: first_name,
+				last_name: last_name,
+				address_1: address_1,
+				city: city,
+				state: state,
+				country: country,
+				postcode: postcode,
+			},
+			shipping: {
+				first_name: userInfo.first_name,
+				last_name: userInfo.last_name,
+				address_1: userInfo.address_1,
+				city: userInfo.city,
+				state: userInfo.state,
+				country: userInfo.country,
+				postcode: userInfo.postcode,
+			},
+			line_items: this.getItemsCart(),
+			customer_note: typeof userInfo.note !== 'undefined' ? userInfo.note : '',
+			currency: currency.code,
+		};
+
+		// check the shipping info
+		// if (Config.shipping.visible) {
+		// 	payload.shipping_lines = this.getShippingMethod();
+		// }
+
+		// check the coupon
+		// if (coupon.length != 0) {
+		// 	payload.coupon_lines = this.getCouponInfo();
+		// }
+
+		this.setState({ loading: this.props.isLoading });
+
+		if (list[this.state.selectedIndex].id == 'cod') {
+			// console.log(payload);
+			this.setState({ loading: true });
+			WooWorker.createNewOrder(
+				payload,
+				() => {
+					this.setState({ loading: false });
+					this.props.emptyCart();
+					this.props.onNext();
+				},
+				response => {
+					console.log(response);
+					this.setState({ loading: false });
+				}
+			);
+		} else {
+			// other kind of payment
+			this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);
+		}
+		// } else {
+		// 	alert('Update your delivery information');
+		// }
 	};
 
 	getItemsCart = () => {

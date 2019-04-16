@@ -94,7 +94,7 @@ export default StyleSheet.create({
 	couponMessage: {
 		marginTop: 15,
 		marginBottom: 15,
-		textAlign: 'center',
+		// textAlign: 'center',
 		color: Color.green,
 	},
 });

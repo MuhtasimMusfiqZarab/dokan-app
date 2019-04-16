@@ -31,6 +31,7 @@ const types = {
 	CALCULATE_SHIPPING_SUCCESS: 'CALCULATE_SHIPPING_SUCCESS',
 	// POST_COUPON_PENDING: 'POST_COUPON_PENDING',
 	// POST_COUPON_FAILED: 'POST_COUPON_FAILED',
+	GET_COUPON_PENDING: 'GET_COUPON_PENDING',
 	GET_COUPON_SUCCESS: 'GET_COUPON_SUCCESS',
 };
 
@@ -159,6 +160,9 @@ export const actions = {
 		});
 	},
 	applyCoupon: (dispatch, code, token) => {
+		dispatch({
+			type: types.GET_COUPON_PENDING,
+		});
 		DokanWorker.postCoupon(code, token)
 			.then(() => {
 				DokanWorker.getCoupons(token)
@@ -172,6 +176,18 @@ export const actions = {
 					.catch(error => {
 						console.log(error);
 					});
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	},
+	getAllCoupons: (dispatch, token) => {
+		DokanWorker.getCoupons(token)
+			.then(data => {
+				dispatch({
+					type: types.GET_COUPON_SUCCESS,
+					coupons: data,
+				});
 			})
 			.catch(error => {
 				console.log(error);
@@ -252,7 +268,7 @@ const initialState = {
 	coupons: [],
 	myOrders: [],
 	isFetching: false,
-	isCouponFetching: false,
+	isCouponApplying: false,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -279,6 +295,7 @@ export const reducer = (state = initialState, action) => {
 				totalPrice: Number(totalPrice),
 				shippingMethods: shippingMethods,
 				isFetching: false,
+				isCouponApplying: false,
 			});
 		}
 		case types.ADD_CART_ITEM: {
@@ -429,6 +446,12 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				shippingMethods: shippingMethods,
 				isFetching: false,
+			});
+		}
+		case types.GET_COUPON_PENDING: {
+			return Object.assign({}, state, {
+				...state,
+				isCouponApplying: true,
 			});
 		}
 		case types.GET_COUPON_SUCCESS: {

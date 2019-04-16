@@ -7,6 +7,7 @@ import {
 	WebView,
 	Text,
 	TouchableOpacity,
+	AsyncStorage,
 	ScrollView,
 	Dimensions,
 } from 'react-native';
@@ -41,6 +42,9 @@ class Cart extends PureComponent {
 		emptyCart: PropTypes.any,
 		isProcessing: PropTypes.bool,
 		isCartFetching: PropTypes.bool,
+		subTotal: PropTypes.any,
+		shippingTotal: PropTypes.any,
+		discount: PropTypes.number,
 		totalPrice: PropTypes.number,
 		totalItems: PropTypes.number,
 		shippingMethods: PropTypes.array,
@@ -72,10 +76,21 @@ class Cart extends PureComponent {
 		});
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		this.props.shippingMethods.map(item => {
 			this.chosenShippingObj[item.store_name] = item.chosen_method;
 		});
+
+		const userString = await AsyncStorage.getItem('@userInfo');
+		let userInfo = null;
+
+		if (userString !== null) {
+			try {
+				userInfo = JSON.parse(userString);
+			} catch (error) {}
+		}
+
+		this.setState({ userInfo: userInfo });
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
@@ -367,6 +382,10 @@ class Cart extends PureComponent {
 
 					{this.renderStripeLayout()}
 					<CartModal
+						subTotal={this.props.subTotal}
+						shippingTotal={this.props.shippingTotal}
+						discount={this.props.discount}
+						totalPrice={this.props.totalPrice}
 						shippingMethods={shippingMethods}
 						onSelectNewShippingMethod={this.onSelectNewShippingMethod}
 						setBottomButtons={this.setBottomButtons}
@@ -400,6 +419,9 @@ class Cart extends PureComponent {
 const mapStateToProps = ({ carts, user, spinner }) => ({
 	cartItems: carts.cartItems,
 	totalItems: carts.total,
+	subTotal: carts.subTotal,
+	shippingTotal: carts.shippingTotal,
+	discount: carts.discount,
 	totalPrice: carts.totalPrice,
 	shippingMethods: carts.shippingMethods,
 	user,
