@@ -206,6 +206,7 @@ const TabButton = props => (
 
 const GradientButton = props => (
 	<TouchableOpacity
+		disabled={props.isDisabled || props.isLoading}
 		onPress={props.onPress}
 		style={{
 			width:
@@ -229,7 +230,15 @@ const GradientButton = props => (
 				Config.appSettings.primary_button_color_1,
 				Config.appSettings.primary_button_color_2,
 			]}>
-			<Text style={styles.gradientButtonText}>{props.text}</Text>
+			{!props.isLoading && (
+				<Text style={styles.gradientButtonText}>{props.text}</Text>
+			)}
+			{props.isLoading && (
+				<ActivityIndicator
+					style={styles.loading}
+					color={props.loaderColor ? props.loaderColor : '#fff'}
+				/>
+			)}
 		</LinearGradient>
 	</TouchableOpacity>
 );
