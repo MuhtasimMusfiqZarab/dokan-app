@@ -31,7 +31,7 @@ class ProductItem extends PureComponent {
 					{isCartProduct ? (
 						<Image
 							source={{
-								uri: getProductImage(product.product_images[0].src, 100),
+								uri: getProductImage(product.data.images[0].src, 100),
 							}}
 							style={styles.image}
 						/>
@@ -48,13 +48,13 @@ class ProductItem extends PureComponent {
 						]}>
 						<TouchableOpacity onPress={() => onPress({ product })}>
 							<Text style={styles.title}>
-								{isCartProduct ? product.product_name : product.name}
+								{isCartProduct ? product.data.name : product.name}
 							</Text>
 						</TouchableOpacity>
 						<View style={styles.priceContainer}>
 							<Text style={styles.price}>
 								{isCartProduct
-									? currencyFormatter(product.line_total)
+									? currencyFormatter(product.data.price)
 									: currencyFormatter(price)}
 							</Text>
 							{variation &&

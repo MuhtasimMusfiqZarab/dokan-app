@@ -4,22 +4,23 @@ import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Constants, Color } from '@common';
-import { Spinkit } from '@components';
+import { toast } from '@app/Omni';
 
 class ChangeQuantity extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isDisabled: false,
-			quantity: props.quantity,
+			updatedQuantity: '',
 			isCartUpdating: false,
 		};
+		this.quantity = props.quantity;
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.quantity !== 'undefined') {
 			this.setState({
-				quantity: nextProps.quantity,
+				updatedQuantity: nextProps.quantity,
 			});
 		}
 	}
@@ -27,51 +28,24 @@ class ChangeQuantity extends PureComponent {
 	increase = async () => {
 		const { updateCartItem, productKey, token } = this.props;
 
-		if (this.state.isDisabled) return;
-
-		if (this.state.quantity < Constants.LimitAddToCart) {
-			this.setState({ isCartUpdating: true, isDisabled: true });
-
-			updateCartItem(productKey, this.state.quantity + 1, token);
-			setTimeout(() => {
-				this.setState({
-					isCartUpdating: false,
-					isDisabled: false,
-					quantity: this.state.quantity + 1,
-				});
-			}, 2000);
+		if (
+			this.quantity < Constants.LimitAddToCart &&
+			this.state.updatedQuantity < Constants.LimitAddToCart
+		) {
+			await updateCartItem(productKey, this.quantity + 1, token);
+			this.quantity = this.quantity + 1;
+		} else {
+			toast(`${Constants.LimitAddToCart} is the maximum limit`);
 		}
-
-		setTimeout(() => {
-			this.setState({
-				isCartUpdating: false,
-			});
-		}, 2000);
 	};
 
-	reduced = () => {
+	reduced = async () => {
 		const { updateCartItem, productKey, token } = this.props;
 
-		if (this.state.isDisabled) return;
-
-		if (this.state.quantity > 1) {
-			this.setState({ isCartUpdating: true, isDisabled: true });
-
-			updateCartItem(productKey, this.state.quantity - 1, token);
-			setTimeout(() => {
-				this.setState({
-					isCartUpdating: false,
-					isDisabled: false,
-					quantity: this.state.quantity - 1,
-				});
-			}, 1000);
+		if (this.quantity > 1 && this.state.updatedQuantity > 1) {
+			await updateCartItem(productKey, this.quantity - 1, token);
+			this.quantity = this.quantity - 1;
 		}
-
-		setTimeout(() => {
-			this.setState({
-				isCartUpdating: false,
-			});
-		}, 1000);
 	};
 
 	render() {
@@ -86,10 +60,11 @@ class ChangeQuantity extends PureComponent {
 					onPress={!isDisabled ? this.increase : () => false}>
 					<FontAwesome name="plus" size={16} color="#E94F44" />
 				</TouchableOpacity>
-				{this.state.isCartUpdating ? (
-					<Spinkit css={{ height: 30 }} />
-				) : (
-					<Text style={styles.text}>{this.state.quantity}</Text>
+				{!this.props.isCartUpdating && (
+					<Text style={styles.text}>{this.state.updatedQuantity}</Text>
+				)}
+				{this.props.isCartUpdating && (
+					<Text style={styles.text}>{this.quantity}</Text>
 				)}
 				<TouchableOpacity
 					style={styles.btnDown}
