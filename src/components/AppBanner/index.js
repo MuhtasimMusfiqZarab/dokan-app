@@ -42,6 +42,40 @@ class AppBanner extends PureComponent {
 		}
 	};
 
+	renderDot = () => {
+		return (
+			<View
+				style={{
+					backgroundColor: '#C8CCD5',
+					width: 8,
+					height: 8,
+					borderRadius: 4,
+					marginLeft: 3,
+					marginRight: 3,
+					marginTop: 3,
+					marginBottom: 3,
+				}}
+			/>
+		);
+	};
+
+	renderActiveDot = () => {
+		return (
+			<View
+				style={{
+					backgroundColor: '#FFF',
+					width: 8,
+					height: 8,
+					borderRadius: 4,
+					marginLeft: 3,
+					marginRight: 3,
+					marginTop: 3,
+					marginBottom: 3,
+				}}
+			/>
+		);
+	};
+
 	render() {
 		return (
 			<View style={style.container}>
@@ -50,12 +84,40 @@ class AppBanner extends PureComponent {
 					lineNumber={5}
 					textSize={14}
 					lineSpacing={10}
-					color="blue"
+					color="#C8CCD5"
 					lastLineWidth="30%"
 					firstLineWidth="10%"
 					animate="fade"
 					onReady={this.props.finish}>
-					<Swiper>
+					<Swiper
+						dot={
+							<View
+								style={{
+									backgroundColor: '#C8CCD5',
+									width: 8,
+									height: 8,
+									borderRadius: 4,
+									marginLeft: 3,
+									marginRight: 3,
+									marginTop: 3,
+									marginBottom: 3,
+								}}
+							/>
+						}
+						activeDot={
+							<View
+								style={{
+									backgroundColor: '#FFF',
+									width: 8,
+									height: 8,
+									borderRadius: 4,
+									marginLeft: 3,
+									marginRight: 3,
+									marginTop: 3,
+									marginBottom: 3,
+								}}
+							/>
+						}>
 						{this.props.bannerItems.map((banner, index) => {
 							const imageURI =
 								typeof banner.image != 'undefined'
@@ -71,7 +133,6 @@ class AppBanner extends PureComponent {
 									<ImageCache
 										uri={imageURI}
 										style={style.imageBanner}
-										placeHolder="imageContent"
 										// resizeMode="contain"
 									/>
 								</TouchableOpacity>
