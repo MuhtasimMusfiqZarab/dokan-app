@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import { Button, ProductItem } from '@components';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Constants, Languages } from '@common';
+import { Constants, Config, Languages } from '@common';
 import WishListEmpty from './Empty';
 import styles from './styles';
 
@@ -52,24 +52,41 @@ class WishList extends PureComponent {
 		);
 	}
 
-	moveAllToCart = () => {
+	moveAllToCart = async () => {
 		if (this.props.wishListItems.length === 0) alert(Languages.EmptyAddToCart);
 		else {
-			this.props.wishListItems.forEach(item => {
-				const inCartTotal = this.props.cartItems.reduce(
-					(accumulator, currentValue) => {
-						if (currentValue.product.id == item.product.id) {
-							return accumulator + currentValue.quantity;
-						}
-						return 0;
-					},
-					0
-				);
+			// let requestArray = [];
+			// this.props.wishListItems.forEach(item => {
+			// 	let data = {
+			// 		product_id: item.product.id,
+			// 		quantity: 1,
+			// 	};
+			// 	let request = fetch(
+			// 		`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
+			// 		{
+			// 			method: 'POST',
+			// 			headers: {
+			// 				Accept: 'application/json',
+			// 				Authorization: `Bearer ${this.props.token}`,
+			// 				'Content-Type': 'application/json',
+			// 			},
+			// 			body: JSON.stringify(data),
+			// 		}
+			// 	).then(response => response.json());
 
-				if (inCartTotal < Constants.LimitAddToCart)
-					this.props.addCartItem(item.product, item.variation);
-				else alert(Languages.ProductLimitWaring);
-			});
+			// 	requestArray.push(request);
+			// });
+			if (this.props.token === null) {
+				this.props.onMustLogin();
+			} else {
+				await this.props.deleteCart(this.props.token);
+				this.props.addMultipleCartItem(
+					this.props.wishListItems,
+					this.props.token
+				);
+				this.cleanAll();
+				this.props.navigation.navigate('CartScreen');
+			}
 		}
 	};
 
@@ -164,6 +181,7 @@ const mapStateToProps = state => {
 	return {
 		wishListItems: state.wishList.wishListItems,
 		cartItems: state.carts.cartItems,
+		token: state.user.token,
 	};
 };
 
@@ -174,8 +192,17 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 	return {
 		...ownProps,
 		...stateProps,
-		addCartItem: (product, variation) => {
-			CartRedux.actions.addCartItem(dispatch, product, variation);
+		addCartItem: (productID, variationID, token) => {
+			CartRedux.actions.addCartItem(dispatch, productID, variationID, token);
+		},
+		addMultipleCartItem: (items, token) => {
+			CartRedux.actions.addMultipleCartItem(dispatch, items, token);
+		},
+		deleteCart: token => {
+			CartRedux.actions.deleteCart(dispatch, token);
+		},
+		emptyCart: () => {
+			CartRedux.actions.emptyCart(dispatch);
 		},
 		removeWishListItem: (product, variation) => {
 			WishListRedux.actions.removeWishListItem(dispatch, product, variation);

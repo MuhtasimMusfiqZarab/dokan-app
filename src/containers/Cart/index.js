@@ -366,7 +366,7 @@ class Cart extends PureComponent {
 							navigation={navigation}
 							onViewProduct={onViewProduct}
 							shippingMethods={shippingMethods}
-							userCountry={user.user.billing.country}
+							userCountry={user !== null ? user.user.billing.country : ''}
 						/>
 						<Payment
 							key="payment"
@@ -390,7 +390,7 @@ class Cart extends PureComponent {
 						onSelectNewShippingMethod={this.onSelectNewShippingMethod}
 						setBottomButtons={this.setBottomButtons}
 						navigation={this.props.navigation}
-						userCountry={user.user.billing.country}
+						userCountry={user !== null ? user.user.billing.country : ''}
 					/>
 				</View>
 				{currentIndex === 0 && bottomButtons === 'prevNext' && (

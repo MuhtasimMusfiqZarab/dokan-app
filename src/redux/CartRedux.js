@@ -1,7 +1,6 @@
 /** @format */
 
-import { toast } from '@app/Omni';
-import { Constants, Languages } from '@common';
+import { Constants, Config, Languages } from '@common';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import DokanWorker from '@services/Dokan/DokanWorker';
 import Validate from '../ultils/Validate.js';
@@ -40,7 +39,10 @@ export const actions = {
 		dispatch({ type: types.FETCH_CART_PENDING });
 
 		DokanWorker.fetchAllCartItems(token)
-			.then(data => data)
+			.then(data => {
+				console.log(data);
+				return data;
+			})
 			.then(cartData => {
 				DokanWorker.getShippingMethods(token).then(shippingData => {
 					dispatch({
@@ -82,6 +84,78 @@ export const actions = {
 				});
 		}
 	},
+	addMultipleCartItem: (dispatch, items, token) => {
+		dispatch({ type: types.FETCH_CART_PENDING });
+
+		let requestArray = [];
+		items.forEach(item => {
+			if (item.product) {
+				let data = {
+					product_id: item.product.id,
+					quantity: 1,
+				};
+				console.log(data);
+				let request = fetch(
+					`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
+					{
+						method: 'POST',
+						headers: {
+							Accept: 'application/json',
+							Authorization: `Bearer ${token}`,
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(data),
+					}
+				).then(response => response.json());
+				requestArray.push(request);
+			} else {
+				if (item.variation_id) {
+					let data = {
+						variation_id: item.variation_id,
+						quantity: item.quantity,
+					};
+					let request = fetch(
+						`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
+						{
+							method: 'POST',
+							headers: {
+								Accept: 'application/json',
+								Authorization: `Bearer ${token}`,
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(data),
+						}
+					).then(response => response.json());
+					requestArray.push(request);
+				} else {
+					let data = {
+						product_id: item.product_id,
+						quantity: item.quantity,
+					};
+					let request = fetch(
+						`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
+						{
+							method: 'POST',
+							headers: {
+								Accept: 'application/json',
+								Authorization: `Bearer ${token}`,
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify(data),
+						}
+					).then(response => response.json());
+					requestArray.push(request);
+				}
+			}
+		});
+
+		Promise.all(requestArray)
+			.then(data => {
+				console.log(data);
+				// actions.fetchAllCartItems(dispatch, token);
+			})
+			.catch(error => console.log(error));
+	},
 	fetchMyOrder: (dispatch, user) => {
 		dispatch({ type: types.FETCH_CART_PENDING });
 
@@ -109,6 +183,17 @@ export const actions = {
 		DokanWorker.deleteCartItem(productKey, token)
 			.then(() => {
 				actions.fetchAllCartItems(dispatch, token);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	},
+	deleteCart: (dispatch, token) => {
+		DokanWorker.deleteCart(token)
+			.then(() => {
+				dispatch({
+					type: types.EMPTY_CART,
+				});
 			})
 			.catch(error => {
 				console.log(error);
@@ -466,44 +551,44 @@ export const reducer = (state = initialState, action) => {
 	}
 };
 
-const compareCartItem = (cartItem, action) => {
-	if (
-		cartItem.variation !== undefined &&
-		action.variation !== undefined &&
-		cartItem.variation != null &&
-		action.variation != null
-	)
-		return (
-			cartItem.product.product_id === action.product.product_id &&
-			cartItem.variation.variation_id === action.variation.variation_id
-		);
-	return cartItem.product.product_id === action.product.product_id;
-};
+// const compareCartItem = (cartItem, action) => {
+// 	if (
+// 		cartItem.variation !== undefined &&
+// 		action.variation !== undefined &&
+// 		cartItem.variation != null &&
+// 		action.variation != null
+// 	)
+// 		return (
+// 			cartItem.product.product_id === action.product.product_id &&
+// 			cartItem.variation.variation_id === action.variation.variation_id
+// 		);
+// 	return cartItem.product.product_id === action.product.product_id;
+// };
 
-const cartItem = (
-	state = { product: undefined, quantity: 1, variation: undefined },
-	action
-) => {
-	switch (action.type) {
-		case types.ADD_CART_ITEM:
-			return state.product === undefined
-				? Object.assign({}, state, {
-						product: action.product,
-						variation: action.variation,
-				  })
-				: !compareCartItem(state, action)
-				? state
-				: Object.assign({}, state, {
-						quantity:
-							state.quantity < Constants.LimitAddToCart
-								? state.quantity + 1
-								: state.quantity,
-				  });
-		case types.REMOVE_CART_ITEM:
-			return !compareCartItem(state, action)
-				? state
-				: Object.assign({}, state, { quantity: state.quantity - 1 });
-		default:
-			return state;
-	}
-};
+// const cartItem = (
+// 	state = { product: undefined, quantity: 1, variation: undefined },
+// 	action
+// ) => {
+// 	switch (action.type) {
+// 		case types.ADD_CART_ITEM:
+// 			return state.product === undefined
+// 				? Object.assign({}, state, {
+// 						product: action.product,
+// 						variation: action.variation,
+// 				  })
+// 				: !compareCartItem(state, action)
+// 				? state
+// 				: Object.assign({}, state, {
+// 						quantity:
+// 							state.quantity < Constants.LimitAddToCart
+// 								? state.quantity + 1
+// 								: state.quantity,
+// 				  });
+// 		case types.REMOVE_CART_ITEM:
+// 			return !compareCartItem(state, action)
+// 				? state
+// 				: Object.assign({}, state, { quantity: state.quantity - 1 });
+// 		default:
+// 			return state;
+// 	}
+// };

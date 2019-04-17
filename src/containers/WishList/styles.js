@@ -167,16 +167,16 @@ export default StyleSheet.create({
 	btnCleanText: {
 		color: 'white',
 		fontSize: 14,
-		fontFamily: Constants.fontHeader,
+		fontFamily: Constants.fontFamilyLato,
 	},
 	btnCart: {
 		flex: 0.5,
-		backgroundColor: '#f5f5f5',
+		backgroundColor: '#fff',
 	},
 	btnCartText: {
 		color: '#999',
 		fontSize: 14,
 		fontWeight: 'bold',
-		fontFamily: Constants.fontHeader,
+		fontFamily: Constants.fontFamilyLato,
 	},
 });

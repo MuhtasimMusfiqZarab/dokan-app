@@ -410,12 +410,11 @@ class Address extends PureComponent {
 	};
 
 	onSave = async () => {
-		this.setState({ isBtnLoading: true });
-
 		const userInfo = this.form.getValue();
 		const token = this.props.user.token;
 
 		if (userInfo) {
+			this.setState({ isBtnLoading: true });
 			const countryCode = findKey(
 				this.props.countries,
 				item => item === userInfo.country

@@ -111,19 +111,6 @@ class MyCart extends PureComponent {
 			isFetching,
 			discountType,
 		} = this.props;
-		let couponBtn = Languages.ApplyCoupon;
-		// let colors = [Color.darkOrange, Color.darkYellow, Color.yellow];
-		const finalPrice =
-			discountType == 'percent'
-				? totalPrice - this.getExistCoupon() * totalPrice
-				: totalPrice - this.getExistCoupon();
-
-		if (isFetching) {
-			couponBtn = 'Applying...';
-		} else if (this.getExistCoupon() > 0) {
-			colors = [Color.darkRed, Color.red];
-			couponBtn = Languages.remove;
-		}
 
 		let uniqueVendors = this.getUniqueVendors(this.props.cartItems);
 
@@ -213,7 +200,7 @@ class MyCart extends PureComponent {
 								isDisabled={this.props.isCartFetching}
 								type="gradientBtn"
 								size="sm"
-								text={couponBtn}
+								text={Languages.ApplyCoupon}
 								onPress={() => this.checkCouponCode()}
 								isLoading={this.props.isCouponApplying}
 							/>

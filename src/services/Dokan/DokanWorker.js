@@ -317,6 +317,29 @@ const DokanWorker = {
 			console.log(error);
 		}
 	},
+	deleteCart: async token => {
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items/`,
+				{
+					method: 'DELETE',
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return json;
+			} else {
+				console.log(json.message);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
 	updateCartItem: async (productKey, quantity, token) => {
 		const data = {
 			quantity: quantity,

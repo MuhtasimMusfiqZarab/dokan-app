@@ -9,8 +9,10 @@ import {
 	View,
 	Image,
 	TouchableWithoutFeedback,
+	AsyncStorage,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { filter } from 'lodash';
 import { toast, IconIO } from '@app/Omni';
 import { Languages, Config, Icons } from '@common';
 import Buttons from '@cart/Buttons';
@@ -39,9 +41,10 @@ class PaymentOptions extends PureComponent {
 		couponCode: PropTypes.any,
 		couponId: PropTypes.any,
 		couponAmount: PropTypes.any,
-		shippingMethod: PropTypes.any,
+		shippingMethods: PropTypes.any,
 		onChangeUserInfo: PropTypes.any,
 		onPrevious: PropTypes.any,
+		deleteCart: PropTypes.any,
 	};
 
 	constructor(props) {
@@ -75,15 +78,14 @@ class PaymentOptions extends PureComponent {
 			nextProps.type == 'CREATE_NEW_ORDER_SUCCESS'
 		) {
 			// warn(nextProps);
-			this.props.cleanOldCoupon();
+			// this.props.cleanOldCoupon();
 			this.props.onNext();
 		}
 	}
 
-	nextStep = () => {
-		// if (this.state.userDataSaved) {
+	nextStep = async () => {
 		const { user, token } = this.props.user;
-		const { userInfo, currency } = this.props;
+		const { currency } = this.props;
 		// const coupon = this.getCouponInfo();
 
 		// Billing First name is a required field.
@@ -91,6 +93,15 @@ class PaymentOptions extends PureComponent {
 		// Billing Country is a required field.
 		// Billing Street address is a required field.
 		// Billing Town / City is a required field.
+
+		const userString = await AsyncStorage.getItem('@userInfo');
+		let userInfo = null;
+
+		if (userString !== null) {
+			try {
+				userInfo = JSON.parse(userString);
+			} catch (error) {}
+		}
 
 		let first_name = userInfo.first_name;
 		let last_name = userInfo.last_name;
@@ -103,7 +114,7 @@ class PaymentOptions extends PureComponent {
 		if (user && user.billing) {
 			first_name = user.billing.first_name;
 			last_name = user.billing.last_name;
-			address_1 = user.billing.last_name;
+			address_1 = user.billing.address_1;
 			city = user.billing.city;
 			state = user.billing.state;
 			country = user.billing.country;
@@ -143,40 +154,38 @@ class PaymentOptions extends PureComponent {
 			currency: currency.code,
 		};
 
-		// check the shipping info
-		// if (Config.shipping.visible) {
-		// 	payload.shipping_lines = this.getShippingMethod();
-		// }
+		const isNoShipping = filter(
+			this.props.shippingMethods,
+			item => item.chosen_method === false
+		);
 
-		// check the coupon
-		// if (coupon.length != 0) {
-		// 	payload.coupon_lines = this.getCouponInfo();
-		// }
+		// if shipping is available create order else return
+		if (isNoShipping.length === 0) {
+			this.setState({ loading: this.props.isLoading });
 
-		this.setState({ loading: this.props.isLoading });
-
-		if (list[this.state.selectedIndex].id == 'cod') {
-			// console.log(payload);
-			this.setState({ loading: true });
-			WooWorker.createNewOrder(
-				payload,
-				() => {
-					this.setState({ loading: false });
-					this.props.emptyCart();
-					this.props.onNext();
-				},
-				response => {
-					console.log(response);
-					this.setState({ loading: false });
-				}
-			);
+			if (list[this.state.selectedIndex].id == 'cod') {
+				// console.log(payload);
+				this.setState({ loading: true });
+				WooWorker.createNewOrder(
+					payload,
+					() => {
+						this.setState({ loading: false });
+						this.props.deleteCart(this.props.user.token);
+						this.props.emptyCart();
+						this.props.onNext();
+					},
+					response => {
+						console.log(response);
+						this.setState({ loading: false });
+					}
+				);
+			} else {
+				// other kind of payment
+				this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);
+			}
 		} else {
-			// other kind of payment
-			this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);
+			toast('Some items cannot be shipped. Please review your Cart');
 		}
-		// } else {
-		// 	alert('Update your delivery information');
-		// }
 	};
 
 	getItemsCart = () => {
@@ -193,7 +202,7 @@ class PaymentOptions extends PureComponent {
 			};
 
 			if (cartItem.variation != null) {
-				item.variation_id = cartItem.variation.id;
+				item.variation_id = cartItem.variation_id;
 			}
 			items.push(item);
 		}
@@ -257,7 +266,6 @@ class PaymentOptions extends PureComponent {
 			<View style={styles.container}>
 				<ScrollView style={{ padding: 15 }}>
 					<Text style={styles.label}>{Languages.SelectPayment}:</Text>
-
 					<View style={styles.paymentOption}>
 						{list.map((item, index) => {
 							if (!item.enabled) return null;
@@ -309,9 +317,68 @@ class PaymentOptions extends PureComponent {
 							);
 						})}
 					</View>
+
+					<Text style={styles.label}>Order Summary</Text>
+					<View
+						style={{
+							backgroundColor: '#fff',
+							minHeight: Dimensions.get('window').height / 2,
+							marginBottom: 15,
+							padding: 10,
+							borderRadius: 10,
+						}}>
+						<Text>
+							Collaboratively underwhelm out-of-the-box supply chains via team
+							building opportunities. Phosfluorescently simplify top-line
+							networks without proactive information. Monotonectally unleash
+							viral internal or "organic" sources with synergistic total
+							linkage. Globally deploy distributed intellectual capital before
+							multimedia.
+						</Text>
+						<Text>
+							Collaboratively underwhelm out-of-the-box supply chains via team
+							building opportunities. Phosfluorescently simplify top-line
+							networks without proactive information. Monotonectally unleash
+							viral internal or "organic" sources with synergistic total
+							linkage. Globally deploy distributed intellectual capital before
+							multimedia.
+						</Text>
+						<Text>
+							Collaboratively underwhelm out-of-the-box supply chains via team
+							building opportunities. Phosfluorescently simplify top-line
+							networks without proactive information. Monotonectally unleash
+							viral internal or "organic" sources with synergistic total
+							linkage. Globally deploy distributed intellectual capital before
+							multimedia.
+						</Text>
+						<Text>
+							Collaboratively underwhelm out-of-the-box supply chains via team
+							building opportunities. Phosfluorescently simplify top-line
+							networks without proactive information. Monotonectally unleash
+							viral internal or "organic" sources with synergistic total
+							linkage. Globally deploy distributed intellectual capital before
+							multimedia.
+						</Text>
+						<Text>
+							Collaboratively underwhelm out-of-the-box supply chains via team
+							building opportunities. Phosfluorescently simplify top-line
+							networks without proactive information. Monotonectally unleash
+							viral internal or "organic" sources with synergistic total
+							linkage. Globally deploy distributed intellectual capital before
+							multimedia.
+						</Text>
+						<Text>
+							Collaboratively underwhelm out-of-the-box supply chains via team
+							building opportunities. Phosfluorescently simplify top-line
+							networks without proactive information. Monotonectally unleash
+							viral internal or "organic" sources with synergistic total
+							linkage. Globally deploy distributed intellectual capital before
+							multimedia.
+						</Text>
+					</View>
 				</ScrollView>
 				<Buttons
-					isAbsolute
+					// isAbsolute
 					onPrevious={this.props.onPrevious}
 					isLoading={this.state.loading}
 					nextText={Languages.ConfirmOrder}
@@ -329,13 +396,13 @@ const mapStateToProps = ({ payments, carts, user, products, currency }) => {
 		type: carts.type,
 		cartItems: carts.cartItems,
 		totalPrice: carts.totalPrice,
+		shippingMethods: carts.shippingMethods,
 		message: carts.message,
 		customerInfo: carts.customerInfo,
-		couponCode: products.coupon && products.coupon.code,
-		couponAmount: products.coupon && products.coupon.amount,
-		discountType: products.coupon && products.coupon.type,
-		couponId: products.coupon && products.coupon.id,
-		shippingMethod: carts.shippingMethod,
+		// couponCode: products.coupon && products.coupon.code,
+		// couponAmount: products.coupon && products.coupon.amount,
+		// discountType: products.coupon && products.coupon.type,
+		// couponId: products.coupon && products.coupon.id,
 		currency,
 	};
 };
@@ -357,6 +424,9 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		},
 		fetchPayments: () => {
 			paymentActions.fetchPayments(dispatch);
+		},
+		deleteCart: token => {
+			CartRedux.actions.deleteCart(dispatch, token);
 		},
 	};
 }
