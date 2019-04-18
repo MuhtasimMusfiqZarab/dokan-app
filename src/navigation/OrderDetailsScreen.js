@@ -25,8 +25,9 @@ export default class OrderDetailsScreen extends Component {
 	};
 
 	render() {
+		const { navigate } = this.props.navigation;
 		const { params } = this.props.navigation.state;
 
-		return <OrderDetail orderDetail={params.orderDetail} />;
+		return <OrderDetail navigate={navigate} orderDetail={params.orderDetail} />;
 	}
 }

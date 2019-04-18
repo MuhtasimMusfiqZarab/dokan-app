@@ -55,32 +55,11 @@ class WishList extends PureComponent {
 	moveAllToCart = async () => {
 		if (this.props.wishListItems.length === 0) alert(Languages.EmptyAddToCart);
 		else {
-			// let requestArray = [];
-			// this.props.wishListItems.forEach(item => {
-			// 	let data = {
-			// 		product_id: item.product.id,
-			// 		quantity: 1,
-			// 	};
-			// 	let request = fetch(
-			// 		`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
-			// 		{
-			// 			method: 'POST',
-			// 			headers: {
-			// 				Accept: 'application/json',
-			// 				Authorization: `Bearer ${this.props.token}`,
-			// 				'Content-Type': 'application/json',
-			// 			},
-			// 			body: JSON.stringify(data),
-			// 		}
-			// 	).then(response => response.json());
-
-			// 	requestArray.push(request);
-			// });
 			if (this.props.token === null) {
 				this.props.onMustLogin();
 			} else {
-				await this.props.deleteCart(this.props.token);
-				this.props.addMultipleCartItem(
+				this.props.emptyCart();
+				this.props.addCartItemsBatch(
 					this.props.wishListItems,
 					this.props.token
 				);
@@ -195,8 +174,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		addCartItem: (productID, variationID, token) => {
 			CartRedux.actions.addCartItem(dispatch, productID, variationID, token);
 		},
-		addMultipleCartItem: (items, token) => {
-			CartRedux.actions.addMultipleCartItem(dispatch, items, token);
+		addCartItemsBatch: (items, token) => {
+			CartRedux.actions.addCartItemsBatch(dispatch, items, token);
 		},
 		deleteCart: token => {
 			CartRedux.actions.deleteCart(dispatch, token);

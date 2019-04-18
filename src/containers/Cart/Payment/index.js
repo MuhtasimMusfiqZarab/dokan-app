@@ -326,56 +326,8 @@ class PaymentOptions extends PureComponent {
 							marginBottom: 15,
 							padding: 10,
 							borderRadius: 10,
-						}}>
-						<Text>
-							Collaboratively underwhelm out-of-the-box supply chains via team
-							building opportunities. Phosfluorescently simplify top-line
-							networks without proactive information. Monotonectally unleash
-							viral internal or "organic" sources with synergistic total
-							linkage. Globally deploy distributed intellectual capital before
-							multimedia.
-						</Text>
-						<Text>
-							Collaboratively underwhelm out-of-the-box supply chains via team
-							building opportunities. Phosfluorescently simplify top-line
-							networks without proactive information. Monotonectally unleash
-							viral internal or "organic" sources with synergistic total
-							linkage. Globally deploy distributed intellectual capital before
-							multimedia.
-						</Text>
-						<Text>
-							Collaboratively underwhelm out-of-the-box supply chains via team
-							building opportunities. Phosfluorescently simplify top-line
-							networks without proactive information. Monotonectally unleash
-							viral internal or "organic" sources with synergistic total
-							linkage. Globally deploy distributed intellectual capital before
-							multimedia.
-						</Text>
-						<Text>
-							Collaboratively underwhelm out-of-the-box supply chains via team
-							building opportunities. Phosfluorescently simplify top-line
-							networks without proactive information. Monotonectally unleash
-							viral internal or "organic" sources with synergistic total
-							linkage. Globally deploy distributed intellectual capital before
-							multimedia.
-						</Text>
-						<Text>
-							Collaboratively underwhelm out-of-the-box supply chains via team
-							building opportunities. Phosfluorescently simplify top-line
-							networks without proactive information. Monotonectally unleash
-							viral internal or "organic" sources with synergistic total
-							linkage. Globally deploy distributed intellectual capital before
-							multimedia.
-						</Text>
-						<Text>
-							Collaboratively underwhelm out-of-the-box supply chains via team
-							building opportunities. Phosfluorescently simplify top-line
-							networks without proactive information. Monotonectally unleash
-							viral internal or "organic" sources with synergistic total
-							linkage. Globally deploy distributed intellectual capital before
-							multimedia.
-						</Text>
-					</View>
+						}}
+					/>
 				</ScrollView>
 				<Buttons
 					// isAbsolute

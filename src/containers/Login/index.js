@@ -6,13 +6,13 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
 	View,
-	ScrollView,
 	Text,
 	Image,
 	ImageBackground,
 	TextInput,
 	TouchableOpacity,
 	I18nManager,
+	Platform,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -218,24 +218,28 @@ class LoginScreen extends PureComponent {
 				style={styles.backgroundImage}
 				resizeMode="cover">
 				<KeyboardAwareScrollView enableOnAndroid={true}>
-					<TouchableOpacity
-						style={styles.backButton}
-						onPress={() => this.props.onViewHomeScreen()}>
-						<Image
-							source={Images.icons.back}
-							style={[
-								{
-									width: 16,
-									height: 16,
-									resizeMode: 'contain',
-								},
-								// Styles.Common.toolbarIcon,
-								I18nManager.isRTL && {
-									transform: [{ rotate: '180deg' }],
-								},
-							]}
-						/>
-					</TouchableOpacity>
+					{Platform.OS === 'ios' && (
+						<TouchableOpacity
+							style={styles.backButton}
+							onPress={() => this.props.onViewHomeScreen()}>
+							{/* <Image
+								source={Images.icons.back}
+								style={[
+									{
+										width: 16,
+										height: 16,
+										resizeMode: 'contain',
+									},
+									// Styles.Common.toolbarIcon,
+									I18nManager.isRTL && {
+										transform: [{ rotate: '180deg' }],
+									},
+								]}
+              /> */}
+							<Text>Go Back</Text>
+						</TouchableOpacity>
+					)}
+
 					<View style={styles.logoWrap}>
 						{Config.appSettings.app_logo ? (
 							<ImageCache
