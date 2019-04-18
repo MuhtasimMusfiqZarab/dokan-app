@@ -25,7 +25,8 @@ export class OrderDetail extends PureComponent {
 					<OrderQuantity
 						items={orderDetail.line_items}
 						store={orderDetail.store.shop_name}
-						discount={orderDetail.discount_total}
+						discountTotal={orderDetail.discount_total}
+						shippingTotal={orderDetail.shipping_total}
 						total={orderDetail.total}
 					/>
 					<ShippingAddress shippingAddress={orderDetail.shipping} />

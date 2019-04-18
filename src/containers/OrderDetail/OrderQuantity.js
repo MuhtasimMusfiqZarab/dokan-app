@@ -47,26 +47,28 @@ export default function OrderQuantity(props) {
 			<View style={css.separator} />
 
 			<View style={styles.orderTableRow}>
-				<View style={styles.orderTableColumn} />
-				<View style={styles.orderTableColumn}>
+				{/* <View style={styles.orderTableColumn} /> */}
+				<View style={styles.orderTableColumnTwo}>
 					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
-						Discount
+						Discount Total
+					</Text>
+					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
+						Shipping Total
 					</Text>
 					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
 						Order Total
 					</Text>
-					<Text style={[css.standardTextRed, { marginBottom: 5 }]}>
-						Refunded
-					</Text>
 				</View>
 				<View style={styles.orderTableColumn}>
 					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
-						{currencyFormatter(props.discount)}
+						{currencyFormatter(props.discountTotal)}
+					</Text>
+					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
+						{currencyFormatter(props.discountTotal)}
 					</Text>
 					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
 						{currencyFormatter(props.total)}
 					</Text>
-					<Text style={[css.standardTextRed, { marginBottom: 5 }]}>$0.00</Text>
 				</View>
 			</View>
 		</View>
@@ -88,6 +90,10 @@ const styles = StyleSheet.create({
 	},
 	orderTableColumn: {
 		flex: 1,
+		paddingHorizontal: 10,
+	},
+	orderTableColumnTwo: {
+		flex: 2,
 		paddingHorizontal: 10,
 	},
 });
