@@ -116,7 +116,7 @@ class Address extends PureComponent {
 			first_name: Tcomb.String,
 			last_name: Tcomb.String,
 			email: Email,
-			phone: Tcomb.String,
+			phone: Tcomb.Number,
 			country: Tcomb.String,
 			state: Tcomb.String,
 			city: Tcomb.String,
@@ -207,7 +207,7 @@ class Address extends PureComponent {
 					underlineColorAndroid: 'transparent',
 					error: Languages.EmptyError,
 					stylesheet: labelStyle,
-					template: this.renderPhoneInput,
+					// template: this.renderPhoneInput,
 					autoCorrect: false,
 				},
 				note: {
@@ -389,6 +389,8 @@ class Address extends PureComponent {
 
 	updateCustomerAddress = async (userInfo, token) => {
 		const data = {
+			first_name: userInfo.first_name,
+			last_name: userInfo.last_name,
 			billing: {
 				first_name: userInfo.first_name,
 				last_name: userInfo.last_name,
@@ -415,10 +417,7 @@ class Address extends PureComponent {
 
 		if (userInfo) {
 			this.setState({ isBtnLoading: true });
-			const countryCode = findKey(
-				this.props.countries,
-				item => item === userInfo.country
-			);
+
 			await this.validateCustomer(userInfo);
 			await this.updateCustomerAddress(userInfo, token);
 			await this.saveUserData(userInfo);
@@ -426,7 +425,15 @@ class Address extends PureComponent {
 			this.setState({ isBtnLoading: true });
 
 			if (this.props.fromScreen === 'CartScreen') {
+				const countryCode = findKey(
+					this.props.countries,
+					item => item === userInfo.country
+				);
 				this.props.calculateShipping(token, countryCode);
+				this.props.navigation.goBack();
+			}
+
+			if (this.props.fromScreen === 'UserScreen') {
 				this.props.navigation.goBack();
 			}
 		}

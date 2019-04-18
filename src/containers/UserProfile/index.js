@@ -189,13 +189,16 @@ class UserProfile extends PureComponent {
 									{Languages.AccountInformations.toUpperCase()}
 								</Text>
 								<TouchableOpacity
-									onPress={() => this.editNameModal.openModal()}>
+									onPress={() =>
+										this.props.navigation.navigate('Address', {
+											from: 'UserScreen',
+										})
+									}>
 									<Text style={styles.editText}>Edit</Text>
 								</TouchableOpacity>
 							</View>
 							<UserProfileItem
-								icon
-								isActionSheet={true}
+								// isActionSheet={true}
 								label={Languages.Name}
 								value={name}
 								iconLeft={Icons.MaterialCommunityIcons.User}
@@ -208,8 +211,6 @@ class UserProfile extends PureComponent {
 								valueBlack
 							/>
 							<UserProfileItem
-								icon
-								routeName="UserProfileEdit"
 								label={Languages.Address}
 								value={address}
 								iconLeft={Icons.MaterialCommunityIcons.Pin}

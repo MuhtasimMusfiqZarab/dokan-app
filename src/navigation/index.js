@@ -148,6 +148,7 @@ const UserProfileStack = createStackNavigator(
 	{
 		UserProfile: { screen: UserProfileScreen },
 		UserProfileEdit: { screen: UserProfileEditScreen },
+		Address: { screen: AddressScreen },
 	},
 	{
 		navigationOptions: {
