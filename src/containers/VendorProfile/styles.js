@@ -69,7 +69,8 @@ export default StyleSheet.create({
 	},
 	mapAddressBar: {
 		width: '95%',
-		height: 70,
+		minHeight: 70,
+		// padding: 15,
 		backgroundColor: '#fff',
 		flexDirection: 'row',
 		...Platform.select({
@@ -85,7 +86,7 @@ export default StyleSheet.create({
 	},
 	mapContactItem: {
 		flex: 0.5,
-		paddingHorizontal: 10,
+		padding: 15,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',

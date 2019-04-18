@@ -18,8 +18,12 @@ export default class ReviewsScreen extends PureComponent {
 
 	render() {
 		const { state } = this.props.navigation;
-		const productID = state.params.productID;
+		const { productID, vendorID } = state.params;
 
-		return <Reviews productID={productID} />;
+		if (productID !== undefined) {
+			return <Reviews productID={productID} />;
+		} else {
+			return <Reviews vendorID={vendorID} />;
+		}
 	}
 }

@@ -26,34 +26,64 @@ const ReviewComment = props => {
 					/>
 				</View>
 				<View style={styles.headerText}>
-					<Text style={{ fontWeight: 'bold', color: '#000' }}>
-						{props.review.name || props.review.reviewer}
-					</Text>
+					{props.vendorReview && (
+						<Text style={{ fontWeight: 'bold', color: '#000' }}>
+							{props.review.author.name}
+						</Text>
+					)}
+					{!props.vendorReview && (
+						<Text style={{ fontWeight: 'bold', color: '#000' }}>
+							{props.review.name || props.review.reviewer}
+						</Text>
+					)}
 					{/* <Text style={{color: Color.textBlue}}>
 						{props.item.title}
 					</Text> */}
 					<Rating rating={props.review.rating} size={15} />
 				</View>
 			</View>
-			<View style={styles.content}>
-				{props.review.name && (
+			{!props.vendorReview && (
+				<View style={styles.content}>
+					{props.review.name && (
+						<TextInput
+							multiline={true}
+							editable={false}
+							underlineColorAndroid="transparent"
+							style={{ color: Color.reviewTextColor }}>
+							{props.review.review}
+						</TextInput>
+					)}
+					{props.review.reviewer && (
+						<HTML
+							html={props.review.review}
+							tagsStyles={{
+								p: { color: Color.reviewTextColor },
+							}}
+						/>
+					)}
+				</View>
+			)}
+			{props.vendorReview && (
+				<View style={styles.content}>
 					<TextInput
 						multiline={true}
 						editable={false}
 						underlineColorAndroid="transparent"
 						style={{ color: Color.reviewTextColor }}>
-						{props.review.review}
+						{props.review.content}
 					</TextInput>
-				)}
-				{props.review.reviewer && (
-					<HTML
-						html={props.review.review}
-						tagsStyles={{
-							p: { color: Color.reviewTextColor },
-						}}
-					/>
-				)}
-			</View>
+
+					{/* {props.review.reviewer && (
+						<HTML
+							html={props.review.review}
+							tagsStyles={{
+								p: { color: Color.reviewTextColor },
+							}}
+						/>
+					)} */}
+				</View>
+			)}
+
 			<View style={styles.footer}>
 				<Text style={{ color: Color.reviewTextColor }}>
 					{dateFormat(props.review.date_created)}

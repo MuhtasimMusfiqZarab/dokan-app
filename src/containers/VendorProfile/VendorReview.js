@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
+import { Config } from '@common';
 import { Review, ReviewComment, Button, ButtonIndex } from '@components';
 import { toast } from '@app/Omni';
 
@@ -21,10 +22,8 @@ class VendorReview extends PureComponent {
 	// }
 
 	componentDidMount() {
-		console.log(this.props.vendorID);
 		this.props.fetchReviews(this.props.vendorID);
 		this.reviewCount = this.props.reviews.length;
-		console.log(this.reviewCount);
 	}
 
 	toggleReviewContentHandler = () => {
@@ -43,7 +42,7 @@ class VendorReview extends PureComponent {
 		const navigateAction = NavigationActions.navigate({
 			routeName: 'ReviewsScreen',
 			params: {
-				productID: this.props.product.id,
+				vendorID: this.props.vendorID,
 			},
 		});
 		this.props.navigation.dispatch(navigateAction);
@@ -80,18 +79,26 @@ class VendorReview extends PureComponent {
 					<Text style={{ fontSize: 20, color: '#79828F' }}>
 						{reviewCount} Reviews
 					</Text>
-					<Button
-						type="gradientBtn"
-						text={toggleBtnText}
-						onPress={() => this.toggleReviewContentHandler()}
-					/>
+					{Config.dokanModules['Store Reviews'] && (
+						<Button
+							type="gradientBtn"
+							text={toggleBtnText}
+							onPress={() => this.toggleReviewContentHandler()}
+						/>
+					)}
 				</View>
 				{this.state.showReviews &&
 					// !this.state.showNewReview &&
 					reviewCount !== 0 &&
 					this.props.reviews.map((item, index) => {
 						if (index < 2) {
-							return <ReviewComment key={`review-${index}`} review={item} />;
+							return (
+								<ReviewComment
+									key={`review-${index}`}
+									review={item}
+									vendorReview
+								/>
+							);
 						}
 					})}
 				{this.state.showReviews && reviewCount !== 0 && (
@@ -121,6 +128,7 @@ class VendorReview extends PureComponent {
 						post={this.props.product}
 						onNewReview={this.onNewReview}
 						vendorReview={true}
+						vendorID={this.props.vendorID}
 					/>
 				)}
 				{/* {

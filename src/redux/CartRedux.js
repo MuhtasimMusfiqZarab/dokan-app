@@ -84,75 +84,52 @@ export const actions = {
 				});
 		}
 	},
-	addMultipleCartItem: (dispatch, items, token) => {
+	addCartItemsBatch: (dispatch, items, token) => {
 		dispatch({ type: types.FETCH_CART_PENDING });
 
-		let requestArray = [];
+		let itemsArray = [];
+
 		items.forEach(item => {
 			if (item.product) {
 				let data = {
 					product_id: item.product.id,
 					quantity: 1,
 				};
-				console.log(data);
-				let request = fetch(
-					`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
-					{
-						method: 'POST',
-						headers: {
-							Accept: 'application/json',
-							Authorization: `Bearer ${token}`,
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify(data),
-					}
-				).then(response => response.json());
-				requestArray.push(request);
+				itemsArray.push(data);
 			} else {
 				if (item.variation_id) {
 					let data = {
 						variation_id: item.variation_id,
 						quantity: item.quantity,
 					};
-					let request = fetch(
-						`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
-						{
-							method: 'POST',
-							headers: {
-								Accept: 'application/json',
-								Authorization: `Bearer ${token}`,
-								'Content-Type': 'application/json',
-							},
-							body: JSON.stringify(data),
-						}
-					).then(response => response.json());
-					requestArray.push(request);
+					itemsArray.push(data);
 				} else {
 					let data = {
 						product_id: item.product_id,
 						quantity: item.quantity,
 					};
-					let request = fetch(
-						`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items`,
-						{
-							method: 'POST',
-							headers: {
-								Accept: 'application/json',
-								Authorization: `Bearer ${token}`,
-								'Content-Type': 'application/json',
-							},
-							body: JSON.stringify(data),
-						}
-					).then(response => response.json());
-					requestArray.push(request);
+					itemsArray.push(data);
 				}
 			}
 		});
 
-		Promise.all(requestArray)
+		// First delete the existing cart
+		DokanWorker.deleteCart(token)
 			.then(data => {
-				console.log(data);
-				// actions.fetchAllCartItems(dispatch, token);
+				if (data.length === 0) {
+					// Then add batch items
+					DokanWorker.addCartItemsBatch(itemsArray, token)
+						.then(data => {
+							if (data.create.length !== 0) {
+								actions.fetchAllCartItems(dispatch, token);
+							} else {
+								console.log('Failed to add multiple items to cart');
+							}
+						})
+						.catch(error => console.log(error));
+				} else {
+					console.log('failed to delete cart');
+				}
 			})
 			.catch(error => console.log(error));
 	},

@@ -6,29 +6,58 @@ import { ReviewComment } from '@components';
 class Reviews extends Component {
 	componentDidMount() {
 		this.props.reviews = [];
-		this.props.fetchReviews(this.props.productID);
+		if (this.props.productID) {
+			this.props.fetchReviews(this.props.productID);
+		}
+		if (this.props.vendorID) {
+			this.props.fetchVendorReviews(this.props.vendorID);
+		}
 	}
 
-	_renderReviews = data => <ReviewComment review={data.item} />;
+	_renderReviews = data => {
+		if (this.props.productID) {
+			return <ReviewComment review={data.item} />;
+		} else {
+			return <ReviewComment review={data.item} vendorReview />;
+		}
+	};
 
 	render() {
-		const { reviews } = this.props;
+		const { reviews, vendorReviews } = this.props;
 
-		return (
-			<View
-				style={{
-					flex: 1,
-					backgroundColor: '#fff',
-					justifyContent: 'center',
-					padding: 15,
-				}}>
-				<FlatList
-					data={reviews}
-					keyExtractor={(item, index) => `r_${index}`}
-					renderItem={this._renderReviews}
-				/>
-			</View>
-		);
+		if (this.props.productID) {
+			return (
+				<View
+					style={{
+						flex: 1,
+						backgroundColor: '#fff',
+						justifyContent: 'center',
+						padding: 15,
+					}}>
+					<FlatList
+						data={reviews}
+						keyExtractor={(item, index) => `r_${index}`}
+						renderItem={this._renderReviews}
+					/>
+				</View>
+			);
+		} else {
+			return (
+				<View
+					style={{
+						flex: 1,
+						backgroundColor: '#fff',
+						justifyContent: 'center',
+						padding: 15,
+					}}>
+					<FlatList
+						data={vendorReviews}
+						keyExtractor={(item, index) => `r_${index}`}
+						renderItem={this._renderReviews}
+					/>
+				</View>
+			);
+		}
 	}
 }
 
@@ -40,6 +69,7 @@ const mapStateToProps = state => {
 		message: state.products.message,
 		reviews: state.products.reviews,
 		userData: state.user.user,
+		vendorReviews: state.vendors.vendorReviews,
 	};
 };
 
@@ -47,6 +77,7 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { netInfo } = stateProps;
 	const { dispatch } = dispatchProps;
 	const { actions } = require('@redux/ProductRedux');
+	const VendorRedux = require('@redux/VendorRedux');
 
 	return {
 		...ownProps,
@@ -54,6 +85,10 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		fetchReviews: productId => {
 			if (!netInfo.isConnected) return toast(Languages.NoConnection);
 			actions.fetchReviewsByProductId(dispatch, productId);
+		},
+		fetchVendorReviews: vendorId => {
+			if (!netInfo.isConnected) return toast(Languages.NoConnection);
+			VendorRedux.actions.fetchReviewsByVendorId(dispatch, vendorId);
 		},
 	};
 }

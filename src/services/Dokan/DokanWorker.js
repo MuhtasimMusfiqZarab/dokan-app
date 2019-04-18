@@ -114,6 +114,29 @@ const DokanWorker = {
 			})
 			.catch(error => warn(error));
 	},
+	postVendorReview: async (vendorID, review, token) => {
+		return await fetch(
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/stores/${vendorID}/reviews`,
+			{
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(review),
+			}
+		)
+			.then(response => response.json())
+			.then(json => {
+				// if (json.length != 0) {
+				// 	return json;
+				// }
+				// console.log(json);
+				return json;
+			})
+			.catch(error => warn(error));
+	},
 	getSingleVendor: async vendorID => {
 		return await fetch(
 			`${Config.WooCommerce.url}/wp-json/dokan/v1/stores/${vendorID}/`
@@ -281,6 +304,36 @@ const DokanWorker = {
 
 			if (json.code === undefined) {
 				return { cartProduct: json, cartTotalPrice, cartTotalItems };
+			} else {
+				console.log(json.message);
+			}
+		} catch (error) {
+			return error;
+		}
+	},
+	addCartItemsBatch: async (items, token) => {
+		const data = {
+			create: items,
+		};
+
+		try {
+			const response = await fetch(
+				`${Config.WooCommerce.url}/wp-json/dokan/v1/cart/items/batch`,
+				{
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						Authorization: `Bearer ${token}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(data),
+				}
+			);
+
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return json;
 			} else {
 				console.log(json.message);
 			}

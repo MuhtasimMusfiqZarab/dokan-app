@@ -112,6 +112,7 @@ class VendorProfile extends Component {
 								<VendorReview
 									vendorID={vendor.id}
 									onLogin={this.props.onLogin}
+									navigation={navigation}
 								/>
 							</View>
 						)}

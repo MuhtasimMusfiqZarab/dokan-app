@@ -10,6 +10,7 @@ import { toast } from '@app/Omni';
 import { connect } from 'react-redux';
 import css from './styles';
 import WooWorker from '@services/WooCommerce/WooWorker';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 class Review extends PureComponent {
 	constructor(props) {
@@ -30,22 +31,38 @@ class Review extends PureComponent {
 	}
 
 	submitComment = async () => {
+		const { userData, post, vendorID } = this.props;
+
+		if (this.state.txtComment == '') {
+			return toast(Languages.errInputComment);
+		}
+		if (this.state.starCount == 0) {
+			return toast(Languages.errRatingComment);
+		}
+
+		this.setState({
+			isLoading: true,
+		});
+
 		if (this.props.vendorReview) {
-			toast('API Needed');
+			const commentData = {
+				title: '',
+				content: this.state.txtComment,
+				rating: this.state.starCount,
+			};
+
+			const response = await DokanWorker.postVendorReview(
+				vendorID,
+				commentData,
+				userData.token
+			);
+			if (response.id) {
+				this.setState({
+					isLoading: false,
+				});
+				this.props.onNewReview(response);
+			}
 		} else {
-			const { userData, post } = this.props;
-			// const self = this;
-			if (this.state.txtComment == '') {
-				return toast(Languages.errInputComment);
-			}
-			if (this.state.starCount == 0) {
-				return toast(Languages.errRatingComment);
-			}
-
-			this.setState({
-				isLoading: true,
-			});
-
 			const reviewer = `${userData.user.first_name} ${userData.user.last_name}`;
 			const reviewer_email = userData.user.email;
 			const commentData = {
