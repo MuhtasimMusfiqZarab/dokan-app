@@ -29,7 +29,7 @@ export default class ColumnLayout extends PureComponent {
 					<ImageCache
 						uri={imageURL}
 						style={type === 'Vendor' ? css.imageTwoVendor : css.imageTwoProduct}
-						resizemode="contain"
+						resizemode="cover"
 					/>
 				</View>
 

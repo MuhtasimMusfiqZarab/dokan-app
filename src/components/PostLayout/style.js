@@ -395,8 +395,10 @@ export default StyleSheet.create({
 		height: '100%',
 	},
 	imageTwoProduct: {
-		width: '70%',
-		height: '70%',
+		// width: '70%',
+		// height: '70%',
+		width: '100%',
+		height: '100%',
 	},
 	imageTwoVendor: {
 		width: '100%',
