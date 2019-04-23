@@ -120,7 +120,7 @@ class LoginScreen extends PureComponent {
 		}
 
 		if (this.state.isLoading) return;
-		this.setState({ isLoading: true });
+		// this.setState({ isLoading: true });
 
 		const _error = this.validateForm();
 		if (_error) return this.stopAndToast(_error);
@@ -136,6 +136,8 @@ class LoginScreen extends PureComponent {
 			this.stopAndToast('Invalid Password');
 		} else if (json.code === '[jwt_auth] invalid_username') {
 			this.stopAndToast('Invalid User Name');
+		} else if (json.code === '[jwt_auth] invalid_email') {
+			this.stopAndToast('Invalid Email');
 		} else if (json.code) {
 			this.stopAndToast(json.message);
 		} else {
@@ -235,8 +237,8 @@ class LoginScreen extends PureComponent {
 										transform: [{ rotate: '180deg' }],
 									},
 								]}
-              /> */}
-							<Text>Go Back</Text>
+							/> */}
+							<Text style={{ color: '#7C8592' }}>Go Back</Text>
 						</TouchableOpacity>
 					)}
 
@@ -263,11 +265,12 @@ class LoginScreen extends PureComponent {
 					<Text style={styles.loginText}>Login</Text>
 					<View style={styles.subContain}>
 						<View style={styles.inputWrap}>
-							<Text style={styles.label}>Username</Text>
+							<Text style={styles.label}>Username or Email</Text>
 							<TextInput
 								{...commonInputProps}
 								style={styles.input}
 								ref={comp => (this.username = comp)}
+								autoCapitalize="none"
 								keyboardType="email-address"
 								onChangeText={this.onUsernameEditHandle}
 								onSubmitEditing={this.focusPassword}

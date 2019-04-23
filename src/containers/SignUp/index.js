@@ -8,7 +8,6 @@ import {
 	Text,
 	Image,
 	StyleSheet,
-	ScrollView,
 	TextInput,
 	Switch,
 	LayoutAnimation,
@@ -23,6 +22,7 @@ import { toast, error, Validate } from '@app/Omni';
 import { Button, ImageCache } from '@components';
 import Spinner from '@components/Spinner';
 import WPUserAPI from '@services/WPUserAPI';
+import DokanWorker from '@services/Dokan/DokanWorker';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
@@ -40,7 +40,6 @@ class SignUpScreen extends Component {
 			role: 'customer',
 			useGeneratePass: false,
 			isLoading: false,
-			showSignupForm: true,
 		};
 
 		const params = props.params;
@@ -118,8 +117,30 @@ class SignUpScreen extends Component {
 		if (json === undefined) {
 			return this.stopAndToast("Server didn't response correctly");
 		} else if (json.code === 'user_created') {
+			const json = await WPUserAPI.login(username.trim(), password);
+
+			if (json === undefined) {
+				this.stopAndToast(Languages.GetDataError);
+			} else if (json.code === '[jwt_auth] incorrect_password') {
+				this.stopAndToast('Invalid Password');
+			} else if (json.code === '[jwt_auth] invalid_username') {
+				this.stopAndToast('Invalid User Name');
+			} else if (json.code === '[jwt_auth] invalid_email') {
+				this.stopAndToast('Invalid Email');
+			} else if (json.code) {
+				this.stopAndToast(json.message);
+			} else {
+				let customers = await DokanWorker.getCustomerProfile(json.token);
+
+				if (customers.id !== undefined) {
+					// Update and store customer's info
+					customers = { ...customers, username, password };
+					this.props.login(customers, json.token);
+					this.props.onViewHomeScreen();
+				}
+			}
+
 			this.setState({
-				showSignupForm: false,
 				isLoading: false,
 			});
 		} else {
@@ -171,7 +192,6 @@ class SignUpScreen extends Component {
 			confirmPassword,
 			useGeneratePass,
 			isLoading,
-			showSignupForm,
 		} = this.state;
 		const params = this.props.params;
 
@@ -180,15 +200,15 @@ class SignUpScreen extends Component {
 				source={Images.LoginScreenBackground}
 				style={styles.backgroundImage}
 				resizeMode="cover">
-				{showSignupForm && (
-					<KeyboardAwareScrollView
-						innerRef={ref => {
-							this._scrollView = ref;
-						}}>
+				<KeyboardAwareScrollView
+					innerRef={ref => {
+						this._scrollView = ref;
+					}}>
+					{Platform.OS === 'ios' && (
 						<TouchableOpacity
 							style={styles.backButton}
-							onPress={() => this.props.goBack(null)}>
-							<Image
+							onPress={() => this.props.onViewHomeScreen()}>
+							{/* <Image
 								source={Images.icons.back}
 								style={[
 									{
@@ -201,163 +221,142 @@ class SignUpScreen extends Component {
 										transform: [{ rotate: '180deg' }],
 									},
 								]}
-							/>
+							/> */}
+							<Text style={{ color: '#7C8592' }}>Go Back</Text>
 						</TouchableOpacity>
-						<View style={styles.logoWrap}>
-							{Config.appSettings.app_logo ? (
-								<ImageCache
-									uri={Config.appSettings.app_logo}
-									style={styles.logo}
-									resizeMode="contain"
-								/>
-							) : (
-								<Image
-									source={Config.LogoWithText}
-									style={styles.logo}
-									resizeMode="contain"
-								/>
-							)}
-							<Text style={styles.logoText}>
-								{Config.appSettings.tag_line
-									? Config.appSettings.tag_line
-									: 'Build Your Dream Multi Vendor Market Place'}
-							</Text>
-						</View>
-						<Text style={styles.signUpText}>Signup</Text>
-						<View style={styles.formContainer}>
-							{/* <Text style={styles.label}>{Languages.profileDetail}</Text> */}
-							<View style={styles.inputWrap}>
-								<Text style={styles.label2}>First Name</Text>
-								<TextInput
-									{...commonInputProps}
-									ref={comp => (this.firstName = comp)}
-									onChangeText={this.onFirstNameEditHandle}
-									onSubmitEditing={this.focusLastName}
-									autoCapitalize="words"
-									returnKeyType="next"
-									value={firstName}
-								/>
-							</View>
-							<View style={styles.inputWrap}>
-								<Text style={styles.label2}>Last Name</Text>
-								<TextInput
-									{...commonInputProps}
-									ref={comp => (this.lastName = comp)}
-									onChangeText={this.onLastNameEditHandle}
-									onSubmitEditing={this.focusUsername}
-									autoCapitalize="words"
-									returnKeyType="next"
-									value={lastName}
-								/>
-							</View>
-
-							{/* <Text style={styles.label}>{Languages.accountDetails}</Text> */}
-							<View style={styles.inputWrap}>
-								<Text style={styles.label2}>Username</Text>
-								<TextInput
-									{...commonInputProps}
-									ref={comp => (this.username = comp)}
-									onChangeText={this.onUsernameEditHandle}
-									onSubmitEditing={this.focusEmail}
-									autoCapitalize="none"
-									returnKeyType="next"
-									value={username}
-								/>
-							</View>
-							<View style={styles.inputWrap}>
-								<Text style={styles.label2}>Email</Text>
-								<TextInput
-									{...commonInputProps}
-									ref={comp => (this.email = comp)}
-									onChangeText={this.onEmailEditHandle}
-									onSubmitEditing={this.focusPassword}
-									keyboardType="email-address"
-									returnKeyType={useGeneratePass ? 'done' : 'next'}
-									value={email}
-								/>
-							</View>
-							{params && params.user ? (
-								<View style={styles.switchWrap}>
-									<Switch
-										value={useGeneratePass}
-										onValueChange={this.onPasswordSwitchHandle}
-										thumbTintColor={Color.accent}
-										onTintColor={Color.accentLight}
-									/>
-									<Text
-										style={[
-											styles.text,
-											{
-												color: useGeneratePass
-													? Color.accent
-													: Color.blackTextSecondary,
-											},
-										]}>
-										{Languages.generatePass}
-									</Text>
-								</View>
-							) : null}
-							{useGeneratePass ? (
-								<View />
-							) : (
-								<View style={styles.inputWrap}>
-									<Text style={styles.label2}>Password</Text>
-									<TextInput
-										{...commonInputProps}
-										ref={comp => (this.password = comp)}
-										onChangeText={this.onPasswordEditHandle}
-										secureTextEntry
-										returnKeyType="next"
-										value={password}
-									/>
-								</View>
-							)}
-							<View style={styles.inputWrap}>
-								<Text style={styles.label2}>Confirm Password</Text>
-								<TextInput
-									{...commonInputProps}
-									ref={comp => (this.confirmPassword = comp)}
-									onChangeText={this.onConfirmPasswordEditHandle}
-									secureTextEntry
-									returnKeyType="done"
-									value={confirmPassword}
-								/>
-							</View>
-							<Button
-								type="gradientBtn"
-								text={Languages.signup}
-								size="sm"
-								alignSelf="flex-start"
-								marginTop={15}
-								onPress={this.onSignUpHandle}
+					)}
+					<View style={styles.logoWrap}>
+						{Config.appSettings.app_logo ? (
+							<ImageCache
+								uri={Config.appSettings.app_logo}
+								style={styles.logo}
+								resizeMode="contain"
 							/>
-						</View>
-					</KeyboardAwareScrollView>
-				)}
-				{!showSignupForm && (
-					<View
-						style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-						<View style={styles.successInfo}>
-							<Text
-								style={{
-									fontFamily: Constants.fontFamilyLato,
-									color: Color.wdred1,
-									fontSize: 30,
-									marginBottom: 20,
-								}}>
-								Success!
-							</Text>
-							<Button
-								type="gradientBtn"
-								text="Login"
-								size="sm"
-								alignSelf="flex-start"
-								marginTop={15}
-								onPress={this.props.onLoginScreen}
+						) : (
+							<Image
+								source={Config.LogoWithText}
+								style={styles.logo}
+								resizeMode="contain"
 							/>
-						</View>
+						)}
+						<Text style={styles.logoText}>
+							{Config.appSettings.tag_line
+								? Config.appSettings.tag_line
+								: 'Build Your Dream Multi Vendor Market Place'}
+						</Text>
 					</View>
-				)}
+					<Text style={styles.signUpText}>Signup</Text>
+					<View style={styles.formContainer}>
+						{/* <Text style={styles.label}>{Languages.profileDetail}</Text> */}
+						<View style={styles.inputWrap}>
+							<Text style={styles.label2}>First Name</Text>
+							<TextInput
+								{...commonInputProps}
+								ref={comp => (this.firstName = comp)}
+								onChangeText={this.onFirstNameEditHandle}
+								onSubmitEditing={this.focusLastName}
+								autoCapitalize="words"
+								returnKeyType="next"
+								value={firstName}
+							/>
+						</View>
+						<View style={styles.inputWrap}>
+							<Text style={styles.label2}>Last Name</Text>
+							<TextInput
+								{...commonInputProps}
+								ref={comp => (this.lastName = comp)}
+								onChangeText={this.onLastNameEditHandle}
+								onSubmitEditing={this.focusUsername}
+								autoCapitalize="words"
+								returnKeyType="next"
+								value={lastName}
+							/>
+						</View>
+
+						{/* <Text style={styles.label}>{Languages.accountDetails}</Text> */}
+						<View style={styles.inputWrap}>
+							<Text style={styles.label2}>Username</Text>
+							<TextInput
+								{...commonInputProps}
+								ref={comp => (this.username = comp)}
+								onChangeText={this.onUsernameEditHandle}
+								onSubmitEditing={this.focusEmail}
+								autoCapitalize="none"
+								returnKeyType="next"
+								value={username}
+							/>
+						</View>
+						<View style={styles.inputWrap}>
+							<Text style={styles.label2}>Email</Text>
+							<TextInput
+								{...commonInputProps}
+								ref={comp => (this.email = comp)}
+								onChangeText={this.onEmailEditHandle}
+								onSubmitEditing={this.focusPassword}
+								autoCapitalize="none"
+								keyboardType="email-address"
+								returnKeyType={useGeneratePass ? 'done' : 'next'}
+								value={email}
+							/>
+						</View>
+						{params && params.user ? (
+							<View style={styles.switchWrap}>
+								<Switch
+									value={useGeneratePass}
+									onValueChange={this.onPasswordSwitchHandle}
+									thumbTintColor={Color.accent}
+									onTintColor={Color.accentLight}
+								/>
+								<Text
+									style={[
+										styles.text,
+										{
+											color: useGeneratePass
+												? Color.accent
+												: Color.blackTextSecondary,
+										},
+									]}>
+									{Languages.generatePass}
+								</Text>
+							</View>
+						) : null}
+						{useGeneratePass ? (
+							<View />
+						) : (
+							<View style={styles.inputWrap}>
+								<Text style={styles.label2}>Password</Text>
+								<TextInput
+									{...commonInputProps}
+									ref={comp => (this.password = comp)}
+									onChangeText={this.onPasswordEditHandle}
+									secureTextEntry
+									returnKeyType="next"
+									value={password}
+								/>
+							</View>
+						)}
+						<View style={styles.inputWrap}>
+							<Text style={styles.label2}>Confirm Password</Text>
+							<TextInput
+								{...commonInputProps}
+								ref={comp => (this.confirmPassword = comp)}
+								onChangeText={this.onConfirmPasswordEditHandle}
+								secureTextEntry
+								returnKeyType="done"
+								value={confirmPassword}
+							/>
+						</View>
+						<Button
+							type="gradientBtn"
+							text={Languages.signup}
+							size="sm"
+							alignSelf="flex-start"
+							marginTop={15}
+							onPress={this.onSignUpHandle}
+						/>
+					</View>
+				</KeyboardAwareScrollView>
+
 				{isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</ImageBackground>
 		);

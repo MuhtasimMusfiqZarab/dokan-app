@@ -26,6 +26,7 @@ export default class SignUpScreen extends Component {
 				params={state.params}
 				onBackCart={() => navigate('Cart')}
 				onLoginScreen={() => navigate('LoginScreen')}
+				onViewHomeScreen={() => navigate('Default')}
 			/>
 		);
 	}
