@@ -19,6 +19,8 @@ class ChangeQuantity extends PureComponent {
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.quantity !== 'undefined') {
+			this.quantity = nextProps.quantity;
+
 			this.setState({
 				updatedQuantity: nextProps.quantity,
 			});
@@ -32,8 +34,8 @@ class ChangeQuantity extends PureComponent {
 			this.quantity < Constants.LimitAddToCart &&
 			this.state.updatedQuantity < Constants.LimitAddToCart
 		) {
-			await updateCartItem(productKey, this.quantity + 1, token);
 			this.quantity = this.quantity + 1;
+			await updateCartItem(productKey, this.quantity, token);
 		} else {
 			toast(`${Constants.LimitAddToCart} is the maximum limit`);
 		}
@@ -43,8 +45,8 @@ class ChangeQuantity extends PureComponent {
 		const { updateCartItem, productKey, token } = this.props;
 
 		if (this.quantity > 1 && this.state.updatedQuantity > 1) {
-			await updateCartItem(productKey, this.quantity - 1, token);
 			this.quantity = this.quantity - 1;
+			await updateCartItem(productKey, this.quantity, token);
 		}
 	};
 
