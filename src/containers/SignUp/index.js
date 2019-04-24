@@ -16,6 +16,7 @@ import {
 	Dimensions,
 	Platform,
 	TouchableOpacity,
+	Keyboard,
 } from 'react-native';
 import { Styles, Languages, Color, Images, Config, Constants } from '@common';
 import { toast, error, Validate } from '@app/Omni';
@@ -73,6 +74,7 @@ class SignUpScreen extends Component {
 	}
 
 	onSignUpHandle = async () => {
+		Keyboard.dismiss();
 		this._scrollView.scrollTo({
 			x: 0,
 			y: 0,
@@ -203,7 +205,9 @@ class SignUpScreen extends Component {
 				<KeyboardAwareScrollView
 					innerRef={ref => {
 						this._scrollView = ref;
-					}}>
+					}}
+					enableOnAndroid={true}
+					keyboardShouldPersistTaps="always">
 					{Platform.OS === 'ios' && (
 						<TouchableOpacity
 							style={styles.backButton}

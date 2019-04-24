@@ -12,6 +12,7 @@ import {
 	TextInput,
 	TouchableOpacity,
 	I18nManager,
+	Keyboard,
 	Platform,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
@@ -113,6 +114,7 @@ class LoginScreen extends PureComponent {
 	};
 
 	onLoginPressHandle = async () => {
+		Keyboard.dismiss();
 		const { login, netInfo } = this.props;
 
 		if (!netInfo.isConnected) {
@@ -120,7 +122,7 @@ class LoginScreen extends PureComponent {
 		}
 
 		if (this.state.isLoading) return;
-		// this.setState({ isLoading: true });
+		this.setState({ isLoading: true });
 
 		const _error = this.validateForm();
 		if (_error) return this.stopAndToast(_error);
@@ -219,7 +221,9 @@ class LoginScreen extends PureComponent {
 				source={Images.LoginScreenBackground}
 				style={styles.backgroundImage}
 				resizeMode="cover">
-				<KeyboardAwareScrollView enableOnAndroid={true}>
+				<KeyboardAwareScrollView
+					enableOnAndroid={true}
+					keyboardShouldPersistTaps="always">
 					{Platform.OS === 'ios' && (
 						<TouchableOpacity
 							style={styles.backButton}
