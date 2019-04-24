@@ -2,10 +2,16 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, I18nManager } from 'react-native';
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	TouchableWithoutFeedback,
+	I18nManager,
+} from 'react-native';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import { Icon } from '@app/Omni';
-import _ from 'lodash';
+import { isBoolean } from 'lodash';
 
 import styles from './styles';
 
@@ -35,11 +41,11 @@ export default class UserProfileItem extends PureComponent {
 					style={{ marginRight: 15 }}
 				/>
 				<Text style={styles.leftText}>{label}</Text>
-				<TouchableOpacity onPress={onPress} style={styles.rightContainer}>
-					<Text style={[styles.rightText, valueBlack && { color: '#000' }]}>
-						{value}
-					</Text>
-					{icon && _.isBoolean(icon) && (
+				{icon && isBoolean(icon) && (
+					<TouchableOpacity onPress={onPress} style={styles.rightContainer}>
+						<Text style={[styles.rightText, valueBlack && { color: '#000' }]}>
+							{value}
+						</Text>
 						<IconEntypo
 							style={[
 								styles.icon,
@@ -51,9 +57,23 @@ export default class UserProfileItem extends PureComponent {
 							size={22}
 							name="chevron-small-right"
 						/>
-					)}
-					{icon && !_.isBoolean(icon) && icon()}
-				</TouchableOpacity>
+					</TouchableOpacity>
+				)}
+				{icon && !isBoolean(icon) && (
+					<View style={styles.rightContainer}>
+						<Text style={[styles.rightText, valueBlack && { color: '#000' }]}>
+							{value}
+						</Text>
+						{icon()}
+					</View>
+				)}
+				{!icon && (
+					<View style={styles.rightContainer}>
+						<Text style={[styles.rightText, valueBlack && { color: '#000' }]}>
+							{value}
+						</Text>
+					</View>
+				)}
 			</View>
 		);
 	}

@@ -6,9 +6,10 @@ import {
 	ScrollView,
 	Text,
 	TouchableOpacity,
-	Switch,
+	// Switch,
 	AsyncStorage,
 } from 'react-native';
+import { Switch } from 'react-native-paper';
 import { connect } from 'react-redux';
 import {
 	UserProfileHeader,
@@ -20,7 +21,6 @@ import {
 } from '@components';
 import { Languages, Color, Tools, Icons } from '@common';
 import { getNotification } from '@app/Omni';
-import NameEditModal from './NameEditModal';
 import styles from './styles';
 
 class UserProfile extends PureComponent {
@@ -76,8 +76,6 @@ class UserProfile extends PureComponent {
 					<Switch
 						onValueChange={this._handleSwitch}
 						value={this.state.pushNotification}
-						tintColor={Color.blackDivide}
-						// trackColor={{ true: 'blue', false: 'red' }}
 					/>
 				),
 				iconLeft: Icons.MaterialCommunityIcons.Bell,
@@ -119,12 +117,9 @@ class UserProfile extends PureComponent {
 		}
 
 		if (isActionSheet) {
-			console.log(label);
 			switch (label) {
 				case 'Currency':
 					this.currencyPicker.openModal();
-				case 'Name':
-					this.editNameModal.openModal();
 				default:
 					break;
 			}
@@ -135,10 +130,6 @@ class UserProfile extends PureComponent {
 		this.setState({
 			isLoading: booleanValue,
 		});
-	};
-
-	closeEditModal = () => {
-		this.editNameModal.closeModal();
 	};
 
 	render() {
@@ -247,14 +238,6 @@ class UserProfile extends PureComponent {
 						changeCurrency={changeCurrency}
 					/>
 				</DokanModal>
-
-				<NameEditModal
-					refs={c => (this.editNameModal = c)}
-					closeEditModal={this.closeEditModal}
-					user={user}
-					token={bearerToken}
-					updateUser={updateUser}
-				/>
 
 				{this.state.isLoading ? <Spinner mode="overlay" color="#000" /> : null}
 			</View>
