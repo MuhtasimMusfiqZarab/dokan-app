@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
 		// color: Color.blackTextPrimary,
 		paddingLeft: 10,
 		color: Color.wdgray,
-		fontSize: Styles.FontSize.small,
+		fontSize: Styles.FontSize.medium,
 		fontFamily: Constants.fontFamilyLato,
 	},
 	activeIcon: {},
