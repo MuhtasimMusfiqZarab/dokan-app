@@ -103,7 +103,7 @@ const MaterialCommunityIcons = {
 	Language: 'web',
 	Wechat: 'wechat',
 	Currency: 'home-currency-usd',
-	About: 'account-group',
+	About: 'information-outline',
 	Order: 'sort-descending',
 	Mic: 'microphone',
 	DotHorizontal: 'dots-horizontal',
