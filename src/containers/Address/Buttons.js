@@ -18,6 +18,7 @@ const Buttons = ({ isAbsolute, onCancel, onSave, isBtnLoading }) => {
 				style={styles.btnCancel}
 				textStyle={styles.btnCancelText}
 				onPress={onCancel}
+				disabled={isBtnLoading}
 			/>
 			<Button
 				text="Save"
@@ -26,6 +27,7 @@ const Buttons = ({ isAbsolute, onCancel, onSave, isBtnLoading }) => {
 				textStyle={styles.btnSaveText}
 				onPress={onSave}
 				isLoading={isBtnLoading}
+				disabled={isBtnLoading}
 			/>
 		</View>
 	);

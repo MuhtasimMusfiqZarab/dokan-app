@@ -14,10 +14,11 @@ import { connect } from 'react-redux';
 import Buttons from './Buttons';
 import { toast } from '@app/Omni';
 import Tcomb from 'tcomb-form-native';
-import { cloneDeep, findKey, find } from 'lodash';
+import { cloneDeep, findKey } from 'lodash';
 import styles from './styles';
 import { TextInputMask } from 'react-native-masked-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
 import CountryPicker, {
 	getAllCountries,
 } from 'react-native-country-picker-modal';
@@ -87,15 +88,14 @@ class Address extends PureComponent {
 			cca2: 'BD',
 			countryName: '',
 			isBtnLoading: false,
-			sameAsBilling: true,
+			formIndex: 0,
 		};
 
-		this.initFormValues(this.props);
+		this.initFormValues();
 	}
 
 	componentDidMount() {
-		// const { getShippingMethod, countries } = this.props;
-
+		const { getShippingMethod } = this.props;
 		this.fetchCustomer(this.props);
 		// getShippingMethod();
 	}
@@ -103,7 +103,6 @@ class Address extends PureComponent {
 	UNSAFE_componentWillReceiveProps(nextProps) {
 		if (nextProps.user != this.props.user) {
 			this.fetchCustomer(nextProps);
-			this.initFormValues(nextProps);
 		}
 	}
 
@@ -111,11 +110,14 @@ class Address extends PureComponent {
 
 	onPress = () => this.form.getValue();
 
-	initFormValues = props => {
-		const { countries, fromScreen } = props;
-		const { user: customer } = props.user;
+	handleFormIndexSelect = index => {
+		this.setState(prevState => ({ ...prevState, formIndex: index }));
+	};
+
+	initFormValues = () => {
+		const countries = this.props.countries;
 		// override the validate method of Tcomb lib for multi validate requirement.
-		// const Countries = Tcomb.enums(countries);
+		const Countries = Tcomb.enums(countries);
 		const Email = Tcomb.refinement(
 			Tcomb.String,
 			s => Validator.checkEmail(s) === undefined
@@ -128,35 +130,33 @@ class Address extends PureComponent {
 		Phone.getValidationErrorMessage = s => Validator.checkPhone(s);
 
 		// define customer form
-		if (fromScreen === 'CartScreen' && customer.billing.country !== '') {
-			this.Customer = Tcomb.struct({
-				first_name: Tcomb.String,
-				last_name: Tcomb.String,
-				country: Tcomb.String,
-				state: Tcomb.String,
-				city: Tcomb.String,
-				postcode: Tcomb.String,
-				address_1: Tcomb.String,
-				address_2: Tcomb.maybe(Tcomb.String),
-				note: Tcomb.maybe(Tcomb.String), // maybe = optional
-			});
-		} else {
-			this.Customer = Tcomb.struct({
-				first_name: Tcomb.String,
-				last_name: Tcomb.String,
-				email: Email,
-				phone: Tcomb.Number,
-				country: Tcomb.String,
-				state: Tcomb.String,
-				city: Tcomb.String,
-				postcode: Tcomb.String,
-				address_1: Tcomb.String,
-				address_2: Tcomb.maybe(Tcomb.String),
-			});
-		}
+		this.CustomerBiiling = Tcomb.struct({
+			first_name: Tcomb.String,
+			last_name: Tcomb.String,
+			email: Email,
+			phone: Tcomb.Number,
+			country: Tcomb.String,
+			state: Tcomb.String,
+			city: Tcomb.String,
+			postcode: Tcomb.String,
+			address_1: Tcomb.String,
+			address_2: Tcomb.maybe(Tcomb.String),
+		});
 
-		// form options
-		this.options = {
+		this.CustomerShipping = Tcomb.struct({
+			first_name: Tcomb.String,
+			last_name: Tcomb.String,
+			company: Tcomb.maybe(Tcomb.String),
+			country: Tcomb.String,
+			state: Tcomb.String,
+			city: Tcomb.String,
+			postcode: Tcomb.String,
+			address_1: Tcomb.String,
+			address_2: Tcomb.maybe(Tcomb.String),
+			note: Tcomb.maybe(Tcomb.String), // maybe = optional
+		});
+
+		this.billingOptions = {
 			i18n: {
 				optional: ' (optional)',
 				required: ' *',
@@ -190,11 +190,7 @@ class Address extends PureComponent {
 					placeholder: Languages.TypeAddress2,
 					error: Languages.EmptyError,
 					underlineColorAndroid: 'transparent',
-					stylesheet:
-						fromScreen === 'UserScreen' ||
-						(fromScreen === 'CartScreen' && customer.billing.country === '')
-							? labelStyleBottomMargin
-							: labelStyle,
+					stylesheet: labelStyleBottomMargin,
 				},
 				country: {
 					label: Languages.TypeCountry,
@@ -233,11 +229,7 @@ class Address extends PureComponent {
 					underlineColorAndroid: 'transparent',
 					stylesheet: labelStyle,
 					autoCorrect: false,
-					editable:
-						fromScreen === 'UserScreen' ||
-						(fromScreen === 'CartScreen' && customer.billing.country === '')
-							? false
-							: true,
+					editable: false,
 				},
 				phone: {
 					label: Languages.Phone,
@@ -246,6 +238,76 @@ class Address extends PureComponent {
 					error: Languages.EmptyError,
 					stylesheet: labelStyle,
 					// template: this.renderPhoneInput,
+					autoCorrect: false,
+				},
+			},
+		};
+
+		this.shippingOptions = {
+			i18n: {
+				optional: ' (optional)',
+				required: ' *',
+			},
+			auto: 'none',
+			// stylesheet: css,
+			fields: {
+				first_name: {
+					label: Languages.FirstName,
+					// placeholder: Languages.TypeFirstName,
+					error: Languages.EmptyError, // for simple empty error warning.
+					underlineColorAndroid: 'transparent',
+					stylesheet: labelStyle,
+				},
+				last_name: {
+					label: Languages.LastName,
+					// placeholder: Languages.TypeLastName,
+					error: Languages.EmptyError,
+					underlineColorAndroid: 'transparent',
+					stylesheet: labelStyle,
+				},
+				address_1: {
+					label: Languages.Address1,
+					placeholder: Languages.TypeAddress1,
+					error: Languages.EmptyError,
+					underlineColorAndroid: 'transparent',
+					stylesheet: labelStyle,
+				},
+				address_2: {
+					label: Languages.Address2,
+					placeholder: Languages.TypeAddress2,
+					error: Languages.EmptyError,
+					underlineColorAndroid: 'transparent',
+					stylesheet: labelStyleBottomMargin,
+				},
+				country: {
+					label: Languages.TypeCountry,
+					// placeholder: Languages.Country,
+					error: Languages.NotSelectedError,
+					stylesheet: labelStyle,
+					template: this.renderCountry,
+				},
+				state: {
+					label: Languages.State,
+					// placeholder: Languages.TypeState,
+					error: Languages.EmptyError,
+					underlineColorAndroid: 'transparent',
+					stylesheet: labelStyle,
+					autoCorrect: false,
+				},
+				city: {
+					label: Languages.City,
+					// placeholder: Languages.TypeCity,
+					error: Languages.EmptyError,
+					underlineColorAndroid: 'transparent',
+					stylesheet: labelStyle,
+					autoCorrect: false,
+				},
+				postcode: {
+					label: Languages.Postcode,
+					// placeholder: Languages.TypePostcode,
+					error: Languages.EmptyError,
+					underlineColorAndroid: 'transparent',
+					stylesheet: labelStyle,
 					autoCorrect: false,
 				},
 				note: {
@@ -357,73 +419,30 @@ class Address extends PureComponent {
 
 	fetchCustomer = async props => {
 		const { user: customer } = props.user;
-		const { fromScreen } = this.props;
-		const { sameAsBilling } = this.state;
 		const userString = await AsyncStorage.getItem('@userInfo');
 		let userInfo = null;
 
 		if (userString !== null) {
 			try {
 				userInfo = JSON.parse(userString);
-			} catch (error) {
-				console.log(error);
-			}
+			} catch (error) {}
 		}
 
-		const country = find(
-			this.props.countries,
-			item => item.code === customer.billing.country
-		);
-
-		if (fromScreen === 'CartScreen' && customer.billing.country !== '') {
-			if (userInfo !== null && customer !== null && !sameAsBilling) {
-				this.setState({
-					value: {
-						first_name: userInfo.first_name,
-						last_name: userInfo.last_name,
-						address_1: userInfo.address_1,
-						address_2: userInfo.address_2,
-						city: userInfo.city,
-						state: userInfo.state,
-						postcode: userInfo.postcode,
-						country: userInfo.country,
-					},
-				});
-			} else if (userInfo !== null && customer !== null && sameAsBilling) {
-				this.setState({
-					value: {
-						first_name:
-							customer.billing.first_name == ''
-								? customer.first_name
-								: customer.billing.first_name,
-						last_name:
-							customer.billing.last_name == ''
-								? customer.last_name
-								: customer.billing.last_name,
-						address_1: customer.billing.address_1,
-						address_2: customer.billing.address_2,
-						city: customer.billing.city,
-						state: customer.billing.state,
-						postcode: customer.billing.postcode,
-						country:
-							country !== undefined ? country.name : customer.billing.country,
-					},
-				});
-			} else {
-				this.setState({
-					value: {
-						first_name: '',
-						last_name: '',
-						address_1: '',
-						address_2: '',
-						city: '',
-						state: '',
-						postcode: '',
-						country: '',
-					},
-				});
-			}
-		} else {
+		if (userInfo !== null) {
+			this.setState({
+				value: {
+					first_name: userInfo.first_name,
+					last_name: userInfo.last_name,
+					email: userInfo.email,
+					address_1: userInfo.address_1,
+					city: userInfo.city,
+					state: userInfo.state,
+					postcode: userInfo.postcode,
+					country: userInfo.country,
+					phone: userInfo.phone,
+				},
+			});
+		} else if (customer !== null) {
 			this.setState({
 				value: {
 					first_name:
@@ -442,8 +461,7 @@ class Address extends PureComponent {
 					city: customer.billing.city,
 					state: customer.billing.state,
 					postcode: customer.billing.postcode,
-					country:
-						country !== undefined ? country.name : customer.billing.country,
+					country: customer.billing.country,
 					phone: customer.billing.phone,
 				},
 			});
@@ -451,19 +469,14 @@ class Address extends PureComponent {
 	};
 
 	validateCustomer = async customerInfo => {
-		const { fromScreen, user } = this.props;
-		if (fromScreen === 'CartScreen' && user.user.billing.country !== '') {
-			await this.props.validateCustomerInfo(customerInfo, 'shipping');
-		} else {
-			await this.props.validateCustomerInfo(customerInfo, 'billing');
-		}
-
+		await this.props.validateCustomerInfo(customerInfo);
 		if (this.props.type === 'INVALIDATE_CUSTOMER_INFO') {
 			toast(this.props.message);
 			return false;
 		} else {
 			return true;
 		}
+		// this.props.onNext();
 	};
 
 	saveUserData = async userInfo => {
@@ -475,14 +488,6 @@ class Address extends PureComponent {
 	};
 
 	updateCustomerAddress = async (userInfo, token) => {
-		const country = find(
-			this.props.countries,
-			item => item.name === userInfo.country
-		);
-		// const state = find(country.states, item => item.name === userInfo.state);
-		// console.log(country);
-		// console.log(state);
-
 		const data = {
 			first_name: userInfo.first_name,
 			last_name: userInfo.last_name,
@@ -494,56 +499,41 @@ class Address extends PureComponent {
 				address_2: userInfo.address_2,
 				city: userInfo.city,
 				state: userInfo.state,
-				postcode: userInfo.postcode,
-				country: country.code,
+				postcode: userInfo.postCode,
+				country: userInfo.country,
 				email: userInfo.email,
 				phone: userInfo.phone,
 			},
 		};
 
 		const user = await DokanWorker.updateCustomerProfile(data, token);
+		console.log(user);
 		this.props.updateUser(user);
 	};
 
 	onSave = async () => {
 		const userInfo = this.form.getValue();
 		const token = this.props.user.token;
-		const { user } = this.props.user;
 
 		if (userInfo) {
 			this.setState({ isBtnLoading: true });
 
-			// await this.validateCustomer(userInfo);
-			// await this.updateCustomerAddress(userInfo, token);
-			// await this.saveUserData(userInfo);
+			await this.validateCustomer(userInfo);
+			await this.updateCustomerAddress(userInfo, token);
+			await this.saveUserData(userInfo);
 
-			// this.setState({ isBtnLoading: true });
+			this.setState({ isBtnLoading: true });
 
-			// User with billing address trying to buy
-			if (
-				this.props.fromScreen === 'CartScreen' &&
-				user.billing.country !== ''
-			) {
-				await this.validateCustomer(userInfo);
-				await this.saveUserData(userInfo);
-				this.props.calculateShipping(token, this.state.cca2);
-				this.setState({ isBtnLoading: false });
+			if (this.props.fromScreen === 'CartScreen') {
+				const countryCode = findKey(
+					this.props.countries,
+					item => item === userInfo.country
+				);
+				this.props.calculateShipping(token, countryCode);
 				this.props.navigation.goBack();
 			}
-			// User with no billing address trying to buy
-			else if (
-				this.props.fromScreen === 'CartScreen' &&
-				user.billing.country == ''
-			) {
-				await this.validateCustomer(userInfo);
-				await this.updateCustomerAddress(userInfo, token);
-				this.setState({ isBtnLoading: false });
-			}
-			// User is trying to change billing address
-			else {
-				await this.validateCustomer(userInfo);
-				await this.updateCustomerAddress(userInfo, token);
-				this.setState({ isBtnLoading: false });
+
+			if (this.props.fromScreen === 'UserScreen') {
 				this.props.navigation.goBack();
 			}
 		}
@@ -553,59 +543,55 @@ class Address extends PureComponent {
 		this.props.navigation.goBack();
 	};
 
-	handleSameAsBilling = () => {
-		this.setState(
-			{
-				sameAsBilling: !this.state.sameAsBilling,
-			},
-			() => {
-				this.fetchCustomer(this.props);
-			}
-		);
-	};
-
 	render() {
-		// const { shippings, shippingMethod } = this.props;
-		// const isShippingEmpty = typeof shippingMethod.id === 'undefined';
-
-		const { fromScreen, user } = this.props;
-		const { sameAsBilling } = this.state;
+		const { formIndex } = this.state;
 
 		return (
 			<View style={styles.container}>
-				<KeyboardAwareScrollView
-					style={styles.form}
-					showsVerticalScrollIndicator={false}>
-					<View style={css.rowEmpty}>
-						<Text style={[css.label, { color: '#000', fontWeight: 'bold' }]}>
-							{fromScreen === 'CartScreen' && user.user.billing.country !== ''
-								? Languages.YourDeliveryInfo
-								: Languages.BillingDetails}
-						</Text>
-					</View>
-					{fromScreen === 'CartScreen' && user.user.billing.country !== '' && (
-						<View style={{ flexDirection: 'row', alignItems: 'center' }}>
-							<Checkbox
-								status={sameAsBilling ? 'checked' : 'unchecked'}
-								onPress={() => this.handleSameAsBilling()}
-							/>
-							<TouchableOpacity onPress={() => this.handleSameAsBilling()}>
-								<Text style={{ color: Color.textGray }}>
-									Same as Billing Address
-								</Text>
-							</TouchableOpacity>
+				<SegmentedControlTab
+					values={['Billing', 'Shipping']}
+					selectedIndex={formIndex}
+					onTabPress={this.handleFormIndexSelect}
+					borderRadius={0}
+					tabsContainerStyle={{ height: 50, backgroundColor: '#F2F2F2' }}
+					tabStyle={{
+						backgroundColor: '#F2F2F2',
+						borderWidth: 0,
+						borderColor: 'transparent',
+					}}
+					activeTabStyle={{ backgroundColor: 'white' }}
+					tabTextStyle={{ color: '#444444', fontWeight: 'bold' }}
+					activeTabTextStyle={{ color: '#888888' }}
+				/>
+				{formIndex === 0 && (
+					<KeyboardAwareScrollView
+						style={styles.form}
+						showsVerticalScrollIndicator={false}>
+						<View style={css.rowEmpty}>
+							<Text style={[css.label, { color: '#000', fontWeight: 'bold' }]}>
+								{Languages.YourDeliveryInfo}
+							</Text>
 						</View>
-					)}
-					<View style={styles.formContainer}>
-						<Form
-							ref={c => (this.form = c)}
-							type={this.Customer}
-							options={this.options}
-							value={this.state.value}
-							onChange={this.onChange}
+						{/* <View style={css.rowEmpty}>
+						<Checkbox
+							status="checked"
+							onPress={() => {
+								this.setState({ checked: !checked });
+							}}
 						/>
-					</View>
-				</KeyboardAwareScrollView>
+					</View> */}
+						<View style={styles.formContainer}>
+							<Form
+								ref={c => (this.form = c)}
+								type={this.CustomerBiiling}
+								options={this.billingOptions}
+								value={this.state.value}
+								onChange={this.onChange}
+							/>
+						</View>
+					</KeyboardAwareScrollView>
+				)}
+				{formIndex === 1 && <Text style={styles.tabContent}>Shipping</Text>}
 
 				<Buttons
 					isAbsolute
@@ -645,8 +631,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 	return {
 		...ownProps,
 		...stateProps,
-		validateCustomerInfo: (customerInfo, type) => {
-			CartRedux.actions.validateCustomerInfo(dispatch, customerInfo, type);
+		validateCustomerInfo: customerInfo => {
+			CartRedux.actions.validateCustomerInfo(dispatch, customerInfo);
 		},
 		calculateShipping: (
 			token,
