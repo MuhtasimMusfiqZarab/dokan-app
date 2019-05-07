@@ -260,26 +260,26 @@ export default {
 			// 	},
 			// 	iconLeft: Icons.MaterialCommunityIcons.Bell,
 			// },
+			// {
+			// 	index: 4,
+			// 	text: 'Contact Us',
+			// 	routeName: 'ContactUs',
+			// 	params: {
+			// 		isActive: false,
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Wechat,
+			// },
+			// {
+			// 	index: 5,
+			// 	text: 'Privacy Policies',
+			// 	routeName: 'PrivacyPolicy',
+			// 	params: {
+			// 		isActive: false,
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Lock,
+			// },
 			{
 				index: 4,
-				text: 'Contact Us',
-				routeName: 'ContactUs',
-				params: {
-					isActive: false,
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Wechat,
-			},
-			{
-				index: 5,
-				text: 'Privacy Policies',
-				routeName: 'PrivacyPolicy',
-				params: {
-					isActive: false,
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Lock,
-			},
-			{
-				index: 6,
 				text: 'About Us',
 				routeName: 'AboutUs',
 				params: {
@@ -288,15 +288,15 @@ export default {
 				},
 				iconLeft: Icons.MaterialCommunityIcons.About,
 			},
-			{
-				index: 7,
-				text: 'Settings',
-				routeName: 'SettingScreen',
-				params: {
-					isActive: false,
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Setting,
-			},
+			// {
+			// 	index: 5,
+			// 	text: 'Settings',
+			// 	routeName: 'SettingScreen',
+			// 	params: {
+			// 		isActive: false,
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Setting,
+			// },
 		],
 	},
 

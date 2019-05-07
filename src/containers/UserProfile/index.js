@@ -58,38 +58,38 @@ class UserProfile extends PureComponent {
 				routeName: 'MyOrders',
 				iconLeft: Icons.MaterialCommunityIcons.Order,
 			},
-			{
-				label: Languages.Currency,
-				value: currency.code,
-				isActionSheet: true,
-				iconLeft: Icons.MaterialCommunityIcons.Currency,
-			},
-			{
-				label: Languages.Languages,
-				routeName: 'SettingScreen',
-				value: Languages.LanguageName,
-				iconLeft: Icons.MaterialCommunityIcons.Setting,
-			},
-			{
-				label: Languages.PushNotification,
-				icon: () => (
-					<Switch
-						onValueChange={this._handleSwitch}
-						value={this.state.pushNotification}
-					/>
-				),
-				iconLeft: Icons.MaterialCommunityIcons.Bell,
-			},
-			{
-				label: Languages.contactus,
-				routeName: 'ContactUs',
-				iconLeft: Icons.MaterialCommunityIcons.Wechat,
-			},
-			{
-				label: Languages.Privacy,
-				routeName: 'PrivacyPolicy',
-				iconLeft: Icons.MaterialCommunityIcons.Lock,
-			},
+			// {
+			// 	label: Languages.Currency,
+			// 	value: currency.code,
+			// 	isActionSheet: true,
+			// 	iconLeft: Icons.MaterialCommunityIcons.Currency,
+			// },
+			// {
+			// 	label: Languages.Languages,
+			// 	routeName: 'SettingScreen',
+			// 	value: Languages.LanguageName,
+			// 	iconLeft: Icons.MaterialCommunityIcons.Setting,
+			// },
+			// {
+			// 	label: Languages.PushNotification,
+			// 	icon: () => (
+			// 		<Switch
+			// 			onValueChange={this._handleSwitch}
+			// 			value={this.state.pushNotification}
+			// 		/>
+			// 	),
+			// 	iconLeft: Icons.MaterialCommunityIcons.Bell,
+			// },
+			// {
+			// 	label: Languages.contactus,
+			// 	routeName: 'ContactUs',
+			// 	iconLeft: Icons.MaterialCommunityIcons.Wechat,
+			// },
+			// {
+			// 	label: Languages.Privacy,
+			// 	routeName: 'PrivacyPolicy',
+			// 	iconLeft: Icons.MaterialCommunityIcons.Lock,
+			// },
 			{
 				label: Languages.About,
 				routeName: 'AboutUs',
