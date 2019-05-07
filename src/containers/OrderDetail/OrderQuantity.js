@@ -64,7 +64,7 @@ export default function OrderQuantity(props) {
 						{currencyFormatter(props.discountTotal)}
 					</Text>
 					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
-						{currencyFormatter(props.discountTotal)}
+						{currencyFormatter(props.shippingTotal)}
 					</Text>
 					<Text style={[css.standardTextGray, { marginBottom: 5 }]}>
 						{currencyFormatter(props.total)}

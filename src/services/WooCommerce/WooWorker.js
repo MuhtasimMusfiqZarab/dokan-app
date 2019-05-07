@@ -225,7 +225,6 @@ export default class WooWorker {
 		try {
 			const response = await this._api.post('orders', data);
 			const json = await response.json();
-
 			if (json.code === undefined) {
 				callback(json);
 			} else {

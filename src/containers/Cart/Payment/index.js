@@ -122,7 +122,7 @@ class PaymentOptions extends PureComponent {
 			currency: currency.code,
 		};
 
-		// console.log(payload);
+		console.log(payload);
 
 		const isNoShipping = filter(
 			this.props.shippingMethods,
@@ -181,15 +181,10 @@ class PaymentOptions extends PureComponent {
 
 	getCoupons = () => {
 		const { coupons } = this.props;
-		const items = [];
-		coupons.map(item => {
-			let obj = {
-				code: item.code,
-			};
-			items.push(obj);
-		});
 
-		return items;
+		return coupons.map(item => {
+			return { code: item.code };
+		});
 	};
 
 	getShippingMethods = () => {

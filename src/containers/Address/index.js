@@ -376,7 +376,7 @@ class Address extends PureComponent {
 		);
 
 		if (fromScreen === 'CartScreen' && customer.billing.country !== '') {
-			if (userInfo !== null && customer !== null && !sameAsBilling) {
+			if (userInfo !== null && !sameAsBilling) {
 				this.setState({
 					value: {
 						first_name: userInfo.first_name,
@@ -389,7 +389,7 @@ class Address extends PureComponent {
 						country: userInfo.country,
 					},
 				});
-			} else if (userInfo !== null && customer !== null && sameAsBilling) {
+			} else if (customer !== null && sameAsBilling) {
 				this.setState({
 					value: {
 						first_name:
