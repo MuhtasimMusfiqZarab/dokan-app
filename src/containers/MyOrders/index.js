@@ -203,7 +203,7 @@ class MyOrders extends PureComponent {
 								color: Color.wdDeepGray,
 								fontSize: 20,
 							}}>
-							{orderCount > 1 ? `${orderCount} Items` : `${orderCount} Item`}
+							{orderCount > 1 ? `${orderCount} Orders` : `${orderCount} Order`}
 						</Text>
 						<AnimatedFlatList
 							data={data}
