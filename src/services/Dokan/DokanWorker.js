@@ -561,7 +561,7 @@ const DokanWorker = {
 			if (json.code === undefined) {
 				return json;
 			} else {
-				console.log(json);
+				return json.data.params.code;
 			}
 		} catch (error) {
 			console.log(error);

@@ -17,16 +17,16 @@ import { toast, IconIO } from '@app/Omni';
 import { Languages, Config, Icons } from '@common';
 import Buttons from '@cart/Buttons';
 import WooWorker from '@services/WooCommerce/WooWorker';
-import styles from './styles';
 import { LinearGradient } from '@expo';
-import Delivery from '../Delivery';
+import OrderSummary from './OrderSummary';
+import styles from './styles';
 
 // const { width } = Dimensions.get('window');
 
 class PaymentOptions extends PureComponent {
 	static propTypes = {
 		fetchPayments: PropTypes.func,
-		message: PropTypes.array,
+		message: PropTypes.any,
 		type: PropTypes.string,
 		cleanOldCoupon: PropTypes.func,
 		onNext: PropTypes.func,
@@ -34,6 +34,7 @@ class PaymentOptions extends PureComponent {
 		userInfo: PropTypes.object,
 		currency: PropTypes.any,
 		payments: PropTypes.object,
+		coupons: PropTypes.any,
 		isLoading: PropTypes.bool,
 		cartItems: PropTypes.any,
 		onShowCheckOut: PropTypes.func,
@@ -45,20 +46,14 @@ class PaymentOptions extends PureComponent {
 		onChangeUserInfo: PropTypes.any,
 		onPrevious: PropTypes.any,
 		deleteCart: PropTypes.any,
+		navigation: PropTypes.any,
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
 			loading: false,
-			// token: null,
 			selectedIndex: 0,
-			// accountNumber: '',
-			// holderName: '',
-			// expirationDate: '',
-			// securityCode: '',
-			// paymentState: '',
-			// createdOrder: {},
 			userDataSaved: false,
 		};
 	}
@@ -86,14 +81,6 @@ class PaymentOptions extends PureComponent {
 	nextStep = async () => {
 		const { user, token } = this.props.user;
 		const { currency } = this.props;
-		// const coupon = this.getCouponInfo();
-
-		// Billing First name is a required field.
-		// Billing Last name is a required field.
-		// Billing Country is a required field.
-		// Billing Street address is a required field.
-		// Billing Town / City is a required field.
-
 		const userString = await AsyncStorage.getItem('@userInfo');
 		let userInfo = null;
 
@@ -103,22 +90,10 @@ class PaymentOptions extends PureComponent {
 			} catch (error) {}
 		}
 
-		let first_name = userInfo.first_name;
-		let last_name = userInfo.last_name;
-		let address_1 = userInfo.address_1;
-		let city = userInfo.city;
-		let state = userInfo.state;
-		let country = userInfo.country;
-		let postcode = userInfo.postcode;
-
-		if (user && user.billing) {
-			first_name = user.billing.first_name;
-			last_name = user.billing.last_name;
-			address_1 = user.billing.address_1;
-			city = user.billing.city;
-			state = user.billing.state;
-			country = user.billing.country;
-			postcode = user.billing.postcode;
+		if (userInfo === null) {
+			this.props.navigation.navigate('Address', { from: 'CartScreen' });
+			toast('Please Confirm your Shipping Address');
+			return;
 		}
 
 		const { list } = this.props.payments;
@@ -130,15 +105,6 @@ class PaymentOptions extends PureComponent {
 			payment_method_title: list[this.state.selectedIndex].title,
 			billing: {
 				...user.billing,
-				email: userInfo.email,
-				phone: userInfo.phone,
-				first_name: first_name,
-				last_name: last_name,
-				address_1: address_1,
-				city: city,
-				state: state,
-				country: country,
-				postcode: postcode,
 			},
 			shipping: {
 				first_name: userInfo.first_name,
@@ -150,9 +116,13 @@ class PaymentOptions extends PureComponent {
 				postcode: userInfo.postcode,
 			},
 			line_items: this.getItemsCart(),
+			shipping_lines: this.getShippingMethods(),
+			coupon_lines: this.getCoupons(),
 			customer_note: typeof userInfo.note !== 'undefined' ? userInfo.note : '',
 			currency: currency.code,
 		};
+
+		// console.log(payload);
 
 		const isNoShipping = filter(
 			this.props.shippingMethods,
@@ -209,45 +179,40 @@ class PaymentOptions extends PureComponent {
 		return items;
 	};
 
-	getCouponInfo = () => {
-		const { couponCode, couponAmount } = this.props;
-		if (
-			typeof couponCode !== 'undefined' &&
-			typeof couponAmount !== 'undefined' &&
-			couponAmount > 0
-		) {
-			return [
-				{
-					code: couponCode,
-				},
-			];
-		}
-		return {};
+	getCoupons = () => {
+		const { coupons } = this.props;
+		const items = [];
+		coupons.map(item => {
+			let obj = {
+				code: item.code,
+			};
+			items.push(obj);
+		});
+
+		return items;
 	};
 
-	getShippingMethod = () => {
-		const { shippingMethod } = this.props;
+	getShippingMethods = () => {
+		const { shippingMethods } = this.props;
+		const items = [];
+		shippingMethods.map(item => {
+			if (item.available_methods.length !== 0) {
+				let chosenShippingID = item.chosen_method;
+				let chosenShippingObject = filter(
+					item.available_methods,
+					item => item.id === chosenShippingID
+				);
 
-		if (typeof shippingMethod !== 'undefined') {
-			return [
-				{
-					method_id: `${shippingMethod.method_id}:${shippingMethod.id}`,
-					method_title: shippingMethod.title,
-					total:
-						shippingMethod.id == 'free_shipping' ||
-						shippingMethod.method_id == 'free_shipping'
-							? '0'
-							: shippingMethod.settings.cost.value,
-				},
-			];
-		}
-		// return the free class as default
-		return [
-			{
-				method_id: 'free_shipping',
-				total: '0',
-			},
-		];
+				let shippingObj = {
+					method_title: chosenShippingObject[0].label,
+					method_id: chosenShippingObject[0].id,
+					total: chosenShippingObject[0].cost,
+				};
+				items.push(shippingObj);
+			}
+		});
+
+		return items;
 	};
 
 	onSaveUserData = () => {
@@ -319,16 +284,13 @@ class PaymentOptions extends PureComponent {
 					</View>
 
 					<Text style={styles.label}>Order Summary</Text>
-					<View
-						style={{
-							backgroundColor: '#fff',
-							minHeight: Dimensions.get('window').height / 2,
-							marginBottom: 15,
-							padding: 10,
-							borderRadius: 10,
-						}}
+					<OrderSummary
+						cartItems={this.props.cartItems}
+						shippingMethods={this.props.shippingMethods}
+						coupons={this.props.coupons}
 					/>
 				</ScrollView>
+
 				<Buttons
 					// isAbsolute
 					onPrevious={this.props.onPrevious}
@@ -349,6 +311,7 @@ const mapStateToProps = ({ payments, carts, user, products, currency }) => {
 		cartItems: carts.cartItems,
 		totalPrice: carts.totalPrice,
 		shippingMethods: carts.shippingMethods,
+		coupons: carts.coupons,
 		message: carts.message,
 		customerInfo: carts.customerInfo,
 		// couponCode: products.coupon && products.coupon.code,

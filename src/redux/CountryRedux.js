@@ -3,6 +3,7 @@
  */
 
 import CountryWorker from '../services/CountryWorker';
+import WooWorker from '@services/WooCommerce/WooWorker';
 // import { flatten } from 'lodash'
 // import { warn } from '@app/Omni'
 
@@ -16,7 +17,7 @@ export const actions = {
 	fetchAllCountries: async dispatch => {
 		dispatch({ type: types.COUNTRY_FETCHING });
 
-		const json = await CountryWorker.getAllCountries();
+		const json = await WooWorker.getAllCountries();
 		if (json === undefined) {
 			dispatch({ type: types.COUNTRY_FETCH_FAILURE });
 		} else if (json.code) {

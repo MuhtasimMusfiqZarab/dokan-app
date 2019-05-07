@@ -67,12 +67,12 @@ export class ShippingMethods extends PureComponent {
 	};
 
 	render() {
-		const { userCountry } = this.props;
+		const { userCountry, shippingMethods } = this.props;
 
 		return (
 			<View style={{ flex: 1 }}>
 				<TouchableOpacity
-					style={[css.row, { flex: 0.15 }]}
+					style={[css.row, { flex: 0.2 }]}
 					onPress={() => this.handleDeliveryInfoPress()}>
 					<View>
 						<Text style={[css.label, { color: '#9B59B6' }]}>
@@ -89,12 +89,21 @@ export class ShippingMethods extends PureComponent {
 					</View>
 				</TouchableOpacity>
 
-				{userCountry !== '' && (
-					<View style={{ flex: 0.85, paddingVertical: 10 }}>
+				{userCountry !== '' && shippingMethods.length !== 0 && (
+					<View style={{ flex: 0.8, paddingVertical: 10 }}>
 						<View style={[css.row, { borderColor: 'transparent' }]}>
 							<Text style={{ color: '#7D8693' }}>Shipping Methods</Text>
 						</View>
 						<ScrollView>{this.renderShippingMethods()}</ScrollView>
+					</View>
+				)}
+				{userCountry !== '' && shippingMethods.length === 0 && (
+					<View style={{ flex: 0.8, paddingVertical: 10 }}>
+						<View style={[css.row, { borderColor: 'transparent' }]}>
+							<Text style={{ color: '#7D8693' }}>
+								Shipping is not Available to this Address
+							</Text>
+						</View>
 					</View>
 				)}
 				{userCountry === '' && (

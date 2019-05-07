@@ -1,6 +1,6 @@
 /**
  * An API for JWT Auth Word Press plugin.
- * https://wordpress.org/plugins/json-api-auth/
+ * https://wordpress.org/plugins/jwt-authentication-for-wp-rest-api/
  *
  * @format
  */

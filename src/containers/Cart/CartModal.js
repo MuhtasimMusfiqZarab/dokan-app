@@ -58,7 +58,6 @@ export default class CartModal extends PureComponent {
 		this.setState({
 			modalType: modalType,
 			storeName: storeName,
-			// userCountry: userCountry,
 		});
 
 		this.cartModal.open();

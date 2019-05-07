@@ -1,10 +1,9 @@
 /** @format */
 
-import { Constants, Config, Languages } from '@common';
+import { Languages } from '@common';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import DokanWorker from '@services/Dokan/DokanWorker';
 import Validate from '../ultils/Validate.js';
-import { find, filter } from 'lodash';
 
 const types = {
 	FETCH_ALL_CART_ITEM: 'FETCH_ALL_CART_ITEM',
@@ -32,6 +31,8 @@ const types = {
 	// POST_COUPON_FAILED: 'POST_COUPON_FAILED',
 	GET_COUPON_PENDING: 'GET_COUPON_PENDING',
 	GET_COUPON_SUCCESS: 'GET_COUPON_SUCCESS',
+	APPLY_COUPON_FAILED: 'APPLY_COUPON_FAILED',
+	RESET_CART_MSG: 'RESET_CART_MSG',
 };
 
 export const actions = {
@@ -40,7 +41,6 @@ export const actions = {
 
 		DokanWorker.fetchAllCartItems(token)
 			.then(data => {
-				console.log(data);
 				return data;
 			})
 			.then(cartData => {
@@ -54,6 +54,7 @@ export const actions = {
 						discount: cartData.discount,
 						shippingTotal: cartData.shippingTotal,
 						shippingMethods: shippingData,
+						message: '',
 					});
 				});
 			})
@@ -226,18 +227,25 @@ export const actions = {
 			type: types.GET_COUPON_PENDING,
 		});
 		DokanWorker.postCoupon(code, token)
-			.then(() => {
-				DokanWorker.getCoupons(token)
-					.then(data => {
-						dispatch({
-							type: types.GET_COUPON_SUCCESS,
-							coupons: data,
-						});
-						actions.fetchAllCartItems(dispatch, token);
-					})
-					.catch(error => {
-						console.log(error);
+			.then(data => {
+				if (typeof data === 'string') {
+					dispatch({
+						type: types.APPLY_COUPON_FAILED,
+						message: data,
 					});
+				} else {
+					DokanWorker.getCoupons(token)
+						.then(data => {
+							dispatch({
+								type: types.GET_COUPON_SUCCESS,
+								coupons: data,
+							});
+							actions.fetchAllCartItems(dispatch, token);
+						})
+						.catch(error => {
+							console.log(error);
+						});
+				}
 			})
 			.catch(error => {
 				console.log(error);
@@ -255,30 +263,49 @@ export const actions = {
 				console.log(error);
 			});
 	},
-	validateCustomerInfo: (dispatch, customerInfo) => {
+	validateCustomerInfo: (dispatch, customerInfo, type) => {
 		const { first_name, last_name, address_1, email, phone } = customerInfo;
-		if (
-			first_name.length == 0 ||
-			last_name.length == 0 ||
-			// address_1.length == 0 ||
-			email.length == 0 ||
-			phone.length == 0
-		) {
-			dispatch({
-				type: types.INVALIDATE_CUSTOMER_INFO,
-				message: Languages.RequireEnterAllFileds,
-			});
-		} else if (!Validate.isEmail(email)) {
-			dispatch({
-				type: types.INVALIDATE_CUSTOMER_INFO,
-				message: Languages.InvalidEmail,
-			});
+		if (type === 'shipping') {
+			if (
+				first_name.length == 0 ||
+				last_name.length == 0
+				// address_1.length == 0
+			) {
+				dispatch({
+					type: types.INVALIDATE_CUSTOMER_INFO,
+					message: Languages.RequireEnterAllFileds,
+				});
+			} else {
+				dispatch({
+					type: types.VALIDATE_CUSTOMER_INFO,
+					message: '',
+					customerInfo,
+				});
+			}
 		} else {
-			dispatch({
-				type: types.VALIDATE_CUSTOMER_INFO,
-				message: '',
-				customerInfo,
-			});
+			if (
+				first_name.length == 0 ||
+				last_name.length == 0 ||
+				// address_1.length == 0 ||
+				email.length == 0 ||
+				phone.length == 0
+			) {
+				dispatch({
+					type: types.INVALIDATE_CUSTOMER_INFO,
+					message: Languages.RequireEnterAllFileds,
+				});
+			} else if (!Validate.isEmail(email)) {
+				dispatch({
+					type: types.INVALIDATE_CUSTOMER_INFO,
+					message: Languages.InvalidEmail,
+				});
+			} else {
+				dispatch({
+					type: types.VALIDATE_CUSTOMER_INFO,
+					message: '',
+					customerInfo,
+				});
+			}
 		}
 	},
 	createNewOrder: async (dispatch, payload) => {
@@ -317,6 +344,11 @@ export const actions = {
 	finishOrder: async dispatch => {
 		dispatch({ type: types.CREATE_NEW_ORDER_SUCCESS });
 	},
+	resetCartmsg: dispatch => [
+		dispatch({
+			type: types.RESET_CART_MSG,
+		}),
+	],
 };
 
 const initialState = {
@@ -331,6 +363,7 @@ const initialState = {
 	myOrders: [],
 	isFetching: false,
 	isCouponApplying: false,
+	message: '',
 };
 
 export const reducer = (state = initialState, action) => {
@@ -344,6 +377,7 @@ export const reducer = (state = initialState, action) => {
 		totalItems,
 		shippingMethods,
 		coupons,
+		message,
 	} = action;
 
 	switch (type) {
@@ -358,6 +392,7 @@ export const reducer = (state = initialState, action) => {
 				shippingMethods: shippingMethods,
 				isFetching: false,
 				isCouponApplying: false,
+				message,
 			});
 		}
 		case types.ADD_CART_ITEM: {
@@ -522,50 +557,21 @@ export const reducer = (state = initialState, action) => {
 				coupons: coupons,
 			});
 		}
+		case types.APPLY_COUPON_FAILED: {
+			return Object.assign({}, state, {
+				...state,
+				isCouponApplying: false,
+				message: message,
+			});
+		}
+		case types.RESET_CART_MSG: {
+			return Object.assign({}, state, {
+				...state,
+				message: '',
+			});
+		}
 		default: {
 			return state;
 		}
 	}
 };
-
-// const compareCartItem = (cartItem, action) => {
-// 	if (
-// 		cartItem.variation !== undefined &&
-// 		action.variation !== undefined &&
-// 		cartItem.variation != null &&
-// 		action.variation != null
-// 	)
-// 		return (
-// 			cartItem.product.product_id === action.product.product_id &&
-// 			cartItem.variation.variation_id === action.variation.variation_id
-// 		);
-// 	return cartItem.product.product_id === action.product.product_id;
-// };
-
-// const cartItem = (
-// 	state = { product: undefined, quantity: 1, variation: undefined },
-// 	action
-// ) => {
-// 	switch (action.type) {
-// 		case types.ADD_CART_ITEM:
-// 			return state.product === undefined
-// 				? Object.assign({}, state, {
-// 						product: action.product,
-// 						variation: action.variation,
-// 				  })
-// 				: !compareCartItem(state, action)
-// 				? state
-// 				: Object.assign({}, state, {
-// 						quantity:
-// 							state.quantity < Constants.LimitAddToCart
-// 								? state.quantity + 1
-// 								: state.quantity,
-// 				  });
-// 		case types.REMOVE_CART_ITEM:
-// 			return !compareCartItem(state, action)
-// 				? state
-// 				: Object.assign({}, state, { quantity: state.quantity - 1 });
-// 		default:
-// 			return state;
-// 	}
-// };

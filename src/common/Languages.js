@@ -272,6 +272,7 @@ export default new LocalizedStrings({
 		Name: 'Name',
 		Currency: 'Currency',
 		Languages: 'Languages',
+		BillingDetails: 'Billing Details',
 
 		GetDataError: "Can't get data from server",
 		UserOrEmail: 'Username or email',

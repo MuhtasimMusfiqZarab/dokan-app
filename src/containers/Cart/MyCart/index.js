@@ -5,6 +5,7 @@ import {
 	Text,
 	View,
 	ScrollView,
+	Keyboard,
 	TouchableOpacity,
 	TextInput,
 } from 'react-native';
@@ -44,6 +45,10 @@ class MyCart extends PureComponent {
 		// 	this.props.cleanOldCoupon();
 		// 	toast(nextProps.message);
 		// }
+		if (nextProps.cartMsg) {
+			toast(nextProps.cartMsg);
+			this.props.resetCartmsg();
+		}
 	}
 
 	onProductClickHandler = async data => {
@@ -51,13 +56,6 @@ class MyCart extends PureComponent {
 
 		this.props.onViewProduct({ product: response });
 	};
-
-	// renderCartItems = storeName => {
-	// 	const isCompleted = find(this.completed, item => item === storeName);
-	// 	console.log(isCompleted);
-	// 	this.completed.push(storeName);
-	// 	console.log(this.completed);
-	// };
 
 	getUniqueVendors = cartItems => uniqBy(cartItems, item => item.vendor.id);
 
@@ -67,6 +65,7 @@ class MyCart extends PureComponent {
 		if (userCountry === '') {
 			return (
 				<TouchableOpacity
+					style={{ flexDirection: 'row' }}
 					onPress={() => this.onPressShippingCalculation(storeName)}>
 					<Text style={{ color: '#B888CB' }}>Calculate Shipping</Text>
 				</TouchableOpacity>
@@ -92,8 +91,14 @@ class MyCart extends PureComponent {
 					</TouchableOpacity>
 				);
 			} else {
+				// return (
+				// 	<Text style={{ color: Color.blackTextDisable }}>No shipping</Text>
+				// );
 				return (
-					<Text style={{ color: Color.blackTextDisable }}>No shipping</Text>
+					<TouchableOpacity
+						onPress={() => this.onPressShippingCalculation(storeName)}>
+						<Text style={{ color: '#B888CB' }}>No Shipping</Text>
+					</TouchableOpacity>
 				);
 			}
 		}
@@ -116,7 +121,9 @@ class MyCart extends PureComponent {
 
 		return (
 			<View style={styles.container}>
-				<KeyboardAwareScrollView enableOnAndroid={true}>
+				<KeyboardAwareScrollView
+					enableOnAndroid={true}
+					keyboardShouldPersistTaps="always">
 					<View style={styles.list}>
 						{this.props.isCartFetching && (
 							<View
@@ -186,9 +193,10 @@ class MyCart extends PureComponent {
 									// this.getExistCoupon() > 0 && {
 									// 	backgroundColor: Color.lightgrey,
 									// },
-									this.props.isCartFetching && {
-										backgroundColor: Color.lightgrey,
-									},
+									this.props.isCartFetching ||
+										(this.props.isCouponApplying && {
+											backgroundColor: Color.lightgrey,
+										}),
 								]}
 								underlineColorAndroid="transparent"
 								autoCapitalize="none"
@@ -197,7 +205,7 @@ class MyCart extends PureComponent {
 							/>
 
 							<Button
-								isDisabled={this.props.isCartFetching}
+								// isDisabled={this.props.isCartFetching}
 								type="gradientBtn"
 								size="sm"
 								text={Languages.ApplyCoupon}
@@ -205,23 +213,13 @@ class MyCart extends PureComponent {
 								isLoading={this.props.isCouponApplying}
 							/>
 						</View>
-						{/* {this.getExistCoupon() > 0 && (
-							<Text style={styles.couponMessage}>
-								{Languages.applyCouponSuccess + this.getCouponString()}
-							</Text>
-						)} */}
+
 						{this.props.coupons.length > 0 &&
 							this.props.coupons.map((item, index) => (
-								// <Text key={index} style={styles.couponMessage}>
-								// 	{`${Languages.applyCouponSuccess}  ${item.code}`}
-								// </Text>
-
 								<Text key={index} style={styles.couponMessage}>
-									{`"${item.code}" ${parseInt(
-										item.amount
-									)}${item.discount_type === 'percent' && '%'} is applied to ${
-										item.store_name
-									}`}
+									{`"${item.code}" ${parseInt(item.amount)} ${
+										item.discount_type === 'percent' ? '%' : item.discount_type
+									} is applied to ${item.store_name}`}
 								</Text>
 							))}
 					</View>
@@ -247,6 +245,7 @@ class MyCart extends PureComponent {
 
 	checkCouponCode = () => {
 		if (this.state.coupon) {
+			Keyboard.dismiss();
 			this.props.applyCoupon(this.state.coupon, this.props.token);
 			this.setState({ coupon: '' });
 		} else {
@@ -286,14 +285,15 @@ const mapStateToProps = ({ carts, products, user }) => {
 		totalPrice: carts.totalPrice,
 		totalItems: carts.total,
 		coupons: carts.coupons,
-		couponCode: products.coupon && products.coupon.code,
-		couponAmount: products.coupon && products.coupon.amount,
-		discountType: products.coupon && products.coupon.type,
+		// couponCode: products.coupon && products.coupon.code,
+		// couponAmount: products.coupon && products.coupon.amount,
+		// discountType: products.coupon && products.coupon.type,
 		isCartFetching: carts.isFetching,
 		isCouponApplying: carts.isCouponApplying,
 		isFetching: products.isFetching,
 		type: products.type,
 		message: products.message,
+		cartMsg: carts.message,
 		token: user.token,
 		user,
 	};
@@ -321,6 +321,9 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		},
 		getAllCoupons: token => {
 			actions.getAllCoupons(dispatch, token);
+		},
+		resetCartmsg: () => {
+			actions.resetCartmsg(dispatch);
 		},
 	};
 }

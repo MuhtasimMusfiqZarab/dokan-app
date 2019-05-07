@@ -4,7 +4,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, StatusBar, SafeAreaView } from 'react-native';
+import {
+	Text,
+	View,
+	TouchableOpacity,
+	StatusBar,
+	SafeAreaView,
+	NetInfo,
+} from 'react-native';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import { Config, Device, Styles } from '@common';
 import { MyToast, MyNetInfo } from '@containers';
@@ -22,13 +29,18 @@ class Router extends React.PureComponent {
 	static propTypes = {
 		introStatus: PropTypes.bool,
 		language: PropTypes.any,
+		netInfo: PropTypes.any,
 	};
 
 	state = {
 		isAppConfigured: false,
 	};
 
-	async componentDidMount() {
+	componentDidMount() {
+		this.fetchAppSettings();
+	}
+
+	fetchAppSettings = async () => {
 		const wooApiVersion = await DokanWorker.getWooCommerceApiVersion();
 		const settings = await DokanWorker.getAppSettings();
 		const modules = await DokanWorker.getPluginModuleStatus();
@@ -54,7 +66,17 @@ class Router extends React.PureComponent {
 		});
 
 		this.setState({ isAppConfigured: true });
-	}
+	};
+
+	onRefreshHandler = () => {
+		this.setState({
+			isAppConfigured: false,
+			isConnected: false,
+		});
+		if (this.props.netInfo.isConnected) {
+			this.fetchAppSettings();
+		}
+	};
 
 	goToScreen = (routeName, params) => {
 		if (!this.navigator) {
@@ -69,7 +91,20 @@ class Router extends React.PureComponent {
 		// 	return <AppIntro />;
 		// }
 
-		if (this.state.isAppConfigured) {
+		const { isAppConfigured } = this.state;
+
+		// if (!netInfo.isConnected) {
+		// 	return (
+		// 		<View style={Styles.app}>
+		// 			<Text>No Connection</Text>
+		// 			<TouchableOpacity onPress={() => this.onRefreshHandler()}>
+		// 				<Text>Try Again</Text>
+		// 			</TouchableOpacity>
+		// 		</View>
+		// 	);
+		// }
+
+		if (isAppConfigured) {
 			return Device.isIphoneX ? (
 				<SafeAreaView style={{ flex: 1 }}>
 					<MenuSide

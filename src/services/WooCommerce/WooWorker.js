@@ -358,4 +358,12 @@ export default class WooWorker {
 			console.log(error);
 		}
 	};
+	static getAllCountries = async () => {
+		try {
+			const response = await this._api.get(`data/countries`);
+			return response.json();
+		} catch (error) {
+			console.log(error);
+		}
+	};
 }

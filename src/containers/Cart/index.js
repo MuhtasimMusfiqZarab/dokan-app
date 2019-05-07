@@ -358,6 +358,7 @@ class Cart extends PureComponent {
 						initialPage={0}
 						tabBarPosition="overlayTop"
 						prerenderingSiblingsNumber={1}
+						contentProps={{ keyboardShouldPersistTaps: 'always' }}
 						renderTabBar={() => <View style={{ padding: 0, margin: 0 }} />}>
 						<MyCart
 							key="cart"
@@ -376,6 +377,7 @@ class Cart extends PureComponent {
 							onChangeUserInfo={this.onChangeUserInfo}
 							isLoading={this.state.isLoading}
 							onShowCheckOut={this.onShowCheckOut}
+							navigation={navigation}
 						/>
 						<FinishOrder key="finishOrder" finishOrder={this.finishOrder} />
 					</ScrollableTabView>

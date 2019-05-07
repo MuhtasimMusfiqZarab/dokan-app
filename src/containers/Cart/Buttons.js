@@ -29,6 +29,7 @@ const Buttons = ({
 					textStyle={styles.btnBackText}
 					onPress={openCartModal}
 					isLoading={isCartFetching}
+					disabled={isCartFetching}
 				/>
 			) : (
 				<Button
@@ -38,6 +39,7 @@ const Buttons = ({
 					style={styles.btnBack}
 					textStyle={styles.btnBackText}
 					onPress={onPrevious}
+					disabled={isCartFetching}
 				/>
 			)}
 			{/* <Button

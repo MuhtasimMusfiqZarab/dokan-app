@@ -211,7 +211,7 @@ class SignUpScreen extends Component {
 					{Platform.OS === 'ios' && (
 						<TouchableOpacity
 							style={styles.backButton}
-							onPress={() => this.props.onViewHomeScreen()}>
+							onPress={() => this.props.goBack()}>
 							{/* <Image
 								source={Images.icons.back}
 								style={[
