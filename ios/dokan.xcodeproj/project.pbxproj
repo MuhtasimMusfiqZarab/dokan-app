@@ -47,6 +47,7 @@
 		345EABF821EF2B62003CCBCE /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C9E8132199480500A36162 /* libAirMaps.a */; };
 		348913FF221A922E00BB4CA0 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 348913FE221A920B00BB4CA0 /* libRNImagePicker.a */; };
 		3492E6FC2192FF010074BBA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3492E6CD2192FF010074BBA4 /* Images.xcassets */; };
+		349F006C22818700004707EF /* libRNPaypal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 349F0066228186DE004707EF /* libRNPaypal.a */; };
 		34C500D921F1CCF200C85B80 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34C500D821F1CCF200C85B80 /* LaunchScreen.xib */; };
 		55A5A5E3C754415EB080B12F /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13DD8E6339E249BBA1FA3D08 /* MaterialIcons.ttf */; };
 		5B52A20147384E4E9B16AFF5 /* Lato-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 287BB49048D540C6A265086A /* Lato-Medium.ttf */; };
@@ -172,6 +173,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
+		};
+		349F0065228186DE004707EF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 349F0033228186DD004707EF /* RNPaypal.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNPaypal;
 		};
 		34C9E8122199480500A36162 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -480,6 +488,7 @@
 		343CF5912209838200BCDE5E /* RNSVG.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		348913F9221A920A00BB4CA0 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		3492E6CD2192FF010074BBA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = dokan/Images.xcassets; sourceTree = "<group>"; };
+		349F0033228186DD004707EF /* RNPaypal.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNPaypal.xcodeproj; path = "../node_modules/react-native-paypal/ios/RNPaypal.xcodeproj"; sourceTree = "<group>"; };
 		34C500D821F1CCF200C85B80 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		34C9E80E2199480500A36162 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		34EFDC0421EEEDD20030BC83 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
@@ -532,6 +541,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				349F006C22818700004707EF /* libRNPaypal.a in Frameworks */,
 				348913FF221A922E00BB4CA0 /* libRNImagePicker.a in Frameworks */,
 				345EABF821EF2B62003CCBCE /* libAirMaps.a in Frameworks */,
 				3435D7CC21DFDCEB00B27269 /* MessageUI.framework in Frameworks */,
@@ -738,6 +748,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		349F0034228186DD004707EF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				349F0066228186DE004707EF /* libRNPaypal.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		34C9E80F2199480500A36162 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -801,6 +819,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				349F0033228186DD004707EF /* RNPaypal.xcodeproj */,
 				348913F9221A920A00BB4CA0 /* RNImagePicker.xcodeproj */,
 				343CF5912209838200BCDE5E /* RNSVG.xcodeproj */,
 				3435D79321DFDC4B00B27269 /* RNShare.xcodeproj */,
@@ -1172,6 +1191,10 @@
 					ProjectRef = 348913F9221A920A00BB4CA0 /* RNImagePicker.xcodeproj */;
 				},
 				{
+					ProductGroup = 349F0034228186DD004707EF /* Products */;
+					ProjectRef = 349F0033228186DD004707EF /* RNPaypal.xcodeproj */;
+				},
+				{
 					ProductGroup = 3435D79421DFDC4B00B27269 /* Products */;
 					ProjectRef = 3435D79321DFDC4B00B27269 /* RNShare.xcodeproj */;
 				},
@@ -1277,6 +1300,13 @@
 			fileType = archive.ar;
 			path = libRNImagePicker.a;
 			remoteRef = 348913FD221A920B00BB4CA0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		349F0066228186DE004707EF /* libRNPaypal.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNPaypal.a;
+			remoteRef = 349F0065228186DE004707EF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		34C9E8132199480500A36162 /* libAirMaps.a */ = {
