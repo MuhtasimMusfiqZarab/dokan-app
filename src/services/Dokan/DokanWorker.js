@@ -558,9 +558,10 @@ const DokanWorker = {
 			);
 			const json = await response.json();
 
-			if (json.code === undefined) {
+			if (json.message === undefined) {
 				return json;
 			} else {
+				console.log(json);
 				return json.data.params.code;
 			}
 		} catch (error) {
