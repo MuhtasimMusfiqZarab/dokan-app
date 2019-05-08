@@ -98,7 +98,7 @@ class PaymentOptions extends PureComponent {
 
 		const { list } = this.props.payments;
 		const payload = {
-			token,
+			// token,
 			customer_id: user.id,
 			set_paid: false,
 			payment_method: list[this.state.selectedIndex].id,
@@ -138,8 +138,9 @@ class PaymentOptions extends PureComponent {
 				this.setState({ loading: true });
 				WooWorker.createNewOrder(
 					payload,
-					() => {
+					response => {
 						this.setState({ loading: false });
+						console.log(response);
 						this.props.deleteCart(this.props.user.token);
 						this.props.emptyCart();
 						this.props.onNext();
