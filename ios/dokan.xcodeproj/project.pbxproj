@@ -1674,8 +1674,9 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Dokan/Pods-Dokan-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Dokan/Pods-Dokan-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Braintree/Braintree.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
@@ -1683,13 +1684,14 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Braintree.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Dokan/Pods-Dokan-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Dokan/Pods-Dokan-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ED00CC8E720B212E6C54DD98 /* [CP] Check Pods Manifest.lock */ = {
@@ -1857,6 +1859,7 @@
 					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-paypal/ios",
 				);
 				INFOPLIST_FILE = Dokan/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1900,6 +1903,7 @@
 					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-paypal/ios",
 				);
 				INFOPLIST_FILE = Dokan/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

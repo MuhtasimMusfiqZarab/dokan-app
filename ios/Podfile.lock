@@ -5,6 +5,28 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - Braintree (4.22.0):
+    - Braintree/Card (= 4.22.0)
+    - Braintree/Core (= 4.22.0)
+    - Braintree/PayPal (= 4.22.0)
+    - Braintree/UI (= 4.22.0)
+  - Braintree/Card (4.22.0):
+    - Braintree/Core
+  - Braintree/Core (4.22.0)
+  - Braintree/PayPal (4.22.0):
+    - Braintree/Core
+    - Braintree/PayPalOneTouch
+  - Braintree/PayPalDataCollector (4.22.0):
+    - Braintree/Core
+    - Braintree/PayPalUtils
+  - Braintree/PayPalOneTouch (4.22.0):
+    - Braintree/Core
+    - Braintree/PayPalDataCollector
+    - Braintree/PayPalUtils
+  - Braintree/PayPalUtils (4.22.0)
+  - Braintree/UI (4.22.0):
+    - Braintree/Card
+    - Braintree/Core
   - FBSDKCoreKit (4.34.0):
     - Bolts (~> 1.7)
   - FBSDKLoginKit (4.34.0):
@@ -15,6 +37,7 @@ PODS:
 
 DEPENDENCIES:
   - Bolts
+  - Braintree
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
@@ -23,6 +46,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Bolts
+    - Braintree
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
@@ -30,11 +54,12 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  Braintree: e814ec196208d3e961c488cf4071de043f399cf9
   FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
   FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
   FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
   Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
 
-PODFILE CHECKSUM: 227f9237f6234a45a8238bb392ba49fcc333f579
+PODFILE CHECKSUM: 5dff56ea19c6c74c3e4f23ff9895fe391d3d7791
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.1
