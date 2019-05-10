@@ -14,8 +14,8 @@ export default {
 		// consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
 
 		url: 'http://mobileapp.getdokan.com',
-		consumerKey: 'ck_058d37798c6d4fde333cce1e24864340d6a78017',
-		consumerSecret: 'cs_6c3776e01ec312fcc2de6517edc76c139731469c',
+		consumerKey: 'ck_e8cee3b732833e55c5a5e664a0a7de40eae05d28',
+		consumerSecret: 'cs_0b5b64944e8c319d6751ffe9c132f91deb3aca2c',
 
 		// url: 'http://dokan-mobile.test/',
 		// consumerKey: 'ck_058d37798c6d4fde333cce1e24864340d6a78017',
