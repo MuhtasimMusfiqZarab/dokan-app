@@ -2,6 +2,9 @@
 
 import { Config } from '@common';
 import { warn, toast } from '@app/Omni';
+import OAuth from 'oauth-1.0a';
+import CryptoJS from 'crypto-js';
+import FormData from 'form-data';
 
 const DokanWorker = {
 	getFeaturedProducts: async (page = 1, per_page = 10) => {
@@ -556,6 +559,51 @@ const DokanWorker = {
 					body: JSON.stringify(data),
 				}
 			);
+			const json = await response.json();
+
+			if (json.code === undefined) {
+				return json;
+			} else {
+				return json.data.params.code;
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	getBrainTreeToken: async () => {
+		const oauth = OAuth({
+			consumer: {
+				key: Config.WooCommerce.consumerKey,
+				secret: Config.WooCommerce.consumerSecret,
+			},
+			signature_method: 'HMAC-SHA256',
+			hash_function(base_string, key) {
+				return CryptoJS.HmacSHA256(base_string, key).toString(
+					CryptoJS.enc.Base64
+				);
+			},
+		});
+
+		const url = `${Config.WooCommerce.url}/wp-json/wc-dokan/v1/braintree/token`;
+		const request_data = {
+			url: url,
+			method: 'post',
+		};
+		const data = oauth.authorize(request_data);
+		const form = new FormData();
+
+		for (key in data) {
+			form.append(key, data[key]);
+		}
+
+		try {
+			const response = await fetch(url, {
+				method: 'post',
+				headers: {
+					Accept: '*/*',
+				},
+				body: form,
+			});
 			const json = await response.json();
 
 			if (json.code === undefined) {
