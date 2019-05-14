@@ -169,6 +169,8 @@ dependencies {
     implementation project(':react-native-maps')
     implementation project(':react-native-svg')
     implementation project(':react-native-image-picker')
+    implementation "com.braintreepayments.api:braintree:2.17.0"
+    implementation project(':react-native-paypal')
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
