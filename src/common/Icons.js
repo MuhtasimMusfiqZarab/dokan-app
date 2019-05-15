@@ -95,6 +95,7 @@ const MaterialCommunityIcons = {
 	ForwardChevron: 'chevron-right',
 	Down: 'arrow-down',
 	DownChevron: 'chevron-down',
+	UpChevron: 'chevron-up',
 	Contact: 'email',
 	Categories: 'format-list-bulleted',
 	Pin: 'map-marker',

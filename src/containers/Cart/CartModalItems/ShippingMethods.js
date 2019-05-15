@@ -4,7 +4,7 @@ import {
 	View,
 	TouchableOpacity,
 	ScrollView,
-	AsyncStorage,
+	Platform,
 } from 'react-native';
 import { Icon, currencyFormatter } from '@app/Omni';
 import { RadioButton } from '@components';
@@ -72,7 +72,7 @@ export class ShippingMethods extends PureComponent {
 		return (
 			<View style={{ flex: 1 }}>
 				<TouchableOpacity
-					style={[css.row, { flex: 0.2 }]}
+					style={[css.row, { flex: Platform.OS === 'ios' ? 0.2 : 0.3 }]}
 					onPress={() => this.handleDeliveryInfoPress()}>
 					<View>
 						<Text style={[css.label, { color: '#9B59B6' }]}>
@@ -90,7 +90,11 @@ export class ShippingMethods extends PureComponent {
 				</TouchableOpacity>
 
 				{userCountry !== '' && shippingMethods.length !== 0 && (
-					<View style={{ flex: 0.8, paddingVertical: 10 }}>
+					<View
+						style={{
+							flex: Platform.OS === 'ios' ? 0.8 : 0.7,
+							paddingVertical: 10,
+						}}>
 						<View style={[css.row, { borderColor: 'transparent' }]}>
 							<Text style={{ color: '#7D8693' }}>Shipping Methods</Text>
 						</View>

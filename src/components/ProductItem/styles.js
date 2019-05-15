@@ -1,24 +1,46 @@
 /** @format */
 
-import { StyleSheet, I18nManager } from 'react-native';
-import { Constants, Color } from '@common';
+import { StyleSheet, Platform, I18nManager, Dimensions } from 'react-native';
+import { Constants, Color, Styles } from '@common';
+
+const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
 	container: {
-		// flex: 1,
+		flex: 1,
 		backgroundColor: 'white',
 		borderBottomWidth: 1,
 		borderBottomColor: '#d4dce1',
-		width: '100%',
+		// width: '100%',
 	},
 	content: {
 		flexDirection: 'row',
 		margin: 10,
 	},
+	imageView: {
+		width: width / 3,
+		height: height / 6,
+		borderRadius: 5,
+		backgroundColor: '#fff',
+		...Platform.select({
+			ios: {
+				shadowColor: '#000',
+				shadowOpacity: 0.1,
+				shadowRadius: 10,
+				shadowOffset: { width: 0, height: 1 },
+			},
+			android: {
+				elevation: 1,
+			},
+		}),
+	},
 	image: {
-		width: 100,
-		height: 100,
-		borderRadius: 10,
+		// width: 100,
+		// height: 100,
+		// borderRadius: 10,
+		width: '100%',
+		height: '100%',
+		borderRadius: 5,
 	},
 	infoView: {
 		marginLeft: 10,
@@ -26,9 +48,9 @@ export default StyleSheet.create({
 		flex: 1,
 	},
 	title: {
-		fontSize: 20,
-		fontFamily: Constants.fontFamily,
-		color: Color.Text,
+		fontSize: Styles.FontSize.large,
+		fontFamily: Constants.fontFamilyLato,
+		color: Color.blackTextPrimary,
 	},
 	priceContainer: {
 		flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
@@ -37,9 +59,10 @@ export default StyleSheet.create({
 		justifyContent: 'flex-start',
 	},
 	price: {
-		fontSize: 15,
-		color: Color.wdgray4,
-		fontFamily: Constants.fontHeader,
+		fontSize: Styles.FontSize.medium,
+		color: Color.blackTextSecondary,
+		fontWeight: 'bold',
+		fontFamily: Constants.fontFamilyLato,
 	},
 	productVariant: {
 		marginLeft: 10,

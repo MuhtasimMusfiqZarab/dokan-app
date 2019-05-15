@@ -29,17 +29,25 @@ class ProductItem extends PureComponent {
 			<View style={styles.container}>
 				<View style={styles.content}>
 					{isCartProduct ? (
-						<Image
-							source={{
-								uri: getProductImage(product.data.images[0].src, 100),
-							}}
-							style={styles.image}
-						/>
+						<View style={styles.imageView}>
+							<TouchableOpacity onPress={() => onPress({ product })}>
+								<Image
+									source={{
+										uri: getProductImage(product.data.images[0].src, 100),
+									}}
+									style={styles.image}
+								/>
+							</TouchableOpacity>
+						</View>
 					) : (
-						<Image
-							source={{ uri: getProductImage(product.images[0].src, 100) }}
-							style={styles.image}
-						/>
+						<View style={styles.imageView}>
+							<TouchableOpacity onPress={() => onPress({ product })}>
+								<Image
+									source={{ uri: getProductImage(product.images[0].src, 100) }}
+									style={styles.image}
+								/>
+							</TouchableOpacity>
+						</View>
 					)}
 					<View
 						style={[

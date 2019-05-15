@@ -5,7 +5,7 @@ import { Styles, Color } from '@common';
 import css from '../styles';
 import { currencyFormatter } from '@app/Omni';
 
-export class OrderSummary extends PureComponent {
+export default class OrderSummary extends PureComponent {
 	getCoupons = () => {
 		console.log(this.props.coupons);
 	};
@@ -137,5 +137,3 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 	},
 });
-
-export default OrderSummary;

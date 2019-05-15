@@ -4,22 +4,22 @@ import React, { PureComponent } from 'react';
 import {
 	Text,
 	View,
-	ScrollView,
 	Keyboard,
 	TouchableOpacity,
 	TextInput,
 } from 'react-native';
-import css from '@cart/styles';
-import { currencyFormatter, toast } from '@app/Omni';
-import { ProductItem, Button, Spinkit } from '@components';
 import { connect } from 'react-redux';
 import { SwipeRow } from 'react-native-swipe-list-view';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { uniqBy, find } from 'lodash';
+import { currencyFormatter, toast, Icon } from '@app/Omni';
+import { ProductItem, Button, Spinkit } from '@components';
+import { Languages, Color, Events, Icons } from '@common';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Languages, Color, Constants, Events } from '@common';
+import css from '@cart/styles';
 import styles from './styles';
 import WooWorker from '@services/WooCommerce/WooWorker';
-import { uniqBy, find } from 'lodash';
+import { NavigationActions } from 'react-navigation';
 
 class MyCart extends PureComponent {
 	constructor(props) {
@@ -54,7 +54,14 @@ class MyCart extends PureComponent {
 	onProductClickHandler = async data => {
 		const response = await WooWorker.getProductId(data.product.product_id);
 
-		this.props.onViewProduct({ product: response });
+		const navigateAction = NavigationActions.navigate({
+			routeName: 'DetailScreen',
+			params: {
+				product: response,
+			},
+			key: `DetailScreen-step-${data.product.product_id}`,
+		});
+		this.props.navigation.dispatch(navigateAction);
 	};
 
 	getUniqueVendors = cartItems => uniqBy(cartItems, item => item.vendor.id);
@@ -84,10 +91,16 @@ class MyCart extends PureComponent {
 
 				return (
 					<TouchableOpacity
+						style={{ flexDirection: 'row' }}
 						onPress={() => this.onPressShippingCalculation(storeName)}>
 						<Text style={{ color: '#B888CB' }}>
 							{`${chosenMethod.label} ${currencyFormatter(chosenMethod.cost)}`}
 						</Text>
+						<Icon
+							name={Icons.MaterialCommunityIcons.DownChevron}
+							size={18}
+							color="#B888CB"
+						/>
 					</TouchableOpacity>
 				);
 			} else {
@@ -98,6 +111,11 @@ class MyCart extends PureComponent {
 					<TouchableOpacity
 						onPress={() => this.onPressShippingCalculation(storeName)}>
 						<Text style={{ color: '#B888CB' }}>No Shipping</Text>
+						<Icon
+							name={Icons.MaterialCommunityIcons.DownChevron}
+							size={18}
+							color="#B888CB"
+						/>
 					</TouchableOpacity>
 				);
 			}
@@ -109,13 +127,7 @@ class MyCart extends PureComponent {
 	};
 
 	render() {
-		const {
-			cartItems,
-			totalPrice,
-			totalItems,
-			isFetching,
-			discountType,
-		} = this.props;
+		const { cartItems } = this.props;
 
 		let uniqueVendors = this.getUniqueVendors(this.props.cartItems);
 

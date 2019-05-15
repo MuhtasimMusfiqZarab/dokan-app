@@ -75,6 +75,8 @@ export default StyleSheet.create({
 	},
 	btnBack: {
 		flex: 0.5,
+		alignItems: 'center',
+		justifyContent: 'center',
 		backgroundColor: '#f5f5f5',
 	},
 	btnBackText: {

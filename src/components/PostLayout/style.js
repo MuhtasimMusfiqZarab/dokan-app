@@ -1,7 +1,7 @@
 /** @format */
 
 import { StyleSheet, Platform, Dimensions, I18nManager } from 'react-native';
-import { Color, Constants } from '@common';
+import { Color, Constants, Styles } from '@common';
 
 const { width, height } = Dimensions.get('window');
 const vw = width / 100;
@@ -289,7 +289,7 @@ export default StyleSheet.create({
 		fontWeight: '300',
 	},
 	simpleTitle: {
-		fontSize: 14,
+		fontSize: Styles.FontSize.medium,
 		marginLeft: 4,
 		marginTop: 12,
 		marginRight: 8,
@@ -387,8 +387,8 @@ export default StyleSheet.create({
 		// marginTop: 8,
 	},
 	simpleImageProduct: {
-		width: '90%',
-		height: '90%',
+		width: '100%',
+		height: '100%',
 	},
 	simpleImageVendor: {
 		width: '100%',

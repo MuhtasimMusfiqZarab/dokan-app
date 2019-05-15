@@ -35,7 +35,6 @@ export default class AccordionRelatedProducts extends PureComponent {
 				renderItem={this._renderRelatedProducts}
 				contentContainerStyle={{ flex: 1, overflow: 'hidden' }}
 				removeClippedSubviews={true}
-				legacyImplementation={true}
 			/>
 		);
 

@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Button } from '@components';
-import { Languages, Images } from '@common';
+import { Languages, Images, Icons } from '@common';
 import { currencyFormatter } from '@app/Omni';
 import * as Animatable from 'react-native-animatable';
 import styles from './styles';
@@ -30,6 +30,7 @@ const Buttons = ({
 					onPress={openCartModal}
 					isLoading={isCartFetching}
 					disabled={isCartFetching}
+					iconRight={Icons.MaterialCommunityIcons.UpChevron}
 				/>
 			) : (
 				<Button

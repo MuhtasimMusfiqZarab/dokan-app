@@ -15,7 +15,7 @@ import {
 	I18nManager,
 } from 'react-native';
 import { Color, Config } from '@common';
-import { CustomIcon } from '@app/Omni';
+import { CustomIcon, Icon } from '@app/Omni';
 import { LinearGradient } from '@expo';
 
 const Button = props => {
@@ -149,6 +149,9 @@ const StandardButton = props => (
 					{props.text}
 				</Text>
 			)}
+			{props.iconRight && (
+				<Icon name={props.iconRight} size={18} color={props.color} />
+			)}
 			{props.isLoading && (
 				<ActivityIndicator
 					style={styles.loading}
@@ -258,6 +261,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	buttonView: {
+		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
