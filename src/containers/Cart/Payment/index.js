@@ -49,6 +49,8 @@ class PaymentOptions extends PureComponent {
 		onPrevious: PropTypes.any,
 		deleteCart: PropTypes.any,
 		navigation: PropTypes.any,
+		addSpinner: PropTypes.any,
+		removeSpinner: PropTypes.any,
 	};
 
 	constructor(props) {
@@ -80,30 +82,62 @@ class PaymentOptions extends PureComponent {
 		}
 	}
 
-	handlePaypalPayment = async () => {
-		const { client_token } = await DokanWorker.getBrainTreeToken();
-		console.log(client_token);
+	handlePaypalPayment = async payload => {
+		this.props.addSpinner();
 
-		const clientToken =
-			'eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiIwNGExMDVmN2NjNTc5NWMxYmI2YjYxNzZhMzVhZDQ5MDk0NmNjZWUxOWI2OWQxYjQwODEwMGE2Mzc4ZDliZDg4fGNyZWF0ZWRfYXQ9MjAxOS0wNS0xMFQwODoyNjoyMy42ODk3OTYxNDUrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTM0OHBrOWNnZjNiZ3l3MmJcdTAwMjZwdWJsaWNfa2V5PTJuMjQ3ZHY4OWJxOXZtcHIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMzQ4cGs5Y2dmM2JneXcyYi9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJncmFwaFFMIjp7InVybCI6Imh0dHBzOi8vcGF5bWVudHMuc2FuZGJveC5icmFpbnRyZWUtYXBpLmNvbS9ncmFwaHFsIiwiZGF0ZSI6IjIwMTgtMDUtMDgifSwiY2hhbGxlbmdlcyI6W10sImVudmlyb25tZW50Ijoic2FuZGJveCIsImNsaWVudEFwaVVybCI6Imh0dHBzOi8vYXBpLnNhbmRib3guYnJhaW50cmVlZ2F0ZXdheS5jb206NDQzL21lcmNoYW50cy8zNDhwazljZ2YzYmd5dzJiL2NsaWVudF9hcGkiLCJhc3NldHNVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImF1dGhVcmwiOiJodHRwczovL2F1dGgudmVubW8uc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbSIsImFuYWx5dGljcyI6eyJ1cmwiOiJodHRwczovL29yaWdpbi1hbmFseXRpY3Mtc2FuZC5zYW5kYm94LmJyYWludHJlZS1hcGkuY29tLzM0OHBrOWNnZjNiZ3l3MmIifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiQWNtZSBXaWRnZXRzLCBMdGQuIChTYW5kYm94KSIsImNsaWVudElkIjpudWxsLCJwcml2YWN5VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3BwIiwidXNlckFncmVlbWVudFVybCI6Imh0dHA6Ly9leGFtcGxlLmNvbS90b3MiLCJiYXNlVXJsIjoiaHR0cHM6Ly9hc3NldHMuYnJhaW50cmVlZ2F0ZXdheS5jb20iLCJhc3NldHNVcmwiOiJodHRwczovL2NoZWNrb3V0LnBheXBhbC5jb20iLCJkaXJlY3RCYXNlVXJsIjpudWxsLCJhbGxvd0h0dHAiOnRydWUsImVudmlyb25tZW50Tm9OZXR3b3JrIjp0cnVlLCJlbnZpcm9ubWVudCI6Im9mZmxpbmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJtYXN0ZXJjbGllbnQzIiwiYmlsbGluZ0FncmVlbWVudHNFbmFibGVkIjp0cnVlLCJtZXJjaGFudEFjY291bnRJZCI6ImFjbWV3aWRnZXRzbHRkc2FuZGJveCIsImN1cnJlbmN5SXNvQ29kZSI6IlVTRCJ9LCJtZXJjaGFudElkIjoiMzQ4cGs5Y2dmM2JneXcyYiIsInZlbm1vIjoib2ZmIn0=';
+		const createOrderResponse = await WooWorker.createNewOrder(
+			payload,
+			response => {
+				return response;
+			},
+			error => {
+				return error;
+			}
+		);
 
-		const {
-			nonce,
-			payerId,
-			email,
-			firstName,
-			lastName,
-			phone,
-		} = await requestOneTimePayment(clientToken, {
-			amount: '5',
-			currency: 'GBP',
-			localeCode: 'en_GB',
-			shippingAddressRequired: false,
-			userAction: 'commit',
-			intent: 'authorize',
-		});
+		const orderID = createOrderResponse.id;
+		const amount = parseFloat(createOrderResponse.total).toFixed(2);
+		const currency = createOrderResponse.currency;
 
-		console.log(nonce, payerId, email, firstName, lastName, phone);
+		if (orderID) {
+			const { client_token } = await DokanWorker.getBrainTreeToken();
+
+			try {
+				const response = await requestOneTimePayment(client_token, {
+					amount: amount,
+					currency: currency,
+					localeCode: 'en_US',
+					shippingAddressRequired: false,
+					userAction: 'commit',
+					intent: 'authorize',
+				});
+
+				const transaction = await DokanWorker.brainTreeTransaction(
+					amount,
+					response.nonce
+				);
+
+				if (transaction.success) {
+					const status = 'completed';
+
+					WooWorker.setOrderStatus(orderID, status, () => {
+						this.props.deleteCart(this.props.user.token);
+						this.props.emptyCart();
+						this.props.removeSpinner();
+						this.props.onNext();
+					});
+				} else {
+					this.props.removeSpinner();
+					this.props.onNext();
+					toast('Payment could not be processed!');
+				}
+			} catch (error) {
+				this.props.removeSpinner();
+				console.dir(error);
+			}
+		} else {
+			toast('Failed to Create Order');
+		}
 	};
 
 	nextStep = async () => {
@@ -150,8 +184,6 @@ class PaymentOptions extends PureComponent {
 			currency: currency.code,
 		};
 
-		console.log(payload);
-
 		const isNoShipping = filter(
 			this.props.shippingMethods,
 			item => item.chosen_method === false
@@ -162,8 +194,8 @@ class PaymentOptions extends PureComponent {
 			this.setState({ loading: this.props.isLoading });
 
 			if (list[this.state.selectedIndex].id == 'cod') {
-				// console.log(payload);
 				this.setState({ loading: true });
+
 				WooWorker.createNewOrder(
 					payload,
 					() => {
@@ -178,7 +210,7 @@ class PaymentOptions extends PureComponent {
 					}
 				);
 			} else if (list[this.state.selectedIndex].id === 'paypal') {
-				this.handlePaypalPayment();
+				this.handlePaypalPayment(payload);
 			} else {
 				// other kind of payment
 				this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);

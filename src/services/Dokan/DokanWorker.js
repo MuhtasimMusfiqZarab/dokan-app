@@ -583,34 +583,84 @@ const DokanWorker = {
 				);
 			},
 		});
-
 		const url = `${Config.WooCommerce.url}/wp-json/wc-dokan/v1/braintree/token`;
 		const request_data = {
 			url: url,
 			method: 'post',
 		};
-		const data = oauth.authorize(request_data);
-		const form = new FormData();
-
-		for (key in data) {
-			form.append(key, data[key]);
-		}
+		const formData = oauth.authorize(request_data);
 
 		try {
 			const response = await fetch(url, {
 				method: 'post',
 				headers: {
 					Accept: '*/*',
+					'Content-Type': 'application/x-www-form-urlencoded',
 				},
-				body: form,
+				body: Object.keys(formData)
+					.map(
+						key =>
+							encodeURIComponent(key) + '=' + encodeURIComponent(formData[key])
+					)
+					.join('&'),
 			});
 			const json = await response.json();
 
-			if (json.code === undefined) {
-				return json;
-			} else {
-				return json.data.params.code;
-			}
+			return json;
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	brainTreeTransaction: async (amount, nonce) => {
+		const oauth = OAuth({
+			consumer: {
+				key: Config.WooCommerce.consumerKey,
+				secret: Config.WooCommerce.consumerSecret,
+			},
+			signature_method: 'HMAC-SHA256',
+			hash_function(base_string, key) {
+				return CryptoJS.HmacSHA256(base_string, key).toString(
+					CryptoJS.enc.Base64
+				);
+			},
+		});
+
+		const url = `${
+			Config.WooCommerce.url
+		}/wp-json/wc-dokan/v1/braintree/transaction`;
+		const authData = oauth.authorize({
+			url: url,
+			method: 'post',
+			data: {
+				amount: amount,
+				nonce: nonce,
+			},
+		});
+
+		const requestData = {
+			amount: amount,
+			nonce: nonce,
+			...authData,
+		};
+
+		try {
+			const response = await fetch(url, {
+				method: 'post',
+				headers: {
+					Accept: '*/*',
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: Object.keys(requestData)
+					.map(
+						key =>
+							encodeURIComponent(key) +
+							'=' +
+							encodeURIComponent(requestData[key])
+					)
+					.join('&'),
+			});
+			const json = await response.json();
+			return json;
 		} catch (error) {
 			console.log(error);
 		}

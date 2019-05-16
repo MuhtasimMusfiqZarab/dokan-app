@@ -3,11 +3,11 @@
 import { Constants } from '@common';
 
 export const actions = {
-	addSpinner: () => {
-		return { type: Constants.EmitCode.AddSpinner };
+	addSpinner: dispatch => {
+		dispatch({ type: Constants.EmitCode.AddSpinner });
 	},
-	removeSpinner: () => {
-		return { type: Constants.EmitCode.RemoveSpinner };
+	removeSpinner: dispatch => {
+		dispatch({ type: Constants.EmitCode.RemoveSpinner });
 	},
 };
 

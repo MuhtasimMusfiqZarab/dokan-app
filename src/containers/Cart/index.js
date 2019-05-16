@@ -331,6 +331,8 @@ class Cart extends PureComponent {
 			isCartFetching,
 			shippingMethods,
 			user,
+			addSpinner,
+			removeSpinner,
 		} = this.props;
 		const { currentIndex, bottomButtons } = this.state;
 
@@ -369,6 +371,7 @@ class Cart extends PureComponent {
 				{this.props.isProcessing ? (
 					<Spinner mode="overlay" color="#000" />
 				) : null}
+
 				<View style={styles.indicator}>
 					<StepIndicator
 						steps={steps}
@@ -400,6 +403,8 @@ class Cart extends PureComponent {
 						/>
 						<Payment
 							key="payment"
+							addSpinner={addSpinner}
+							removeSpinner={removeSpinner}
 							onPrevious={this.onPrevious}
 							onNext={this.onNext}
 							userInfo={this.state.userInfo}
@@ -462,12 +467,15 @@ const mapStateToProps = ({ carts, user, spinner }) => ({
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
 	const CartRedux = require('@redux/CartRedux');
+	const SpinnerRedux = require('@redux/SpinnerRedux');
 
 	return {
 		...ownProps,
 		...stateProps,
 		emptyCart: () => CartRedux.actions.emptyCart(dispatch),
 		finishOrder: () => CartRedux.actions.finishOrder(dispatch),
+		addSpinner: () => SpinnerRedux.actions.addSpinner(dispatch),
+		removeSpinner: () => SpinnerRedux.actions.removeSpinner(dispatch),
 		updateShippingMethod: (shippingMethodsObj, token) =>
 			CartRedux.actions.updateShippingMethods(
 				dispatch,
