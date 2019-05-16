@@ -16,7 +16,6 @@
     "base-64": "^0.1.0",
     "crypto-js": "^3.1.9-1",
     "currency-formatter": "^1.4.2",
-    "form-data": "^2.3.3",
     "formik": "^1.5.1",
     "html-entities": "^1.2.1",
     "jsc-android": "224109.x.x",

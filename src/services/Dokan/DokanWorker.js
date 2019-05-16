@@ -4,7 +4,6 @@ import { Config } from '@common';
 import { warn, toast } from '@app/Omni';
 import OAuth from 'oauth-1.0a';
 import CryptoJS from 'crypto-js';
-import FormData from 'form-data';
 
 const DokanWorker = {
 	getFeaturedProducts: async (page = 1, per_page = 10) => {
