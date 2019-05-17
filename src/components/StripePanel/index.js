@@ -1,12 +1,11 @@
 import React, { PureComponent } from 'react';
-import { View, ScrollView, Button } from 'react-native';
+import { View, Button } from 'react-native';
 import Tcomb from 'tcomb-form-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import moment from 'moment';
+import { cloneDeep } from 'lodash';
 import { Languages } from '@common';
 import { toast, addSpinner, removeSpinner } from '@app/Omni';
-import { cloneDeep } from 'lodash';
-
 import StripeAPI from '@services/StripeAPI';
 import WooWorker from '@services/WooCommerce/WooWorker';
 
