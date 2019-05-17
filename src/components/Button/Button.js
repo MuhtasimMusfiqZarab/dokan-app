@@ -149,7 +149,7 @@ const StandardButton = props => (
 					{props.text}
 				</Text>
 			)}
-			{props.iconRight && (
+			{props.iconRight && !props.isLoading && (
 				<Icon name={props.iconRight} size={18} color={props.color} />
 			)}
 			{props.isLoading && (
