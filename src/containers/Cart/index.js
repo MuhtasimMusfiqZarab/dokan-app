@@ -394,7 +394,9 @@ class Cart extends PureComponent {
 						renderTabBar={() => <View style={{ padding: 0, margin: 0 }} />}>
 						<MyCart
 							key="cart"
-							onNext={this.onNext}
+              onNext={this.onNext}
+              addSpinner={addSpinner}
+							removeSpinner={removeSpinner}
 							onPrevious={this.onPrevious}
 							navigation={navigation}
 							onViewProduct={onViewProduct}

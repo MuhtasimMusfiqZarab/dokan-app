@@ -52,7 +52,9 @@ class MyCart extends PureComponent {
 	}
 
 	onProductClickHandler = async data => {
+		this.props.addSpinner();
 		const response = await WooWorker.getProductId(data.product.product_id);
+		this.props.removeSpinner();
 
 		const navigateAction = NavigationActions.navigate({
 			routeName: 'DetailScreen',
