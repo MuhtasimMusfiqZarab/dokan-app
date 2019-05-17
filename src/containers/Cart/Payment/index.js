@@ -21,7 +21,7 @@ import { LinearGradient } from '@expo';
 import OrderSummary from './OrderSummary';
 import styles from './styles';
 import { requestOneTimePayment } from 'react-native-paypal';
-import DokanWorker from '../../../services/Dokan/DokanWorker';
+import DokanWorker from '@services/Dokan/DokanWorker';
 
 // const { width } = Dimensions.get('window');
 
@@ -133,7 +133,12 @@ class PaymentOptions extends PureComponent {
 				}
 			} catch (error) {
 				this.props.removeSpinner();
-				console.dir(error);
+				if (error.code === 'user_cancellation') {
+					toast('Payment Cancelled');
+				} else {
+					toast('An Error Occurred');
+				}
+				this.props.removeSpinner();
 			}
 		} else {
 			toast('Failed to Create Order');
