@@ -5,6 +5,18 @@ import { warn, toast } from '@app/Omni';
 import OAuth from 'oauth-1.0a';
 import CryptoJS from 'crypto-js';
 
+// Oauth Authentication for some endpoints
+const oauth = OAuth({
+	consumer: {
+		key: Config.WooCommerce.consumerKey,
+		secret: Config.WooCommerce.consumerSecret,
+	},
+	signature_method: 'HMAC-SHA256',
+	hash_function(base_string, key) {
+		return CryptoJS.HmacSHA256(base_string, key).toString(CryptoJS.enc.Base64);
+	},
+});
+
 const DokanWorker = {
 	getFeaturedProducts: async (page = 1, per_page = 10) => {
 		return await fetch(
@@ -570,18 +582,6 @@ const DokanWorker = {
 		}
 	},
 	getBrainTreeToken: async () => {
-		const oauth = OAuth({
-			consumer: {
-				key: Config.WooCommerce.consumerKey,
-				secret: Config.WooCommerce.consumerSecret,
-			},
-			signature_method: 'HMAC-SHA256',
-			hash_function(base_string, key) {
-				return CryptoJS.HmacSHA256(base_string, key).toString(
-					CryptoJS.enc.Base64
-				);
-			},
-		});
 		const url = `${Config.WooCommerce.url}/wp-json/wc-dokan/v1/braintree/token`;
 		const request_data = {
 			url: url,
@@ -611,19 +611,6 @@ const DokanWorker = {
 		}
 	},
 	brainTreeTransaction: async (amount, nonce) => {
-		const oauth = OAuth({
-			consumer: {
-				key: Config.WooCommerce.consumerKey,
-				secret: Config.WooCommerce.consumerSecret,
-			},
-			signature_method: 'HMAC-SHA256',
-			hash_function(base_string, key) {
-				return CryptoJS.HmacSHA256(base_string, key).toString(
-					CryptoJS.enc.Base64
-				);
-			},
-		});
-
 		const url = `${
 			Config.WooCommerce.url
 		}/wp-json/wc-dokan/v1/braintree/transaction`;
