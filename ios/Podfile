@@ -10,5 +10,6 @@ target 'Dokan' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'Google-Mobile-Ads-SDK'
+  pod 'Braintree'
 
 end

@@ -2,6 +2,20 @@
 
 import { Config } from '@common';
 import { warn, toast } from '@app/Omni';
+import OAuth from 'oauth-1.0a';
+import CryptoJS from 'crypto-js';
+
+// Oauth Authentication for some endpoints
+const oauth = OAuth({
+	consumer: {
+		key: Config.WooCommerce.consumerKey,
+		secret: Config.WooCommerce.consumerSecret,
+	},
+	signature_method: 'HMAC-SHA256',
+	hash_function(base_string, key) {
+		return CryptoJS.HmacSHA256(base_string, key).toString(CryptoJS.enc.Base64);
+	},
+});
 
 const DokanWorker = {
 	getFeaturedProducts: async (page = 1, per_page = 10) => {
@@ -564,6 +578,76 @@ const DokanWorker = {
 				console.log(json);
 				return json.data.params.code;
 			}
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	getBrainTreeToken: async () => {
+		const url = `${Config.WooCommerce.url}/wp-json/wc-dokan/v1/braintree/token`;
+		const request_data = {
+			url: url,
+			method: 'post',
+		};
+		const formData = oauth.authorize(request_data);
+
+		try {
+			const response = await fetch(url, {
+				method: 'post',
+				headers: {
+					Accept: '*/*',
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: Object.keys(formData)
+					.map(
+						key =>
+							encodeURIComponent(key) + '=' + encodeURIComponent(formData[key])
+					)
+					.join('&'),
+			});
+			const json = await response.json();
+
+			return json;
+		} catch (error) {
+			console.log(error);
+		}
+	},
+	brainTreeTransaction: async (amount, nonce) => {
+		const url = `${
+			Config.WooCommerce.url
+		}/wp-json/wc-dokan/v1/braintree/transaction`;
+		const authData = oauth.authorize({
+			url: url,
+			method: 'post',
+			data: {
+				amount: amount,
+				nonce: nonce,
+			},
+		});
+
+		const requestData = {
+			amount: amount,
+			nonce: nonce,
+			...authData,
+		};
+
+		try {
+			const response = await fetch(url, {
+				method: 'post',
+				headers: {
+					Accept: '*/*',
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: Object.keys(requestData)
+					.map(
+						key =>
+							encodeURIComponent(key) +
+							'=' +
+							encodeURIComponent(requestData[key])
+					)
+					.join('&'),
+			});
+			const json = await response.json();
+			return json;
 		} catch (error) {
 			console.log(error);
 		}

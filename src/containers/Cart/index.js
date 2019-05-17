@@ -27,6 +27,8 @@ import Buttons from './Buttons';
 import CancelSaveButtons from './CancelSaveButtons';
 import styles from './styles';
 import CartModal from './CartModal';
+import { Button } from 'react-native-paper';
+import { requestOneTimePayment } from 'react-native-paypal';
 
 class Cart extends PureComponent {
 	static propTypes = {
@@ -159,9 +161,8 @@ class Cart extends PureComponent {
 				backdropPressToClose={false}
 				backButtonClose
 				backdropColor="#fff"
-				swipeToClose={false}
-				onClosed={this._onClosedModal}>
-				<WebView
+				swipeToClose={true}>
+				{/* <WebView
 					style={styles.webView}
 					source={{ uri: checkOutUrl }}
 					userAgent={userAgentAndroid}
@@ -174,9 +175,37 @@ class Cart extends PureComponent {
 					style={styles.iconZoom}
 					onPress={() => this.checkoutModal.close()}>
 					<Text style={styles.textClose}>{Languages.close}</Text>
-				</TouchableOpacity>
+        </TouchableOpacity> */}
+				<Button mode="contained" onPress={() => this.handlePaypalPayment()}>
+					Pay via Paypal
+				</Button>
 			</Modal>
 		);
+	};
+
+	handlePaypalPayment = async () => {
+		const clientToken =
+			'eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI0MzU1YWVkNjUwMzE4ZjFkNmExNGI3ODhhYjkxYzY2NmNiNTI4MjZhOTFkMGY3MjhjODRmMzQxNmZmODhiZDJmfGNyZWF0ZWRfYXQ9MjAxOS0wNS0xMFQwNToxNTo1Ni4wMDYwODk4MDcrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTJrcTRjdm10NDRjczRieWNcdTAwMjZwdWJsaWNfa2V5PXE3N25tcHoyYjhwZHB6cXIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMmtxNGN2bXQ0NGNzNGJ5Yy9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJncmFwaFFMIjp7InVybCI6Imh0dHBzOi8vcGF5bWVudHMuc2FuZGJveC5icmFpbnRyZWUtYXBpLmNvbS9ncmFwaHFsIiwiZGF0ZSI6IjIwMTgtMDUtMDgifSwiY2hhbGxlbmdlcyI6W10sImVudmlyb25tZW50Ijoic2FuZGJveCIsImNsaWVudEFwaVVybCI6Imh0dHBzOi8vYXBpLnNhbmRib3guYnJhaW50cmVlZ2F0ZXdheS5jb206NDQzL21lcmNoYW50cy8ya3E0Y3ZtdDQ0Y3M0YnljL2NsaWVudF9hcGkiLCJhc3NldHNVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImF1dGhVcmwiOiJodHRwczovL2F1dGgudmVubW8uc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbSIsImFuYWx5dGljcyI6eyJ1cmwiOiJodHRwczovL29yaWdpbi1hbmFseXRpY3Mtc2FuZC5zYW5kYm94LmJyYWludHJlZS1hcGkuY29tLzJrcTRjdm10NDRjczRieWMifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiTHVtaW5vdXMgSW5jIiwiY2xpZW50SWQiOm51bGwsInByaXZhY3lVcmwiOiJodHRwOi8vZXhhbXBsZS5jb20vcHAiLCJ1c2VyQWdyZWVtZW50VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3RvcyIsImJhc2VVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImFzc2V0c1VybCI6Imh0dHBzOi8vY2hlY2tvdXQucGF5cGFsLmNvbSIsImRpcmVjdEJhc2VVcmwiOm51bGwsImFsbG93SHR0cCI6dHJ1ZSwiZW52aXJvbm1lbnROb05ldHdvcmsiOnRydWUsImVudmlyb25tZW50Ijoib2ZmbGluZSIsInVudmV0dGVkTWVyY2hhbnQiOmZhbHNlLCJicmFpbnRyZWVDbGllbnRJZCI6Im1hc3RlcmNsaWVudDMiLCJiaWxsaW5nQWdyZWVtZW50c0VuYWJsZWQiOnRydWUsIm1lcmNoYW50QWNjb3VudElkIjoibHVtaW5vdXNpbmMiLCJjdXJyZW5jeUlzb0NvZGUiOiJVU0QifSwibWVyY2hhbnRJZCI6IjJrcTRjdm10NDRjczRieWMiLCJ2ZW5tbyI6Im9mZiJ9';
+		const {
+			nonce,
+			payerId,
+			email,
+			firstName,
+			lastName,
+			phone,
+		} = await requestOneTimePayment(clientToken, {
+			amount: '5', // required
+			// any PayPal supported currency (see here: https://developer.paypal.com/docs/integration/direct/rest/currency-codes/#paypal-account-payments)
+			currency: 'GBP',
+			// any PayPal supported locale (see here: https://braintree.github.io/braintree_ios/Classes/BTPayPalRequest.html#/c:objc(cs)BTPayPalRequest(py)localeCode)
+			localeCode: 'en_GB',
+			shippingAddressRequired: false,
+			userAction: 'commit', // display 'Pay Now' on the PayPal review page
+			// one of 'authorize', 'sale', 'order'. defaults to 'authorize'. see details here: https://developer.paypal.com/docs/api/payments/v1/#payment-create-request-body
+			intent: 'authorize',
+		});
+
+		console.log(nonce, payerId, email, firstName, lastName, phone);
 	};
 
 	_onClosedModal = () => {
@@ -212,7 +241,7 @@ class Cart extends PureComponent {
 		if (payment === 'stripe') {
 			this.stripeModal.openModal();
 		}
-		// this.checkoutModal.open();
+		this.checkoutModal.open();
 	};
 
 	onPrevious = () => {
@@ -302,6 +331,8 @@ class Cart extends PureComponent {
 			isCartFetching,
 			shippingMethods,
 			user,
+			addSpinner,
+			removeSpinner,
 		} = this.props;
 		const { currentIndex, bottomButtons } = this.state;
 
@@ -340,6 +371,7 @@ class Cart extends PureComponent {
 				{this.props.isProcessing ? (
 					<Spinner mode="overlay" color="#000" />
 				) : null}
+
 				<View style={styles.indicator}>
 					<StepIndicator
 						steps={steps}
@@ -371,6 +403,8 @@ class Cart extends PureComponent {
 						/>
 						<Payment
 							key="payment"
+							addSpinner={addSpinner}
+							removeSpinner={removeSpinner}
 							onPrevious={this.onPrevious}
 							onNext={this.onNext}
 							userInfo={this.state.userInfo}
@@ -433,12 +467,15 @@ const mapStateToProps = ({ carts, user, spinner }) => ({
 function mergeProps(stateProps, dispatchProps, ownProps) {
 	const { dispatch } = dispatchProps;
 	const CartRedux = require('@redux/CartRedux');
+	const SpinnerRedux = require('@redux/SpinnerRedux');
 
 	return {
 		...ownProps,
 		...stateProps,
 		emptyCart: () => CartRedux.actions.emptyCart(dispatch),
 		finishOrder: () => CartRedux.actions.finishOrder(dispatch),
+		addSpinner: () => SpinnerRedux.actions.addSpinner(dispatch),
+		removeSpinner: () => SpinnerRedux.actions.removeSpinner(dispatch),
 		updateShippingMethod: (shippingMethodsObj, token) =>
 			CartRedux.actions.updateShippingMethods(
 				dispatch,

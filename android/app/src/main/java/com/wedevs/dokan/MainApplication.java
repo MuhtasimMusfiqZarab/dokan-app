@@ -1,5 +1,6 @@
 package com.wedevs.dokan;
 
+import com.smarkets.paypal.RNPaypalPackage;
 import com.horcrux.svg.SvgPackage;
 import android.app.Application;
 import com.facebook.react.ReactApplication;
@@ -55,7 +56,8 @@ public class MainApplication extends Application implements ReactApplication {
         new FBSDKPackage(mCallbackManager),
         new MapsPackage(),
         new SvgPackage(),
-        new ImagePickerPackage()
+        new ImagePickerPackage(),
+        new RNPaypalPackage()
       );
     }
 

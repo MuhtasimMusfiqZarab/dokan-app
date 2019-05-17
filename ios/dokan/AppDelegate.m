@@ -13,6 +13,8 @@
 #import <React/RCTRootView.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTI18nUtil.h>
+#import "RNPaypal.h"
+
 
 @implementation AppDelegate
 
@@ -56,16 +58,17 @@
   
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+  [[RNPaypal sharedInstance] configure];
   return YES;
 }
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation
-          ];
+  [[FBSDKApplicationDelegate sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+  [[RNPaypal sharedInstance] application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+  
+  return YES;
 }
 
 

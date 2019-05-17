@@ -3,6 +3,7 @@
  */
 
 import OAuth from 'oauth-1.0a';
+import CryptoJS from 'crypto-js';
 
 function WooCommerceAPI(opt) {
 	if (!(this instanceof WooCommerceAPI)) {
@@ -85,10 +86,15 @@ WooCommerceAPI.prototype._getUrl = function(endpoint) {
 WooCommerceAPI.prototype._getOAuth = function() {
 	const data = {
 		consumer: {
-			public: this.consumerKey,
+			key: this.consumerKey,
 			secret: this.consumerSecret,
 		},
 		signature_method: 'HMAC-SHA256',
+		hash_function(base_string, key) {
+			return CryptoJS.HmacSHA256(base_string, key).toString(
+				CryptoJS.enc.Base64
+			);
+		},
 	};
 
 	if (['v1', 'v2'].indexOf(this.version) > -1) data.last_ampersand = false;
@@ -162,7 +168,7 @@ WooCommerceAPI.prototype._request = async function(method, endpoint, newData) {
 		};
 		params.body = JSON.stringify(data);
 	}
-	// console.log(params);
+
 	return await fetch(params.url, params);
 };
 

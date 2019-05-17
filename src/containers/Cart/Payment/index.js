@@ -20,6 +20,8 @@ import WooWorker from '@services/WooCommerce/WooWorker';
 import { LinearGradient } from '@expo';
 import OrderSummary from './OrderSummary';
 import styles from './styles';
+import { requestOneTimePayment } from 'react-native-paypal';
+import DokanWorker from '../../../services/Dokan/DokanWorker';
 
 // const { width } = Dimensions.get('window');
 
@@ -47,6 +49,8 @@ class PaymentOptions extends PureComponent {
 		onPrevious: PropTypes.any,
 		deleteCart: PropTypes.any,
 		navigation: PropTypes.any,
+		addSpinner: PropTypes.any,
+		removeSpinner: PropTypes.any,
 	};
 
 	constructor(props) {
@@ -77,6 +81,64 @@ class PaymentOptions extends PureComponent {
 			this.props.onNext();
 		}
 	}
+
+	handlePaypalPayment = async payload => {
+		this.props.addSpinner();
+
+		const createOrderResponse = await WooWorker.createNewOrder(
+			payload,
+			response => {
+				return response;
+			},
+			error => {
+				return error;
+			}
+		);
+
+		const orderID = createOrderResponse.id;
+		const amount = parseFloat(createOrderResponse.total).toFixed(2);
+		const currency = createOrderResponse.currency;
+
+		if (orderID) {
+			const { client_token } = await DokanWorker.getBrainTreeToken();
+
+			try {
+				const response = await requestOneTimePayment(client_token, {
+					amount: amount,
+					currency: currency,
+					localeCode: 'en_US',
+					shippingAddressRequired: false,
+					userAction: 'commit',
+					intent: 'authorize',
+				});
+
+				const transaction = await DokanWorker.brainTreeTransaction(
+					amount,
+					response.nonce
+				);
+
+				if (transaction.success) {
+					const status = 'completed';
+
+					WooWorker.setOrderStatus(orderID, status, () => {
+						this.props.deleteCart(this.props.user.token);
+						this.props.emptyCart();
+						this.props.removeSpinner();
+						this.props.onNext();
+					});
+				} else {
+					this.props.removeSpinner();
+					this.props.onNext();
+					toast('Payment could not be processed!');
+				}
+			} catch (error) {
+				this.props.removeSpinner();
+				console.dir(error);
+			}
+		} else {
+			toast('Failed to Create Order');
+		}
+	};
 
 	nextStep = async () => {
 		const { user, token } = this.props.user;
@@ -122,8 +184,6 @@ class PaymentOptions extends PureComponent {
 			currency: currency.code,
 		};
 
-		console.log(payload);
-
 		const isNoShipping = filter(
 			this.props.shippingMethods,
 			item => item.chosen_method === false
@@ -134,8 +194,8 @@ class PaymentOptions extends PureComponent {
 			this.setState({ loading: this.props.isLoading });
 
 			if (list[this.state.selectedIndex].id == 'cod') {
-				// console.log(payload);
 				this.setState({ loading: true });
+
 				WooWorker.createNewOrder(
 					payload,
 					response => {
@@ -150,6 +210,8 @@ class PaymentOptions extends PureComponent {
 						this.setState({ loading: false });
 					}
 				);
+			} else if (list[this.state.selectedIndex].id === 'paypal') {
+				this.handlePaypalPayment(payload);
 			} else {
 				// other kind of payment
 				this.props.onShowCheckOut(payload, list[this.state.selectedIndex].id);
