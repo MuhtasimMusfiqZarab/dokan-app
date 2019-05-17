@@ -12,6 +12,7 @@ export default class modalBox extends PureComponent {
 		children: PropTypes.node,
 		css: PropTypes.any,
 		type: PropTypes.string,
+		swipeToClose: PropTypes.bool,
 	};
 
 	closeModal = () => {
@@ -27,36 +28,31 @@ export default class modalBox extends PureComponent {
 	}
 
 	render() {
-		const { type, css } = this.props;
+		const { type, css, swipeToClose } = this.props;
 
 		return (
 			<Modal
 				ref={modal => (this.modal = modal)}
 				animationDuration={100}
+				swipeToClose={swipeToClose}
 				backdropOpacity={Platform.OS === 'android' ? 0.9 : 0.5}
 				position={type === 'cartModal' ? 'bottom' : 'top'}
 				style={[
-					type === 'cartModal'
-						? styles.cartModal
-						: typeof type !== 'undefined'
+					typeof type !== 'undefined'
 						? styles.modalReadlater
 						: styles.modalBoxWrap,
 					css,
 				]}>
-				<View style={type === 'cartModal' ? styles.cartWrap : styles.wrap}>
-					{this.props.children}
-				</View>
-				{type !== 'cartModal' && (
-					<TouchableOpacity style={styles.iconZoom} onPress={this.closeModal}>
-						<Icon
-							style={styles.textClose}
-							name="close"
-							size={22}
-							color="rgba(0,0,0, 0.4)"
-							backgroundColor="transparent"
-						/>
-					</TouchableOpacity>
-				)}
+				<View style={styles.wrap}>{this.props.children}</View>
+				<TouchableOpacity style={styles.iconZoom} onPress={this.closeModal}>
+					<Icon
+						style={styles.textClose}
+						name="close"
+						size={22}
+						color="rgba(0,0,0, 0.4)"
+						backgroundColor="transparent"
+					/>
+				</TouchableOpacity>
 			</Modal>
 		);
 	}

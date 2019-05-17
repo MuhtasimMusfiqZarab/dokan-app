@@ -7,9 +7,7 @@ import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { connect } from 'react-redux';
 import { Languages, Images, Config, Constants, Events } from '@common';
 import { BlockTimer } from '@app/Omni';
-import Modal from 'react-native-modalbox';
 import { StepIndicator, StripePanel, ModalBox, Spinner } from '@components';
-import base64 from 'base-64';
 import { isObject } from 'lodash';
 import MyCart from './MyCart';
 import Payment from './Payment';
@@ -19,8 +17,6 @@ import Buttons from './Buttons';
 import CancelSaveButtons from './CancelSaveButtons';
 import styles from './styles';
 import CartModal from './CartModal';
-import { Button } from 'react-native-paper';
-import { requestOneTimePayment } from 'react-native-paypal';
 
 class Cart extends PureComponent {
 	static propTypes = {
@@ -207,7 +203,9 @@ class Cart extends PureComponent {
 
 	renderStripeLayout = () => {
 		return (
-			<ModalBox ref={smodal => (this.stripeModal = smodal)}>
+			<ModalBox
+				ref={smodal => (this.stripeModal = smodal)}
+				swipeToClose={false}>
 				<StripePanel
 					order={this.state.order}
 					closeStripeModal={this.closeStripeModal}

@@ -1,10 +1,12 @@
 import React, { PureComponent } from 'react';
 import { View, ScrollView, Button } from 'react-native';
+import Tcomb from 'tcomb-form-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import moment from 'moment';
 import { Languages } from '@common';
 import { toast, addSpinner, removeSpinner } from '@app/Omni';
 import { cloneDeep } from 'lodash';
-import Tcomb from 'tcomb-form-native';
+
 import StripeAPI from '@services/StripeAPI';
 import WooWorker from '@services/WooCommerce/WooWorker';
 
@@ -149,11 +151,10 @@ export default class StripePanel extends PureComponent {
 
 	render() {
 		return (
-			<View style={{ width: '100%' }}>
-				<ScrollView
-					keyboardDismissMode="on-drag"
-					keyboardShouldPersistTaps="always"
-					contentContainerStyle={{ padding: 25 }}>
+			<View style={{ width: '100%', paddingHorizontal: 15 }}>
+				<KeyboardAwareScrollView
+					enableOnAndroid={true}
+					keyboardShouldPersistTaps="always">
 					<StripeForm
 						ref={c => (this._stripeForm = c)}
 						type={this.Stripe}
@@ -162,7 +163,7 @@ export default class StripePanel extends PureComponent {
 						onChange={this.onChange}
 					/>
 					<Button title="Submit" onPress={this.submitHandler} />
-				</ScrollView>
+				</KeyboardAwareScrollView>
 			</View>
 		);
 	}

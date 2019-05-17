@@ -32,7 +32,7 @@ export default StyleSheet.create({
 		zIndex: 9999,
 		position: 'relative',
 		alignItems: 'center',
-		justifyContent: 'center',
+		// justifyContent: 'center',
 		backgroundColor: 'rgba(255,255,255, 1)',
 		borderRadius: 6,
 		paddingTop: 0,
