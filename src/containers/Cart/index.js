@@ -2,15 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import {
-	View,
-	WebView,
-	Text,
-	TouchableOpacity,
-	AsyncStorage,
-	ScrollView,
-	Dimensions,
-} from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { connect } from 'react-redux';
 import { Languages, Images, Config, Constants, Events } from '@common';
@@ -51,6 +43,8 @@ class Cart extends PureComponent {
 		totalItems: PropTypes.number,
 		shippingMethods: PropTypes.array,
 		updateShippingMethod: PropTypes.func,
+		addSpinner: PropTypes.func,
+		removeSpinner: PropTypes.func,
 	};
 
 	static defaultProps = {
@@ -142,72 +136,6 @@ class Cart extends PureComponent {
 		}
 	};
 
-	renderCheckOut = () => {
-		const params = base64.encode(
-			encodeURIComponent(JSON.stringify(this.state.order))
-		);
-		// warn(params)
-		const userAgentAndroid =
-			'Mozilla/5.0 (Linux; U; Android 4.1.1; en-gb; Build/KLP) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30';
-
-		const checkOutUrl = `${Config.WooCommerce.url}/${
-			Constants.WordPress.checkout
-		}?order=${params}`;
-
-		// warn([checkOutUrl, this.state.order])
-		return (
-			<Modal
-				ref={modal => (this.checkoutModal = modal)}
-				backdropPressToClose={false}
-				backButtonClose
-				backdropColor="#fff"
-				swipeToClose={true}>
-				{/* <WebView
-					style={styles.webView}
-					source={{ uri: checkOutUrl }}
-					userAgent={userAgentAndroid}
-					onNavigationStateChange={status =>
-						this._onNavigationStateChange(status)
-					}
-					scalesPageToFit
-				/>
-				<TouchableOpacity
-					style={styles.iconZoom}
-					onPress={() => this.checkoutModal.close()}>
-					<Text style={styles.textClose}>{Languages.close}</Text>
-        </TouchableOpacity> */}
-				<Button mode="contained" onPress={() => this.handlePaypalPayment()}>
-					Pay via Paypal
-				</Button>
-			</Modal>
-		);
-	};
-
-	handlePaypalPayment = async () => {
-		const clientToken =
-			'eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiI0MzU1YWVkNjUwMzE4ZjFkNmExNGI3ODhhYjkxYzY2NmNiNTI4MjZhOTFkMGY3MjhjODRmMzQxNmZmODhiZDJmfGNyZWF0ZWRfYXQ9MjAxOS0wNS0xMFQwNToxNTo1Ni4wMDYwODk4MDcrMDAwMFx1MDAyNm1lcmNoYW50X2lkPTJrcTRjdm10NDRjczRieWNcdTAwMjZwdWJsaWNfa2V5PXE3N25tcHoyYjhwZHB6cXIiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5zYW5kYm94LmJyYWludHJlZWdhdGV3YXkuY29tOjQ0My9tZXJjaGFudHMvMmtxNGN2bXQ0NGNzNGJ5Yy9jbGllbnRfYXBpL3YxL2NvbmZpZ3VyYXRpb24iLCJncmFwaFFMIjp7InVybCI6Imh0dHBzOi8vcGF5bWVudHMuc2FuZGJveC5icmFpbnRyZWUtYXBpLmNvbS9ncmFwaHFsIiwiZGF0ZSI6IjIwMTgtMDUtMDgifSwiY2hhbGxlbmdlcyI6W10sImVudmlyb25tZW50Ijoic2FuZGJveCIsImNsaWVudEFwaVVybCI6Imh0dHBzOi8vYXBpLnNhbmRib3guYnJhaW50cmVlZ2F0ZXdheS5jb206NDQzL21lcmNoYW50cy8ya3E0Y3ZtdDQ0Y3M0YnljL2NsaWVudF9hcGkiLCJhc3NldHNVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImF1dGhVcmwiOiJodHRwczovL2F1dGgudmVubW8uc2FuZGJveC5icmFpbnRyZWVnYXRld2F5LmNvbSIsImFuYWx5dGljcyI6eyJ1cmwiOiJodHRwczovL29yaWdpbi1hbmFseXRpY3Mtc2FuZC5zYW5kYm94LmJyYWludHJlZS1hcGkuY29tLzJrcTRjdm10NDRjczRieWMifSwidGhyZWVEU2VjdXJlRW5hYmxlZCI6dHJ1ZSwicGF5cGFsRW5hYmxlZCI6dHJ1ZSwicGF5cGFsIjp7ImRpc3BsYXlOYW1lIjoiTHVtaW5vdXMgSW5jIiwiY2xpZW50SWQiOm51bGwsInByaXZhY3lVcmwiOiJodHRwOi8vZXhhbXBsZS5jb20vcHAiLCJ1c2VyQWdyZWVtZW50VXJsIjoiaHR0cDovL2V4YW1wbGUuY29tL3RvcyIsImJhc2VVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImFzc2V0c1VybCI6Imh0dHBzOi8vY2hlY2tvdXQucGF5cGFsLmNvbSIsImRpcmVjdEJhc2VVcmwiOm51bGwsImFsbG93SHR0cCI6dHJ1ZSwiZW52aXJvbm1lbnROb05ldHdvcmsiOnRydWUsImVudmlyb25tZW50Ijoib2ZmbGluZSIsInVudmV0dGVkTWVyY2hhbnQiOmZhbHNlLCJicmFpbnRyZWVDbGllbnRJZCI6Im1hc3RlcmNsaWVudDMiLCJiaWxsaW5nQWdyZWVtZW50c0VuYWJsZWQiOnRydWUsIm1lcmNoYW50QWNjb3VudElkIjoibHVtaW5vdXNpbmMiLCJjdXJyZW5jeUlzb0NvZGUiOiJVU0QifSwibWVyY2hhbnRJZCI6IjJrcTRjdm10NDRjczRieWMiLCJ2ZW5tbyI6Im9mZiJ9';
-		const {
-			nonce,
-			payerId,
-			email,
-			firstName,
-			lastName,
-			phone,
-		} = await requestOneTimePayment(clientToken, {
-			amount: '5', // required
-			// any PayPal supported currency (see here: https://developer.paypal.com/docs/integration/direct/rest/currency-codes/#paypal-account-payments)
-			currency: 'GBP',
-			// any PayPal supported locale (see here: https://braintree.github.io/braintree_ios/Classes/BTPayPalRequest.html#/c:objc(cs)BTPayPalRequest(py)localeCode)
-			localeCode: 'en_GB',
-			shippingAddressRequired: false,
-			userAction: 'commit', // display 'Pay Now' on the PayPal review page
-			// one of 'authorize', 'sale', 'order'. defaults to 'authorize'. see details here: https://developer.paypal.com/docs/api/payments/v1/#payment-create-request-body
-			intent: 'authorize',
-		});
-
-		console.log(nonce, payerId, email, firstName, lastName, phone);
-	};
-
 	_onClosedModal = () => {
 		if (this.state.orderId !== null) {
 			this.props.finishOrder();
@@ -241,7 +169,6 @@ class Cart extends PureComponent {
 		if (payment === 'stripe') {
 			this.stripeModal.openModal();
 		}
-		this.checkoutModal.open();
 	};
 
 	onPrevious = () => {
@@ -271,7 +198,6 @@ class Cart extends PureComponent {
 	};
 
 	onChangeUserInfo = formValues => {
-		//weDevs
 		this.setState({ userInfo: formValues });
 	};
 
@@ -367,7 +293,6 @@ class Cart extends PureComponent {
 
 		return (
 			<View style={styles.fill}>
-				{this.renderCheckOut()}
 				{this.props.isProcessing ? (
 					<Spinner mode="overlay" color="#000" />
 				) : null}
@@ -394,8 +319,8 @@ class Cart extends PureComponent {
 						renderTabBar={() => <View style={{ padding: 0, margin: 0 }} />}>
 						<MyCart
 							key="cart"
-              onNext={this.onNext}
-              addSpinner={addSpinner}
+							onNext={this.onNext}
+							addSpinner={addSpinner}
 							removeSpinner={removeSpinner}
 							onPrevious={this.onPrevious}
 							navigation={navigation}
