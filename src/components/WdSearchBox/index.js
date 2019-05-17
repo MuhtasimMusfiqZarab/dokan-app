@@ -1,46 +1,49 @@
 import React from 'react';
-import {
-	Text,
-	TouchableWithoutFeedback,
-	View,
-	StyleSheet,
-	Platform,
-} from 'react-native';
-import { Icons } from '@common';
+import { Text, View, StyleSheet, Platform, Dimensions } from 'react-native';
+import { Icons, Color } from '@common';
+import { TouchableScale } from '@components';
 import { Icon } from '@app/Omni';
 import { NavigationActions } from 'react-navigation';
 
 const navigateAction = NavigationActions.navigate({
 	routeName: 'Search',
 });
+const { width } = Dimensions.get('window');
 
 const WdSearchBox = props => {
 	return (
-		<TouchableWithoutFeedback
-			onPress={() => props.navigation.dispatch(navigateAction)}>
-			<View style={styles.searchArea}>
-				<Text style={styles.searchText}>Search Product...</Text>
-				<Icon
-					style={styles.searchIcon}
-					name={Icons.MaterialCommunityIcons.Mic}
-					size={20}
-				/>
+		<TouchableScale onPress={() => props.navigation.dispatch(navigateAction)}>
+			<View style={styles.conatiner}>
+				<View style={styles.searchArea}>
+					<Text style={styles.searchText}>Search Product...</Text>
+					<Icon
+						style={styles.searchIcon}
+						name={Icons.MaterialCommunityIcons.Search}
+						size={20}
+					/>
+				</View>
 			</View>
-		</TouchableWithoutFeedback>
+		</TouchableScale>
 	);
 };
 
 const styles = StyleSheet.create({
+	conatiner: {
+		width: '100%',
+		paddingHorizontal: 15,
+		marginTop: 20,
+		marginBottom: 20,
+	},
 	searchArea: {
-		width: '90%',
+		width: '100%',
+		height: width / 8,
+		paddingHorizontal: 10,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignSelf: 'center',
 		alignItems: 'center',
 		backgroundColor: '#fff',
 		borderRadius: 3,
-		marginTop: 20,
-		marginBottom: 20,
 		...Platform.select({
 			ios: {
 				shadowColor: '#000',
@@ -54,12 +57,10 @@ const styles = StyleSheet.create({
 		}),
 	},
 	searchText: {
-		paddingLeft: 10,
-		color: '#9EA7A7',
+		color: Color.TextLight,
 	},
 	searchIcon: {
-		color: '#A0A9BD',
-		padding: 10,
+		color: Color.TextLight,
 	},
 });
 

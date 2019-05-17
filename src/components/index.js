@@ -52,6 +52,7 @@ import CategoryCarousel from './CategoryCarousel';
 import SideMenu from './SideMenu';
 import ModalReview from './Modal/Review';
 import Review from './Review';
+import TouchableScale from './TouchableScale';
 // Added by weDevs
 import WdSearchBox from './WdSearchBox';
 import WdNewArrival from './WdNewArrival';
@@ -121,6 +122,7 @@ export {
 	ModalLayout,
 	ModalReview,
 	Review,
+	TouchableScale,
 	WdSearchBox,
 	WdNewArrival,
 	WdAdds,
