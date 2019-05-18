@@ -16,6 +16,8 @@ import { Device, Color, Constants, Icons, Languages } from '@common';
 import { FlatButton, Spinkit, ProductItem } from '@components';
 import { BlockTimer, Icon, IconIO } from '@app/Omni';
 import styles from './styles';
+import { Searchbar } from 'react-native-paper';
+import { withNavigationFocus } from 'react-navigation';
 
 export default class Search extends PureComponent {
 	constructor(props) {
@@ -30,75 +32,6 @@ export default class Search extends PureComponent {
 			tabIndex: 0,
 		};
 	}
-
-	renderSearchBar = () => {
-		const closeButton = () => {
-			return (
-				<TouchableOpacity
-					onPress={this.onBack}
-					style={{ width: 50, justifyContent: 'center', alignItems: 'center' }}>
-					<Icon
-						name={Icons.MaterialCommunityIcons.Back}
-						size={25}
-						color="#000"
-					/>
-				</TouchableOpacity>
-			);
-		};
-
-		const searchButton = () => {
-			return (
-				<TouchableOpacity
-					onPress={this.startNewSearch}
-					style={{ width: 50, justifyContent: 'center', alignItems: 'center' }}>
-					<IconIO name={Icons.Ionicons.Search} size={24} color="#000" />
-				</TouchableOpacity>
-			);
-		};
-
-		const styleTextInput = {
-			flex: 1,
-			fontSize: 16,
-			paddingLeft: 20,
-			fontFamily: Constants.fontFamily,
-			color: Color.blackTextPrimary,
-		};
-		const searchInput = (
-			<TextInput
-				ref={c => {
-					this.textInput = c;
-				}}
-				autoFocus={this.state.focus}
-				placeholder={Languages.SearchPlaceHolder}
-				placeholderTextColor={Color.blackTextSecondary}
-				style={[
-					styleTextInput,
-					I18nManager.isRTL ? { marginRight: 120 } : { marginLeft: 10 },
-				]}
-				value={this.state.text}
-				onChangeText={text => this.setState({ text })}
-				underlineColorAndroid="transparent"
-				onSubmitEditing={this.startNewSearch}
-			/>
-		);
-
-		return (
-			<View
-				style={{
-					height: 50,
-					flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
-					// marginBottom: 10,
-					marginTop: !Device.isIphoneX && Platform.OS === 'ios' ? 20 : 0,
-					borderBottomWidth: 0.5,
-					borderColor: Color.DirtyBackground,
-					backgroundColor: '#fff',
-				}}>
-				{closeButton()}
-				{searchInput}
-				{searchButton()}
-			</View>
-		);
-	};
 
 	onBack = () => {
 		this.setState({ text: '' });
@@ -177,90 +110,21 @@ export default class Search extends PureComponent {
 		);
 	};
 
-	// handleClickTab(tabIndex) {
-	//   this.setState({ tabIndex });
-	// }
-
 	render() {
+		console.log(this.props.isFocused);
 		return (
 			<View style={{ flex: 1, backgroundColor: '#F8F8FA' }}>
-				{this.renderSearchBar()}
-
-				{/* <View style={styles.tabView}>
-				<View
-					style={[
-						styles.tabButton,
-						Constants.RTL && { flexDirection: "row-reverse" },
-					]}>
-					<View style={styles.tabItem}>
-						<Button
-							type="tab"
-							from="search"
-							textStyle={styles.textTab}
-							text={"Product"}
-							onPress={() => this.handleClickTab(0)}
-							selected={this.state.tabIndex == 0}
-						/>
-					</View>
-					<View style={styles.tabItem}>
-						<Button
-							type="tab"
-							textStyle={styles.textTab}
-							text={"Vendor"}
-							onPress={() => this.handleClickTab(1)}
-							selected={this.state.tabIndex == 1}
-						/>
-					</View>
-					<View style={styles.tabItem}>
-						<Button
-							type="tab"
-							textStyle={styles.textTab}
-							text={"Recent View"}
-							onPress={() => this.handleClickTab(2)}
-							selected={this.state.tabIndex == 2}
-						/>
-					</View>
-				</View>
-				{this.state.tabIndex === 0 && (
-					<View style={styles.popCatContainer}>
-						<View style={{width: '100%', padding:5, marginBottom: 10}}>
-							<Text style={{color: '#79828F', fontSize: 16}}>Popular Categories</Text>
-						</View>
-						{
-							Config.popularCat.map((category, index) => {
-								return (
-									<View
-										key={`pcat-${index}`}
-										style={
-											[
-												styles.popCat,
-												{
-													backgroundColor: category.colorRGB
-												}
-											]
-										}
-									>
-										<Image source={category.icon} style={{width: 35, height: 29}} />
-										<Text style={{color: '#808894', marginTop: 5}}>{category.Name}</Text>
-									</View>
-								)
-							})
-						}
-					</View>
-				)}
-				{this.state.tabIndex === 1 && (
-					<View style={styles.description}>
-						<Text>2nd Tab</Text>
-					</View>
-				)}
-				{this.state.tabIndex === 2 && (
-					<View style={styles.description}>
-						<Text>3rd Tab</Text>
-					</View>
-				)}
-			</View> */}
-
-				{/* Search Result */}
+				<Searchbar
+					autoFocus={this.props.isFocused}
+					icon="arrow-back"
+					placeholder="Search Product"
+					onChangeText={query => {
+						this.setState({ text: query });
+					}}
+					value={this.state.text}
+					onSubmitEditing={() => this.startNewSearch()}
+					onIconPress={() => this.onBack()}
+				/>
 				<View style={{ flex: 1 }}>
 					{this.props.isFetching ? <Spinkit /> : this.renderResultList()}
 				</View>
@@ -291,4 +155,4 @@ module.exports = connect(
 	mapStateToProps,
 	null,
 	mergeProps
-)(Search);
+)(withNavigationFocus(Search));

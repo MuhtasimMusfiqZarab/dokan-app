@@ -5,14 +5,11 @@ import { TouchableScale } from '@components';
 import { Icon } from '@app/Omni';
 import { NavigationActions } from 'react-navigation';
 
-const navigateAction = NavigationActions.navigate({
-	routeName: 'Search',
-});
 const { width } = Dimensions.get('window');
 
 const WdSearchBox = props => {
 	return (
-		<TouchableScale onPress={() => props.navigation.dispatch(navigateAction)}>
+		<TouchableScale onPress={() => props.navigation.navigate('Search')}>
 			<View style={styles.conatiner}>
 				<View style={styles.searchArea}>
 					<Text style={styles.searchText}>Search Product...</Text>
