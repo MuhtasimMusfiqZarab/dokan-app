@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, Platform, Dimensions } from 'react-native';
 import { Icons, Color } from '@common';
 import { TouchableScale } from '@components';
 import { Icon } from '@app/Omni';
-import { NavigationActions } from 'react-navigation';
 
 const { width } = Dimensions.get('window');
 

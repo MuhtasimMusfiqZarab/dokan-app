@@ -111,7 +111,6 @@ export default class Search extends PureComponent {
 	};
 
 	render() {
-		console.log(this.props.isFocused);
 		return (
 			<View style={{ flex: 1, backgroundColor: '#F8F8FA' }}>
 				<Searchbar
