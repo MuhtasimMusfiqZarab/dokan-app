@@ -23,6 +23,7 @@ import PopOver from './PopOver';
 import styles from './ProductDetail_Style';
 import VendorSummary from './VendorSummary';
 import ProductDetails from './ProductDetails';
+import VariationModal from './VariationModal';
 import EventEmitter from '@services/AppEventEmitter';
 import DokanWorker from '@services/Dokan/DokanWorker';
 
@@ -88,6 +89,14 @@ class Detail extends PureComponent {
 				this.disableBuyNowBtn = true;
 			}
 		}
+
+		// Make the state of variation modal
+		this.attributeWithOptions = {};
+		this.props.product.attributes.map((attribute, index) => {
+			this.attributeWithOptions[attribute.name] = {
+				options: [],
+			};
+		});
 	}
 
 	componentDidMount() {
@@ -176,6 +185,28 @@ class Detail extends PureComponent {
 		});
 	};
 
+	addToCartHandler = go => {
+		const {
+			addCartItem,
+			onLogin,
+			userData,
+			product,
+			bearerToken,
+			onViewCart,
+		} = this.props;
+
+		if (userData) {
+			if (this.inCartTotal < Constants.LimitAddToCart) {
+				addCartItem(product, this.state.selectVariation, bearerToken);
+			} else {
+				alert(Languages.ProductLimitWaring);
+			}
+			if (go) onViewCart();
+		} else {
+			onLogin();
+		}
+	};
+
 	addToCart = async (go = false) => {
 		const {
 			addCartItem,
@@ -187,17 +218,7 @@ class Detail extends PureComponent {
 		} = this.props;
 
 		if (product.type === 'variable' && this.state.selectVariation === null) {
-			const text = `Please select ${product.attributes.map(
-				(attribute, index) => {
-					if (index === product.attributes.length - 1) {
-						return `${attribute.name}`;
-					} else {
-						return `${attribute.name}, `;
-					}
-				}
-			)}`;
-
-			toast(text);
+			Events.openVariationModal(go);
 		} else {
 			if (userData) {
 				if (this.inCartTotal < Constants.LimitAddToCart) {
@@ -236,15 +257,6 @@ class Detail extends PureComponent {
 		}
 	};
 
-	onSelectAttribute = (attributeName, option) => {
-		const selectedAttribute = this.productAttributes.find(
-			item => item.name === attributeName
-		);
-		selectedAttribute.selectedOption = option.toLowerCase();
-
-		this.updateSelectedVariant(this.props.productVariations);
-	};
-
 	updateSelectedVariant = productVariations => {
 		const selectedAttribute = filter(
 			this.productAttributes,
@@ -276,6 +288,7 @@ class Detail extends PureComponent {
 	};
 
 	updateSelectedVariation = selectedOptions => {
+		console.log(selectedOptions);
 		this.props.productVariations.map(variant => {
 			let matchCount = 0;
 			selectedOptions.map(selectedOption => {
@@ -302,9 +315,6 @@ class Detail extends PureComponent {
 		});
 	};
 
-	/**
-	 * render Image top
-	 */
 	_renderImages = () => {
 		const imageScale = this.state.scrollY.interpolate({
 			inputRange: [-300, 0, NAVI_HEIGHT, this.productInfoHeight / 2],
@@ -534,12 +544,17 @@ class Detail extends PureComponent {
 						relatedProducts={relatedProducts}
 						onLogin={onLogin}
 						navigation={navigation}
-						selectVariation={this.state.selectVariation}
-						attributes={this.productAttributes}
-						productVariations={productVariations}
-						updateSelectedVariation={this.updateSelectedVariation}
 					/>
 				</Animated.ScrollView>
+				<VariationModal
+					product={product}
+					attributeWithOptions={this.attributeWithOptions}
+					selectVariation={this.state.selectVariation}
+					attributes={this.productAttributes}
+					productVariations={productVariations}
+					updateSelectedVariation={this.updateSelectedVariation}
+					addToCart={this.addToCartHandler}
+				/>
 
 				{this.renderButtons()}
 

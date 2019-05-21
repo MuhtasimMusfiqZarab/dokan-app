@@ -56,9 +56,6 @@ export default function ProductDetails(props) {
 				relatedProducts={relatedProducts}
 				onLogin={onLogin}
 				navigation={navigation}
-				attributes={attributes}
-				selectVariation={selectVariation}
-				updateSelectedVariation={updateSelectedVariation}
 			/>
 		</View>
 	);

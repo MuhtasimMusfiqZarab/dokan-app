@@ -111,6 +111,7 @@ class MyCart extends PureComponent {
 				// );
 				return (
 					<TouchableOpacity
+						style={{ flexDirection: 'row' }}
 						onPress={() => this.onPressShippingCalculation(storeName)}>
 						<Text style={{ color: '#B888CB' }}>No Shipping</Text>
 						<Icon
