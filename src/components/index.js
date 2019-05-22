@@ -69,6 +69,7 @@ import DokanModal from './Modal/DokanModal';
 import WdVendorListToolBar from './WdVendorListToolBar';
 import ProductDetailsIcons from './ProductDetailsIcons';
 import RadioButton from './RadioButton';
+import NoConnection from './NoConnection';
 
 export {
 	ProductList,
@@ -139,4 +140,5 @@ export {
 	WdVendorListToolBar,
 	ProductDetailsIcons,
 	RadioButton,
+	NoConnection,
 };

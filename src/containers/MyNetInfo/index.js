@@ -40,7 +40,7 @@ class MyNetInfo extends React.PureComponent {
 		if (!isConnected) return;
 
 		if (!this.skipFirstToast) {
-			toast('Regain internet connection');
+			toast('You are Online!');
 		} else {
 			this.skipFirstToast = false;
 		}
@@ -63,12 +63,14 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		bottom: 0,
 		width: Styles.width,
+		height: 25,
 		backgroundColor: Color.error,
 		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	connectionText: {
 		color: 'white',
-		fontSize: 8,
+		fontSize: Styles.FontSize.tiny,
 		fontWeight: 'bold',
 	},
 });

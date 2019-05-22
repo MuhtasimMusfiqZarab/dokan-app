@@ -15,7 +15,7 @@ import {
 import WooWorker from '@services/WooCommerce/WooWorker';
 import { Config, Device, Styles } from '@common';
 import { MyToast, MyNetInfo } from '@containers';
-import { ModalReview, Spinner } from '@components';
+import { ModalReview, Spinner, NoConnection } from '@components';
 import Navigation from '@navigation';
 import { connect } from 'react-redux';
 import MenuSide from '@components/LeftMenu/MenuOverlay';
@@ -25,7 +25,7 @@ import MenuSide from '@components/LeftMenu/MenuOverlay';
 import { toast, closeDrawer } from './Omni';
 import DokanWorker from '@services/Dokan/DokanWorker';
 
-class Router extends React.PureComponent {
+class Router extends React.Component {
 	static propTypes = {
 		introStatus: PropTypes.bool,
 		language: PropTypes.any,
@@ -34,10 +34,28 @@ class Router extends React.PureComponent {
 
 	state = {
 		isAppConfigured: false,
+		isConnected: true,
 	};
 
 	componentDidMount() {
-		this.fetchAppSettings();
+		NetInfo.getConnectionInfo()
+			.then(connectionInfo => {
+				if (connectionInfo.type === 'none') {
+					this.setState({
+						isConnected: false,
+					});
+				} else {
+					this.fetchAppSettings();
+				}
+			})
+			.catch(e => console.log(e));
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return (
+			nextState.isConnected !== this.state.isAppConfigured ||
+			nextState.isAppConfigured !== this.state.isConnected
+		);
 	}
 
 	fetchAppSettings = async () => {
@@ -69,13 +87,17 @@ class Router extends React.PureComponent {
 	};
 
 	onRefreshHandler = () => {
-		this.setState({
-			isAppConfigured: false,
-			isConnected: false,
-		});
-		if (this.props.netInfo.isConnected) {
-			this.fetchAppSettings();
-		}
+		console.log('called');
+		NetInfo.getConnectionInfo()
+			.then(connectionInfo => {
+				if (connectionInfo.type === 'none') {
+					this.setState({ isConnected: false });
+				} else {
+					this.setState({ isConnected: true });
+					this.fetchAppSettings();
+				}
+			})
+			.catch(e => console.log(e));
 	};
 
 	goToScreen = (routeName, params) => {
@@ -91,20 +113,12 @@ class Router extends React.PureComponent {
 		// 	return <AppIntro />;
 		// }
 
-		const { isAppConfigured } = this.state;
+		const { isAppConfigured, isConnected } = this.state;
 
-		// if (!netInfo.isConnected) {
-		// 	return (
-		// 		<View style={Styles.app}>
-		// 			<Text>No Connection</Text>
-		// 			<TouchableOpacity onPress={() => this.onRefreshHandler()}>
-		// 				<Text>Try Again</Text>
-		// 			</TouchableOpacity>
-		// 		</View>
-		// 	);
-		// }
+		console.log(`isAppConfigured: ${isAppConfigured}`);
+		console.log(`isConnected: ${isConnected}`);
 
-		if (isAppConfigured) {
+		if (isAppConfigured && isConnected) {
 			return Device.isIphoneX ? (
 				<SafeAreaView style={{ flex: 1 }}>
 					<MenuSide
@@ -114,6 +128,7 @@ class Router extends React.PureComponent {
 								<StatusBar
 									hidden={Device.isIphoneX ? false : !Config.showStatusBar}
 								/>
+								{/* <StatusBar backgroundColor="red" /> */}
 								<Navigation ref={comp => (this.navigator = comp)} />
 								<MyToast />
 								<ModalReview />
@@ -130,6 +145,7 @@ class Router extends React.PureComponent {
 							<StatusBar
 								hidden={Device.isIphoneX ? false : !Config.showStatusBar}
 							/>
+							{/* <StatusBar backgroundColor="red" /> */}
 							<Navigation ref={comp => (this.navigator = comp)} />
 							<MyToast />
 							<ModalReview />
@@ -138,8 +154,10 @@ class Router extends React.PureComponent {
 					}
 				/>
 			);
-		} else {
+		} else if (!isAppConfigured && isConnected) {
 			return <Spinner mode="overlay" color="#000" backgroundColor="#fff" />;
+		} else {
+			return <NoConnection onPress={this.onRefreshHandler} />;
 		}
 	}
 }

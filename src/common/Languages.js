@@ -262,7 +262,7 @@ export default new LocalizedStrings({
 		TypeCountry: 'Select country',
 		SelectPayment: 'Select Payment method',
 		close: 'CLOSE',
-		noConnection: 'NO INTERNET ACCESS',
+		noConnection: 'NO INTERNET CONNECTION',
 
 		// user profile screen
 		AccountInformations: 'Account Informations',
