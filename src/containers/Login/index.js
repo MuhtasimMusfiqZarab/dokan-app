@@ -17,9 +17,9 @@ import {
 } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { Color, Languages, Styles, Config, Images } from '@common';
+import { Color, Languages, Styles, Config, Images, Icons } from '@common';
 import { toast, warn, FacebookAPI, Validate } from '@app/Omni';
-import { Spinner, Button, ImageCache } from '@components';
+import { Spinner, Button, ButtonIndex, ImageCache } from '@components';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import WPUserAPI from '@services/WPUserAPI';
 import styles from './styles';
@@ -301,10 +301,18 @@ class LoginScreen extends PureComponent {
 						<Button
 							type="gradientBtn"
 							text="Login"
-							size="sm"
-							alignSelf="flex-start"
-							marginTop={15}
+							style={{
+								alignSelf: 'flex-start',
+								marginVertical: 15,
+							}}
 							onPress={this.onLoginPressHandle}
+						/>
+
+						<ButtonIndex
+							text={Languages.FacebookLogin.toUpperCase()}
+							icon={Icons.MaterialCommunityIcons.Facebook}
+							containerStyle={styles.fbButton}
+							onPress={this.onFBLoginPressHandle}
 						/>
 
 						<View style={styles.separatorWrap}>
@@ -313,12 +321,6 @@ class LoginScreen extends PureComponent {
 							<View style={styles.separator} />
 						</View>
 
-						{/* <ButtonIndex
-							text={Languages.FacebookLogin.toUpperCase()}
-							icon={Icons.MaterialCommunityIcons.Facebook}
-							containerStyle={styles.fbButton}
-							onPress={this.onFBLoginPressHandle}
-						/> */}
 						<TouchableOpacity
 							style={Styles.Common.ColumnCenter}
 							onPress={this.onSignUpHandle}>
