@@ -3,12 +3,10 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { Color, Languages, Styles, Constants } from '@common';
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { Color, Languages, Styles, Constants, Images } from '@common';
 import { toast } from '@app/Omni';
-import { Button } from 'react-native-paper';
+import { Button } from '@components';
 
 export default class NoConnection extends React.PureComponent {
 	constructor(props) {
@@ -20,13 +18,27 @@ export default class NoConnection extends React.PureComponent {
 	render() {
 		return (
 			<View style={styles.conatiner}>
-				<Text style={styles.connectionTitle}>Oops!</Text>
-				<Text style={styles.connectionText}>
-					No internet found. Please Connect to the internet.
-				</Text>
+				<Image
+					source={Images.NoConnection}
+					style={styles.noConnectionImage}
+					resizeMode="contain"
+				/>
+				<View style={{ alignItems: 'center' }}>
+					<Text style={styles.noConnectionTitle}>Oops!</Text>
+					<Text style={styles.noConnectionText}>No internet found</Text>
+					<Text style={styles.noConnectionText}>
+						Please check your connection
+					</Text>
+				</View>
+
 				<Button
-					mode="contained"
-					color={Color.attributes.red}
+					type="gradientBtn"
+					text="Try Again"
+					size="sm"
+					style={{
+						marginTop: 20,
+					}}
+					shadow
 					onPress={() => this.props.onPress()}>
 					Try Again
 				</Button>
@@ -35,6 +47,7 @@ export default class NoConnection extends React.PureComponent {
 	}
 }
 
+const { width, height } = Dimensions.get('window');
 const styles = StyleSheet.create({
 	conatiner: {
 		flex: 1,
@@ -43,17 +56,20 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		paddingHorizontal: 15,
 	},
-	connectionTitle: {
-		color: Color.blackTextDisable,
+	noConnectionImage: {
+		width: width / 2,
+		height: width / 1.5,
+	},
+	noConnectionTitle: {
+		color: Color.blackText,
 		fontSize: 36,
 		fontFamily: Constants.fontFamilyLato,
 		fontWeight: 'bold',
 		marginBottom: 15,
 	},
-	connectionText: {
+	noConnectionText: {
 		color: Color.blackTextDisable,
 		fontSize: Styles.FontSize.medium,
 		fontFamily: Constants.fontFamilyLato,
-		marginBottom: 15,
 	},
 });
