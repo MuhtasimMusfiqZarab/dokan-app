@@ -15,6 +15,7 @@ import {
 	I18nManager,
 } from 'react-native';
 import { Color, Config } from '@common';
+import { TouchableScale } from '@components';
 import { CustomIcon, Icon } from '@app/Omni';
 import { LinearGradient } from '@expo';
 
@@ -208,30 +209,42 @@ const TabButton = props => (
 );
 
 const GradientButton = props => (
-	<TouchableOpacity
+	<TouchableScale
 		disabled={props.isDisabled || props.isLoading}
-		onPress={props.onPress}
-		style={{
-			width:
-				props.size === 'sm' ? Dimensions.get('window').width / 3.5 : 'auto',
-		}}>
+		onPress={props.onPress}>
 		<LinearGradient
 			style={[
 				styles.gradientButton,
+				props.style,
 				{
 					width:
-						props.size === 'sm' ? Dimensions.get('window').width / 3.5 : 'auto',
-					alignSelf: props.alignSelf ? props.alignSelf : 'center',
-					marginTop: props.marginTop ? props.marginTop : 0,
-					marginBottom: props.marginBottom ? props.marginBottom : 0,
+						props.size === 'sm' ? Dimensions.get('window').width / 3.5 : '100%',
+				},
+				props.shadow && {
+					...Platform.select({
+						ios: {
+							backgroundColor: '#fff',
+							shadowColor: '#000',
+							shadowOpacity: 0.1,
+							shadowRadius: 10,
+							shadowOffset: { width: 0, height: 1 },
+						},
+						android: {
+							elevation: 3,
+						},
+					}),
 				},
 			]}
 			start={{ x: 0.0, y: 0.5 }}
 			end={{ x: 1.0, y: 0.5 }}
 			locations={[0.0, 1.0]}
 			colors={[
-				Config.appSettings.primary_button_color_1,
-				Config.appSettings.primary_button_color_2,
+				Config.appSettings !== undefined
+					? Config.appSettings.primary_button_color_1
+					: '#FF9472',
+				Config.appSettings !== undefined
+					? Config.appSettings.primary_button_color_2
+					: '#F2709C',
 			]}>
 			{!props.isLoading && (
 				<Text style={styles.gradientButtonText}>{props.text}</Text>
@@ -243,7 +256,7 @@ const GradientButton = props => (
 				/>
 			)}
 		</LinearGradient>
-	</TouchableOpacity>
+	</TouchableScale>
 );
 
 const styles = StyleSheet.create({
@@ -298,22 +311,11 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 	},
 	gradientButton: {
-		height: 40,
+		height: 45,
 		justifyContent: 'center',
 		alignItems: 'center',
 		borderRadius: 5,
 		padding: 10,
-		...Platform.select({
-			ios: {
-				backgroundColor: '#fff',
-				shadowColor: '#000',
-				shadowOpacity: 0.3,
-				shadowOffset: { width: 0, height: 2 },
-			},
-			android: {
-				elevation: 3,
-			},
-		}),
 	},
 	gradientButtonText: {
 		fontSize: 16,
