@@ -89,7 +89,7 @@ const Images = {
 	CategoryColorIcon: require('@images/category_color.png'),
 	VendorColorIcon: require('@images/vendor_color.png'),
 	ProductColorIcon: require('@images/product_color.png'),
-	FBLogo: require('@images/facebook-logo.png'),
+	NoConnection: require('@images/no_internet.png'),
 };
 
 export default Images;
