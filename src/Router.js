@@ -4,14 +4,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-	Text,
-	View,
-	TouchableOpacity,
-	StatusBar,
-	SafeAreaView,
-	NetInfo,
-} from 'react-native';
+import { View, StatusBar, SafeAreaView, NetInfo } from 'react-native';
 import WooWorker from '@services/WooCommerce/WooWorker';
 import { Config, Device, Styles } from '@common';
 import { MyToast, MyNetInfo } from '@containers';
@@ -128,7 +121,6 @@ class Router extends React.Component {
 								<StatusBar
 									hidden={Device.isIphoneX ? false : !Config.showStatusBar}
 								/>
-								{/* <StatusBar backgroundColor="red" /> */}
 								<Navigation ref={comp => (this.navigator = comp)} />
 								<MyToast />
 								<ModalReview />
@@ -145,7 +137,6 @@ class Router extends React.Component {
 							<StatusBar
 								hidden={Device.isIphoneX ? false : !Config.showStatusBar}
 							/>
-							{/* <StatusBar backgroundColor="red" /> */}
 							<Navigation ref={comp => (this.navigator = comp)} />
 							<MyToast />
 							<ModalReview />
