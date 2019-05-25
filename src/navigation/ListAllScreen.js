@@ -32,7 +32,7 @@ export default class ListAllScreen extends Component {
 					page={1}
 					navigation={this.props.navigation}
 					onViewVendorScreen={item => navigate('VendorProfileScreen', item)}
-					showToolBar={true}
+					showToolBar={false}
 					showSortingModal={true}
 					vendorListType={params.config.vendorListType}
 				/>

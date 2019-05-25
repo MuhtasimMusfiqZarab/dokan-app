@@ -522,7 +522,6 @@ const initialState = {
 	page: 1,
 	layoutHome: Constants.Layout.horizon,
 	message: '',
-
 	productFinish: false,
 	productsByName: [],
 	productSticky: [],

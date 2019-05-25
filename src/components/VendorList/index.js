@@ -27,14 +27,12 @@ class VendorList extends Component {
 		this.page = props.page ? props.page : 0;
 		this.limit = Constants.pagingLimit;
 		this.isVendorList = props.type === undefined;
-	}
-
-	UNSAFE_componentWillMount() {
-		this.props.navigation.setParams({ title: 'Store List' });
+		this.key = 1;
 	}
 
 	componentDidMount() {
 		this.page === 0 && this.fetchData();
+		this.props.navigation.setParams({ title: 'Store List' });
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -44,11 +42,18 @@ class VendorList extends Component {
 		);
 	}
 
+	UNSAFE_componentWillReceiveProps(nexprops) {
+		nexprops.layoutVendorScreen !== this.props.layoutVendorScreen
+			? (this.key = this.key + 1)
+			: 1;
+	}
+
 	fetchData = (reload = false) => {
 		if (reload) {
 			this.page = 1;
+			this.props.clearVendors();
 		}
-		this.props.fetchAllVendors();
+		this.props.fetchFeaturedVendors();
 	};
 
 	handleLoadMore = () => {
@@ -90,14 +95,18 @@ class VendorList extends Component {
 	};
 
 	render() {
-		const { list, isFetching, showToolBar } = this.props;
+		const { list, isFetching, showToolBar, layoutVendorScreen } = this.props;
 		const renderFooter = () => isFetching && <Spinkit />;
+
+		console.log(list);
 
 		return (
 			<View style={styles.listView}>
 				{showToolBar && <WdVendorListToolBar />}
 				<AnimatedFlatList
+					key={this.key}
 					contentContainerStyle={styles.flatlist}
+					numColumns={layoutVendorScreen == 2 ? 2 : 1}
 					data={list}
 					keyExtractor={(item, index) => `${item.id} || ${index}`}
 					renderItem={this.renderItem}
@@ -110,10 +119,11 @@ class VendorList extends Component {
 							onRefresh={() => this.fetchData(true)}
 						/>
 					}
-					onEndReachedThreshold={100}
-					onEndReached={distance =>
-						distance.distanceFromEnd > 100 && this.handleLoadMore()
-					}
+					onEndReachedThreshold={0}
+					// onEndReached={distance =>
+					// 	distance.distanceFromEnd > 100 && this.handleLoadMore()
+					// }
+					onEndReached={this.handleLoadMore()}
 					scrollEventThrottle={1}
 					onScroll={Animated.event(
 						[{ nativeEvent: { contentOffset: { y: this.state.scrollY } } }],
@@ -126,10 +136,11 @@ class VendorList extends Component {
 }
 
 const mapStateToProps = ({ vendors }, ownProp) => {
-	const list =
-		ownProp.vendorListType === 'featured'
-			? vendors.featuredVendorList
-			: vendors.vendorList;
+	// const list =
+	// 	ownProp.vendorListType === 'featured'
+	// 		? vendors.featuredVendorList
+	//     : vendors.vendorList;
+	const list = vendors.featuredVendorList;
 	const isFetching = vendors.isFetching;
 	const layoutVendorScreen = vendors.layoutVendorScreen;
 	const finish = true;
@@ -148,6 +159,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		},
 		fetchFeaturedVendors: () => {
 			VendorActions.fetchFeaturedVendors(dispatch);
+		},
+		clearVendors: () => {
+			VendorActions.clearVendors(dispatch);
 		},
 		fetchVendorProducts: vendorID => {
 			VendorActions.fetchVendorProducts(dispatch, vendorID);

@@ -20,20 +20,23 @@ const types = {
 	FETCH_VENDOR_REVIEWS_PENDING: 'FETCH_VENDOR_REVIEWS_PENDING',
 	FETCH_VENDOR_REVIEWS_FAILURE: 'FETCH_VENDOR_REVIEWS_FAILURE',
 	FETCH_VENDOR_REVIEWS_SUCCESS: 'FETCH_VENDOR_REVIEWS_SUCCESS',
+	CLEAR_VENDORS: 'CLEAR_VENDORS',
 	SWITCH_LAYOUT_VENDOR: 'SWITCH_LAYOUT_VENDOR',
 };
 
 export const actions = {
 	fetchVendors: async (dispatch, page = 1, per_page = 5) => {
+		console.log(page);
 		dispatch({ type: types.FETCH_VENDORS_PENDING });
 
 		const json = await DokanWorker.getVendors(page, per_page);
-		// console.log(`content length: ${json.length}`);
+
 		if (json === undefined) {
 			dispatch(actions.fetchVendorsFailure("Can't get data from server"));
 		} else if (json.code) {
 			dispatch(actions.fetchVendorsFailure(json.message));
-		} else if (page > 1) {
+		} else if (page > 1 && json.length !== 0) {
+			console.log('moar');
 			dispatch(actions.fetchVendorMore(json));
 		} else {
 			dispatch(actions.fetchVendorsSuccess(json));
@@ -106,6 +109,9 @@ export const actions = {
 			dispatch({ type: types.FETCH_VENDOR_REVIEWS_SUCCESS, reviews: json });
 		}
 	},
+	clearVendors: dispatch => {
+		dispatch({ type: types.CLEAR_VENDORS });
+	},
 	switchLayoutVendorPage: (layout, layoutChangeIcon) => {
 		return { type: types.SWITCH_LAYOUT_VENDOR, layout, layoutChangeIcon };
 	},
@@ -120,7 +126,7 @@ const initialState = {
 	vendorProducts: [],
 	vendorReviews: [],
 	selectedVendor: null,
-	layoutVendorScreen: Constants.Layout.twoColumn,
+	layoutVendorScreen: Constants.Layout.simple,
 	layoutChangeIcon: Icons.MaterialCommunityIcons.Categories,
 };
 
@@ -183,6 +189,13 @@ export const reducer = (state = initialState, action) => {
 				isFetching: false,
 				featuredVendorList: [],
 				error,
+			};
+		}
+		case types.CLEAR_VENDORS: {
+			return {
+				...state,
+				vendorList: [],
+				featuredVendorList: [],
 			};
 		}
 		case types.FETCH_VENDOR_REVIEWS_PENDING: {

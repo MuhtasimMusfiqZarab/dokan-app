@@ -56,25 +56,21 @@ class ProductList extends Component {
 			this.props.config.name === 'allProducts'
 		) {
 			this.props.fetchAllProducts(20, this.page);
-		}
-
-		if (
+		} else if (
 			!this.props.vendorID &&
 			this.props.config.name &&
 			this.props.config.name === 'newArrival'
 		) {
 			this.props.fetchNewArrivals(this.page);
-		}
-
-		if (
+		} else if (
 			!this.props.vendorID &&
 			this.props.config.puprpose &&
 			this.props.config.puprpose === 'appBanner'
 		) {
 			this.fetchData();
+		} else {
+			this.page === 0 && this.fetchData();
 		}
-
-		this.page === 0 && this.fetchData();
 	}
 
 	UNSAFE_componentWillReceiveProps(nexprops) {

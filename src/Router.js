@@ -108,9 +108,6 @@ class Router extends React.Component {
 
 		const { isAppConfigured, isConnected } = this.state;
 
-		console.log(`isAppConfigured: ${isAppConfigured}`);
-		console.log(`isConnected: ${isConnected}`);
-
 		if (isAppConfigured && isConnected) {
 			return Device.isIphoneX ? (
 				<SafeAreaView style={{ flex: 1 }}>

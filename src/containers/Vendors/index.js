@@ -34,22 +34,31 @@ class Vendors extends Component {
 		this.page = props.page ? props.page : 0;
 		this.limit = Constants.pagingLimit;
 		this.isVendorList = props.type === undefined;
+		this.key = 1;
 	}
 
 	componentDidMount() {
 		this.fetchData();
 	}
 
-	shouldComponentUpdate(nextProps) {
+	shouldComponentUpdate(nextProps, nextState) {
 		return (
 			nextProps.layoutVendorScreen !== this.props.layoutVendorScreen ||
-			nextProps.list !== this.props.list
+			nextProps.list !== this.props.list ||
+			nextState.isFooterFetching !== this.state.isFooterFetching
 		);
+	}
+
+	UNSAFE_componentWillReceiveProps(nexprops) {
+		nexprops.layoutVendorScreen !== this.props.layoutVendorScreen
+			? (this.key = this.key + 1)
+			: 1;
 	}
 
 	fetchData = (reload = false) => {
 		if (reload) {
 			this.page = 1;
+			this.props.clearVendors();
 		}
 
 		this.props.fetchAllVendors(this.page, 10);
@@ -102,14 +111,17 @@ class Vendors extends Component {
 	};
 
 	render() {
-		const { list, isFetching } = this.props;
+		const { list, isFetching, layoutVendorScreen } = this.props;
+		console.log(`isFetching: ${isFetching}`);
 		const renderFooter = () => (this.state.isFooterFetching ? <Spinkit /> : '');
 
 		return (
 			<View style={styles.listView}>
 				{this.props.showToolBar && <WdVendorListToolBar />}
 				<AnimatedFlatList
+					key={this.key}
 					contentContainerStyle={styles.flatlist}
+					numColumns={layoutVendorScreen == 2 ? 2 : 1}
 					data={list}
 					keyExtractor={(item, index) => `${item.id} || ${index}`}
 					renderItem={this.renderItem}
@@ -122,7 +134,7 @@ class Vendors extends Component {
 							onRefresh={() => this.fetchData(true)}
 						/>
 					}
-					onEndReachedThreshold={0.5}
+					onEndReachedThreshold={0}
 					// onEndReached={
 					// 	(distance) => distance.distanceFromEnd > 100 && this.handleLoadMore()
 					// }
@@ -156,6 +168,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		...stateProps,
 		fetchAllVendors: (page, per_page) => {
 			VendorActions.fetchVendors(dispatch, page, per_page);
+		},
+		clearVendors: () => {
+			VendorActions.clearVendors(dispatch);
 		},
 		fetchVendorProducts: vendorID => {
 			VendorActions.fetchVendorProducts(dispatch, vendorID);

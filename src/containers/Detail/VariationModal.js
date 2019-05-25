@@ -106,8 +106,6 @@ export default class VariationModal extends Component {
 			}
 		});
 
-		console.log(selectedOptions.length);
-
 		if (selectedOptions.length === 0) {
 			const text = `Please select ${product.attributes.map(
 				(attribute, index) => {
@@ -136,7 +134,6 @@ export default class VariationModal extends Component {
 	render() {
 		const { attributeWithOptions } = this.state;
 		const { product, selectVariation } = this.props;
-		console.log(product);
 		const productPrice = currencyFormatter(
 			selectVariation ? selectVariation.regular_price : product.price
 		);

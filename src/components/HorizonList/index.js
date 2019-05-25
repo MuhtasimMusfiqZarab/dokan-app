@@ -106,6 +106,7 @@ class HorizonList extends PureComponent {
 
 	render() {
 		const { isFetching } = this.props;
+
 		return (
 			<FlatList
 				data={HorizonLayouts}

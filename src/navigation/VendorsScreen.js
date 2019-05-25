@@ -24,7 +24,7 @@ export default class CategoriesScreen extends PureComponent {
 			<Vendors
 				onViewVendorScreen={item => navigate('VendorProfileScreen', item)}
 				page={1}
-				showToolBar={true}
+				showToolBar={false}
 			/>
 		);
 	}
