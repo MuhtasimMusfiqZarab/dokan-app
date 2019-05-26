@@ -27,10 +27,6 @@ class Vendors extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			isFooterFetching: false,
-		};
-
 		this.page = props.page ? props.page : 0;
 		this.limit = Constants.pagingLimit;
 		this.isVendorList = props.type === undefined;
@@ -41,11 +37,10 @@ class Vendors extends Component {
 		this.fetchData();
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
+	shouldComponentUpdate(nextProps) {
 		return (
 			nextProps.layoutVendorScreen !== this.props.layoutVendorScreen ||
-			nextProps.list !== this.props.list ||
-			nextState.isFooterFetching !== this.state.isFooterFetching
+			nextProps.list !== this.props.list
 		);
 	}
 
@@ -65,17 +60,9 @@ class Vendors extends Component {
 	};
 
 	handleLoadMore = () => {
-		console.log(`finish: ${this.props.finish}`);
 		if (!this.props.finish) {
-			this.setState({
-				isFooterFetching: true,
-			});
 			this.page += 1;
 			this.fetchData();
-		} else {
-			this.setState({
-				isFooterFetching: false,
-			});
 		}
 	};
 
@@ -112,8 +99,9 @@ class Vendors extends Component {
 
 	render() {
 		const { list, isFetching, layoutVendorScreen } = this.props;
-		console.log(`isFetching: ${isFetching}`);
-		const renderFooter = () => (this.state.isFooterFetching ? <Spinkit /> : '');
+		console.log(`is all vendor Fetching: ${isFetching}`);
+		console.log(list);
+		const renderFooter = () => (isFetching ? <Spinkit /> : '');
 
 		return (
 			<View style={styles.listView}>

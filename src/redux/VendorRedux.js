@@ -21,6 +21,7 @@ const types = {
 	FETCH_VENDOR_REVIEWS_FAILURE: 'FETCH_VENDOR_REVIEWS_FAILURE',
 	FETCH_VENDOR_REVIEWS_SUCCESS: 'FETCH_VENDOR_REVIEWS_SUCCESS',
 	CLEAR_VENDORS: 'CLEAR_VENDORS',
+	CLEAR_FEATURED_VENDORS: 'CLEAR_FEATURED_VENDORS',
 	SWITCH_LAYOUT_VENDOR: 'SWITCH_LAYOUT_VENDOR',
 };
 
@@ -112,6 +113,9 @@ export const actions = {
 	clearVendors: dispatch => {
 		dispatch({ type: types.CLEAR_VENDORS });
 	},
+	clearFeaturedVendors: dispatch => {
+		dispatch({ type: types.CLEAR_FEATURED_VENDORS });
+	},
 	switchLayoutVendorPage: (layout, layoutChangeIcon) => {
 		return { type: types.SWITCH_LAYOUT_VENDOR, layout, layoutChangeIcon };
 	},
@@ -119,6 +123,7 @@ export const actions = {
 
 const initialState = {
 	isFetching: false,
+	isFeaturedFetching: false,
 	finish: false,
 	error: null,
 	vendorList: [],
@@ -132,6 +137,8 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
 	const { type, error, items } = action;
+
+	console.log(items);
 
 	switch (type) {
 		case types.FETCH_VENDORS_PENDING: {
@@ -171,14 +178,14 @@ export const reducer = (state = initialState, action) => {
 		case types.FETCH_FEATURED_VENDORS_PENDING: {
 			return {
 				...state,
-				isFetching: true,
+				isFeaturedFetching: true,
 				error: null,
 			};
 		}
 		case types.FETCH_FEATURED_VENDORS_SUCCESS: {
 			return {
 				...state,
-				isFetching: false,
+				isFeaturedFetching: false,
 				featuredVendorList: items || [],
 				error: null,
 			};
@@ -195,6 +202,11 @@ export const reducer = (state = initialState, action) => {
 			return {
 				...state,
 				vendorList: [],
+			};
+		}
+		case types.CLEAR_FEATURED_VENDORS: {
+			return {
+				...state,
 				featuredVendorList: [],
 			};
 		}

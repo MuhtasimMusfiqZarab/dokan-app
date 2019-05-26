@@ -51,7 +51,7 @@ class VendorList extends Component {
 	fetchData = (reload = false) => {
 		if (reload) {
 			this.page = 1;
-			this.props.clearVendors();
+			this.props.clearFeaturedVendors();
 		}
 		this.props.fetchFeaturedVendors();
 	};
@@ -98,8 +98,6 @@ class VendorList extends Component {
 		const { list, isFetching, showToolBar, layoutVendorScreen } = this.props;
 		const renderFooter = () => isFetching && <Spinkit />;
 
-		console.log(list);
-
 		return (
 			<View style={styles.listView}>
 				{showToolBar && <WdVendorListToolBar />}
@@ -135,13 +133,9 @@ class VendorList extends Component {
 	}
 }
 
-const mapStateToProps = ({ vendors }, ownProp) => {
-	// const list =
-	// 	ownProp.vendorListType === 'featured'
-	// 		? vendors.featuredVendorList
-	//     : vendors.vendorList;
+const mapStateToProps = ({ vendors }) => {
 	const list = vendors.featuredVendorList;
-	const isFetching = vendors.isFetching;
+	const isFetching = vendors.isFeaturedFetching;
 	const layoutVendorScreen = vendors.layoutVendorScreen;
 	const finish = true;
 
@@ -160,8 +154,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		fetchFeaturedVendors: () => {
 			VendorActions.fetchFeaturedVendors(dispatch);
 		},
-		clearVendors: () => {
-			VendorActions.clearVendors(dispatch);
+		clearFeaturedVendors: () => {
+			VendorActions.clearFeaturedVendors(dispatch);
 		},
 		fetchVendorProducts: vendorID => {
 			VendorActions.fetchVendorProducts(dispatch, vendorID);
