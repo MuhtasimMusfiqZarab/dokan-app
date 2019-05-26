@@ -1,7 +1,14 @@
 /** @format */
 
 import React, { Component } from 'react';
-import { FlatList, Image, RefreshControl, Animated, View } from 'react-native';
+import {
+	FlatList,
+	Image,
+	RefreshControl,
+	Animated,
+	View,
+	Platform,
+} from 'react-native';
 import {
 	PostLayout,
 	Spinkit,
@@ -22,7 +29,6 @@ const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 class ProductList extends Component {
 	state = {
 		scrollY: new Animated.Value(0),
-		isFooterFetching: false,
 		isSpinner: false,
 	};
 
@@ -83,7 +89,6 @@ class ProductList extends Component {
 		return (
 			nextProps.layoutProductScreen !== this.props.layoutProductScreen ||
 			nextProps.list !== this.props.list ||
-			nextState.isFooterFetching !== this.state.isFooterFetching ||
 			nextState.isSpinner !== this.state.isSpinner
 		);
 	}
@@ -110,13 +115,13 @@ class ProductList extends Component {
 		if (config.name === 'allProducts') {
 			if (message) {
 				if (message === 'sortRating') {
-					sortByRating(10, this.page, 'desc', 'rating');
+					sortByRating(10, this.page, 'desc');
 				} else if (message === 'sortByDate') {
-					sortByDate(10, this.page, 'desc', 'rating');
+					sortByDate(10, this.page, 'desc');
 				} else if (message === 'sortPriceDesc') {
-					sortByPriceDesc(10, this.page, 'desc', 'price');
+					sortByPriceDesc(10, this.page, 'desc');
 				} else if (message === 'sortPriceAsc') {
-					sortByPriceAsc(10, this.page, 'asc', 'price');
+					sortByPriceAsc(10, this.page, 'asc');
 				} else {
 					return false;
 				}
@@ -138,15 +143,9 @@ class ProductList extends Component {
 
 	handleLoadMore = () => {
 		if (!this.props.finish) {
-			this.setState({
-				isFooterFetching: true,
-			});
 			this.page += 1;
 			this.fetchData();
 		} else {
-			this.setState({
-				isFooterFetching: false,
-			});
 			this.page = 1;
 		}
 	};
@@ -168,6 +167,8 @@ class ProductList extends Component {
 	};
 
 	renderItem = ({ item, index }) => {
+		const { vendorID, config } = this.props;
+
 		if (item == null) return <View />;
 
 		return (
@@ -176,7 +177,11 @@ class ProductList extends Component {
 				type={this.props.type}
 				key={`key-${index}`}
 				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
-				layout={this.props.vendorID ? 3 : this.props.layoutProductScreen}
+				layout={
+					vendorID || config.name !== 'allProducts'
+						? 3
+						: this.props.layoutProductScreen
+				}
 				isVendorProduct={this.props.vendorID ? true : false}
 				viewVendorFromProductList={this.viewVendorFromProductList}
 			/>
@@ -197,7 +202,7 @@ class ProductList extends Component {
 
 	render() {
 		const { list, config, isFetching, layoutProductScreen } = this.props;
-		const renderFooter = () => (this.state.isFooterFetching ? <Spinkit /> : '');
+		const renderFooter = () => (isFetching ? <Spinkit /> : '');
 		const showModalSorting = config
 			? config.name === 'allProducts'
 				? true
@@ -206,7 +211,7 @@ class ProductList extends Component {
 
 		return (
 			<View style={styles.listView}>
-				{this.props.showToolBar && (
+				{this.props.showToolBar && config.name === 'allProducts' && (
 					<WdProductListToolBar showSorting={showModalSorting} />
 				)}
 				<AnimatedFlatList
@@ -216,6 +221,7 @@ class ProductList extends Component {
 					data={list}
 					keyExtractor={(item, index) => `${item.id} || ${index}`}
 					renderItem={this.renderItem}
+					initialNumToRender={10}
 					ListHeaderComponent={this.headerComponent}
 					ListFooterComponent={renderFooter()}
 					refreshing={isFetching}
@@ -225,7 +231,7 @@ class ProductList extends Component {
 							onRefresh={() => this.fetchData(true)}
 						/>
 					}
-					onEndReachedThreshold={0.5}
+					onEndReachedThreshold={Platform.OS === 'ios' ? 0 : 0.5}
 					onEndReached={this.handleLoadMore}
 					scrollEventThrottle={1}
 				/>
@@ -297,41 +303,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 		fetchNewArrivals: page => {
 			ProductActions.fetchNewArrivals(dispatch, page);
 		},
-		sortByRating: (per_page, page, order, order_by) => {
-			return ProductActions.sortByRating(
-				dispatch,
-				per_page,
-				page,
-				order,
-				order_by
-			);
+		sortByRating: (per_page, page, order) => {
+			return ProductActions.sortByRating(dispatch, per_page, page, order);
 		},
-		sortByDate: (per_page, page, order, order_by) => {
-			return ProductActions.sortByDate(
-				dispatch,
-				per_page,
-				page,
-				order,
-				order_by
-			);
+		sortByDate: (per_page, page, order) => {
+			return ProductActions.sortByDate(dispatch, per_page, page, order);
 		},
-		sortByPriceDesc: (per_page, page, order, order_by) => {
-			return ProductActions.sortByPriceDesc(
-				dispatch,
-				per_page,
-				page,
-				order,
-				order_by
-			);
+		sortByPriceDesc: (per_page, page, order) => {
+			return ProductActions.sortByPriceDesc(dispatch, per_page, page, order);
 		},
-		sortByPriceAsc: (per_page, page, order, order_by) => {
-			return ProductActions.sortByPriceAsc(
-				dispatch,
-				per_page,
-				page,
-				order,
-				order_by
-			);
+		sortByPriceAsc: (per_page, page, order) => {
+			return ProductActions.sortByPriceAsc(dispatch, per_page, page, order);
 		},
 	};
 };

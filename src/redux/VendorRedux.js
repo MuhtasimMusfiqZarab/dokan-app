@@ -27,7 +27,6 @@ const types = {
 
 export const actions = {
 	fetchVendors: async (dispatch, page = 1, per_page = 5) => {
-		console.log(page);
 		dispatch({ type: types.FETCH_VENDORS_PENDING });
 
 		const json = await DokanWorker.getVendors(page, per_page);
@@ -37,7 +36,6 @@ export const actions = {
 		} else if (json.code) {
 			dispatch(actions.fetchVendorsFailure(json.message));
 		} else if (page > 1 && json.length !== 0) {
-			console.log('moar');
 			dispatch(actions.fetchVendorMore(json));
 		} else {
 			dispatch(actions.fetchVendorsSuccess(json));
@@ -137,8 +135,6 @@ const initialState = {
 
 export const reducer = (state = initialState, action) => {
 	const { type, error, items } = action;
-
-	console.log(items);
 
 	switch (type) {
 		case types.FETCH_VENDORS_PENDING: {

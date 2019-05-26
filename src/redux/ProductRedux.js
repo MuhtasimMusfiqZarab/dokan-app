@@ -171,8 +171,8 @@ export const actions = {
 		}
 	},
 	fetchAllProducts: async (dispatch, per_page = 20, page = 1) => {
-		console.log(page);
 		dispatch({ type: types.FETCH_PRODUCTS_PENDING });
+
 		const json = await WooWorker.getAllProducts(
 			per_page,
 			page,
@@ -363,8 +363,13 @@ export const actions = {
 			});
 		}
 	},
-	sortByRating: async (dispatch, per_page, page, order, order_by) => {
-		console.log(page);
+	sortByRating: async (
+		dispatch,
+		per_page,
+		page,
+		order,
+		order_by = 'rating'
+	) => {
 		dispatch({
 			type: types.SORT_BY_RATING_PENDING,
 		});
@@ -400,8 +405,7 @@ export const actions = {
 			});
 		}
 	},
-	sortByDate: async (dispatch, per_page, page, order, order_by) => {
-		console.log(page);
+	sortByDate: async (dispatch, per_page, page, order, order_by = 'date') => {
 		dispatch({
 			type: types.SORT_BY_RATING_PENDING,
 		});
@@ -437,8 +441,13 @@ export const actions = {
 			});
 		}
 	},
-	sortByPriceDesc: async (dispatch, per_page, page, order, order_by) => {
-		console.log(page);
+	sortByPriceDesc: async (
+		dispatch,
+		per_page,
+		page,
+		order,
+		order_by = 'price'
+	) => {
 		dispatch({
 			type: types.SORT_BY_PRICE_DESC_PENDING,
 		});
@@ -474,7 +483,13 @@ export const actions = {
 			});
 		}
 	},
-	sortByPriceAsc: async (dispatch, per_page, page, order, order_by) => {
+	sortByPriceAsc: async (
+		dispatch,
+		per_page,
+		page,
+		order,
+		order_by = 'price'
+	) => {
 		console.log(page);
 		dispatch({
 			type: types.SORT_BY_PRICE_ASC_PENDING,
@@ -626,7 +641,7 @@ export const reducer = (state = initialState, action) => {
 
 		case types.FETCH_ALL_PRODUCTS_MORE: {
 			return Object.assign({}, state, {
-				isFetching: false,
+				isFetching: items.length !== 0 ? true : false,
 				list: state.list.concat(items),
 				listAll: state.listAll.concat(items),
 				stillFetch: items.length !== 0,
@@ -764,7 +779,7 @@ export const reducer = (state = initialState, action) => {
 		}
 		case types.FETCH_NEW_ARRIVALS_MORE: {
 			return Object.assign({}, state, {
-				isFetching: false,
+				isFetching: items.length !== 0 ? true : false,
 				error: null,
 				list: state.list.concat(items),
 				page,
@@ -781,7 +796,7 @@ export const reducer = (state = initialState, action) => {
 		}
 		case types.SORT_BY_RATING_MORE: {
 			return Object.assign({}, state, {
-				isFetching: false,
+				isFetching: items.length !== 0 ? true : false,
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
@@ -798,7 +813,7 @@ export const reducer = (state = initialState, action) => {
 		}
 		case types.SORT_BY_DATE_MORE: {
 			return Object.assign({}, state, {
-				isFetching: false,
+				isFetching: items.length !== 0 ? true : false,
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
@@ -815,7 +830,7 @@ export const reducer = (state = initialState, action) => {
 		}
 		case types.SORT_BY_PRICE_DESC_MORE: {
 			return Object.assign({}, state, {
-				isFetching: false,
+				isFetching: items.length !== 0 ? true : false,
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
@@ -832,7 +847,7 @@ export const reducer = (state = initialState, action) => {
 		}
 		case types.SORT_BY_PRICE_ASC_MORE: {
 			return Object.assign({}, state, {
-				isFetching: false,
+				isFetching: items.length !== 0 ? true : false,
 				error: null,
 				listAll: state.listAll.concat(items),
 				page,
