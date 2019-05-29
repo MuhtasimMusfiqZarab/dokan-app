@@ -41,7 +41,7 @@ class TabBarIcon extends PureComponent {
 					style={[styles.icon, { tintColor }, css]}
 				/>
 				{wishlistIcon && wishList.total > 0 && numberWrap(wishList.total || 0)}
-				{cartIcon && carts.total > 0 && numberWrap(carts.total || 0)}
+				{cartIcon && carts.totalItems > 0 && numberWrap(carts.totalItems || 0)}
 			</View>
 		);
 	}

@@ -217,7 +217,7 @@ class MyOrders extends PureComponent {
 							renderItem={this.renderRow}
 							refreshControl={
 								<RefreshControl
-									refreshing={this.props.carts.isFetching}
+									refreshing={this.props.carts.isOrderFetching}
 									onRefresh={this.fetchProductsData}
 								/>
 							}

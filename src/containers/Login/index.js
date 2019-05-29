@@ -308,12 +308,12 @@ class LoginScreen extends PureComponent {
 							onPress={this.onLoginPressHandle}
 						/>
 
-						<ButtonIndex
+						{/* <ButtonIndex
 							text={Languages.FacebookLogin.toUpperCase()}
 							icon={Icons.MaterialCommunityIcons.Facebook}
 							containerStyle={styles.fbButton}
 							onPress={this.onFBLoginPressHandle}
-						/>
+						/> */}
 
 						<View style={styles.separatorWrap}>
 							<View style={styles.separator} />

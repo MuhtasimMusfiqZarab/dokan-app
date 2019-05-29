@@ -546,7 +546,7 @@ const initialState = {
 
 	// wedevs
 	relatedProducts: [],
-	layoutProductScreen: Constants.Layout.twoColumn,
+	layoutProductScreen: Constants.Layout.simple,
 	layoutChangeIcon: Icons.MaterialCommunityIcons.Categories,
 };
 

@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { find, isEmpty } from 'lodash';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Constants, Color } from '@common';
 import { toast } from '@app/Omni';
@@ -15,6 +16,7 @@ class ChangeQuantity extends PureComponent {
 			isCartUpdating: false,
 		};
 		this.quantity = props.quantity;
+		this.backgroundProductQue = [];
 	}
 
 	UNSAFE_componentWillReceiveProps(nextProps) {
@@ -28,27 +30,60 @@ class ChangeQuantity extends PureComponent {
 	}
 
 	increase = async () => {
-		const { updateCartItem, productKey, token } = this.props;
+		const { updateCartItem, product, token } = this.props;
 
 		if (
 			this.quantity < Constants.LimitAddToCart &&
 			this.state.updatedQuantity < Constants.LimitAddToCart
 		) {
 			this.quantity = this.quantity + 1;
-			await updateCartItem(productKey, this.quantity, token);
+			await updateCartItem(product.key, this.quantity, token);
 		} else {
 			toast(`${Constants.LimitAddToCart} is the maximum limit`);
 		}
 	};
 
-	reduced = async () => {
-		const { updateCartItem, productKey, token } = this.props;
+	reduce = async () => {
+		const { updateCartItem, product, token } = this.props;
 
 		if (this.quantity > 1 && this.state.updatedQuantity > 1) {
 			this.quantity = this.quantity - 1;
-			await updateCartItem(productKey, this.quantity, token);
+			await updateCartItem(product.key, this.quantity, token);
 		}
 	};
+
+	// increase = () => {
+	// 	const {
+	// 		updateCartItemLocally,
+	// 		setBackgroundProductsQue,
+	// 		product,
+	// 	} = this.props;
+
+	// 	if (
+	// 		this.quantity < Constants.LimitAddToCart &&
+	// 		this.state.updatedQuantity < Constants.LimitAddToCart
+	// 	) {
+	// 		this.quantity = this.quantity + 1;
+	// 		updateCartItemLocally(product.key, this.quantity, 'increase');
+	// 		setBackgroundProductsQue(product);
+	// 	} else {
+	// 		toast(`${Constants.LimitAddToCart} is the maximum limit`);
+	// 	}
+	// };
+
+	// reduce = () => {
+	// 	const {
+	// 		updateCartItemLocally,
+	// 		setBackgroundProductsQue,
+	// 		product,
+	// 	} = this.props;
+
+	// 	if (this.quantity > 1 && this.state.updatedQuantity > 1) {
+	// 		this.quantity = this.quantity - 1;
+	// 		updateCartItemLocally(product.key, this.quantity, 'decrease');
+	// 		setBackgroundProductsQue(product);
+	// 	}
+	// };
 
 	render() {
 		const hitSlop = { top: 20, right: 10, bottom: 20, left: 10 };
@@ -71,7 +106,7 @@ class ChangeQuantity extends PureComponent {
 				<TouchableOpacity
 					style={styles.btnDown}
 					hitSlop={hitSlop}
-					onPress={!isDisabled ? this.reduced : () => false}>
+					onPress={!isDisabled ? this.reduce : () => false}>
 					<FontAwesome name="minus" size={16} color="#E94F44" />
 				</TouchableOpacity>
 			</View>

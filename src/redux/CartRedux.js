@@ -13,12 +13,15 @@ const types = {
 	UPDATE_CART_ITEM: 'UPDATE_CART_ITEM',
 	UPDATE_CART_ITEM_PENDING: 'UPDATE_CART_ITEM_PENDING',
 	EMPTY_CART: 'EMPTY_CART',
+	UPDATE_CART_LOCAL: 'UPDATE_CART_LOCAL',
+	REMOVE_CART_ITEM_LOCAL: 'REMOVE_CART_ITEM_LOCAL',
 	CREATE_NEW_ORDER_PENDING: 'CREATE_NEW_ORDER_PENDING',
 	CREATE_NEW_ORDER_SUCCESS: 'CREATE_NEW_ORDER_SUCCESS',
 	CREATE_NEW_ORDER_ERROR: 'CREATE_NEW_ORDER_ERROR',
 	VALIDATE_CUSTOMER_INFO: 'VALIDATE_CUSTOMER_INFO',
 	INVALIDATE_CUSTOMER_INFO: 'INVALIDATE_CUSTOMER_INFO',
 	FETCH_MY_ORDER: 'FETCH_MY_ORDER',
+	FETCH_MY_ORDER_PENDING: 'FETCH_MY_ORDER_PENDING',
 	FETCH_CART_PENDING: 'FETCH_CART_PENDING',
 	GET_SHIPPING_METHOD_PENDING: 'GET_SHIPPING_METHOD_PENDING',
 	GET_SHIPPING_METHOD_SUCCESS: 'GET_SHIPPING_METHOD_SUCCESS',
@@ -33,6 +36,8 @@ const types = {
 	GET_COUPON_SUCCESS: 'GET_COUPON_SUCCESS',
 	APPLY_COUPON_FAILED: 'APPLY_COUPON_FAILED',
 	RESET_CART_MSG: 'RESET_CART_MSG',
+	SET_BACKGROUND_PRODUCT_QUE: 'SET_BACKGROUND_PRODUCT_QUE',
+	CLEAR_BACKGROUND_PRODUCT_QUE: 'CLEAR_BACKGROUND_PRODUCT_QUE',
 };
 
 export const actions = {
@@ -94,7 +99,7 @@ export const actions = {
 			if (item.product) {
 				let data = {
 					product_id: item.product.id,
-					quantity: 1,
+					quantity: item.quantity,
 				};
 				itemsArray.push(data);
 			} else {
@@ -135,7 +140,7 @@ export const actions = {
 			.catch(error => console.log(error));
 	},
 	fetchMyOrder: (dispatch, user) => {
-		dispatch({ type: types.FETCH_CART_PENDING });
+		dispatch({ type: types.FETCH_MY_ORDER_PENDING });
 
 		WooWorker.ordersByCustomerId(user.id, 40, 1)
 			.then(data => {
@@ -187,6 +192,14 @@ export const actions = {
 			.catch(error => {
 				console.log(error);
 			});
+	},
+	updateCartItemLocally: (dispatch, productKey, quantity, updateType) => {
+		dispatch({
+			type: types.UPDATE_CART_LOCAL,
+			productKey: productKey,
+			quantity: quantity,
+			updateType: updateType,
+		});
 	},
 	calculateShipping: (
 		dispatch,
@@ -344,16 +357,24 @@ export const actions = {
 	finishOrder: async dispatch => {
 		dispatch({ type: types.CREATE_NEW_ORDER_SUCCESS });
 	},
-	resetCartmsg: dispatch => [
+	resetCartmsg: dispatch => {
 		dispatch({
 			type: types.RESET_CART_MSG,
+		});
+	},
+	setBackgroundProductsQue: (dispatch, product) => {
+		dispatch({ type: types.SET_BACKGROUND_PRODUCT_QUE, product: product });
+	},
+	clearBackgroundProductsQue: dispatch =>
+		dispatch({
+			type: types.CLEAR_BACKGROUND_PRODUCT_QUE,
 		}),
-	],
 };
 
 const initialState = {
+	backgroundProductQue: [],
 	cartItems: [],
-	total: 0,
+	totalItems: 0,
 	totalPrice: 0,
 	subTotal: 0,
 	discount: 0,
@@ -362,6 +383,7 @@ const initialState = {
 	coupons: [],
 	myOrders: [],
 	isFetching: false,
+	isOrderFetching: false,
 	isCouponApplying: false,
 	message: '',
 };
@@ -378,6 +400,9 @@ export const reducer = (state = initialState, action) => {
 		shippingMethods,
 		coupons,
 		message,
+		productKey,
+		quantity,
+		updateType,
 	} = action;
 
 	switch (type) {
@@ -387,7 +412,7 @@ export const reducer = (state = initialState, action) => {
 				subTotal: subTotal,
 				discount: discount,
 				shippingTotal: shippingTotal,
-				total: totalItems,
+				totalItems: totalItems,
 				totalPrice: Number(totalPrice),
 				shippingMethods: shippingMethods,
 				isFetching: false,
@@ -398,7 +423,7 @@ export const reducer = (state = initialState, action) => {
 		case types.ADD_CART_ITEM: {
 			return Object.assign({}, state, {
 				cartItems: product,
-				total: totalItems,
+				totalItems: totalItems,
 				totalPrice: Number(totalPrice),
 				shippingMethods: shippingMethods,
 				isFetching: false,
@@ -407,7 +432,7 @@ export const reducer = (state = initialState, action) => {
 		case types.DELETE_CART_ITEM: {
 			return Object.assign({}, state, {
 				cartItems: product,
-				total: totalItems,
+				totalItems: totalItems,
 				totalPrice: Number(totalPrice),
 				shippingMethods: shippingMethods,
 				isFetching: false,
@@ -416,17 +441,46 @@ export const reducer = (state = initialState, action) => {
 		case types.UPDATE_CART_ITEM: {
 			return Object.assign({}, state, {
 				cartItems: product,
-				total: totalItems,
+				totalItems: totalItems,
 				totalPrice: Number(totalPrice),
 				shippingMethods: shippingMethods,
 				isFetching: false,
+			});
+		}
+		case types.UPDATE_CART_LOCAL: {
+			const currentProductPrice = state.cartItems.filter(
+				item => item.key === productKey
+			)[0].data.price;
+			const updatedCartItems = state.cartItems.map(item => {
+				if (item.key === productKey) {
+					item.quantity = quantity;
+					return item;
+				} else {
+					return item;
+				}
+			});
+
+			return Object.assign({}, state, {
+				cartItems: updatedCartItems,
+				totalPrice:
+					updateType === 'increase'
+						? parseFloat(state.totalPrice) + parseFloat(currentProductPrice)
+						: parseFloat(state.totalPrice) - parseFloat(currentProductPrice),
+				subTotal:
+					updateType === 'increase'
+						? parseFloat(state.subTotal) + parseFloat(currentProductPrice)
+						: parseFloat(state.subTotal) - parseFloat(currentProductPrice),
+				totalItems:
+					updateType === 'increase'
+						? state.totalItems + 1
+						: state.totalItems - 1,
 			});
 		}
 		case types.EMPTY_CART:
 			return Object.assign({}, state, {
 				type: types.EMPTY_CART,
 				cartItems: [],
-				total: 0,
+				totalItems: 0,
 				totalPrice: 0,
 				shippingMethods: [],
 				coupons: [],
@@ -452,7 +506,7 @@ export const reducer = (state = initialState, action) => {
 									),
 							  },
 						{
-							total: state.total - 1,
+							total: state.totalItems - 1,
 							totalPrice:
 								state.totalPrice -
 								Number(
@@ -488,10 +542,16 @@ export const reducer = (state = initialState, action) => {
 				type: types.CREATE_NEW_ORDER_ERROR,
 				message: action.message,
 			});
+		case types.FETCH_MY_ORDER_PENDING: {
+			return {
+				...state,
+				isOrderFetching: true,
+			};
+		}
 		case types.FETCH_MY_ORDER:
 			return Object.assign({}, state, {
 				type: types.FETCH_MY_ORDER,
-				isFetching: false,
+				isOrderFetching: false,
 				myOrders: action.data,
 			});
 		case types.FETCH_CART_PENDING: {
@@ -569,6 +629,36 @@ export const reducer = (state = initialState, action) => {
 				...state,
 				message: '',
 			});
+		}
+		case types.SET_BACKGROUND_PRODUCT_QUE: {
+			if (state.backgroundProductQue.length === 0) {
+				return {
+					...state,
+					backgroundProductQue: state.backgroundProductQue.concat(product),
+				};
+			} else {
+				const newArray = state.backgroundProductQue.map(item => {
+					if (item.key === product.key) {
+						return {
+							...item,
+							quantity: product.quantity,
+						};
+					} else {
+						return state.backgroundProductQue.concat(product);
+					}
+				});
+
+				return {
+					...state,
+					backgroundProductQue: newArray,
+				};
+			}
+		}
+		case types.CLEAR_BACKGROUND_PRODUCT_QUE: {
+			return {
+				...state,
+				backgroundProductQue: [],
+			};
 		}
 		default: {
 			return state;

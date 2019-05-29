@@ -19,6 +19,8 @@ class ProductItem extends PureComponent {
 			token,
 			isCartUpdating,
 			updateCartItem,
+			updateCartItemLocally,
+			setBackgroundProductsQue,
 		} = this.props;
 		const price =
 			variation === null || variation === undefined
@@ -81,10 +83,12 @@ class ProductItem extends PureComponent {
 							style={styles.quantity}
 							quantity={quantity}
 							// onChangeQuantity={this.onChangeQuantity.bind(this)}
-							productKey={product.key}
+							product={product}
 							token={token}
 							isCartUpdating={isCartUpdating}
 							updateCartItem={updateCartItem}
+							updateCartItemLocally={updateCartItemLocally}
+							setBackgroundProductsQue={setBackgroundProductsQue}
 						/>
 					)}
 				</View>
@@ -123,6 +127,12 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
 		},
 		updateCartItem: (productKey, quantity, token) => {
 			actions.updateCartItem(dispatch, productKey, quantity, token);
+		},
+		updateCartItemLocally: (productKey, quantity, updateType) => {
+			actions.updateCartItemLocally(dispatch, productKey, quantity, updateType);
+		},
+		setBackgroundProductsQue: product => {
+			actions.setBackgroundProductsQue(dispatch, product);
 		},
 	};
 }

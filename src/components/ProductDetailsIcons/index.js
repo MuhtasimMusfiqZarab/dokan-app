@@ -19,7 +19,7 @@ class ProductDetailsIcons extends Component {
 		const { carts, navigation } = this.props;
 		// console.log("carts:::", carts);
 		// const totalCart = carts.cartItems.length;
-		const totalCart = carts.total;
+		const totalCart = carts.totalItems;
 
 		return (
 			<View

@@ -41,6 +41,7 @@ class Cart extends PureComponent {
 		updateShippingMethod: PropTypes.func,
 		addSpinner: PropTypes.func,
 		removeSpinner: PropTypes.func,
+		backgroundProductQue: PropTypes.array,
 	};
 
 	static defaultProps = {
@@ -260,8 +261,6 @@ class Cart extends PureComponent {
 		} = this.props;
 		const { currentIndex, bottomButtons } = this.state;
 
-		// console.log(user);
-
 		if (currentIndex === 0 && cartItems && cartItems.length === 0) {
 			return (
 				<PaymentEmpty onViewHome={onViewHome} isCartFetching={isCartFetching} />
@@ -379,7 +378,8 @@ class Cart extends PureComponent {
 
 const mapStateToProps = ({ carts, user, spinner }) => ({
 	cartItems: carts.cartItems,
-	totalItems: carts.total,
+	totalItems: carts.totalItems,
+	backgroundProductQue: carts.backgroundProductQue,
 	subTotal: carts.subTotal,
 	shippingTotal: carts.shippingTotal,
 	discount: carts.discount,

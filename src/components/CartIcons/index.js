@@ -11,7 +11,7 @@ class CartIcons extends Component {
 		const { carts, wishList, navigation } = this.props;
 		// console.log("carts:::", carts);
 		// const totalCart = carts.cartItems.length;
-		const totalCart = carts.total;
+		const totalCart = carts.totalItems;
 		const wishListTotal = wishList.wishListItems.length;
 
 		return (

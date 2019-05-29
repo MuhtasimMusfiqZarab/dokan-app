@@ -130,7 +130,7 @@ class MyCart extends PureComponent {
 	};
 
 	render() {
-		const { cartItems } = this.props;
+		const { cartItems, isCartFetching } = this.props;
 
 		let uniqueVendors = this.getUniqueVendors(this.props.cartItems);
 
@@ -140,7 +140,7 @@ class MyCart extends PureComponent {
 					enableOnAndroid={true}
 					keyboardShouldPersistTaps="always">
 					<View style={styles.list}>
-						{this.props.isCartFetching && (
+						{isCartFetching && (
 							<View
 								style={{
 									width: '100%',
