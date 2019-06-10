@@ -547,7 +547,7 @@ const initialState = {
 	// wedevs
 	relatedProducts: [],
 	layoutProductScreen: Constants.Layout.simple,
-	layoutChangeIcon: Icons.MaterialCommunityIcons.Categories,
+	layoutChangeIcon: Icons.MaterialCommunityIcons.GridMode,
 };
 
 export const reducer = (state = initialState, action) => {

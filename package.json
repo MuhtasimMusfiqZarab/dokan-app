@@ -10,7 +10,8 @@
     "build:ios": "node node_modules/react-native/local-cli/cli.js bundle --entry-file='index.js' --bundle-output='./ios/dokan/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
     "setup": "./scripts/setup.sh",
     "setup:android": "./scripts/setup_android.sh",
-    "reset": "./scripts/reset.sh"
+    "reset": "./scripts/reset.sh",
+    "clear:cache": "watchman watch-del-all && rm -fr $TMPDIR/metro*"
   },
   "dependencies": {
     "base-64": "^0.1.0",

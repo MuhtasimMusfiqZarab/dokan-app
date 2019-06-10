@@ -179,12 +179,12 @@ class ProductList extends Component {
 				type={this.props.type}
 				key={`key-${index}`}
 				onViewPost={() => this.onRowClickHandle(item, this.props.type)}
-				// layout={
-				// 	vendorID || config.name !== 'allProducts'
-				// 		? 3
-				// 		: this.props.layoutProductScreen
-				// }
-				layout={vendorID ? 3 : this.props.layoutProductScreen}
+				layout={
+					vendorID || config.name !== 'allProducts'
+						? 3
+						: this.props.layoutProductScreen
+				}
+				// layout={vendorID ? 3 : this.props.layoutProductScreen}
 				isVendorProduct={this.props.vendorID ? true : false}
 				viewVendorFromProductList={this.viewVendorFromProductList}
 			/>

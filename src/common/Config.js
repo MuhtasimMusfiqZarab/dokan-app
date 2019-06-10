@@ -243,15 +243,15 @@ export default {
 			// 	},
 			// 	iconLeft: Icons.MaterialCommunityIcons.Currency,
 			// },
-			// {
-			// 	index: 5,
-			// 	text: 'Languages',
-			// 	routeName: 'SettingScreen',
-			// 	params: {
-			// 		isActive: false
-			// 	},
-			// 	iconLeft: Icons.MaterialCommunityIcons.Language,
-			// },
+			{
+				index: 5,
+				text: 'Languages',
+				routeName: 'SettingScreen',
+				params: {
+					isActive: false,
+				},
+				iconLeft: Icons.MaterialCommunityIcons.Language,
+			},
 			// {
 			// 	index: 6,
 			// 	text: 'Push Notification',
