@@ -1074,6 +1074,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 59KH73P3VR;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1099,6 +1100,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1837,6 +1839,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Dokan/Dokan.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 59KH73P3VR;
@@ -1871,6 +1875,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wedevs.dokan;
 				PRODUCT_NAME = Dokan;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1882,6 +1887,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Dokan/Dokan.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 59KH73P3VR;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1915,6 +1922,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wedevs.dokan;
 				PRODUCT_NAME = Dokan;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
