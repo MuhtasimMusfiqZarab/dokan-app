@@ -9,8 +9,8 @@ import {
 	View,
 	Image,
 	TouchableWithoutFeedback,
-	AsyncStorage,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import { filter } from 'lodash';
 import { toast, IconIO } from '@app/Omni';

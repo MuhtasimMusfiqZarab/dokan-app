@@ -1,19 +1,17 @@
-import Reactotron from 'reactotron-react-native'
-import { reactotronRedux as reduxPlugin } from 'reactotron-redux'
+import Reactotron from 'reactotron-react-native';
+import { reactotronRedux as reduxPlugin } from 'reactotron-redux';
 
-console.disableYellowBox = true
-
-Reactotron.configure({name: 'Dokan'})
+Reactotron.configure({ name: 'Dokan' });
 
 Reactotron.useReactNative({
-  asyncStorage: { ignore: ['secret'] }
-})
+	asyncStorage: { ignore: ['secret'] },
+});
 
-Reactotron.use(reduxPlugin())
+Reactotron.use(reduxPlugin());
 
-if (__DEV__) { 
-  Reactotron.connect()
-  Reactotron.clear()
+if (__DEV__) {
+	Reactotron.connect();
+	Reactotron.clear();
 }
 
-console.tron = Reactotron
+console.tron = Reactotron;

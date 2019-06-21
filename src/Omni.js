@@ -1,7 +1,8 @@
 /** @format */
 
 import reactotron from 'reactotron-react-native';
-import { PixelRatio, AsyncStorage } from 'react-native';
+import { PixelRatio } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import store from '@store/configureStore';
 import _EventEmitter from 'EventEmitter';
 import _ from 'lodash';

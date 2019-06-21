@@ -5,7 +5,7 @@ import React, { PureComponent } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import Swiper from 'react-native-swiper';
-import Placeholder from 'rn-placeholder';
+import {ImageContent} from 'rn-placeholder';
 import style from './styles';
 import { Images, Styles } from '@common';
 import { ImageCache } from '@components';
@@ -79,7 +79,7 @@ class AppBanner extends PureComponent {
 	render() {
 		return (
 			<View style={style.container}>
-				<Placeholder.ImageContent
+				<ImageContent
 					width="100%"
 					lineNumber={5}
 					textSize={14}
@@ -88,7 +88,7 @@ class AppBanner extends PureComponent {
 					lastLineWidth="30%"
 					firstLineWidth="10%"
 					animate="fade"
-					onReady={this.props.finish}>
+					isReady={this.props.finish}>
 					<Swiper
 						dot={
 							<View
@@ -139,7 +139,7 @@ class AppBanner extends PureComponent {
 							);
 						})}
 					</Swiper>
-				</Placeholder.ImageContent>
+				</ImageContent>
 			</View>
 		);
 	}

@@ -4,10 +4,10 @@ import React, { PureComponent } from 'react';
 import {
 	Text,
 	View,
-	AsyncStorage,
 	ScrollView,
 	TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import css from '@cart/styles';
 import { Config, Validator, Languages, Color } from '@common';
 import { connect } from 'react-redux';

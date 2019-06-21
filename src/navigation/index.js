@@ -1,21 +1,16 @@
 /** @format */
 
 import React from 'react';
-import { Images } from '@common';
+import { Images, Color } from '@common';
 import { TabBar, TabBarIcon } from '@components';
-import {
-	View,
-	Dimensions,
-	I18nManager,
-	StyleSheet,
-	Animated,
-} from 'react-native';
+import { Dimensions, I18nManager } from 'react-native';
 import {
 	createStackNavigator,
 	createBottomTabNavigator,
 	NavigationActions,
+	createAppContainer,
 } from 'react-navigation';
-import { TabViewPagerPan } from 'react-native-tab-view';
+import { useScreens } from 'react-native-screens';
 import HomeScreen from './HomeScreen';
 import NewsScreen from './NewsScreen';
 import NewsDetailScreen from './NewsDetailScreen';
@@ -44,6 +39,8 @@ import OrderDetailsScreen from './OrderDetailsScreen';
 import TransitionConfig from './TransitionConfig';
 import AddressScreen from './AddressScreen';
 
+// useScreens();
+
 const { width } = Dimensions.get('window');
 
 const NewsStack = createStackNavigator(
@@ -51,6 +48,7 @@ const NewsStack = createStackNavigator(
 		News: { screen: NewsScreen },
 		NewsDetailScreen: { screen: NewsDetailScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -67,6 +65,7 @@ const CategoryStack = createStackNavigator(
 			navigationOptions: { tabBarVisible: false },
 		},
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -82,6 +81,7 @@ const CategoryDetailStack = createStackNavigator(
 			navigationOptions: { tabBarVisible: false },
 		},
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -94,6 +94,7 @@ const WishListStack = createStackNavigator(
 		WishListScreen: { screen: WishListScreen },
 		Detail: { screen: DetailScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -106,6 +107,7 @@ const SearchStack = createStackNavigator(
 		Search: { screen: SearchScreen },
 		DetailScreen: { screen: DetailScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -122,6 +124,7 @@ const HomeStack = createStackNavigator(
 		CategoryScreen: { screen: CategoryScreen },
 		ReviewsScreen: { screen: ReviewsScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureResponseDistance: { horizontal: width / 2 },
@@ -134,9 +137,10 @@ const HomeStack = createStackNavigator(
 const CartScreenStack = createStackNavigator(
 	{
 		Cart: { screen: CartScreen },
-		Detail: { screen: DetailScreen },
-		Address: { screen: AddressScreen },
+    Detail: { screen: DetailScreen },
+    Address: { screen: AddressScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -147,9 +151,10 @@ const CartScreenStack = createStackNavigator(
 const UserProfileStack = createStackNavigator(
 	{
 		UserProfile: { screen: UserProfileScreen },
-		UserProfileEdit: { screen: UserProfileEditScreen },
-		Address: { screen: AddressScreen },
+    UserProfileEdit: { screen: UserProfileEditScreen },
+    Address: { screen: AddressScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -163,6 +168,7 @@ const LoginStack = createStackNavigator(
 		SignUpScreen: { screen: SignUpScreen },
 		ForgetPasswordScreen: { screen: ForgetPasswordScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		mode: 'modal',
 		header: null,
@@ -176,6 +182,7 @@ const VendorsStack = createStackNavigator(
 		VendorsScreen: { screen: VendorsScreen },
 		VendorProfileScreen: { screen: VendorProfileScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -187,6 +194,7 @@ const MyOrdersStack = createStackNavigator(
 		MyOrders: { screen: MyOrdersScreen },
 		OrderDetail: { screen: OrderDetailsScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -197,6 +205,7 @@ const VendorProfileStack = createStackNavigator(
 	{
 		VendorProfile: { screen: VendorProfileScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -207,6 +216,7 @@ const ContactUsStack = createStackNavigator(
 	{
 		ContactUs: { screen: ContactUsScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -217,6 +227,7 @@ const AboutUsStack = createStackNavigator(
 	{
 		AboutUs: { screen: AboutUsScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -227,6 +238,7 @@ const PrivacyPolicyStack = createStackNavigator(
 	{
 		PrivacyPolicy: { screen: PrivacyPolicyScreen },
 	},
+	{ cardStyle: { backgroundColor: Color.main } },
 	{
 		navigationOptions: {
 			gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
@@ -396,7 +408,7 @@ const AppNavigator = createBottomTabNavigator(
 	}
 );
 
-export default AppNavigator;
+export default createAppContainer(AppNavigator);
 
 /**
  * prevent duplicate screen
@@ -438,68 +450,3 @@ SearchStack.router.getStateForAction = navigateOnce(
 CartScreenStack.router.getStateForAction = navigateOnce(
 	CartScreenStack.router.getStateForAction
 );
-
-/**
- * FIX RTL react-navigation tab do not show
- */
-TabViewPagerPan.prototype.render = function render() {
-	const { panX, offsetX, navigationState, layout, children } = this.props;
-	const { width } = layout;
-	const { routes } = navigationState;
-	const maxTranslate = width * (routes.length - 1);
-	let translateX;
-	if (I18nManager.isRTL) {
-		// <------- HACK ---------
-		translateX = Animated.multiply(Animated.add(panX, offsetX), -1).interpolate(
-			{
-				inputRange: [0, maxTranslate],
-				outputRange: [0, maxTranslate],
-				extrapolate: 'clamp',
-			}
-		);
-		// ---------------------->
-	} else {
-		translateX = Animated.add(panX, offsetX).interpolate({
-			inputRange: [-maxTranslate, 0],
-			outputRange: [-maxTranslate, 0],
-			extrapolate: 'clamp',
-		});
-	}
-
-	return (
-		<Animated.View
-			style={[
-				styles.sheet,
-				width
-					? {
-							width: routes.length * width,
-							transform: [{ translateX }],
-					  }
-					: null,
-			]}
-			{...this._panResponder.panHandlers}>
-			{React.Children.map(children, (child, i) => (
-				<View
-					key={navigationState.routes[i].key}
-					testID={navigationState.routes[i].testID}
-					style={
-						width
-							? { width }
-							: i === navigationState.index
-							? StyleSheet.absoluteFill
-							: null
-					}>
-					{i === navigationState.index || width ? child : null}
-				</View>
-			))}
-		</Animated.View>
-	);
-};
-
-const styles = StyleSheet.create({
-	sheet: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'stretch',
-	},
-});

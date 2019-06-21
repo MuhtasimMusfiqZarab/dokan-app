@@ -2,7 +2,8 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, AsyncStorage } from 'react-native';
+import { View } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { connect } from 'react-redux';
 import { Languages, Images, Config, Constants, Events } from '@common';

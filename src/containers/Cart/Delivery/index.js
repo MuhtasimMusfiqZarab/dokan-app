@@ -5,10 +5,10 @@ import {
 	Text,
 	View,
 	TextInput,
-	AsyncStorage,
 	ScrollView,
 	TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import css from '@cart/styles';
 import { ShippingMethod, Button } from '@components';
 import { Config, Validator, Languages } from '@common';

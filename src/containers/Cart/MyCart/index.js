@@ -106,9 +106,6 @@ class MyCart extends PureComponent {
 					</TouchableOpacity>
 				);
 			} else {
-				// return (
-				// 	<Text style={{ color: Color.blackTextDisable }}>No shipping</Text>
-				// );
 				return (
 					<TouchableOpacity
 						style={{ flexDirection: 'row' }}
