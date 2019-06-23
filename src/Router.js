@@ -45,17 +45,17 @@ class Router extends React.Component {
 					this.fetchAppSettings();
 				}
 			})
-    	.catch(e => console.log(e));
-    // NetInfo.fetch().then(state => {
-    //   if (state.type === 'none') {
-  	// 		this.setState({
-  	// 			isConnected: false,
-  	// 		});
-  	// 	} else {
-  	// 		this.fetchAppSettings();
-  	// 	}
-    // })
-    // .catch(e => console.log(e))
+			.catch(e => console.log(e));
+		// NetInfo.fetch().then(state => {
+		//   if (state.type === 'none') {
+		// 		this.setState({
+		// 			isConnected: false,
+		// 		});
+		// 	} else {
+		// 		this.fetchAppSettings();
+		// 	}
+		// })
+		// .catch(e => console.log(e))
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
