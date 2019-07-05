@@ -24,7 +24,7 @@ export default class WishListScreen extends PureComponent {
 
 		return (
 			<WishList
-				onViewProduct={product => navigate('Detail', product)}
+				onViewProduct={product => navigate('DetailScreen', product)}
 				onViewHome={() => navigate('Default')}
 				navigation={this.props.navigation}
 				onMustLogin={() => {

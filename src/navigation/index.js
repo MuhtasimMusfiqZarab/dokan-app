@@ -60,10 +60,8 @@ const CategoryStack = createStackNavigator(
 	{
 		CategoriesScreen: { screen: CategoriesScreen },
 		CategoryScreen: { screen: CategoryScreen },
-		DetailScreen: {
-			screen: DetailScreen,
-			navigationOptions: { tabBarVisible: false },
-		},
+		DetailScreen: { screen: DetailScreen },
+		VendorProfileScreen: { screen: VendorProfileScreen },
 	},
 	{ cardStyle: { backgroundColor: Color.main } },
 	{
@@ -76,10 +74,6 @@ const CategoryStack = createStackNavigator(
 const CategoryDetailStack = createStackNavigator(
 	{
 		CategoryScreen: { screen: CategoryScreen },
-		DetailScreen: {
-			screen: DetailScreen,
-			navigationOptions: { tabBarVisible: false },
-		},
 	},
 	{ cardStyle: { backgroundColor: Color.main } },
 	{
@@ -92,7 +86,8 @@ const CategoryDetailStack = createStackNavigator(
 const WishListStack = createStackNavigator(
 	{
 		WishListScreen: { screen: WishListScreen },
-		Detail: { screen: DetailScreen },
+		DetailScreen: { screen: DetailScreen },
+		VendorProfileScreen: { screen: VendorProfileScreen },
 	},
 	{ cardStyle: { backgroundColor: Color.main } },
 	{
@@ -137,8 +132,9 @@ const HomeStack = createStackNavigator(
 const CartScreenStack = createStackNavigator(
 	{
 		Cart: { screen: CartScreen },
-    Detail: { screen: DetailScreen },
-    Address: { screen: AddressScreen },
+		DetailScreen: { screen: DetailScreen },
+		VendorProfileScreen: { screen: VendorProfileScreen },
+		Address: { screen: AddressScreen },
 	},
 	{ cardStyle: { backgroundColor: Color.main } },
 	{
@@ -151,8 +147,8 @@ const CartScreenStack = createStackNavigator(
 const UserProfileStack = createStackNavigator(
 	{
 		UserProfile: { screen: UserProfileScreen },
-    UserProfileEdit: { screen: UserProfileEditScreen },
-    Address: { screen: AddressScreen },
+		UserProfileEdit: { screen: UserProfileEditScreen },
+		Address: { screen: AddressScreen },
 	},
 	{ cardStyle: { backgroundColor: Color.main } },
 	{
@@ -369,15 +365,7 @@ const AppNavigator = createBottomTabNavigator(
 		NewsScreen: { screen: NewsStack },
 		SettingScreen: { screen: SettingScreen },
 		LoginStack: { screen: LoginStack },
-		// SignUpScreen: { screen: SignUpScreen },
 		CustomPage: { screen: CustomPageScreen },
-		Detail: {
-			screen: DetailScreen,
-			navigationOptions: {
-				tabBarVisible: false,
-				gestureDirection: I18nManager.isRTL ? 'inverted' : 'default',
-			},
-		},
 		CategoryDetail: { screen: CategoryDetailStack },
 		VendorsScreen: {
 			screen: VendorsStack,
