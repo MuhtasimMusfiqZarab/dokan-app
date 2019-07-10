@@ -22,7 +22,7 @@ class DrawerButton extends PureComponent {
 			iconLeft,
 			uppercase,
 			// textStyle,
-			isActive,
+			// isActive,
 			colorText,
 		} = this.props;
 		const transText = text !== '' && Languages[text] ? Languages[text] : text;
@@ -32,35 +32,36 @@ class DrawerButton extends PureComponent {
 				activeOpacity={0.8}
 				style={[
 					styles.container,
-					isActive && {
-						borderLeftWidth: 1,
-						borderColor: colorText,
-					},
+					// isActive && {
+					// 	borderLeftWidth: 1,
+					// 	borderColor: colorText,
+					// },
 				]}
 				onPress={onPress}>
 				<Icon
-					style={
-						isActive && {
-							...Platform.select({
-								ios: {
-									shadowOffset: { width: 0, height: 2 },
-									shadowColor: 'black',
-									shadowOpacity: 0.5,
-								},
-							}),
-						}
-					}
+					// style={
+					// 	isActive && {
+					// 		...Platform.select({
+					// 			ios: {
+					// 				shadowOffset: { width: 0, height: 2 },
+					// 				shadowColor: 'black',
+					// 				shadowOpacity: 0.5,
+					// 			},
+					// 		}),
+					// 	}
+					// }
 					name={iconLeft}
-					color={isActive ? '#F06352' : Color.wdgray}
+					// color={isActive ? '#F06352' : Color.wdgray}
+					color={Color.wdgray}
 					size={20}
 				/>
 				<Text
 					style={[
 						styles.text,
 						I18nManager.isRTL && { paddingRight: 20 },
-						isActive && {
-							color: '#F06352',
-						},
+						// isActive && {
+						// 	color: '#F06352',
+						// },
 						colorText && {
 							color: colorText,
 						},
@@ -95,14 +96,14 @@ DrawerButton.propTypes = {
 	onPress: PropTypes.func,
 	icon: PropTypes.string,
 	uppercase: PropTypes.bool,
-	isActive: PropTypes.bool,
+	// isActive: PropTypes.bool,
 	colorText: PropTypes.string,
 	iconLeft: PropTypes.any,
 };
 
 DrawerButton.defaultProps = {
 	uppercase: false,
-	isActive: false,
+	// isActive: false,
 	// colorText: true,
 	text: 'Default button name',
 	onPress: () => alert('Drawer button clicked'),

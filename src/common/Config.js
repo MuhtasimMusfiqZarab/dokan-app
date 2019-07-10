@@ -9,7 +9,7 @@ export default {
 		 Step 1: change to your website URL and the wooCommerce API consumerKey
 		*/
 	WooCommerce: {
-		url: 'http://mobileapp.getdokan.com',
+		url: 'https://mobileapp.getdokan.com',
 		consumerKey: 'ck_e8cee3b732833e55c5a5e664a0a7de40eae05d28',
 		consumerSecret: 'cs_0b5b64944e8c319d6751ffe9c132f91deb3aca2c',
 	},
@@ -231,15 +231,15 @@ export default {
 			// 	},
 			// 	iconLeft: Icons.MaterialCommunityIcons.Currency,
 			// },
-			{
-				index: 5,
-				text: 'Languages',
-				routeName: 'SettingScreen',
-				params: {
-					isActive: false,
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Language,
-			},
+			// {
+			// 	index: 5,
+			// 	text: 'Languages',
+			// 	routeName: 'SettingScreen',
+			// 	params: {
+			// 		isActive: false,
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Language,
+			// },
 			// {
 			// 	index: 6,
 			// 	text: 'Push Notification',
