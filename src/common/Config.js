@@ -10,8 +10,8 @@ export default {
 		*/
 	WooCommerce: {
 		url: 'https://mobileapp.getdokan.com',
-		consumerKey: 'ck_e8cee3b732833e55c5a5e664a0a7de40eae05d28',
-		consumerSecret: 'cs_0b5b64944e8c319d6751ffe9c132f91deb3aca2c',
+		consumerKey: 'ck_380688081aa95e4024241a89c0d78a9e1f4929e5',
+		consumerSecret: 'cs_0134cc803805b2bd229e9d4a402fd5e0ab491a8c',
 	},
 	/**
 		 Step 2: Setting Product Images
@@ -121,10 +121,10 @@ export default {
 		unitInterstitial: 'ca-app-pub-2101182411274198/8930161243',
 		isShowInterstital: true,
 	},
-	appFacebookId: '422035778152242',
-	CustomPages: { contact_id: 10941 },
-	WebPages: { marketing: 'http://wedevs.com' },
-	CategoryListView: true,
+	// appFacebookId: '422035778152242',
+	// CustomPages: { contact_id: 10941 },
+	// WebPages: { marketing: 'http://wedevs.com' },
+	// CategoryListView: true,
 	dokanModules: {},
 	intro: [
 		{
