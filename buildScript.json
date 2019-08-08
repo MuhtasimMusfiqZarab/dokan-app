@@ -4,6 +4,7 @@
   "androidFbId": false,
   "androidGeoKey": false,
   "iosRename": false,
+  "iosPods": false,
   "iosIcon": false,
   "iosSplash": false,
   "iosFbId": false,
