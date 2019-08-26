@@ -37,7 +37,7 @@
     "react-native-maps": "^0.24.2",
     "react-native-masked-text": "^1.12.3",
     "react-native-modalbox": "^1.7.1",
-    "react-native-onesignal": "^3.2.14",
+    "react-native-onesignal": "^3.3.2",
     "react-native-paper": "^2.16.0",
     "react-native-paypal": "^2.0.2",
     "react-native-radio-buttons": "^1.0.0",
