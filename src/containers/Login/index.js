@@ -25,6 +25,11 @@ import WPUserAPI from '@services/WPUserAPI';
 import styles from './styles';
 import DokanWorker from '@services/Dokan/DokanWorker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+// import { LoginButton, LoginManager } from 'react-native-fbsdk';
+
+const FBSDK = require('react-native-fbsdk');
+
+const { LoginManager, AccessToken } = FBSDK;
 
 class LoginScreen extends PureComponent {
 	static propTypes = {
@@ -171,27 +176,43 @@ class LoginScreen extends PureComponent {
 	onFBLoginPressHandle = () => {
 		const { login } = this.props;
 		this.setState({ isLoading: true });
-		FacebookAPI.login()
-			.then(async token => {
-				if (token) {
-					const json = await WPUserAPI.loginFacebook(token);
-					warn(['json', json]);
-					if (json === undefined) {
-						this.stopAndToast(Languages.GetDataError);
-					} else if (json.error) {
-						this.stopAndToast(json.error);
-					} else {
-						let customers = await WooWorker.getCustomerById(json.wp_user_id);
-						customers = { ...customers, token, picture: json.user.picture };
-						this._onBack();
-						login(customers, json.cookie);
-					}
+		// FacebookAPI.login()
+		// 	.then(async token => {
+		// 		if (token) {
+		// 			const json = await WPUserAPI.loginFacebook(token);
+		// 			warn(['json', json]);
+		// 			if (json === undefined) {
+		// 				this.stopAndToast(Languages.GetDataError);
+		// 			} else if (json.error) {
+		// 				this.stopAndToast(json.error);
+		// 			} else {
+		// 				let customers = await WooWorker.getCustomerById(json.wp_user_id);
+		// 				customers = { ...customers, token, picture: json.user.picture };
+		// 				this._onBack();
+		// 				login(customers, json.cookie);
+		// 			}
+		// 		}
+		// 	})
+		// 	.catch(err => {
+		// 		console.log(err);
+		// 		this.setState({ isLoading: false });
+		// 	});
+		LoginManager.logInWithReadPermissions(['public_profile']).then(
+			function(result) {
+				console.log(result);
+				if (result.isCancelled) {
+					alert('Login was cancelled');
+				} else {
+					alert(
+						'Login was successful with permissions: ' +
+							result.grantedPermissions.toString()
+					);
 				}
-			})
-			.catch(err => {
-				console.log(err);
-				this.setState({ isLoading: false });
-			});
+			},
+			function(error) {
+				alert('Login failed with error: ' + error);
+			}
+		);
 	};
 
 	onSignUpHandle = () => {
@@ -313,6 +334,23 @@ class LoginScreen extends PureComponent {
 							icon={Icons.MaterialCommunityIcons.Facebook}
 							containerStyle={styles.fbButton}
 							onPress={this.onFBLoginPressHandle}
+						/> */}
+
+						{/* <LoginButton
+							publishPermissions={['email']}
+							onLoginFinished={(error, result) => {
+								if (error) {
+									alert('Login failed with error: ' + error.message);
+								} else if (result.isCancelled) {
+									alert('Login was cancelled');
+								} else {
+									alert(
+										'Login was successful with permissions: ' +
+											result.grantedPermissions
+									);
+								}
+							}}
+							onLogoutFinished={() => alert('User logged out')}
 						/> */}
 
 						<View style={styles.separatorWrap}>
