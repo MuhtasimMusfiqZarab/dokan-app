@@ -171,8 +171,6 @@ class ProductList extends Component {
 
 		if (item == null) return <View />;
 
-		console.log(config.name);
-
 		return (
 			<PostLayout
 				post={item}

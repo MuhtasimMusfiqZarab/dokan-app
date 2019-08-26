@@ -3,7 +3,8 @@
  */
 
 import React from 'react';
-import { View, Text, StyleSheet, NetInfo } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import NetInfo from '@react-native-community/netinfo';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Color, Languages, Styles } from '@common';
@@ -22,17 +23,21 @@ class MyNetInfo extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		NetInfo.isConnected.addEventListener(
-			'connectionChange',
-			this._handleConnectionChange
-		);
+		// NetInfo.isConnected.addEventListener(
+		// 	'connectionChange',
+		// 	this._handleConnectionChange
+		// );
+		this.unsubscribe = NetInfo.addEventListener(state => {
+			this._handleConnectionChange(state.isConnected);
+		});
 	}
 
 	componentWillUnmount() {
-		NetInfo.isConnected.removeEventListener(
-			'connectionChange',
-			this._handleConnectionChange
-		);
+		// NetInfo.isConnected.removeEventListener(
+		// 	'connectionChange',
+		// 	this._handleConnectionChange
+		// );
+		this.unsubscribe();
 	}
 
 	_handleConnectionChange = isConnected => {

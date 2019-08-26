@@ -30,7 +30,9 @@ export default class CartScreen extends PureComponent {
 				onBack={() => navigate('Default')}
 				onFinishOrder={() => navigate('MyOrders')}
 				onViewHome={() => navigate('Default')}
-				onViewProduct={product => navigate('Detail', product)}
+				onViewProduct={product =>
+					navigate('DetailScreen', { product: product })
+				}
 				navigation={this.props.navigation}
 			/>
 		);

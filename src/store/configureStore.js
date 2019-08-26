@@ -20,12 +20,11 @@ const configureStore = () => {
 	let store = null;
 	if (__DEV__) {
 		if (Constants.useReactotron) {
-			store = Reactotron.createStore(
-				reducers,
-				{},
-				applyMiddleware(...middleware)
-			);
-			// connectConsoleToReactotron();
+			store = createStore(
+        reducers,
+        {},
+        compose(applyMiddleware(...middleware),Reactotron.createEnhancer())
+      );
 		} else {
 			const composeEnhancers =
 				window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -5,43 +5,41 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Braintree (4.22.0):
-    - Braintree/Card (= 4.22.0)
-    - Braintree/Core (= 4.22.0)
-    - Braintree/PayPal (= 4.22.0)
-    - Braintree/UI (= 4.22.0)
-  - Braintree/Card (4.22.0):
+  - Braintree (4.23.0):
+    - Braintree/Card (= 4.23.0)
+    - Braintree/Core (= 4.23.0)
+    - Braintree/PayPal (= 4.23.0)
+    - Braintree/UI (= 4.23.0)
+  - Braintree/Card (4.23.0):
     - Braintree/Core
-  - Braintree/Core (4.22.0)
-  - Braintree/PayPal (4.22.0):
+  - Braintree/Core (4.23.0)
+  - Braintree/PayPal (4.23.0):
     - Braintree/Core
     - Braintree/PayPalOneTouch
-  - Braintree/PayPalDataCollector (4.22.0):
+  - Braintree/PayPalDataCollector (4.23.0):
     - Braintree/Core
     - Braintree/PayPalUtils
-  - Braintree/PayPalOneTouch (4.22.0):
+  - Braintree/PayPalOneTouch (4.23.0):
     - Braintree/Core
     - Braintree/PayPalDataCollector
     - Braintree/PayPalUtils
-  - Braintree/PayPalUtils (4.22.0)
-  - Braintree/UI (4.22.0):
+  - Braintree/PayPalUtils (4.23.0)
+  - Braintree/UI (4.23.0):
     - Braintree/Card
     - Braintree/Core
-  - FBSDKCoreKit (4.34.0):
-    - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.34.0):
+  - FBSDKCoreKit (4.38.0):
+    - Bolts (~> 1.9)
+  - FBSDKLoginKit (4.38.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.34.0):
-    - FBSDKCoreKit (~> 4.34.0)
-  - Google-Mobile-Ads-SDK (7.31.0)
+  - FBSDKShareKit (4.38.0):
+    - FBSDKCoreKit
 
 DEPENDENCIES:
   - Bolts
   - Braintree
-  - FBSDKCoreKit
-  - FBSDKLoginKit
-  - FBSDKShareKit
-  - Google-Mobile-Ads-SDK
+  - FBSDKCoreKit (= 4.38)
+  - FBSDKLoginKit (= 4.38)
+  - FBSDKShareKit (= 4.38)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -50,16 +48,14 @@ SPEC REPOS:
     - FBSDKCoreKit
     - FBSDKLoginKit
     - FBSDKShareKit
-    - Google-Mobile-Ads-SDK
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Braintree: e814ec196208d3e961c488cf4071de043f399cf9
-  FBSDKCoreKit: 0ff57f093b85c8c9d5aba697d3edf68a8960ce78
-  FBSDKLoginKit: 8c78f57a145afb756e4755e69195ebe08a42466e
-  FBSDKShareKit: 511d1dfc71204c0a8d69e6c5e3c964dcf0d4f3d9
-  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
+  Braintree: b5841b9b1c1dadc86959db3e29d36099b67f91bf
+  FBSDKCoreKit: 2ab7fdbf600dc6b628ba7a49aa29d357a7b4c74e
+  FBSDKLoginKit: 634fa27e72e33620eb6389253337342c03d4a407
+  FBSDKShareKit: 00290e3db446eed603ff80ac629dcc5e80cf8b74
 
-PODFILE CHECKSUM: 5dff56ea19c6c74c3e4f23ff9895fe391d3d7791
+PODFILE CHECKSUM: 67a0713279bbad8fa48b4b35a3e143862c8babf7
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.7.1

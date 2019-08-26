@@ -9,21 +9,9 @@ export default {
 		 Step 1: change to your website URL and the wooCommerce API consumerKey
 		*/
 	WooCommerce: {
-		// url: 'http://ajaira.website/dokan-app',
-		// consumerKey: 'ck_4f6b5c9dd7e44a22a2ab9d0e9685b42429879e1a',
-		// consumerSecret: 'cs_8c8a7e181349b69ff32d21477ed94bcd832a8e26',
-
-		url: 'http://mobileapp.getdokan.com',
-		consumerKey: 'ck_e8cee3b732833e55c5a5e664a0a7de40eae05d28',
-		consumerSecret: 'cs_0b5b64944e8c319d6751ffe9c132f91deb3aca2c',
-
-		// url: 'http://dokan-mobile.test/',
-		// consumerKey: 'ck_058d37798c6d4fde333cce1e24864340d6a78017',
-		// consumerSecret: 'cs_6c3776e01ec312fcc2de6517edc76c139731469c',
-
-		// url: 'https://tedhut.com/',
-		// consumerKey: 'ck_288d122af9ac2a56977970fa404352a0ed32b6e6',
-		// consumerSecret: 'cs_ef48540035466d888768e10cc3571214b20e2af3',
+		url: 'https://mobileapp.getdokan.com',
+		consumerKey: 'ck_380688081aa95e4024241a89c0d78a9e1f4929e5',
+		consumerSecret: 'cs_0134cc803805b2bd229e9d4a402fd5e0ab491a8c',
 	},
 	/**
 		 Step 2: Setting Product Images
@@ -133,10 +121,10 @@ export default {
 		unitInterstitial: 'ca-app-pub-2101182411274198/8930161243',
 		isShowInterstital: true,
 	},
-	appFacebookId: '422035778152242',
-	CustomPages: { contact_id: 10941 },
-	WebPages: { marketing: 'http://wedevs.com' },
-	CategoryListView: true,
+	// appFacebookId: '422035778152242',
+	// CustomPages: { contact_id: 10941 },
+	// WebPages: { marketing: 'http://wedevs.com' },
+	// CategoryListView: true,
 	dokanModules: {},
 	intro: [
 		{
@@ -243,15 +231,15 @@ export default {
 			// 	},
 			// 	iconLeft: Icons.MaterialCommunityIcons.Currency,
 			// },
-			{
-				index: 5,
-				text: 'Languages',
-				routeName: 'SettingScreen',
-				params: {
-					isActive: false,
-				},
-				iconLeft: Icons.MaterialCommunityIcons.Language,
-			},
+			// {
+			// 	index: 5,
+			// 	text: 'Languages',
+			// 	routeName: 'SettingScreen',
+			// 	params: {
+			// 		isActive: false,
+			// 	},
+			// 	iconLeft: Icons.MaterialCommunityIcons.Language,
+			// },
 			// {
 			// 	index: 6,
 			// 	text: 'Push Notification',
@@ -283,7 +271,6 @@ export default {
 				text: 'About Us',
 				routeName: 'AboutUs',
 				params: {
-					// url: 'http://ajaira.website/dokan-app',
 					isActive: false,
 				},
 				iconLeft: Icons.MaterialCommunityIcons.About,
@@ -417,9 +404,6 @@ export default {
 	// 	{
 	// 		label: Languages.About,
 	// 		routeName: "CustomPage",
-	// 		params: {
-	// 			url: "http://inspireui.com",
-	// 		},
 	// 	},
 	// ]
 };

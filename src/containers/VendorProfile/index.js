@@ -31,7 +31,7 @@ class VendorProfile extends Component {
 
 	render() {
 		const { vendor, navigation } = this.props;
-		console.log(vendor.id);
+		
 		return (
 			<View style={styles.container}>
 				{/* <View

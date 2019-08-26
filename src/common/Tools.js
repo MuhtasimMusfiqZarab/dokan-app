@@ -2,7 +2,7 @@
 
 'use strict';
 
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { Constants, Languages, Images } from '@common';
 import { AllHtmlEntities } from 'html-entities';
 import truncate from 'lodash/truncate';

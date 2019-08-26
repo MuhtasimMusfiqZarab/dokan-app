@@ -45,13 +45,13 @@ class DrawerDefault extends PureComponent {
 		/**
 		 * Keep track of active screen
 		 */
-		this.buttonList.map((item, index) => {
-			if (item.params.isActive === true) {
-				this.setState({
-					activeScreenIndex: index,
-				});
-			}
-		});
+		// this.buttonList.map((item, index) => {
+		// 	if (item.params.isActive === true) {
+		// 		this.setState({
+		// 			activeScreenIndex: index,
+		// 		});
+		// 	}
+		// });
 	}
 
 	/**

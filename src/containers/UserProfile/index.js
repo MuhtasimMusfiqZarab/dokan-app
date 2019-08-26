@@ -1,14 +1,9 @@
 /** @format */
 
 import React, { PureComponent } from 'react';
-import {
-	View,
-	ScrollView,
-	Text,
-	TouchableOpacity,
-	// Switch,
-	AsyncStorage,
-} from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import OneSignal from 'react-native-onesignal';
 import { Switch } from 'react-native-paper';
 import { connect } from 'react-redux';
 import {
@@ -70,16 +65,16 @@ class UserProfile extends PureComponent {
 			// 	value: Languages.LanguageName,
 			// 	iconLeft: Icons.MaterialCommunityIcons.Setting,
 			// },
-			// {
-			// 	label: Languages.PushNotification,
-			// 	icon: () => (
-			// 		<Switch
-			// 			onValueChange={this._handleSwitch}
-			// 			value={this.state.pushNotification}
-			// 		/>
-			// 	),
-			// 	iconLeft: Icons.MaterialCommunityIcons.Bell,
-			// },
+			{
+				label: Languages.PushNotification,
+				icon: () => (
+					<Switch
+						onValueChange={this._handleSwitch}
+						value={this.state.pushNotification}
+					/>
+				),
+				iconLeft: Icons.MaterialCommunityIcons.Bell,
+			},
 			// {
 			// 	label: Languages.contactus,
 			// 	routeName: 'ContactUs',
@@ -101,6 +96,7 @@ class UserProfile extends PureComponent {
 	};
 
 	_handleSwitch = value => {
+		OneSignal.setSubscription(value);
 		AsyncStorage.setItem('@notification', JSON.stringify(value), () => {
 			this.setState({
 				pushNotification: value,

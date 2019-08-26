@@ -3,18 +3,26 @@
 import React, { PureComponent } from 'react';
 import { TouchableOpacity, Text, View, Image, Dimensions } from 'react-native';
 import styles from './styles';
-import { getProductImage, currencyFormatter } from '@app/Omni';
+import { getProductImage, currencyFormatter, toast } from '@app/Omni';
 import ChangeQuantity from '@components/ChangeQuantity';
 import { connect } from 'react-redux';
 
 class ProductItem extends PureComponent {
+	handleOnpressProduct = product => {
+		const { netInfo, onPress } = this.props;
+		if (netInfo.isConnected) {
+			onPress(product);
+		} else {
+			toast('No internet connection');
+		}
+	};
+
 	render() {
 		const {
 			product,
 			quantity,
 			viewQuantity,
 			variation,
-			onPress,
 			isCartProduct,
 			token,
 			isCartUpdating,
@@ -32,7 +40,8 @@ class ProductItem extends PureComponent {
 				<View style={styles.content}>
 					{isCartProduct ? (
 						<View style={styles.imageView}>
-							<TouchableOpacity onPress={() => onPress({ product })}>
+							<TouchableOpacity
+								onPress={() => this.handleOnpressProduct({ product })}>
 								<Image
 									source={{
 										uri: getProductImage(product.data.images[0].src, 100),
@@ -43,7 +52,8 @@ class ProductItem extends PureComponent {
 						</View>
 					) : (
 						<View style={styles.imageView}>
-							<TouchableOpacity onPress={() => onPress({ product })}>
+							<TouchableOpacity
+								onPress={() => this.handleOnpressProduct({ product })}>
 								<Image
 									source={{ uri: getProductImage(product.images[0].src, 100) }}
 									style={styles.image}
@@ -56,7 +66,8 @@ class ProductItem extends PureComponent {
 							styles.infoView,
 							{ width: Dimensions.get('window').width - 180 },
 						]}>
-						<TouchableOpacity onPress={() => onPress({ product })}>
+						<TouchableOpacity
+							onPress={() => this.handleOnpressProduct({ product })}>
 							<Text style={styles.title}>
 								{isCartProduct ? product.data.name : product.name}
 							</Text>
@@ -109,8 +120,12 @@ class ProductItem extends PureComponent {
 	// }
 }
 
-const mapStateToProps = ({ user, carts }) => {
-	return { token: user.token, isCartUpdating: carts.isFetching };
+const mapStateToProps = ({ user, carts, netInfo }) => {
+	return {
+		token: user.token,
+		isCartUpdating: carts.isFetching,
+		netInfo: netInfo,
+	};
 };
 
 function mergeProps(stateProps, dispatchProps, ownProps) {

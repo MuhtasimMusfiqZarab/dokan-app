@@ -5,18 +5,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StatusBar, SafeAreaView, NetInfo } from 'react-native';
+//import NetInfo from "@react-native-community/netinfo";
 import WooWorker from '@services/WooCommerce/WooWorker';
 import { Config, Device, Styles } from '@common';
 import { MyToast, MyNetInfo } from '@containers';
 import { ModalReview, Spinner, NoConnection } from '@components';
 import Navigation from '@navigation';
 import { connect } from 'react-redux';
+import { useScreens } from 'react-native-screens';
 import MenuSide from '@components/LeftMenu/MenuOverlay';
 // import MenuSide from "@components/LeftMenu/MenuScale";
 // import MenuSide from '@components/LeftMenu/MenuSmall';
 // import MenuSide from '@components/LeftMenu/MenuWide';
 import { toast, closeDrawer } from './Omni';
 import DokanWorker from '@services/Dokan/DokanWorker';
+
+useScreens();
 
 class Router extends React.Component {
 	static propTypes = {
@@ -42,6 +46,16 @@ class Router extends React.Component {
 				}
 			})
 			.catch(e => console.log(e));
+		// NetInfo.fetch().then(state => {
+		//   if (state.type === 'none') {
+		// 		this.setState({
+		// 			isConnected: false,
+		// 		});
+		// 	} else {
+		// 		this.fetchAppSettings();
+		// 	}
+		// })
+		// .catch(e => console.log(e))
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
