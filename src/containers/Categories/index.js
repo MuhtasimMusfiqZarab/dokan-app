@@ -38,21 +38,39 @@ class CategoriesScreen extends React.PureComponent {
 			}
 		};
 
-		return (
-			<TouchableOpacity
-				style={[
-					styles.categoryContainer,
-					{
-						backgroundColor: rgbColorCode
-							? `rgba(${rgbColorCode}, 0.1)`
-							: 'rgba(255, 255, 255, 0.5)',
-					},
-				]}
-				onPress={() => this.onRowClickHandle(item)}>
-				{renderCategoryIcon()}
-				<Text style={{ color: Color.wdgray3, marginTop: 15 }}>{item.name}</Text>
-			</TouchableOpacity>
-		);
+		if (iconName) {
+			return (
+				<TouchableOpacity
+					style={[
+						styles.categoryContainer,
+						{
+							backgroundColor: rgbColorCode
+								? `rgba(${rgbColorCode}, 0.1)`
+								: 'rgba(255, 255, 255, 0.5)',
+						},
+					]}
+					onPress={() => this.onRowClickHandle(item)}>
+					{renderCategoryIcon()}
+					<Text style={{ color: Color.wdgray3, marginTop: 15 }}>
+						{item.name}
+					</Text>
+				</TouchableOpacity>
+			);
+		} else {
+			return (
+				<TouchableOpacity
+					style={[
+						styles.categoryContainer,
+						{
+							backgroundColor: 'rgba(255, 255, 255, 0.5)',
+							elevation: 1,
+						},
+					]}
+					onPress={() => this.onRowClickHandle(item)}>
+					<Text style={{ color: Color.wdgray3 }}>{item.name}</Text>
+				</TouchableOpacity>
+			);
+		}
 	};
 
 	render() {

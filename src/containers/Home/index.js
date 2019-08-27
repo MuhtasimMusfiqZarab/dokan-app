@@ -38,9 +38,7 @@ class Home extends PureComponent {
 		const isSecured = Config.WooCommerce.url.startsWith('https');
 		const secure = isSecured ? '' : '&insecure=cool';
 		const cookieLifeTime = 120960000000;
-		const _url = `${
-			Config.WooCommerce.url
-		}/api/user/generate_auth_cookie/?second=${cookieLifeTime}&username=admin&password=admin${secure}`;
+		const _url = `${Config.WooCommerce.url}/api/user/generate_auth_cookie/?second=${cookieLifeTime}&username=admin&password=admin${secure}`;
 		const response = await request(_url);
 		console.log(response);
 	};

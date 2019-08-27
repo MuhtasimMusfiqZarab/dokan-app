@@ -28,6 +28,56 @@ export default class WdPopularCat extends PureComponent {
 		}, 500);
 	};
 
+	renderCategories = () => {
+		return this.props.categories.map((item, index) => {
+			if (index < 9) {
+				let iconName = item.icon ? item.icon.replace('icon-', '') : '';
+				let rgbColorCode = item.icon_color ? hexToRgb(item.icon_color) : '';
+				// let imageSrc = item.image ? item.image.src : '';
+
+				if (iconName) {
+					return (
+						<TouchableOpacity
+							key={`pcat-${index}`}
+							onPress={() => this.onRowClickHandle(item)}
+							style={[
+								styles.popCat,
+								{
+									backgroundColor: rgbColorCode
+										? `rgba(${rgbColorCode}, 0.1)`
+										: 'rgba(255, 255, 255, 0.5)',
+								},
+							]}>
+							<CustomIcon
+								name={iconName}
+								size={30}
+								color={item.icon_color ? item.icon_color : 'black'}
+							/>
+							<Text style={{ color: '#808894', marginTop: 5 }}>
+								{item.name}
+							</Text>
+						</TouchableOpacity>
+					);
+				} else {
+					return (
+						<TouchableOpacity
+							key={`pcat-${index}`}
+							onPress={() => this.onRowClickHandle(item)}
+							style={[
+								styles.popCat,
+								{
+									backgroundColor: 'rgba(255, 255, 255, 0.5)',
+									elevation: 1,
+								},
+							]}>
+							<Text style={{ color: '#808894' }}>{item.name}</Text>
+						</TouchableOpacity>
+					);
+				}
+			}
+		});
+	};
+
 	render() {
 		return (
 			<View style={styles.popCatWrapper}>
@@ -43,37 +93,7 @@ export default class WdPopularCat extends PureComponent {
 							Popular Categories
 						</Text>
 					</View>
-					{this.props.categories.map((item, index) => {
-						if (index < 9) {
-							let iconName = item.icon ? item.icon.replace('icon-', '') : '';
-							let rgbColorCode = item.icon_color
-								? hexToRgb(item.icon_color)
-								: '';
-							return (
-								<TouchableOpacity
-									key={`pcat-${index}`}
-									onPress={() => this.onRowClickHandle(item)}
-									style={[
-										styles.popCat,
-										{
-											backgroundColor: rgbColorCode
-												? `rgba(${rgbColorCode}, 0.1)`
-												: 'rgba(255, 255, 255, 0.5)',
-										},
-									]}>
-									<CustomIcon
-										name={iconName}
-										size={30}
-										color={item.icon_color ? item.icon_color : 'black'}
-									/>
-									<Text style={{ color: '#808894', marginTop: 5 }}>
-										{item.name}
-									</Text>
-								</TouchableOpacity>
-							);
-						}
-					})}
-
+					{this.renderCategories()}
 					<View style={styles.btnContainer}>
 						<ButtonIndex
 							onPress={() => this.props.navigation.dispatch(navigateAction)}
