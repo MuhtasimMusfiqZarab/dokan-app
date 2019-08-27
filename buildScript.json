@@ -8,5 +8,6 @@
   "iosIcon": false,
   "iosSplash": false,
   "iosFbId": false,
-  "wcKeys": false
+  "wcKeys": false,
+  "siteUrl": false
 }
