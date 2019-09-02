@@ -1,7 +1,7 @@
 /** @format */
 
 import React from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Languages, Color } from '@common';
 import { toast, BlockTimer, CustomIcon, hexToRgb } from '@app/Omni';
@@ -63,7 +63,17 @@ class CategoriesScreen extends React.PureComponent {
 						styles.categoryContainer,
 						{
 							backgroundColor: 'rgba(255, 255, 255, 0.5)',
-							elevation: 1,
+							...Platform.select({
+								ios: {
+									shadowColor: '#000',
+									shadowOpacity: 0.1,
+									shadowOffset: { width: 0, height: 1 },
+									shadowRadius: 10,
+								},
+								android: {
+									elevation: 1,
+								},
+							}),
 						},
 					]}
 					onPress={() => this.onRowClickHandle(item)}>

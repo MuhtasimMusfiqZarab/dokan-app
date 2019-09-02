@@ -67,7 +67,17 @@ export default class WdPopularCat extends PureComponent {
 								styles.popCat,
 								{
 									backgroundColor: 'rgba(255, 255, 255, 0.5)',
-									elevation: 1,
+									...Platform.select({
+										ios: {
+											shadowColor: '#000',
+											shadowOpacity: 0.1,
+											shadowOffset: { width: 0, height: 1 },
+											shadowRadius: 10,
+										},
+										android: {
+											elevation: 1,
+										},
+									}),
 								},
 							]}>
 							<Text style={{ color: '#808894' }}>{item.name}</Text>
