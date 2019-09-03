@@ -139,6 +139,8 @@ class SignUpScreen extends Component {
 					customers = { ...customers, username, password };
 					this.props.login(customers, json.token);
 					this.props.onViewHomeScreen();
+				} else {
+					this.stopAndToast('Server Error');
 				}
 			}
 
