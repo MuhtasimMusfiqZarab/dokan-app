@@ -20,9 +20,7 @@ const oauth = OAuth({
 const DokanWorker = {
 	getFeaturedProducts: async (page = 1, per_page = 10) => {
 		return await fetch(
-			`${
-				Config.WooCommerce.url
-			}/wp-json/dokan/v1/products/featured?page=${page}&per_page=${per_page}`
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/featured?page=${page}&per_page=${per_page}`
 		)
 			.then(response => response.json())
 			.then(json => {
@@ -32,9 +30,7 @@ const DokanWorker = {
 	},
 	getTopRatedProducts: async (page = 1, per_page = 10) => {
 		return await fetch(
-			`${
-				Config.WooCommerce.url
-			}/wp-json/dokan/v1/products/top_rated?page=${page}&per_page=${per_page}`
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/top_rated?page=${page}&per_page=${per_page}`
 		)
 			.then(response => response.json())
 			.then(json => {
@@ -44,9 +40,7 @@ const DokanWorker = {
 	},
 	getBestSellingProducts: async (page = 1, per_page = 10) => {
 		return await fetch(
-			`${
-				Config.WooCommerce.url
-			}/wp-json/dokan/v1/products/best_selling?page=${page}&per_page=${per_page}`
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/best_selling?page=${page}&per_page=${per_page}`
 		)
 			.then(response => response.json())
 			.then(json => {
@@ -56,9 +50,7 @@ const DokanWorker = {
 	},
 	getLatestProducts: async (page = 1, per_page = 10) => {
 		return await fetch(
-			`${
-				Config.WooCommerce.url
-			}/wp-json/dokan/v1/products/latest?page=${page}&per_page=${per_page}`
+			`${Config.WooCommerce.url}/wp-json/dokan/v1/products/latest?page=${page}&per_page=${per_page}`
 		)
 			.then(response => response.json())
 			.then(json => {
@@ -79,9 +71,7 @@ const DokanWorker = {
 			.catch(error => warn(error));
 	},
 	getVendors: async (page, per_page) => {
-		const url = `${
-			Config.WooCommerce.url
-		}/wp-json/dokan/v1/stores?page=${page}&per_page=${per_page}`;
+		const url = `${Config.WooCommerce.url}/wp-json/dokan/v1/stores?page=${page}&per_page=${per_page}`;
 
 		return await fetch(url)
 			.then(response => response.json())
@@ -612,9 +602,7 @@ const DokanWorker = {
 		}
 	},
 	brainTreeTransaction: async (amount, nonce) => {
-		const url = `${
-			Config.WooCommerce.url
-		}/wp-json/wc-dokan/v1/braintree/transaction`;
+		const url = `${Config.WooCommerce.url}/wp-json/wc-dokan/v1/braintree/transaction`;
 		const authData = oauth.authorize({
 			url: url,
 			method: 'post',

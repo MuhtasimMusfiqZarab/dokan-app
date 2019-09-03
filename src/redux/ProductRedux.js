@@ -529,7 +529,7 @@ export const actions = {
 };
 
 const initialState = {
-	isFetching: true,
+	isFetching: false,
 	error: null,
 	list: [],
 	listAll: [],

@@ -28,9 +28,25 @@ export default class Search extends PureComponent {
 			text: '',
 			isSubmit: false,
 			loading: false,
-			focus: true,
+			focusSearchbar: true,
 			tabIndex: 0,
 		};
+	}
+
+	componentDidMount() {
+		console.log(this._searchbarRef);
+		this._searchbarRef.focus();
+	}
+
+	componentDidUpdate(prevProps) {
+		console.log(`prevFocus: ${prevProps.isFocused}`);
+		console.log(`nextFocus: ${this.props.isFocused}`);
+		if (prevProps.isFocused !== this.props.isFocused) {
+			this._searchbarRef.focus();
+			this.setState({
+				isSubmit: !this.state.isSubmit,
+			});
+		}
 	}
 
 	onBack = () => {
@@ -41,7 +57,8 @@ export default class Search extends PureComponent {
 
 	startNewSearch = async () => {
 		const { list } = this.props;
-
+		console.log('called search');
+		console.log(list);
 		this.setState({ loading: true, isSubmit: true });
 
 		await this.props.fetchProductsByName(
@@ -111,10 +128,16 @@ export default class Search extends PureComponent {
 	};
 
 	render() {
+		// this._searchbarRef
+		// 	? this._searchbarRef.isFocused() === false
+		// 		? this._searchbarRef.focus()
+		// 		: null
+		// 	: null;
 		return (
 			<View style={{ flex: 1, backgroundColor: '#F8F8FA' }}>
 				<Searchbar
-					autoFocus={this.props.isFocused}
+					ref={cmp => (this._searchbarRef = cmp)}
+					autoFocus={true}
 					icon="arrow-back"
 					placeholder="Search Product"
 					onChangeText={query => {
@@ -123,6 +146,13 @@ export default class Search extends PureComponent {
 					value={this.state.text}
 					onSubmitEditing={() => this.startNewSearch()}
 					onIconPress={() => this.onBack()}
+					style={{
+						...Platform.select({
+							ios: {
+								paddingTop: !Device.isIphoneX ? 15 : 0,
+							},
+						}),
+					}}
 				/>
 				<View style={{ flex: 1 }}>
 					{this.props.isFetching ? <Spinkit /> : this.renderResultList()}

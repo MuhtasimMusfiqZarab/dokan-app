@@ -8,13 +8,8 @@ export default class SearchScreen extends PureComponent {
 		title: 'Search',
 		header: null,
 		tabBarVisible: false,
-
 		tabBarLabel: null,
 	});
-
-	didFocus() {
-		console.log('focused');
-	}
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
