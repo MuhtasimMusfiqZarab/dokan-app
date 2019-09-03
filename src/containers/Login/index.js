@@ -158,6 +158,8 @@ class LoginScreen extends PureComponent {
 				customers = { ...customers, username, password };
 				login(customers, json.token);
 				this._onBack();
+			} else {
+				this.stopAndToast('Server Error');
 			}
 		}
 	};
