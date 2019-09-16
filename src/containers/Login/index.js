@@ -2,29 +2,27 @@
  * @format
  */
 
-import React, { PureComponent } from 'react';
+import { FacebookAPI, toast, Validate } from '@app/Omni';
+import { Color, Config, Images, Languages, Styles } from '@common';
+import { Button, ImageCache, Spinner } from '@components';
+import DokanWorker from '@services/Dokan/DokanWorker';
+import WPUserAPI from '@services/WPUserAPI';
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 import {
-	View,
-	Text,
 	Image,
 	ImageBackground,
-	TextInput,
-	TouchableOpacity,
-	I18nManager,
 	Keyboard,
 	Platform,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
-import { Color, Languages, Styles, Config, Images, Icons } from '@common';
-import { toast, warn, FacebookAPI, Validate } from '@app/Omni';
-import { Spinner, Button, ButtonIndex, ImageCache } from '@components';
-import WooWorker from '@services/WooCommerce/WooWorker';
-import WPUserAPI from '@services/WPUserAPI';
 import styles from './styles';
-import DokanWorker from '@services/Dokan/DokanWorker';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // import { LoginButton, LoginManager } from 'react-native-fbsdk';
 
 const FBSDK = require('react-native-fbsdk');
@@ -150,10 +148,11 @@ class LoginScreen extends PureComponent {
 		} else {
 			let customers = await DokanWorker.getCustomerProfile(json.token);
 
-			if (customers.id !== undefined) {
+			if (customers.code !== undefined) {
+				this.stopAndToast(customers.message);
+			} else if (customers.id !== undefined) {
 				// Fetch customer's cart
 				this.props.fetchAllCartItems(json.token);
-
 				// Update and store customer's info
 				customers = { ...customers, username, password };
 				login(customers, json.token);
