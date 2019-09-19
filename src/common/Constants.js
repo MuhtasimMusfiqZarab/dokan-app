@@ -6,7 +6,7 @@ const { width, height } = Dimensions.get('window');
 
 const Constants = {
 	RTL: false, // default to set redux. Only use first time
-	useReactotron: true,
+	useReactotron: false,
 	Language: 'English', // Arabic, English. Default to set redux. Only use first time
 	fontFamily: 'OpenSans',
 	fontFamilyLato: 'Lato',
