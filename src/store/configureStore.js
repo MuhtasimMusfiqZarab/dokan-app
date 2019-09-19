@@ -1,11 +1,10 @@
 /** @format */
 
-import { Platform } from 'react-native';
+import { Constants } from '@common';
+import reducers from '@redux';
 import Reactotron from 'reactotron-react-native';
 import { applyMiddleware, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import reducers from '@redux';
-import { Constants } from '@common';
 // import { connectConsoleToReactotron } from '@app/Omni';
 import './../../ReactotronConfig';
 
@@ -21,10 +20,13 @@ const configureStore = () => {
 	if (__DEV__) {
 		if (Constants.useReactotron) {
 			store = createStore(
-        reducers,
-        {},
-        compose(applyMiddleware(...middleware),Reactotron.createEnhancer())
-      );
+				reducers,
+				{},
+				compose(
+					applyMiddleware(...middleware),
+					Reactotron.createEnhancer()
+				)
+			);
 		} else {
 			const composeEnhancers =
 				window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -40,16 +42,17 @@ const configureStore = () => {
 				});
 			}
 
-			// show network react-native-debugger
-			// only show on IOS, android bug
-			if (Platform.OS === 'ios') {
-				global.XMLHttpRequest = global.originalXMLHttpRequest
-					? global.originalXMLHttpRequest
-					: global.XMLHttpRequest;
-				global.FormData = global.originalFormData
-					? global.originalFormData
-					: global.FormData;
-			}
+			// For network request inspection in react-native-debugger
+			global.XMLHttpRequest = global.originalXMLHttpRequest
+				? global.originalXMLHttpRequest
+				: global.XMLHttpRequest;
+			global.FormData = global.originalFormData
+				? global.originalFormData
+				: global.FormData;
+			global.Blob = global.originalBlob ? global.originalBlob : global.Blob;
+			global.FileReader = global.originalFileReader
+				? global.originalFileReader
+				: global.FileReader;
 		}
 	} else {
 		store = compose(applyMiddleware(...middleware))(createStore)(reducers);
