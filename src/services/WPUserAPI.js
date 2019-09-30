@@ -5,8 +5,8 @@
  * @format
  */
 
-import { Config } from '@common';
 import { error, request } from '@app/Omni';
+import { Config } from '@common';
 
 const url = Config.WooCommerce.url;
 const isSecured = url.startsWith('https');
@@ -30,8 +30,14 @@ const WPUserAPI = {
 	// 	return await request(_url);
 	// },
 	loginFacebook: async token => {
-		const _url = `${url}/api/mstore_user/fb_connect/?second=${cookieLifeTime}&access_token=${token}${secure}`;
-		return await request(_url);
+		const _url = `${url}/wp-json/dokan/v1/customers/social-login`;
+		const data = {
+			provider: 'facebook',
+			access_token: token,
+		};
+		const method = 'POST';
+
+		return await request(_url, data, method);
 	},
 
 	register: async ({

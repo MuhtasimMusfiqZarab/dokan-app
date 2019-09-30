@@ -2,17 +2,18 @@
  * @format
  */
 
+import { FacebookAPI } from '@app/Omni';
+import { Config, Styles, Tools } from '@common';
+import { Text } from '@components';
 import React, { PureComponent } from 'react';
 import {
-	View,
-	ScrollView,
-	Image,
 	I18nManager,
+	Image,
+	ScrollView,
 	TouchableOpacity,
+	View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { Styles, Config, Tools } from '@common';
-import { Text } from '@components';
 import { DrawerButton } from '../DrawerButton';
 import styles from './styles';
 
@@ -74,10 +75,14 @@ class DrawerDefault extends PureComponent {
 	}
 
 	_handlePress = item => {
-		const { goToScreen } = this.props;
+		const { goToScreen, loginType, emptyCart, logout } = this.props;
 
 		if (item.text === 'Logout') {
-			this.props.emptyCart();
+			if (loginType === 'facebook') {
+				FacebookAPI.logout();
+			}
+			emptyCart();
+			logout();
 		}
 
 		// To show active inactive menu
@@ -137,14 +142,17 @@ class DrawerDefault extends PureComponent {
 
 const mapStateToProps = ({ user, netInfo }) => ({
 	userProfile: user,
+	loginType: user.loginType,
 	netInfo, // auto reload when netInfo change, also fix reload menu to change language
 });
 
 const mapDispatchToProps = dispatch => {
 	const CartActions = require('@redux/CartRedux').actions;
+	const UserActions = require('@redux/UserRedux').actions;
 
 	return {
 		emptyCart: () => CartActions.emptyCart(dispatch),
+		logout: () => dispatch(UserActions.logout()),
 	};
 };
 

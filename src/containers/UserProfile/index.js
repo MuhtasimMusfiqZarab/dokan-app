@@ -1,21 +1,20 @@
 /** @format */
 
-import React, { PureComponent } from 'react';
-import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { FacebookAPI, getNotification } from '@app/Omni';
+import { Icons, Languages, Tools } from '@common';
+import {
+	CurrencyPicker,
+	DokanModal,
+	Spinner,
+	UserProfileHeader,
+	UserProfileItem,
+} from '@components';
 import AsyncStorage from '@react-native-community/async-storage';
+import React, { PureComponent } from 'react';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import OneSignal from 'react-native-onesignal';
 import { Switch } from 'react-native-paper';
 import { connect } from 'react-redux';
-import {
-	UserProfileHeader,
-	UserProfileItem,
-	DokanModal,
-	CurrencyPicker,
-	Spinner,
-	ModalBox,
-} from '@components';
-import { Languages, Color, Tools, Icons } from '@common';
-import { getNotification } from '@app/Omni';
 import styles from './styles';
 
 class UserProfile extends PureComponent {
@@ -128,6 +127,20 @@ class UserProfile extends PureComponent {
 		});
 	};
 
+	handleLogout = () => {
+		const { emptyCart, logOut, loginType } = this.props;
+		emptyCart();
+		logOut();
+		// if (FacebookAPI.getAccessToken()) {
+		// 	console.log('facebook login');
+		// 	FacebookAPI.logout();
+		// }
+		if (loginType === 'facebook') {
+			console.log('facebook logout');
+			FacebookAPI.logout();
+		}
+	};
+
 	render() {
 		const {
 			userProfile,
@@ -135,6 +148,7 @@ class UserProfile extends PureComponent {
 			currency,
 			changeCurrency,
 			updateUser,
+			loginType,
 		} = this.props;
 		const user = userProfile.user || {};
 		const bearerToken = userProfile.token || {};
@@ -149,17 +163,14 @@ class UserProfile extends PureComponent {
 						this.scrollView = c;
 					}}>
 					<UserProfileHeader
-						onLogin={() => navigation.navigate('LoginScreen')}
-						onLogout={() => {
-							this.props.emptyCart();
-							this.props.logOut();
-							// navigation.navigate('LoginScreen', { isLogout: true });
-						}}
+						onLogin={() => navigation.navigate('Login')}
+						onLogout={this.handleLogout}
 						user={{
 							...user,
 							name,
 							bearerToken,
 						}}
+						loginType={loginType}
 						updateUser={updateUser}
 						changeLoadingState={this.changeLoadingState}
 					/>
@@ -243,6 +254,7 @@ class UserProfile extends PureComponent {
 
 const mapStateToProps = ({ user, language, currency, wishList }) => ({
 	userProfile: user,
+	loginType: user.loginType,
 	language,
 	currency,
 	wishListTotal: wishList.wishListItems.length,

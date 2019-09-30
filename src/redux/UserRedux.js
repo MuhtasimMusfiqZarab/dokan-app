@@ -11,8 +11,8 @@ const types = {
 };
 
 export const actions = {
-	login: (user, token) => {
-		return { type: types.LOGIN, user, token };
+	login: (user, token, loginType) => {
+		return { type: types.LOGIN, user, token, loginType };
 	},
 	logout() {
 		return { type: types.LOGOUT };
@@ -31,17 +31,19 @@ export const actions = {
 const initialState = {
 	user: null,
 	token: null,
+	loginType: 'regular',
+	loggedIn: false,
 	finishIntro: null,
 };
 
 export const reducer = (state = initialState, action) => {
-	const { type, user, token } = action;
+	const { type, user, token, loginType } = action;
 
 	switch (type) {
 		case types.LOGOUT:
 			return Object.assign({}, initialState);
 		case types.LOGIN:
-			return { ...state, user, token };
+			return { ...state, user, token, loginType, loggedIn: true };
 		case types.FINISH_INTRO:
 			return { ...state, finishIntro: true };
 		case types.UPDATE_USER_INFO:

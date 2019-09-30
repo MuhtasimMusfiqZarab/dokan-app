@@ -1,14 +1,13 @@
 /** @format */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import _ from 'lodash';
-import { Languages, Tools, Config } from '@common';
-import styles from './styles';
+import { Config, Languages, Tools } from '@common';
 import { LinearGradient } from '@expo';
+import { DokanWorker } from '@services/Dokan/DokanWorker';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import DokanWorker from '@services/Dokan/DokanWorker';
+import styles from './styles';
 
 export default class UserProfileHeader extends PureComponent {
 	state = {
@@ -21,6 +20,7 @@ export default class UserProfileHeader extends PureComponent {
 		user: PropTypes.object,
 		updateUser: PropTypes.func,
 		changeLoadingState: PropTypes.func,
+		loginType: PropTypes.string,
 	};
 
 	loginHandle = () => {
@@ -109,9 +109,10 @@ export default class UserProfileHeader extends PureComponent {
 	};
 
 	render() {
-		const { user } = this.props;
-		const avatar = Tools.getAvatar(user);
+		const { user, loginType } = this.props;
+		const avatar = Tools.getAvatar(user, loginType);
 
+		console.log(loginType);
 		return (
 			<View style={styles.container}>
 				<View style={styles.header}>
@@ -119,20 +120,25 @@ export default class UserProfileHeader extends PureComponent {
 						colors={['#F76B1C', '#FAD961']}
 						style={styles.headerGradient}
 					/>
-
-					<TouchableOpacity
-						onPress={this.changeAvatar}
-						style={styles.profilePic}>
-						{this.state.isImageUploaded ? (
-							<Image
-								source={{ uri: this.state.avatarSource }}
-								style={styles.avatar}
-							/>
-						) : (
+					{loginType === 'regular' && (
+						<TouchableOpacity
+							onPress={this.changeAvatar}
+							style={styles.profilePic}>
+							{this.state.isImageUploaded ? (
+								<Image
+									source={{ uri: this.state.avatarSource }}
+									style={styles.avatar}
+								/>
+							) : (
+								<Image source={avatar} style={styles.avatar} />
+							)}
+						</TouchableOpacity>
+					)}
+					{loginType === 'facebook' && (
+						<View style={styles.profilePic}>
 							<Image source={avatar} style={styles.avatar} />
-						)}
-					</TouchableOpacity>
-
+						</View>
+					)}
 					<View style={styles.textContainer}>
 						<Text style={styles.fullName}>{user.name}</Text>
 						<Text style={styles.address}>{user ? user.address : ''}</Text>
