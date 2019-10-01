@@ -33,6 +33,7 @@ class LoginScreen extends PureComponent {
 		calledFrom: PropTypes.string,
 		loggedIn: PropTypes.bool,
 		loginType: PropTypes.string,
+		updateUserInfo: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -84,6 +85,7 @@ class LoginScreen extends PureComponent {
 	}
 
 	_handleLogout = () => {
+		console.log('handle logout');
 		const { logout, loginType } = this.props;
 
 		if (loginType === 'facebook') {
@@ -135,7 +137,7 @@ class LoginScreen extends PureComponent {
 			this.stopAndToast(json.message);
 		} else {
 			let customers = await DokanWorker.getCustomerProfile(json.token);
-
+			console.log(json.token);
 			if (customers.code !== undefined) {
 				this.stopAndToast(customers.message);
 			} else if (customers.id !== undefined) {
@@ -175,19 +177,19 @@ class LoginScreen extends PureComponent {
 					} else {
 						this.setState({ isLoading: true });
 						let customer = await DokanWorker.getCustomerProfile(json.token);
-            console.log(customer);
-            if(isEmpty(customer.profile_picture)) {
-              customer.profile_picture = {
-                uri: response.profilePicUrl
-              }
-              const profileUpdateResponse = await DokanWorker.updateCustomerProfile(
-                customer.profile_picture,
-                json.token
-              );
-              if (profileUpdateResponse.id) {
-                this.props.updateUserInfo(profileUpdateResponse);
-              }
-            }
+						console.log(json.token);
+						if (isEmpty(customer.profile_picture)) {
+							customer.profile_picture = {
+								uri: response.profilePicUrl,
+							};
+							const profileUpdateResponse = await DokanWorker.updateCustomerProfile(
+								customer.profile_picture,
+								json.token
+							);
+							if (profileUpdateResponse.id) {
+								this.props.updateUserInfo(profileUpdateResponse);
+							}
+						}
 						this.props.fetchAllCartItems(json.token);
 						// Update and store customer's info
 						login(customer, json.token, 'facebook');
@@ -416,8 +418,8 @@ const mapDispatchToProps = dispatch => {
 	return {
 		login: (user, token, loginType) =>
 			dispatch(actions.login(user, token, loginType)),
-    logout: () => dispatch(actions.logout()),
-    updateUserInfo: (user) => dispatch(actions.updateUserInfo(user)),
+		logout: () => dispatch(actions.logout()),
+		updateUserInfo: user => dispatch(actions.updateUserInfo(user)),
 		goBack: () => dispatch(backAction),
 		fetchAllCartItems: token => CartActions.fetchAllCartItems(dispatch, token),
 	};

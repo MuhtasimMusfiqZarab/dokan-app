@@ -1,31 +1,23 @@
 /** @format */
 
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import {
-	Text,
-	TouchableOpacity,
-	ScrollView,
-	View,
-	Animated,
-	Image,
-	Dimensions,
-} from 'react-native';
-import { connect } from 'react-redux';
-import Share from 'react-native-share';
-import { Timer, getProductImage, toast } from '@app/Omni';
-import { Button, WishListIcon, Spinner } from '@components';
-import Swiper from 'react-native-swiper';
-import { Styles, Languages, Color, Constants, Events } from '@common';
-import Modal from 'react-native-modalbox';
-import { find, filter } from 'lodash';
-import PopOver from './PopOver';
-import styles from './ProductDetail_Style';
-import VendorSummary from './VendorSummary';
-import ProductDetails from './ProductDetails';
-import VariationModal from './VariationModal';
+import { getProductImage, Timer } from '@app/Omni';
+import { Color, Constants, Events, Languages, Styles } from '@common';
+import { Button, Spinner, WishListIcon } from '@components';
 import EventEmitter from '@services/AppEventEmitter';
 import DokanWorker from '@services/Dokan/DokanWorker';
+import { filter, find } from 'lodash';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import { Animated, Dimensions, Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import Modal from 'react-native-modalbox';
+import Share from 'react-native-share';
+import Swiper from 'react-native-swiper';
+import { connect } from 'react-redux';
+import PopOver from './PopOver';
+import ProductDetails from './ProductDetails';
+import styles from './ProductDetail_Style';
+import VariationModal from './VariationModal';
+import VendorSummary from './VendorSummary';
 
 const PRODUCT_IMAGE_HEIGHT = 350;
 const NAVI_HEIGHT = 64;
