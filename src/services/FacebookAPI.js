@@ -1,12 +1,9 @@
 /**
  * @format
  */
-
-import { toast, log } from './../Omni';
-
-import { Platform } from 'react-native';
 import { Config } from '@common';
 import { Facebook } from '@expo';
+import { log, toast } from './../Omni';
 
 // const LoginBehaviors = {
 // 	native_with_fallback: 'native',
@@ -24,23 +21,32 @@ class FacebookAPI {
 			const ask = await Facebook.logInWithReadPermissionsAsync(
 				Config.appFacebookId,
 				{
-					permissions: ['public_profile', 'email', 'user_friends'],
-					behavior: Platform.OS === 'ios' ? 'web' : 'browser',
+					permissions: ['public_profile', 'email'],
 				}
 			);
 			const { type } = ask;
-
-			if (type === 'cancel') return; // throw user_cancel;
+			console.log(type);
+			if (type === 'cancel') {
+				return { message: 'Login cancelled' };
+			}
 			if (type === 'success') {
-				const { token } = ask;
-				return token;
-				// const response = await fetch(
-				// 	`https://graph.facebook.com/me?fields=name,first_name,last_name,id,email,picture&access_token=${token}`
-				// );
+				const { token, profilePicUrl } = ask;
+
+				const graphResponse = await fetch(
+					`https://graph.facebook.com/me?fields=picture.height(250)&access_token=${token}`
+				);
+				const graphResponseJSON = await graphResponse.json();
+				console.log(graphResponseJSON);
+
+				return {
+					token: token,
+					profilePicUrl: graphResponseJSON.picture.data.url,
+				};
 				// return response.json();
 			}
 		} catch (err) {
 			console.log('err:::', err);
+			return { message: 'Login Failed' };
 			// if (err.framesToPop === 1 && err.code === 'EUNSPECIFIED') {
 			//     if (Platform.OS === 'android') {
 			//         Expo.Facebook.setLoginBehavior(LoginBehaviors.web_only);
@@ -52,13 +58,17 @@ class FacebookAPI {
 		}
 	}
 
-	logout() {
-		Facebook.logOut();
-		log('Facebook logout!');
+	getFbProfilePicUrl() {
+		return Facebook.getFbProfilePicUrl();
 	}
 
-	async getAccessToken() {
-		return await Facebook.getCurrentFacebook();
+	logout() {
+		Facebook.logOut();
+	}
+
+	getAccessToken() {
+		console.log(Facebook.getCurrentFacebook());
+		return Facebook.getCurrentFacebook();
 	}
 
 	async shareLink(link, desc) {

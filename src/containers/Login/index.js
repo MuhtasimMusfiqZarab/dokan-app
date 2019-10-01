@@ -3,31 +3,19 @@
  */
 
 import { FacebookAPI, toast, Validate } from '@app/Omni';
-import { Color, Config, Images, Languages, Styles } from '@common';
-import { Button, ImageCache, Spinner } from '@components';
+import { Color, Config, Icons, Images, Languages, Styles } from '@common';
+import { Button, ButtonIndex, ImageCache, Spinner } from '@components';
 import DokanWorker from '@services/Dokan/DokanWorker';
 import WPUserAPI from '@services/WPUserAPI';
+import { isEmpty } from 'lodash';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import {
-	Image,
-	ImageBackground,
-	Keyboard,
-	Platform,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import { Image, ImageBackground, Keyboard, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+// import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import styles from './styles';
-// import { LoginButton, LoginManager } from 'react-native-fbsdk';
-
-const FBSDK = require('react-native-fbsdk');
-
-const { LoginManager, AccessToken } = FBSDK;
 
 class LoginScreen extends PureComponent {
 	static propTypes = {
@@ -42,6 +30,10 @@ class LoginScreen extends PureComponent {
 		goBack: PropTypes.func,
 		onForgetPassword: PropTypes.func,
 		fetchAllCartItems: PropTypes.func,
+		calledFrom: PropTypes.string,
+		loggedIn: PropTypes.bool,
+		loginType: PropTypes.string,
+		updateUserInfo: PropTypes.func,
 	};
 
 	constructor(props) {
@@ -69,22 +61,18 @@ class LoginScreen extends PureComponent {
 
 	// handle logout screen and navigate to cart page if the new user login object exists
 	UNSAFE_componentWillReceiveProps(nextProps) {
-		const { onViewCartScreen, user: oldUser, onViewHomeScreen } = this.props;
+		const { user: oldUser, onViewCartScreen } = this.props;
 		const { user } = nextProps.user;
 		const { params } = nextProps.navigation.state;
 
 		// check case after logout
 		if (user) {
-			if (nextProps.isLogout) {
-				this._handleLogout();
-			} else if (!oldUser.user) {
-				// check case after login
+			if (!oldUser.user) {
 				this.setState({ isLoading: false });
 
 				if (params && typeof params.onCart !== 'undefined') {
+					console.log('onview cartscreen');
 					onViewCartScreen();
-				} else {
-					onViewHomeScreen();
 				}
 
 				const uName =
@@ -97,28 +85,30 @@ class LoginScreen extends PureComponent {
 	}
 
 	_handleLogout = () => {
-		const { logout, onViewHomeScreen } = this.props;
-		logout();
-		if (this.state.logInFB) {
-			if (FacebookAPI.getAccessToken()) {
-				FacebookAPI.logout();
-			}
+		console.log('handle logout');
+		const { logout, loginType } = this.props;
+
+		if (loginType === 'facebook') {
+			FacebookAPI.logout();
 		}
-		onViewHomeScreen();
+
+		logout();
+
+		// calledFrom === 'drawer' ? onViewHomeScreen() : onBack();
 	};
 
-	_onBack = () => {
-		const { onBack, goBack } = this.props;
-		if (onBack) {
-			onBack();
-		} else {
-			goBack();
-		}
-	};
+	// _onBack = () => {
+	// 	const { onBack, goBack } = this.props;
+	// 	if (onBack) {
+	// 		onBack();
+	// 	} else {
+	// 		goBack();
+	// 	}
+	// };
 
 	onLoginPressHandle = async () => {
 		Keyboard.dismiss();
-		const { login, netInfo } = this.props;
+		const { login, netInfo, calledFrom, onViewHomeScreen, onBack } = this.props;
 
 		if (!netInfo.isConnected) {
 			return toast(Languages.noConnection);
@@ -147,7 +137,7 @@ class LoginScreen extends PureComponent {
 			this.stopAndToast(json.message);
 		} else {
 			let customers = await DokanWorker.getCustomerProfile(json.token);
-
+			console.log(json.token);
 			if (customers.code !== undefined) {
 				this.stopAndToast(customers.message);
 			} else if (customers.id !== undefined) {
@@ -155,12 +145,65 @@ class LoginScreen extends PureComponent {
 				this.props.fetchAllCartItems(json.token);
 				// Update and store customer's info
 				customers = { ...customers, username, password };
-				login(customers, json.token);
-				this._onBack();
+				login(customers, json.token, 'regular');
+
+				this.setState({ isLoading: false });
+				calledFrom === 'drawer' ? onViewHomeScreen() : onBack();
 			} else {
 				this.stopAndToast('Server Error');
 			}
 		}
+	};
+
+	onFBLoginPressHandle = () => {
+		const { login, netInfo, calledFrom, onViewHomeScreen, onBack } = this.props;
+
+		if (!netInfo.isConnected) {
+			return toast(Languages.noConnection);
+		}
+
+		FacebookAPI.login()
+			.then(async response => {
+				if (response.token) {
+					console.log(response.token);
+					const json = await WPUserAPI.loginFacebook(response.token);
+
+					if (json === undefined) {
+						this.stopAndToast(Languages.GetDataError);
+					} else if (json.error) {
+						this.stopAndToast(json.error);
+					} else if (json.code) {
+						this.stopAndToast(json.message);
+					} else {
+						this.setState({ isLoading: true });
+						let customer = await DokanWorker.getCustomerProfile(json.token);
+						console.log(json.token);
+						if (isEmpty(customer.profile_picture)) {
+							customer.profile_picture = {
+								uri: response.profilePicUrl,
+							};
+							const profileUpdateResponse = await DokanWorker.updateCustomerProfile(
+								customer.profile_picture,
+								json.token
+							);
+							if (profileUpdateResponse.id) {
+								this.props.updateUserInfo(profileUpdateResponse);
+							}
+						}
+						this.props.fetchAllCartItems(json.token);
+						// Update and store customer's info
+						login(customer, json.token, 'facebook');
+
+						calledFrom === 'drawer' ? onViewHomeScreen() : onBack();
+					}
+				} else {
+					this.stopAndToast(response.message);
+				}
+			})
+			.catch(err => {
+				console.log(err);
+				this.setState({ isLoading: false });
+			});
 	};
 
 	validateForm = () => {
@@ -174,46 +217,23 @@ class LoginScreen extends PureComponent {
 		return undefined;
 	};
 
-	onFBLoginPressHandle = () => {
-		const { login } = this.props;
-		this.setState({ isLoading: true });
-		// FacebookAPI.login()
-		// 	.then(async token => {
-		// 		if (token) {
-		// 			const json = await WPUserAPI.loginFacebook(token);
-		// 			warn(['json', json]);
-		// 			if (json === undefined) {
-		// 				this.stopAndToast(Languages.GetDataError);
-		// 			} else if (json.error) {
-		// 				this.stopAndToast(json.error);
-		// 			} else {
-		// 				let customers = await WooWorker.getCustomerById(json.wp_user_id);
-		// 				customers = { ...customers, token, picture: json.user.picture };
-		// 				this._onBack();
-		// 				login(customers, json.cookie);
-		// 			}
-		// 		}
-		// 	})
-		// 	.catch(err => {
-		// 		console.log(err);
-		// 		this.setState({ isLoading: false });
-		// 	});
-		LoginManager.logInWithReadPermissions(['public_profile']).then(
-			function(result) {
-				console.log(result);
-				if (result.isCancelled) {
-					alert('Login was cancelled');
-				} else {
-					alert(
-						'Login was successful with permissions: ' +
-							result.grantedPermissions.toString()
-					);
-				}
-			},
-			function(error) {
-				alert('Login failed with error: ' + error);
+	signIn = async () => {
+		try {
+			await GoogleSignin.hasPlayServices();
+			const userInfo = await GoogleSignin.signIn();
+			// this.setState({ userInfo });
+			console.log(userInfo);
+		} catch (error) {
+			if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+				// user cancelled the login flow
+			} else if (error.code === statusCodes.IN_PROGRESS) {
+				// operation (f.e. sign in) is in progress already
+			} else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+				// play services not available or outdated
+			} else {
+				// some other error happened
 			}
-		);
+		}
 	};
 
 	onSignUpHandle = () => {
@@ -237,6 +257,7 @@ class LoginScreen extends PureComponent {
 
 	render() {
 		const { username, password, isLoading } = this.state;
+		const { calledFrom, onViewHomeScreen, onBack } = this.props;
 
 		return (
 			<ImageBackground
@@ -249,7 +270,9 @@ class LoginScreen extends PureComponent {
 					{Platform.OS === 'ios' && (
 						<TouchableOpacity
 							style={styles.backButton}
-							onPress={() => this.props.onViewHomeScreen()}>
+							onPress={() =>
+								calledFrom === 'drawer' ? onViewHomeScreen() : onBack()
+							}>
 							{/* <Image
 								source={Images.icons.back}
 								style={[
@@ -330,28 +353,19 @@ class LoginScreen extends PureComponent {
 							onPress={this.onLoginPressHandle}
 						/>
 
-						{/* <ButtonIndex
+						<ButtonIndex
 							text={Languages.FacebookLogin.toUpperCase()}
 							icon={Icons.MaterialCommunityIcons.Facebook}
 							containerStyle={styles.fbButton}
 							onPress={this.onFBLoginPressHandle}
-						/> */}
+						/>
 
-						{/* <LoginButton
-							publishPermissions={['email']}
-							onLoginFinished={(error, result) => {
-								if (error) {
-									alert('Login failed with error: ' + error.message);
-								} else if (result.isCancelled) {
-									alert('Login was cancelled');
-								} else {
-									alert(
-										'Login was successful with permissions: ' +
-											result.grantedPermissions
-									);
-								}
-							}}
-							onLogoutFinished={() => alert('User logged out')}
+						{/* <GoogleSigninButton
+							style={{ width: 192, height: 48 }}
+							size={GoogleSigninButton.Size.Wide}
+							color={GoogleSigninButton.Color.Dark}
+							onPress={this.signIn}
+							disabled={this.state.isSigninInProgress}
 						/> */}
 
 						<View style={styles.separatorWrap}>
@@ -388,7 +402,11 @@ LoginScreen.propTypes = {
 	logout: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ netInfo, user }) => ({ netInfo, user });
+const mapStateToProps = ({ netInfo, user }) => ({
+	netInfo,
+	user,
+	loginType: user.loginType,
+});
 
 const mapDispatchToProps = dispatch => {
 	const { actions } = require('@redux/UserRedux');
@@ -398,8 +416,10 @@ const mapDispatchToProps = dispatch => {
 	});
 
 	return {
-		login: (user, token) => dispatch(actions.login(user, token)),
+		login: (user, token, loginType) =>
+			dispatch(actions.login(user, token, loginType)),
 		logout: () => dispatch(actions.logout()),
+		updateUserInfo: user => dispatch(actions.updateUserInfo(user)),
 		goBack: () => dispatch(backAction),
 		fetchAllCartItems: token => CartActions.fetchAllCartItems(dispatch, token),
 	};

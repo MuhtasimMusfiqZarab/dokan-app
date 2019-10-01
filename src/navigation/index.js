@@ -1,43 +1,42 @@
 /** @format */
 
-import React from 'react';
-import { Images, Color } from '@common';
+import { Color, Images } from '@common';
 import { TabBar, TabBarIcon } from '@components';
+import React from 'react';
 import { Dimensions, I18nManager } from 'react-native';
 import {
-	createStackNavigator,
-	createBottomTabNavigator,
-	NavigationActions,
 	createAppContainer,
+	createBottomTabNavigator,
+	createStackNavigator,
+	NavigationActions,
 } from 'react-navigation';
-import { useScreens } from 'react-native-screens';
-import HomeScreen from './HomeScreen';
-import NewsScreen from './NewsScreen';
-import NewsDetailScreen from './NewsDetailScreen';
+import AboutUsScreen from './AboutUsScreen';
+import AddressScreen from './AddressScreen';
+import CartScreen from './CartScreen';
 import CategoriesScreen from './CategoriesScreen';
 import CategoryScreen from './CategoryScreen';
-import DetailScreen from './DetailScreen';
-import CartScreen from './CartScreen';
-import MyOrdersScreen from './MyOrdersScreen';
-import WishListScreen from './WishListScreen';
-import SearchScreen from './SearchScreen';
-import LoginScreen from './LoginScreen';
-import SignUpScreen from './SignUpScreen';
-import CustomPageScreen from './CustomPageScreen';
-import ListAllScreen from './ListAllScreen';
-import SettingScreen from './SettingScreen';
-import UserProfileScreen from './UserProfileScreen';
-import UserProfileEditScreen from './UserProfileEditScreen';
-import VendorsScreen from './VendorsScreen';
-import VendorProfileScreen from './VendorProfileScreen';
 import ContactUsScreen from './ContactUsScreen';
-import AboutUsScreen from './AboutUsScreen';
+import CustomPageScreen from './CustomPageScreen';
+import DetailScreen from './DetailScreen';
+import ForgetPasswordScreen from './ForgetPasswordScreen';
+import HomeScreen from './HomeScreen';
+import ListAllScreen from './ListAllScreen';
+import LoginScreen from './LoginScreen';
+import MyOrdersScreen from './MyOrdersScreen';
+import NewsDetailScreen from './NewsDetailScreen';
+import NewsScreen from './NewsScreen';
+import OrderDetailsScreen from './OrderDetailsScreen';
 import PrivacyPolicyScreen from './PrivacyPolicyScreen';
 import ReviewsScreen from './ReviewsScreen';
-import ForgetPasswordScreen from './ForgetPasswordScreen';
-import OrderDetailsScreen from './OrderDetailsScreen';
+import SearchScreen from './SearchScreen';
+import SettingScreen from './SettingScreen';
+import SignUpScreen from './SignUpScreen';
 import TransitionConfig from './TransitionConfig';
-import AddressScreen from './AddressScreen';
+import UserProfileEditScreen from './UserProfileEditScreen';
+import UserProfileScreen from './UserProfileScreen';
+import VendorProfileScreen from './VendorProfileScreen';
+import VendorsScreen from './VendorsScreen';
+import WishListScreen from './WishListScreen';
 
 // useScreens();
 
@@ -148,6 +147,7 @@ const UserProfileStack = createStackNavigator(
 	{
 		UserProfile: { screen: UserProfileScreen },
 		UserProfileEdit: { screen: UserProfileEditScreen },
+		Login: { screen: LoginScreen },
 		Address: { screen: AddressScreen },
 	},
 	{ cardStyle: { backgroundColor: Color.main } },

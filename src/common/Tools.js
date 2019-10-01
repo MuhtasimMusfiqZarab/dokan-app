@@ -2,12 +2,12 @@
 
 'use strict';
 
+import { Constants, Images, Languages } from '@common';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Constants, Languages, Images } from '@common';
 import { AllHtmlEntities } from 'html-entities';
+import _ from 'lodash';
 import truncate from 'lodash/truncate';
 import URI from 'urijs';
-import _ from 'lodash';
 
 export default class Tools {
 	/**
@@ -140,11 +140,16 @@ export default class Tools {
 	 * getAvatar
 	 * @user
 	 */
-	static getAvatar = user => {
+	static getAvatar = (user, loginType) => {
 		if (user) {
 			if (!_.isEmpty(user.profile_picture)) {
-				const avatarSizes = user.profile_picture.media_details.sizes;
-				return { uri: avatarSizes.thumbnail.source_url };
+				if (loginType === 'regular') {
+					const avatarSizes = user.profile_picture.media_details.sizes;
+					return { uri: avatarSizes.thumbnail.source_url };
+				}
+				if (loginType === 'facebook') {
+					return { uri: user.profile_picture.uri };
+				}
 			} else {
 				if (user.avatar_url) {
 					return {
