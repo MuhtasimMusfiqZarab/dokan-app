@@ -1,8 +1,8 @@
 /** @format */
 
-import Images from './Images';
 import Constants from './Constants';
 import Icons from './Icons';
+import Images from './Images';
 
 export default {
 	/**
@@ -167,6 +167,7 @@ export default {
 				routeName: 'LoginScreen',
 				params: {
 					isLogout: false,
+					from: 'drawer',
 				},
 				iconLeft: Icons.MaterialCommunityIcons.SignIn,
 			},
