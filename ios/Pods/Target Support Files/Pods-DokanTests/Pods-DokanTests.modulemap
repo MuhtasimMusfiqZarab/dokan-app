@@ -1,0 +1,6 @@
+framework module Pods_DokanTests {
+  umbrella header "Pods-DokanTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
