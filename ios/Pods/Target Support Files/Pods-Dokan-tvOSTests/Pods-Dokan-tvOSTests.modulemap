@@ -1,6 +1,0 @@
-framework module Pods_Dokan_tvOSTests {
-  umbrella header "Pods-Dokan-tvOSTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

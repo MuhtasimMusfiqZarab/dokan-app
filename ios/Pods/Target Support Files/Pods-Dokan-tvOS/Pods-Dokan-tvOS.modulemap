@@ -1,6 +1,0 @@
-framework module Pods_Dokan_tvOS {
-  umbrella header "Pods-Dokan-tvOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
