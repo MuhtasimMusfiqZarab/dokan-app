@@ -56,8 +56,8 @@ const WPUserAPI = {
 				email: email,
 				first_name: firstName,
 				last_name: lastName,
-				password: password ? password : '',
-				confirm_password: confirmPassword ? confirmPassword : '',
+				password: password || '',
+				confirm_password: confirmPassword || '',
 				role: role,
 			};
 

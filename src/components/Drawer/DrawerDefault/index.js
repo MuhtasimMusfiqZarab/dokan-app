@@ -2,7 +2,6 @@
  * @format
  */
 
-import { FacebookAPI } from '@app/Omni';
 import { Config, Styles, Tools } from '@common';
 import { Text } from '@components';
 import React, { PureComponent } from 'react';
@@ -75,15 +74,7 @@ class DrawerDefault extends PureComponent {
 	}
 
 	_handlePress = item => {
-		const { goToScreen, loginType, emptyCart, logout } = this.props;
-
-		if (item.text === 'Logout') {
-			if (loginType === 'facebook') {
-				FacebookAPI.logout();
-			}
-			emptyCart();
-			logout();
-		}
+		const { goToScreen } = this.props;
 
 		// To show active inactive menu
 		if (item.params.isActive === false) {

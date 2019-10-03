@@ -179,6 +179,7 @@ export default {
 				routeName: 'LoginScreen',
 				params: {
 					isLogout: true,
+					from: 'drawer',
 				},
 				iconLeft: Icons.MaterialCommunityIcons.SignOut,
 			},

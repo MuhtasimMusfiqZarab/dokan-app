@@ -137,7 +137,6 @@ class LoginScreen extends PureComponent {
 			this.stopAndToast(json.message);
 		} else {
 			let customers = await DokanWorker.getCustomerProfile(json.token);
-			console.log(json.token);
 			if (customers.code !== undefined) {
 				this.stopAndToast(customers.message);
 			} else if (customers.id !== undefined) {
@@ -173,6 +172,7 @@ class LoginScreen extends PureComponent {
 					} else if (json.error) {
 						this.stopAndToast(json.error);
 					} else if (json.code) {
+            console.log(json);
 						this.stopAndToast(json.message);
 					} else {
 						this.setState({ isLoading: true });
