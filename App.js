@@ -2,22 +2,24 @@
  * @format
  */
 
+import { EventEmitter, getNotification } from '@app/Omni';
+import { Constants, Languages } from '@common';
+import store from '@store/configureStore';
 import React, { Component } from 'react';
 import { I18nManager } from 'react-native';
+import OneSignal from 'react-native-onesignal';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/es/integration/react';
-import OneSignal from 'react-native-onesignal';
-import { Languages, Constants } from '@common';
-import { EventEmitter, getNotification } from '@app/Omni';
-import store from '@store/configureStore';
 import Router from './src/Router';
 
 export default class ReduxWrapper extends Component {
 	constructor(props) {
 		super(props);
 		// OneSignal.init('265739e7-93c8-49f8-b1a0-f69990ce8458');
-		OneSignal.init('4c6151ae-422f-4c17-8884-40df44509e27');
+		OneSignal.init('4c6151ae-422f-4c17-8884-40df44509e27', {
+			kOSSettingsKeyAutoPrompt: true,
+		});
 		OneSignal.inFocusDisplaying(2);
 	}
 
